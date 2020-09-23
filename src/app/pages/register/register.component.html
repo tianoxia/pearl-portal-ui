@@ -1,0 +1,137 @@
+<div class="col-sm-6 col-md-6 col-lg-6">
+    <div class="featured-boxes featured-boxes-style-8">
+        <div class="featured-box featured-box-primary featured-box-text-left">
+            <div class="box-content">
+                <h2 *ngIf="!isSuccess">Registration</h2>
+                <app-alert></app-alert>
+                <div id="stepOne" *ngIf="registerUser">
+                    <form [formGroup]="step1Form" (ngSubmit)="submitUser()">
+                        <div class="form-group row">
+                            <label class="col-sm-5 col-md-12 col-lg-5" for="email">Email</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <input type="text" #email class="form-control" formControlName="email" id="email"
+                                    maxlength="60"
+                                    [ngClass]="{'is-invalid': submitted && f.email.errors,'is-valid':submitted && !f.email.errors}">
+                                <p *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                    Please enter a valid Email Address.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="showConfirmEmail">
+                            <label class="col-sm-5 col-md-12 col-lg-5" for="cnfemail">Confirm Email</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <input type="text" class="form-control" formControlName="cnfemail" id="cnfemail"
+                                    maxlength="60" appConfirmEqualValidator="email"
+                                    [ngClass]="{'is-invalid': submitted && f.cnfemail.errors,'is-valid':submitted && !f.cnfemail.errors}">
+
+                                <p *ngIf="submitted && f.cnfemail.errors" class="invalid-feedback">
+                                    <span *ngIf="f.cnfemail.errors.required || f.cnfemail.errors.pattern">
+                                        Please enter a valid Email Address.
+                                    </span>
+                                    <span *ngIf="f.cnfemail.errors.notEqual && !f.cnfemail.errors.required">
+                                        Email and Confirm Email does not match.
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-rounded btn-primary">Next</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="stepTwo" *ngIf="registerMember">
+                    <form [formGroup]="step2Form" (ngSubmit)="submitMember()">
+                        <div class="form-group row">
+                            <label for="memberNumber" class="col-sm-5 col-md-12 col-lg-5">Member Number</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <input type="text" id="memberNumber" formControlName="memberNumber"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-5 col-md-12 col-lg-5">Password</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <input #password [type]="showPassword ? 'text' : 'password'" id="password"
+                                    formControlName="password" maxlength="50" class="form-control" id="password"
+                                    onpaste="return false"
+                                    [ngClass]="{'is-invalid': submitted && g.password.errors,'is-valid':submitted && !g.password.errors}">
+                                <span toggle="#password" class="fa fa-fw fa-eye field-icon"
+                                    [ngClass]="{'fa-eye': !showPassword ,'fa-eye-slash':showPassword}"
+                                    (click)="togglePassword()"></span>
+                                <app-password-strength [password]="step2Form.value.password">
+                                </app-password-strength>
+
+                                <p *ngIf="submitted && g.password.errors" class="invalid-feedback">
+                                    <span *ngIf="g.password.errors.required">
+                                        Please enter a password.
+                                    </span>
+                                    <span *ngIf="g.password.errors.pattern">
+                                        Password entry does not meet criteria.
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <label for="cnfpassword" class="col-sm-5 col-md-12 col-lg-5 ">Confirm Password</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <input #cnfpassword [type]="showConfirmPassword ? 'text' : 'password'"
+                                    appConfirmEqualValidator="password" formControlName="cnfpassword"
+                                    class="form-control" id="cnfpassword" maxlength="50" onpaste="return false"
+                                    [ngClass]="{'is-invalid': submitted && g.cnfpassword.errors,'is-valid':submitted && !g.cnfpassword.errors}">
+                                <span toggle="#cnfpassword" class="fa fa-fw fa-eye field-icon"
+                                    [ngClass]="{'fa-eye': !showConfirmPassword ,'fa-eye-slash':showConfirmPassword}"
+                                    (click)="toggleConfirmPassword()"></span>
+
+                                <p *ngIf="submitted && g.cnfpassword.errors" class="invalid-feedback">
+                                    <span *ngIf="g.cnfpassword.errors.required">
+                                        Please enter a confirm password.
+                                    </span>
+                                    <span *ngIf="g.cnfpassword.errors.notEqual && !g.cnfpassword.errors.required">
+                                        Password and Confirm Password does not match.
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="secQuestions" class="col-sm-5 col-md-12 col-lg-5 ">Security Question</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <select name="secQuestions" id="secQuestions" class="form-control"
+                                    formControlName="secQuestion"
+                                    [ngClass]="{'is-invalid': submitted && g.secQuestion.errors,'is-valid':submitted && !g.secQuestion.errors}">
+                                    <option value="" selected>Select an option</option>
+                                    <ng-container *ngFor="let item of secQuestions">
+                                        <option [value]="item.id" *ngIf="item.visible">
+                                            {{item.description}}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                                <p *ngIf="submitted && g.secQuestion.errors" class="invalid-feedback">
+                                    Please select an option.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="secAnswer" class="col-sm-5 col-md-12 col-lg-5 ">Security Answer</label>
+                            <div class="col-sm-6 col-md-12 col-lg-6">
+                                <input type="text" id="secAnswer" formControlName="secAnswer" class="form-control"
+                                    maxlength="100"
+                                    [ngClass]="{'is-invalid': submitted && g.secAnswer.errors,'is-valid':submitted && !g.secAnswer.errors}">
+                                <p *ngIf="submitted && g.secAnswer.errors" class="invalid-feedback">
+                                    Please enter an answer.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="isSuccess">
+                    <p class="finalStepText">User has been successfully registered with username :
+                        <strong>{{username}}</strong>.
+                        <br />Please <a routerLink='/login'>Click</a> here to login to your account.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

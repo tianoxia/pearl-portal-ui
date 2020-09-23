@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="container col-sm-9 col-xs-12 col-md-7 col-lg-6">
+        <div class="featured-boxes featured-boxes-style-8">
+            <div class="featured-box featured-box-primary featured-box-text-left" style="width: 90%;">
+                <div class="box-content">                                                                                               
+                    <h2 class="align-left" style="color: black;">Sign In</h2>
+                    <app-alert></app-alert>
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label class="pure-material-textfield-outlined" style="width: 100%;">
+                                <input placeholder=" " formControlName="email"  type="text" maxlength="50" tabindex="1" autocomplete="off" #emailInput>                                        
+                                <span>Email</span>
+                            </label>
+                            <div *ngIf="submitted && f.email.errors" class="alert alert-danger">
+                                <div *ngIf="f.email.errors.required">
+                                    Please enter your email.
+                                </div>
+                                <div *ngIf="f.email.errors.email">
+                                    The email input is invalid.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="pure-material-textfield-outlined" style=" width: 100%;">
+                                <input #password [type]="showPassword ? 'text' : 'password'" id="password" 
+                                maxlength="128" formControlName="password" tabindex="2" autocomplete="off" 
+                                placeholder=" " onpaste="return false" ondrop="return false" 
+                                type="password" ondrag="return false" oncopy="return false" (keydown.space)="$event.preventDefault()">
+                                <span>Password</span>
+                                <span toggle="#password" class="fa fa-fw fa-eye field-icon"
+                                [ngClass]="{'fa-eye': !showPassword ,'fa-eye-slash':showPassword}"
+                                    (click)="togglePassword()"></span>
+                            </label>                            
+                            <div *ngIf="submitted && f.password.errors" class="alert alert-danger">
+                                Please enter your password.
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="login-button-field text-right">
+                                <button [disabled]="loading" class="btn btn-primary btn-login">Log in
+                                    <div *ngIf="loading" class="login-indicator"><i class="fa fa-spinner fa-spin"></i></div>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6 col-lg-6 user-register text-right">
+                            <div Class="helpText">New User ? <a tabindex="4" class="pageLinks" routerLink='/register'>Create
+                                    account</a></div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-6 forgot-password text-left">
+                            <div><a tabindex="5" class="pageLinks" routerLink='/forgot-password' data-toggle="collapse">Forgot password ?</a></div>
+                        </div>                                                                
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 helpText card-text text-center click-here" style="margin-top:2%">
+                            <a href="javascript:void(0);" (click)="openHelpDialog()" data-toggle="collapse" data-target=".header-nav-main nav.show" tabindex="6">Click here</a><span style="color: black"> if you need any assistance logging in.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

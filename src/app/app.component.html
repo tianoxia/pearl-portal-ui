@@ -1,0 +1,16 @@
+<ngx-spinner bdColor = "rgb(255,255,255,255)">
+    <div class="preloader-area">
+      <div class="lds-hourglass"></div>
+    </div>
+</ngx-spinner>
+<div class="wrapper">
+    <div class="body">
+        <app-header></app-header>
+        <div role="main" class="main">
+            <div id="content" class="content full">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <app-pages-footer></app-pages-footer>
+    </div>
+</div>

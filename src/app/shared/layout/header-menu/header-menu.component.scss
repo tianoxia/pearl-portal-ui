@@ -1,0 +1,173 @@
+.nav-link {
+    color: #0088cc !important;
+    font-weight: 600;
+}
+.header-nav-feature > .btn-success {
+    width: 130px;
+    height: 50px;
+    display: inline-flex;
+    font-size: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+    .fa-lock {
+        margin: 0px 10px;
+    }    
+}
+/* Social Icons */
+ul.social-icons {
+    margin: 0;
+    padding-left: 20px;
+    width: auto
+}
+
+header ul.social-icons li {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    transition: all .3s ease;
+    background-image: url(../../../../assets/resources/images/social-sprites.png);
+    background-repeat: no-repeat;
+    background-position: 0 100px;
+    display: none;
+    margin: -1px 1px 5px 0;
+    padding: 0;
+    border-radius: 100%;
+    overflow: visible;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.3)
+}
+
+ul.social-icons li {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    transition: all .3s ease;
+    background-image: url(../../../../assets/resources/images/social-sprites.png);
+    background-repeat: no-repeat;
+    background-position: 0 100px;
+    display: inline-block;
+    margin: -1px 1px 5px 0;
+    padding: 0;
+    border-radius: 100%;
+    overflow: visible;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.3)
+}
+
+ul.social-icons.new li,ul.social-icons li.active {
+    display: inline-block
+}
+
+ul.social-icons li a {
+    display: block;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+    font-size: 12px
+}
+
+ul.social-icons li a:hover {
+    text-decoration: none
+}
+
+ul.social-icons li a i[class^="icon-"] {
+    color: #444;
+    position: relative;
+    top: 3px
+}
+
+ul.social-icons li a:active {
+    box-shadow: inset 0 0 10px rgba(0,0,0,.3),inset 0 0 10px rgba(0,0,0,.3)
+}
+
+ul.social-icons li[class] a {
+    text-indent: -9999px
+}
+
+ul.social-icons li:active,ul.social-icons li a:active {
+    border-radius: 100%
+}
+
+ul.social-icons li.facebook {
+    background-position: 0 -120px
+}
+
+ul.social-icons li.facebook:hover {
+    background-position: 0 -150px
+}
+
+ul.social-icons li.pinterest {
+    background-position: 0 -780px
+}
+
+ul.social-icons li.pinterest:hover {
+    background-position: 0 -810px
+}
+
+ul.social-icons li.twitter {
+    background-position: 0 -1140px
+}
+
+ul.social-icons li.twitter:hover {
+    background-position: 0 -1170px
+}
+
+ul.social-icons li.youtube {
+    background-position: 0 -1380px
+}
+
+ul.social-icons li.youtube:hover {
+    background-position: 0 -1410px
+}
+
+ul.social-icons li.yelp {
+    background-position: 0 -1560px
+}
+
+ul.social-icons li.yelp:hover {
+    background-position: 0 -1590px
+}
+
+ul.social-icons li.instagram {
+    background-position: 0 -1680px
+}
+
+ul.social-icons li.instagram:hover {
+    background-position: 0 -1710px
+}
+
+.social-icons-list {
+    margin: 0 0 20px;
+    padding: 0;
+    display: block
+}
+
+.social-icons-list a {
+    background: #ccc;
+    border-radius: 25px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px
+}
+
+.social-icons-list a:hover {
+    text-decoration: none
+}
+
+.social-icons-list a span {
+    display: none
+}
+
+.social-icons-list a i,.social-icons-list a em {
+    color: #fff;
+    font-size: .9em;
+    font-weight: normal
+}
+
+.dropdown-mega-sub-nav li a {
+    color: #0088cc !important;
+} 
+
+@media (max-width: 991px) {
+    header ul.social-icons li {
+        display: none !important;
+    }
+}

@@ -1,0 +1,3824 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* ---------------------------------------------------------
+	
+	* Filename:				default.css
+	* Description: 			sets typography, basic grids, 
+							and standard formstyles
+	* Version:				1.0.0 (2012-06-16)
+	* Author:				Ryan Martinez
+	
+	== INDEX ===============================================
+	
+	$__generic classes		classes used globally, should be at bottom to prevent semantic inheritance
+	
+------------------------------------------------------------*/
+
+
+/*-------------------------------------*/
+/* RESET */
+/*-------------------------------------*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+    v2.0 | 20110126
+    License: none (public domain)
+    */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+caption, article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+        content: '';
+        content: none;
+    }
+
+html, button, input, select, textarea {
+    font-family: sans-serif;
+    color: #222;
+}
+
+/*
+     * Remove text-shadow in selection highlight: h5bp.com/i
+     * These selection declarations have to be separate
+     * Also: hot pink! (or customize the background color to match your design)
+     */
+
+::-moz-selection {
+    background: rgba(2,139,255,1); /* blue */
+    color: #fff;
+    text-shadow: none;
+}
+
+::selection {
+    background: rgba(2,139,255,1); /* blue */
+    color: #fff;
+    text-shadow: none;
+}
+
+/* Improve readability of pre-formatted text in all browsers */
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Position subscript and superscript content without affecting line-height: h5bp.com/k */
+sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -0.5em;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+body {
+    color: #444;
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+    -webkit-text-size-adjust: 100%;
+}
+
+/*-------------------------------------*/
+/* HEADER STYLES */
+/*-------------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+    display: block;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+        font-weight: inherit;
+    }
+
+h1 {
+    font-size: 38px;
+    line-height: 54px;
+    letter-spacing: normal;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: normal;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: normal;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 22px;
+    line-height: 36px;
+    letter-spacing: normal;
+}
+
+h5 {
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: normal;
+}
+
+h6 {
+    font-size: 14px;
+    line-height: 18px;
+    letter-spacing: normal;
+}
+
+/* Module titles */
+.Head {
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+/* Some old forge modules use .Head, .SubHead, .SubSubHead in table td, We keep this to be compatible */
+td.Head, td.SubHead, td.SubSubHead {
+    display: table-cell;
+    margin-bottom: 0;
+}
+
+input[type="image"] + span.Head, input[type="image"] + span.SubHead {
+    display: inline;
+}
+
+/*-------------------------------------*/
+/* PARAGRAPH STYLES */
+/*-------------------------------------*/
+p {
+    margin: 0 0 18px 0;
+}
+    /* margin bottom is equal to line-height */
+    p img {
+        margin: 0;
+    }
+
+em, i {
+    font-style: italic;
+}
+
+strong, b {
+    font-weight: bold;
+}
+
+small {
+    font-size: 80%;
+}
+
+/* Set text size in modules*/
+.Normal,
+.NormalDisabled,
+.NormalDeleted {
+    color: #444;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 18px;
+    word-wrap: break-word;
+}
+
+/* disabled text styles */
+.NormalDisabled,
+.NormalDeleted {
+    color: #999;
+}
+
+
+
+/* text style used for help text rendered by modules */
+.Help {
+    padding: 2px;
+    border: #000 1px solid;
+    background-color: #ff9;
+    font-weight: normal;
+    font-size: 11px;
+    color: #000;
+}
+/* text style used for rendered text which requires emphasis */
+.NormalBold {
+    font-weight: bold;
+    color: #222;
+}
+
+/* text style used for error messages */
+.NormalRed {
+    font-weight: bold;
+    color: red;
+}
+
+/* text style used for rendered text which should appear deleted */
+.NormalDeleted {
+    text-decoration: line-through;
+}
+
+/*	Blockquotes  */
+blockquote, blockquote p {
+    font-size: 17px;
+    line-height: 24px;
+    color: #777;
+    font-style: italic;
+}
+
+blockquote {
+    margin: 0 0 20px;
+    padding: 9px 20px 0 19px;
+    border-left: 1px solid #ddd;
+}
+
+    blockquote cite {
+        display: block;
+        font-size: 12px;
+        color: #555;
+    }
+
+        blockquote cite:before {
+            content: "\2014 \0020";
+        }
+
+        blockquote cite a, blockquote cite a:visited, blockquote cite a:visited {
+            color: #555;
+        }
+
+hr {
+    clear: both;
+    margin: 17px 0 17px;
+    height: 0;
+    border: solid #ddd;
+    border-width: 1px 0 0;
+}
+
+/*-------------------------------------*/
+/* ANCHOR STYLES */
+/*-------------------------------------*/
+a, a:visited {
+    color: rgb(2,139,255); /*blue*/
+    text-decoration: underline;
+    outline: 0;
+}
+
+    a:hover, a:focus, a:active {
+        color: #222;
+        outline: 0;
+    }
+
+p a, p a:visited {
+    line-height: inherit;
+}
+
+/*-------------------------------------*/
+/* IMAGE STYLES */
+/*-------------------------------------*/
+img.-scale-img {
+    max-width: 100%;
+    height: auto;
+}
+
+img {
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+    vertical-align: middle;
+}
+
+#_LOGO_imgLogo {
+     border: 0;
+}
+
+/*-------------------------------------*/
+/* lIST STYLES */
+/*-------------------------------------*/
+ul, ol {
+    margin-bottom: 18px;
+    margin-left: 18px;
+}
+
+ul {
+    list-style: square outside;
+}
+
+ol {
+    list-style: decimal;
+}
+
+    /* Nested Styles */
+    ul ul, ul ol,
+    ol ol, ol ul {
+        margin-left: 18px;
+        margin-bottom: 0;
+    }
+
+    ol ol {
+        list-style: lower-roman;
+    }
+
+li p {
+    line-height: 18px;
+}
+
+/*-------------------------------------*/
+/* MESSAGE STYLES */
+/*-------------------------------------*/
+.FormMessage {
+    display: block;
+    padding: 17px 18px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(2,139,255,0.2); /* blue */
+    background: rgba(2,139,255,0.15); /* blue */
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    max-width: 980px;
+}
+
+    .FormMessage.FormError,
+    .FormMessage.FormValidationSummary {
+        background-color: rgba(255,0,0,0.15); /* red */
+        border-color: rgba(255,0,0,0.2); /* red */
+    }
+
+    .FormMessage.FormWarning {
+        background-color: rgba(255,255,0,0.15); /* yellow */
+        border-color: #CDB21F; /* yellow */
+    }
+
+    .FormMessage.FormSuccess {
+        background-color: rgba(0,255,0,0.15); /* green */
+        border-color: rgba(0,255,0,0.5); /* green */
+    }
+
+/*-------------------------------------*/
+/* TABLE STYLES */
+/*-------------------------------------*/
+.TableHeader {
+    display: block;
+    padding: 15px;
+    background: none repeat scroll 0 0 #E3E3E5;
+}
+.TableHeader a,
+.TableHeader input, 
+.TableHeader select{
+    margin: 0;
+}
+.TableDisplay {
+    margin-bottom: 18px;
+    border: 1px solid #d1d1d1;
+    border-left: 0;
+    border-bottom: 0;
+}
+
+    .TableDisplay td, .TableDisplay th {
+        padding: 5px 9px;
+        border-bottom: 1px solid #d1d1d1;
+    }
+
+    .TableDisplay th {
+        padding: 0;
+        border-left: 1px solid #d1d1d1;
+        -webkit-box-shadow: 1px 0px 0px 0px rgba(255, 255, 255, 0.9);
+        box-shadow: 1px 0px 0px 0px rgba(255, 255, 255, 0.9);
+    }
+
+        .TableDisplay th > span,
+        .TableDisplay th > a {
+            display: block;
+            padding: 5px 9px;
+        }
+
+    .TableDisplay td:first-child {
+        border-left: 1px solid #cfcfcf;
+    }
+
+    .TableDisplay label {
+        display: inline;
+        padding-left: 5px;
+    }
+
+    .TableDisplay caption {
+        display: none;
+    }
+
+    /* thead styles */
+    .TableDisplay th {
+        background: -moz-linear-gradient(top, #f5f5f5 0%, #dfdfdf 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#dfdfdf)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* IE10+ */
+        background: linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* W3C */
+        text-align: left;
+        text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+        color: #333;
+    }
+
+        .TableDisplay th a, .TableDisplay th label {
+            font-weight: normal;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .TableDisplay th a {
+            padding: 8px 9px;
+        }
+
+            .TableDisplay th a:hover {
+                background: #fefefe; /* Old browsers */
+                background: -moz-linear-gradient(top, #fefefe 0%, #e8e8e8 100%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#e8e8e8)); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* IE10+ */
+                background: linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* W3C */
+                color: #333;
+            }
+
+            .TableDisplay th a:active {
+                border-color: #999;
+                background: #c6c6c6; /* Old browsers */
+                background: -moz-linear-gradient(top, #c6c6c6 0%, #f3f3f3 100%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c6c6c6), color-stop(100%,#f3f3f3)); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* IE10+ */
+                background: linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* W3C */
+                -webkit-box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+                box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3);
+            }
+    /* tbody styles */
+    .TableDisplay tr:nth-child(2n) td {
+        background: rgba(0,0,0,0.04);
+    }
+
+    .TableDisplay tr:hover td {
+        background: rgba(2,139,255,0.15); /* blue */
+    }
+
+    /* tfooter styles */
+    .TableDisplay tfoot tr:hover td {
+        background: none;
+    }
+
+/* table filter styles */
+.TableFilter {
+    margin-bottom: 18px;
+    background: rgba(0,0,0,0.04);
+}
+
+    .TableFilter .TableDisplay {
+        margin-bottom: 0;
+    }
+
+.FilterSet {
+    padding: 18px;
+}
+
+    .FilterSet label {
+        display: inline-block;
+    }
+
+    .FilterSet input,
+    .FilterSet select {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+/* table filter vertical styles */
+.verticalFilter .FilterSet {
+    float: left;
+    width: 20%;
+    padding: 2% 18px;
+}
+
+.verticalFilter .TableDisplay {
+    float: right;
+    width: 75%;
+}
+
+.verticalFilter input[type=search], .verticalFilter select, .verticalFilter input[type=text] {
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+}
+
+/*-------------------------------------*/
+/* PAGINATION & RESULT STYLES */
+/*-------------------------------------*/
+.Results {
+    float: left;
+    margin-bottom: 0;
+}
+
+.Pagination {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+    .Pagination li {
+        float: left;
+        list-style: none;
+    }
+
+        .Pagination li a, .Pagination li span {
+            display: inline-block;
+            padding: 0 5px;
+            text-decoration: none;
+            color: #333;
+        }
+
+            .Pagination li a:hover {
+                text-decoration: underline;
+                color: #222;
+            }
+
+        .Pagination li span {
+            color: #222;
+            text-decoration: underline;
+        }
+
+/*-------------------------------------*/
+/* FORM STYLES */
+/*-------------------------------------*/
+
+.FormItem input[type="text"],
+.FormItem select,
+.FormItem textarea,
+.FormItem input[type="email"],
+.FormItem input[type="search"],
+.FormItem input[type="password"] {
+    margin-bottom: 18px;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid #c9c9c9;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.8), inset 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.8), inset 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 12px;
+}
+
+    .FormItem input.aspNetDisabled,
+    .FormItem textarea.aspNetDisabled {
+        background: #ebebeb;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-color: #a7a7a7;
+        border-width: 1px;
+    }
+
+.aspNetDisabled, a.aspNetDisabled,
+.Disabled, a.Disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+/* Active and Focus States */
+.FormItem input[type="text"]:active, .FormItem input[type="text"]:focus,
+.FormItem input[type="password"]:focus, .FormItem input[type="password"]:active,
+.FormItem input[type="email"]:active, .FormItem input[type="email"]:focus,
+.FormItem select:active, .FormItem select:focus,
+.FormItem textarea:active, .FormItem textarea:focus,
+.FormItem input[type="search"]:active, .FormItem input[type="search"]:focus {
+    background: #fff;
+    border: 1px solid rgba(2,139,255,0.5); /* blue */
+    -webkit-box-shadow: 0px 0px 3px 0px rgba(2, 139, 255, 0.4);
+    box-shadow: 0px 0px 3px 0px rgba(2, 139, 255, 0.4);
+    color: #333;
+}
+/* Required Fields */
+.required label:after,
+legend.required:after {
+    display: inline-block;
+    margin-top: -2px;
+    margin-left: 9px;
+    padding: 1px 9px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: rgba(0,0,0,0.03);
+    content: 'Required';
+    font-weight: normal;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-style: italic;
+    color: #777;
+}
+
+/* Error Styles */
+.error label, legend.error {
+    color: rgba(255,0,0,0.9); /* opaque red*/
+}
+
+.error input[type="text"],
+.error select, .error textarea,
+.error input[type="email"],
+.error input[type="search"] {
+    border: 1px solid rgba(255,0,0,0.6); /* opaque red*/
+    color: rgba(255,0,0,0.7); /* opaque red*/
+}
+
+/*
+	 * 1. Display hand cursor for clickable form elements
+	 * 2. Allow styling of clickable form elements in iOS
+	 * 3. Correct inner spacing displayed oddly in IE7 (doesn't effect IE6)
+	 */
+
+.FormItem button, .FormItem input[type="button"],
+.FormItem input[type="reset"],
+.FormItem input[type="submit"],
+.PrimaryAction,
+.SecondaryAction,
+.TertiaryAction,
+ul.AdminTabNav li a,
+.Login .LoginTabGroup span {
+    display: inline-block;
+    padding: 9px 9px;
+    margin-bottom: 9px;
+    cursor: pointer;
+    min-width: 75px;
+    *overflow: visible;
+    border: 1px solid #c2c2c2;
+    background: #eaeaea;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+.FormItem button, .FormItem input[type="button"],
+.FormItem input[type="reset"],
+.FormItem input[type="submit"],
+.PrimaryAction,
+.SecondaryAction,
+.TertiaryAction {
+    padding: 6px 6px;
+}
+
+/* Primary Action */
+
+.PrimaryAction, .FormItem input[type="submit"], a.PrimaryAction {
+    border-color: #0D569E; /*dark blue*/
+    background: #3792ED;
+    background: -moz-linear-gradient(top, #358eea 0%, #2170cd 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#358eea), color-stop(100%,#2170cd)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #358eea 0%,#2170cd 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #358eea 0%,#2170cd 100%); /* W3C */
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.6), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.6), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
+    color: #efefef;
+    text-shadow: 0px -1px 0px #185B93;
+}
+
+    .PrimaryAction:hover, .FormItem input[type="submit"]:hover, a.PrimaryAction:hover {
+        border-color: #0D569E;
+        background: #6cb6f3; /* Old browsers */
+        background: -moz-linear-gradient(top, #6cb6f3 0%, #4387d2 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6cb6f3), color-stop(100%,#4387d2)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #6cb6f3 0%,#4387d2 100%); /* Chrome10+,Safari5.1+ */
+        background: linear-gradient(top, #6cb6f3 0%,#4387d2 100%); /* W3C */
+        color: #fff;
+    }
+
+    .PrimaryAction:active, .FormItem input[type="submit"]:active, a.PrimaryAction:active {
+        border-color: #0D569E;
+        background: #1f66be; /* Old browsers */
+        background: -moz-linear-gradient(top, #1f66be 0%, #3085e0 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1f66be), color-stop(100%,#3085e0)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #1f66be 0%,#3085e0 100%); /* Chrome10+,Safari5.1+ */
+        background: linear-gradient(top, #1f66be 0%,#3085e0 100%); /* W3C */
+        -webkit-box-shadow: inset 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: inset 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+        color: #fff;
+    }
+
+    .PrimaryAction[disabled], .PrimaryAction[disabled]:hover, .PrimaryAction[disabled]:active {
+        background: #ccc !important;
+        border: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        color: #aaa !important;
+        text-shadow: none;
+    }
+
+/* Secondary Action */
+.FormItem button, .FormItem input[type="button"],
+.FormItem input[type="reset"],
+.SecondaryAction,
+a.SecondaryAction,
+ul.AdminTabNav li a,
+.Login .LoginTabGroup span {
+    background: #f5f5f5; /* Old browsers */
+    background: -moz-linear-gradient(top, #f5f5f5 0%, #dfdfdf 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#dfdfdf)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* IE10+ */
+    background: linear-gradient(top, #f5f5f5 0%,#dfdfdf 100%); /* W3C */
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.4), inset 0px 1px 0px 0px rgba(255, 255, 255, 1);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.4), inset 0px 1px 0px 0px rgba(255, 255, 255, 1);
+    text-shadow: 0px 1px 0px #ffffff;
+    color: #333;
+}
+
+    .FormItem button:hover, .FormItem input[type="button"]:hover,
+    .FormItem input[type="reset"]:hover,
+    .SecondaryAction:hover,
+    a.SecondaryAction:hover,
+    ul.AdminTabNav li a:hover,
+    .Login .LoginTabGroup span:hover {
+        background: #fefefe; /* Old browsers */
+        background: -moz-linear-gradient(top, #fefefe 0%, #e8e8e8 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#e8e8e8)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* IE10+ */
+        background: linear-gradient(top, #fefefe 0%,#e8e8e8 100%); /* W3C */
+        color: #555;
+    }
+
+    .FormItem button:active,
+    .FormItem input[type="button"]:active,
+    .FormItem input[type="reset"]:active,
+    .FormItem input[type="reset"]:active,
+    .SecondaryAction:active,
+    a.SecondaryAction:active,
+    ul.AdminTabNav li a:active {
+        border-color: #999;
+        background: #c6c6c6; /* Old browsers */
+        background: -moz-linear-gradient(top, #c6c6c6 0%, #f3f3f3 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c6c6c6), color-stop(100%,#f3f3f3)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* IE10+ */
+        background: linear-gradient(top, #c6c6c6 0%,#f3f3f3 100%); /* W3C */
+        -webkit-box-shadow: inset 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+        box-shadow: inset 0px 1px 5px 0px rgba(0, 0, 0, 0.4);
+    }
+
+/* Fix some old forge modules use .PrimaryAction and .SecondaryAction in wrong way */
+span.PrimaryAction > input[type="image"],
+span.SecondaryAction > input[type="image"] {
+    display: none;
+}
+
+span.PrimaryAction > a.PrimaryAction,
+span.SecondaryAction > a.SecondaryAction {
+    display: inline;
+    background: transparent;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+/* Tertiary Action */
+.TertiaryAction, a.TertiaryAction {
+    padding: 10px 10px;
+    border: none;
+    background: #eaeaea;
+    color: #333;
+}
+
+    .TertiaryAction:hover, a.TertiaryAction:hover {
+        background: #f2f2f2;
+    }
+
+    .TertiaryAction:active, a.TertiaryAction:active {
+        background: #d8d8d8;
+    }
+
+/* Action Button behind input */
+.FormItem input[type="text"] + a.PrimaryAction,
+.FormItem input[type="text"] + a.SecondaryAction,
+.FormItem input[type="text"] + a.TerriaryAction { 
+    margin-left: 5px;
+}
+
+.FormItem input[type="checkbox"] + span,
+.FormItem input[type="radio"] + span {
+    margin: 5px;
+}
+
+/* text style for buttons and link buttons used in the portal admin pages */
+
+/* button style for standard HTML buttons */
+.StandardButton {
+    border: 1px solid blue;
+}
+
+
+/* Re-set default cursor for disabled elements */
+.FormItem button[disabled],
+.FormItem input[disabled] {
+    cursor: default;
+    opacity: 0.5;
+}
+
+
+/* Consistent box sizing and appearance */
+.FormItem input[type="checkbox"],
+.FormItem input[type="radio"] {
+    *width: 13px;
+    *height: 13px; /*why are we using hacks here*/
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.FormItem input[type="search"] {
+    -webkit-appearance: textfield;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+    .FormItem input[type="search"]::-webkit-search-decoration,
+    .FormItem input[type="search"]::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+    }
+
+
+/* Remove inner padding and border in FF3/4: h5bp.com/l */
+.FormItem button::-moz-focus-inner, .FormItem input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*
+	 * 1. Remove default vertical scrollbar in IE6/7/8/9
+	 * 2. Allow only vertical resizing
+	 */
+
+.FormItem textarea {
+    overflow: auto;
+    vertical-align: top;
+    resize: vertical;
+}
+
+    /* Colors for form validity */
+    .FormItem input:valid, .FormItem textarea:valid {
+    }
+
+    .FormItem input:invalid, .FormItem textarea:invalid {
+        background-color: #f0dddd;
+    }
+
+/*-------------------------------------*/
+/* TAXONOMY */
+/*-------------------------------------*/
+
+/* Horizontal taxonomy styles */
+.horizontal ul.categories,
+.horizontal ul.tags {
+    list-style: none;
+}
+
+.horizontal ul.categories {
+}
+
+.horizontal ul.tags {
+}
+
+    .horizontal ul.categories li, .horizontal ul.tags li {
+    }
+
+        .horizontal ul.tags li.add-tags {
+        }
+
+            .horizontal ul.tags li.add-tags img {
+            }
+
+/* Vertical taxonomy styles */
+.vertical ul.categories,
+.vertical ul.tags {
+    list-style: none;
+}
+
+    .vertical ul.categories li,
+    .vertical ul.tags li {
+    }
+
+    .vertical ul.categories li {
+    }
+
+    .vertical ul.tags li {
+    }
+
+        .vertical ul.tags li.add-tags {
+        }
+
+            .vertical ul.tags li.add-tags img {
+            }
+
+/*-------------------------------------*/
+/* TABS : JQUERY UI TABS 1.8.14 */
+/*-------------------------------------*/
+/* Tabs */
+ul.AdminTabNav {
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 0;
+    width: 100%;
+    min-height: 37px;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+    ul.AdminTabNav li {
+        float: left;
+        margin-right: 4px;
+        list-style: none;
+    }
+
+        ul.AdminTabNav li a {
+            /* most styles are inherited from typography.css */
+            margin-bottom: 0;
+            border-bottom: 0;
+            box-shadow: none;
+            webkit-box-shadow: none;
+            -webkit-border-radius: 3px 3px 0px 0px;
+            border-radius: 3px 3px 0px 0px;
+        }
+
+        ul.AdminTabNav li.ui-tabs-active a {
+            margin-top: -3px;
+            padding: 12px 9px 10px 9px;
+            background: #fff;
+        }
+
+/* Panels */
+.ui-tabs .ui-tabs-panel {
+    position: relative;
+    display: block;
+}
+
+.ui-tabs .ui-tabs-hide {
+    display: none;
+}
+
+/*-------------------------------------*/
+/* LOGIN TAB GROUP */
+/*-------------------------------------*/
+.Login .LoginTabGroup {
+    display: inline-block;
+    width: 100%;
+    height: 37px;
+    margin-left: 0;
+    margin-top: 5px;
+    border-bottom: 1px solid #C2C2C2;
+}
+
+    .Login .LoginTabGroup span {
+        margin-right: 4px;
+        margin-bottom: 0;
+        border-bottom: 0 none;
+        border-radius: 3px 3px 0 0;
+        box-shadow: none;
+    }
+
+        .Login .LoginTabGroup span.LoginTabSelected {
+            margin-top: -3px;
+            padding: 12px 9px 10px;
+            background: none repeat scroll 0 0 #FFFFFF;
+        }
+
+/*-------------------------------------*/
+/* TABS : JQUERY UI RESIZABLE 1.8.14 */
+/*-------------------------------------*/
+.Form .ui-resizable {
+    position: relative;
+}
+
+.Form .ui-resizable-handle {
+    position: absolute;
+    display: block;
+    z-index: 99999;
+    font-size: 0.1px;
+}
+
+.Form .ui-resizable-disabled .ui-resizable-handle,
+.Form .ui-resizable-autohide .ui-resizable-handle {
+    display: none;
+}
+
+.Form .ui-resizable-n {
+    cursor: n-resize;
+    height: 7px;
+    width: 100%;
+    top: -5px;
+    left: 0;
+}
+
+.Form .ui-resizable-s {
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+}
+
+.Form .ui-resizable-e {
+    cursor: e-resize;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%;
+}
+
+.Form .ui-resizable-w {
+    cursor: w-resize;
+    width: 7px;
+    left: -5px;
+    top: 0;
+    height: 100%;
+}
+
+.Form .ui-resizable-se {
+    cursor: se-resize;
+    width: 12px;
+    height: 12px;
+    right: 1px;
+    bottom: 1px;
+}
+
+.Form .ui-resizable-sw {
+    cursor: sw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    bottom: -5px;
+}
+
+.Form .ui-resizable-nw {
+    cursor: nw-resize;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: -5px;
+}
+
+.Form .ui-resizable-ne {
+    cursor: ne-resize;
+    width: 9px;
+    height: 9px;
+    right: -5px;
+    top: -5px;
+}
+/*	
+
+/*-------------------------------------*/
+/* FORM ITEMS
+/*-------------------------------------*/
+.Form {
+    width: 100%;
+}
+
+    .Form fieldset {
+        clear: none;
+        position: relative;
+        margin-bottom: 18px;
+        text-align: left;
+    }
+
+        .Form fieldset fieldset {
+            width: 100%;
+        }
+
+    .Form .FormItem {
+        clear: both;
+        width: 100%;
+        display: block;
+        position: relative;
+        text-align: left;
+    }
+
+/* Label */
+.Tooltip {
+    position: relative;
+    display: block;
+    width: 32.075%;
+    margin-right: 18px;
+}
+
+.HelperTip {
+    position: relative;
+    display: block;
+}
+
+.DragdropTip {
+    z-index: 10000;
+    position: absolute;
+    width: auto !important;
+    height: auto !important;
+    padding: 10px;
+    padding-left: 30px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.75) url(../../../assets/images/pin-icn.png) no-repeat 7px 12px;
+    font-size: 11px;
+    color: #DDD;
+    text-align: left;
+}
+
+span.FormRequired:after,
+div.FormItem.FormRequired > div.Label span:after {
+    content: "*";
+    display: inline-block;
+    margin: 0 0 0 5px;
+    color: Red;
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: bold;
+}
+
+.FormItem input[type="checkbox"] + span,
+.FormItem input[type="radio"] + span {
+    display: inline-block;
+    width: auto;
+    margin: 6px 5px 6px 5px;
+}
+
+/* Help Label */
+a.FormHelp,
+.Form .FormItem a.FormHelp,
+.Tooltip label a.FormHelp {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a.FormHelp {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 2px;
+    width: 14px;
+    height: 15px;
+    background: url(../../../assets/images/helpI-icn-grey.png) no-repeat left 2px;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.Label {
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 32.075%;
+    padding-right: 20px;
+    margin-right: 18px;
+    overflow: visible;
+    text-align: right;
+}
+
+.FormItem > .Label {
+    margin-top: 5px;
+}
+
+.Label > span {
+    text-align: right;
+}
+
+.Form .FormItem a.FormHelp span {
+    position: relative;
+}
+
+.Form .FormItem a.FormHelp img {
+    display: block;
+}
+
+.Label + span {
+    display: inline-block;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    white-space: pre-line;
+}
+
+/* Compatible with some old forge modules */
+td > .Label {
+    width: 220px;
+}
+
+/* Help tooltip */
+.Tooltip .FormHelpContent,
+.HelperTip .FormHelpContent {
+    visibility: hidden;
+    z-index: 10;
+    position: absolute;
+    width: 200px;
+    padding: 10px;
+    padding-left: 30px;
+    border-radius: 3px;
+    background: rgba(0,0,0,0.75);
+    font-size: 11px;
+    color: #ddd;
+    text-align: left;
+}
+
+.FormHelpContent span {
+    display: block;
+	word-wrap: break-word;
+}
+
+/*.Tooltip .FormHelpContent span:after,
+.HelperTip .FormHelpContent span:after {
+    position: absolute;
+    content: "";
+    left: 15px;
+    bottom: -7px;
+    width: 0;
+    height: 0;
+    opacity: 0.75;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #000;
+}*/
+
+.Tooltip .FormHelpContent .HelpText {
+    word-wrap: break-word;
+}
+
+.bottomArrow:after
+{
+    position: absolute;
+    content: "";
+    left: 15px;
+    bottom: -7px;
+    width: 0;
+    height: 0;
+    opacity: 0.75;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #000;
+}
+.topArrow:before {
+    position: absolute;
+    content: "";
+    left: 15px;
+    top: -7px;
+    width: 0;
+    height: 0;
+    opacity: 0.75;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #000;
+}
+
+a.pinHelp {
+    display: block;
+    position: absolute;
+    left: 7px;
+    top: 12px;
+    width: 15px;
+    height: 15px;
+    opacity: 0.5;
+    background: url(../../../assets/images/pin-icn.png) no-repeat 0 0;
+}
+
+    .ui-draggable a.pinHelp,
+    a.pinHelp:hover {
+        opacity: 1;
+    }
+
+/* Error tooltip */
+.FormItem span.FormMessage.FormError {
+    display: block;
+    position: absolute;
+    overflow: visible;
+    /*top:-95%; right: 12%;*/
+    bottom: 95%;
+    right: 12%;
+    width: 200px;
+    margin-bottom: 0;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background: rgba(255,0,0,0.75);
+    font-size: 12px;
+    color: #fff;
+    text-align: left;
+}
+
+    .FormItem span.FormMessage.FormError:after {
+        position: absolute;
+        bottom: -7px;
+        left: 15px;
+        content: "";
+        width: 0;
+        height: 0;
+        opacity: 0.75;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 7px solid red;
+    }
+
+/* Input Types*/
+.FormItem input[type="text"],
+.FormItem input[type="password"],
+.FormItem input[type="email"],
+.FormItem input[type="tel"],
+.FormItem select,
+.FormItem textarea {
+    width: 45%;
+    max-width: 445px;
+}
+
+.FormItem select {
+    width: 47%;
+}
+
+    .FormItem select option {
+        color: #333;
+    }
+
+.FormItem table {
+    background: none;
+}
+
+/* Input Customised Checkbox*/
+
+.Checkbox {
+    display: inline-block;
+    cursor: pointer;
+}
+
+    .Checkbox .mark {
+        display: inline-block; /*margin-top: 3px;*/
+    }
+
+    .Checkbox img {
+        display: inline-block;
+        width: 20px;
+        height: 18px;
+        min-width: 20px;
+        vertical-align: middle;
+    }
+
+    .Checkbox img {
+        background: transparent url(../../../assets/images/checkbox.png) no-repeat;
+    }
+
+    .Checkbox img {
+        background-position: 0px 0px;
+    }
+
+.Checkbox-hover img {
+    background-position: 0px 0px;
+}
+
+.Checkbox-checked img {
+    background-position: -51px 0px;
+}
+
+.Checkbox-disabled {
+    cursor: not-allowed;
+}
+
+.Checkbox-disabled img {
+    opacity: .5;
+}
+
+.Checkbox-checked-error img {
+    background-position: -150px 0px;
+}
+
+.Checkbox-error img {
+    background-position: -100px 0px;
+}
+.Checkbox-focus {
+	background-color: #e3e3e5;
+}
+.BoxLabel{ display: inline-block;}
+/* normal checkbox fix */
+.FormItem input[type="checkbox"].normalCheckBox {
+    display: inline-block;
+    margin: 8px 0 4px 0;
+}
+
+/* Input Customised Radiobutton */
+
+.Radiobutton {
+    display: inline-block;
+    cursor: pointer;
+}
+
+    .Radiobutton .mark {
+        display: inline-block;
+    }
+
+    .Radiobutton img {
+        width: 20px;
+        height: 18px;
+        min-width: 20px;
+        vertical-align: middle;
+    }
+
+    .Radiobutton img {
+        background: transparent url(../../../assets/images/radiobutton.png) no-repeat;
+    }
+
+    .Radiobutton img {
+        background-position: 0px 0px;
+    }
+
+.Radiobutton-hover img {
+    background-position: 0px 0px;
+}
+
+.Radiobutton-checked img {
+    background-position: -50px 0px;
+}
+
+.Radiobutton-disabled img {
+    opacity: .5;
+}
+
+.Radiobutton-checked-error img {
+    background-position: -150px 0px;
+}
+
+.Radiobutton-error img {
+    background-position: -100px 0px;
+}
+.Radiobutton-focus {
+	background-color: #e3e3e5;
+}
+/* Input RadioButton group */
+div.FormRadioButtons,
+div.HSRadioButtons,
+span.FormRadioButtons,
+span.HSRadioButtons {
+    display: inline-block;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #f0f0f0;
+}
+
+table.FormRadioButtons {
+    background-color: #f0f0f0;
+    margin-bottom: 5px;
+}
+
+.RadComboBox_Default .rcbInput {
+    width: 100% !important;
+}
+
+/* general group*/
+div.FormGroup {
+    display: inline-block;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #f0f0f0;
+    width: 65%;
+}
+
+/* Input Customised Spinner */
+.Spinner {
+    display: inline-block;
+    position: relative;
+    width: 150px;
+    padding: 6px 6px;
+    *overflow: visible;
+    border: 1px solid #c9c9c9;
+    background: #fff;
+    background: -moz-linear-gradient(top, #fff 0%, #f0f2f1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f2f1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #fff 0%,#f0f2f1 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #fff 0%,#f0f2f1 100%); /* W3C */
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    color: #333;
+    text-decoration: none;
+    -webkit-box-shadow: 0px 1px 0px 0px #bbb;
+    box-shadow: 0px 1px 0px 0px #bbb;
+}
+
+.FormItem .Spinner {
+    width: 45%;
+    margin-bottom: 18px;
+}
+
+.SpinnerDisplay {
+    margin: 0 25px 0 8px;
+    background: transparent;
+    color: #999;
+}
+
+.FormItem .SpinnerDisplay > input[type="text"],
+.FormItem .SpinnerDisplay > input[type="text"]:focus {
+    border: none;
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+}
+
+.SpinnerCtrl {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    background-color: transparent;
+    border-left: 1px solid #c9c9c9;
+}
+
+    .SpinnerCtrl > a.SpinnerTopButton {
+        display: block;
+        width: 25px;
+        height: 16px;
+        background-position: center;
+        cursor: pointer;
+    }
+
+    .SpinnerCtrl > a.SpinnerBotButton {
+        display: block;
+        width: 25px;
+        height: 16px;
+        background-position: center;
+        cursor: pointer;
+    }
+
+/* Input Customised Tags */
+div.TagsInput {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 0 0 5px;
+    border: 1px solid #c9c9c9;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    background: #FFF;
+    -webkit-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.8), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.8), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.FormItem .TagsInput {
+    width: 45%;
+}
+
+div.TagsInput span.tag {
+    display: block;
+    float: left;
+    padding: 2px 6px 2px 6px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #c9c9c9;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size: 12px;
+    text-decoration: none;
+    color: #888;
+    cursor: pointer;
+    background-color: #eee;
+    word-break: break-word;
+}
+
+    div.TagsInput span.tag:hover {
+        background-color: #e8f1fa;
+        color: #444;
+    }
+
+    div.TagsInput span.tag a {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin: 6px 0 0 0;
+        background-position: center;
+    }
+
+div.TagsInput > div > input,
+div.TagsInput > div > input:focus {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-weight: normal;
+    font-family: helvetica;
+    font-size: 12px;
+    display: inline-block;
+    vertical-align: top;
+    height: 19px;
+    padding: 3px 0 3px 3px;
+    margin-bottom: 5px;
+}
+
+div.TagsInput > div > input::-ms-clear {
+  display: none;
+}
+
+div.TagsInput div {
+    display: block;
+    float: left;
+}
+
+    div.TagsInput div.Tags_filter {
+        float: right;
+        position: relative;
+        margin: 0 0 5px 5px;
+    }
+
+        div.TagsInput div.Tags_filter > .Tags_filter_label {
+            display: inline-block;
+            border-left: 1px solid #ccc;
+            padding: 3px 15px 0 10px;
+            margin-right: 3px;
+            color: #999;
+            cursor: pointer;
+
+            background-position: right center;
+            height: 22px;
+        }
+
+            div.TagsInput div.Tags_filter > .Tags_filter_label.Expanded {
+                color: #666;
+                background-position: right center;
+            }
+
+        div.TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl {
+            display: none;
+            position: absolute;
+            list-style-type: none;
+            background: #fff;
+            border: 1px solid #c9c9c9;
+            right: 22px;
+            top: 28px;
+            margin: 0;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow: 0px 2px 0px 0px #bbb;
+            box-shadow: 0px 2px 0px 0px #bbb;
+            z-index: 15;
+        }
+
+.TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl > li {
+    white-space: nowrap;
+    padding: 6px 12px 6px 8px;
+    border-top: 1px solid #c9c9c9;
+    list-style: none;
+    color: #666;
+    min-width: 150px;
+}
+
+    .TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl > li:first-child {
+        border-top: none;
+    }
+
+    .TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl > li:hover {
+        background-color: #e8f1fa;
+        color: #333;
+    }
+
+    .TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl > li > input {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl > li > span.Checkbox {
+        margin-right: 8px;
+    }
+
+    .TagsInput div.Tags_filter > ul.Tags_filter_dropdownUl > li > label {
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+    }
+
+div.TagsInput div.Tags_filter a.SearchButton {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-image: url(../../../assets/images/search/searchButton.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    vertical-align: top;
+    cursor: pointer;
+    margin: 4px 5px 0 4px;
+}
+
+.TagsClear {
+    clear: both;
+    width: 100%;
+    height: 0px;
+}
+
+div.TagsInput > div > input.TagsInvalid {
+    display: block;
+    float: left;
+    margin-right: 5px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: #FBD8DB; /*light red*/
+    cursor: pointer;
+    font-size: 12px;
+    color: #90111A !important; /* dark red*/
+    text-decoration: none; 
+}
+
+/*  Auto Complete */
+._acResults {
+    padding: 0px;
+    border: 1px solid #c9c9c9;
+    background-color: #fff;
+    overflow: hidden;
+    z-index: 900001;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-box-shadow: 0px 2px 0px 0px #bbb;
+    box-shadow: 0px 2px 0px 0px #bbb;
+    min-width: 150px;
+}
+
+    ._acResults ul {
+        margin: 0px;
+        padding: 0px;
+        list-style-position: outside;
+        list-style: none;
+    }
+
+        ._acResults ul li {
+            margin: 0px;
+            padding: 6px 22px 6px 22px;
+            border-top: 1px solid #c9c9c9;
+            color: #666;
+            cursor: pointer;
+            display: block;
+            overflow: hidden;
+            color: #333;
+        }
+
+            ._acResults ul li:first-child {
+                border-top: none;
+            }
+
+._acLoading {
+}
+
+._acSelect {
+    background-color: #e8f1fa;
+    color: #333;
+}
+
+/* Form Item */
+.FormMessage .Label {
+    float: none;
+    width: 90%;
+    text-align: left;
+}
+
+/* Pane header */
+.FormSectionHead span {
+    font-size: 18px;
+    color: #222;
+}
+
+/* Progressbar*/
+.Progressbar {
+    height: 25px !important;
+    padding: 18px 10px 0 10px;
+    border: 1px solid #c9c9c9;
+    background: #fff;
+    background: -moz-linear-gradient(top, #f0f2f1 0%, #fff 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f2f1), color-stop(100%,#fff)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f0f2f1 0%,#fff 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #f0f2f1 0%,#fff 100%); /* W3C */
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.25), 0px 1px 0px 0px #fff;
+    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.25), 0px 1px 0px 0px #fff;
+}
+
+.ui-progressbar {
+    height: 10px !important;
+    overflow: hidden;
+    background-color: #ccc;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #bbb;
+    box-shadow: inset 0px 1px 0px 0px #bbb;
+    text-align: left;
+}
+
+    .ui-progressbar .ui-progressbar-value {
+        margin: 0;
+        height: 100%;
+        background-color: #1a82f7;
+        background: -moz-linear-gradient(left, #2b7fda 0%, #3fbdff 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,#2b7fda), color-stop(100%,#3fbdff)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left, #2b7fda 0%, #3fbdff 100%); /* Chrome10+,Safari5.1+ */
+        background: linear-gradient(left, #2b7fda 0%, #3fbdff 100%); /* W3C */
+    }
+
+/* Button Dropdown */
+.DropdownSettings {
+    position: relative;
+    height: 30px !important;
+}
+
+.ButtonDropdown {
+    width: 50px;
+    height: 30px !important;
+    background: #fff;
+    background: -moz-linear-gradient(top, #fff 0%, #f0f2f1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f2f1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #fff 0%,#f0f2f1 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #fff 0%,#f0f2f1 100%); /* W3C */
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 0px 0px #bbb;
+    box-shadow: 0px 1px 0px 0px #bbb;
+    border: 1px solid #c9c9c9;
+    cursor: pointer;
+}
+
+.ButtonIcon, .ButtonArrow {
+    display: inline-block;
+    height: 30px !important;
+}
+
+.ButtonIcon {
+    width: 32px;
+}
+
+.ButtonArrow {
+    width: 10px;
+}
+
+.ButtonDropdown-clicked {
+    z-index: 100;
+    position: absolute;
+    width: 50px;
+    height: 30px !important;
+    background: #fff;
+    border: 1px solid #c9c9c9;
+    border-bottom: 1px solid #fff;
+    -webkit-border-top-left-radius: 3px;
+    border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.ButtonDropdown-ul {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    top: 29px;
+    left: 0;
+    width: 200px;
+    margin-left: 0;
+    background: #fff;
+    border: 1px solid #c9c9c9;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 2px 0px 0px #bbb;
+    box-shadow: 0px 2px 0px 0px #bbb;
+    list-style-type: none;
+}
+
+    .ButtonDropdown-ul > li, .ButtonDropdown-ul > ul > li {
+        padding: 8px;
+        border-bottom: 1px solid #c9c9c9;
+        color: #333;
+        cursor: pointer;
+        vertical-align: middle;
+        list-style: none;
+        margin: 0;
+    }
+	.ButtonDropdown-ul > ul{ margin: 0;}
+	.ButtonDropdown-ul > ul > li{ padding-left: 16px;}
+
+        .ButtonDropdown-ul > li:last-child {
+            border-bottom: none !important;
+        }
+
+        .ButtonDropdown-ul > li:hover {
+            background-color: #e8f1fa;
+            color: #000;
+        }
+
+/* Button Group */
+ul.ButtonGroup {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    background: -moz-linear-gradient(top, #fff 0%, #f0f2f1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f2f1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #fff 0%,#f0f2f1 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #fff 0%,#f0f2f1 100%); /* W3C */
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 1px 0px 0px #bbb;
+    box-shadow: 0px 1px 0px 0px #bbb;
+    border: 1px solid #c9c9c9;
+    cursor: pointer;
+    list-style: none;
+}
+
+    ul.ButtonGroup > li {
+        display: block;
+        float: left;
+        border-left: 1px solid #c9c9c9;
+        margin: 0;
+    }
+
+        ul.ButtonGroup > li:hover {
+            background-color: #e8f1fa;
+        }
+
+        ul.ButtonGroup > li.ButtonGroup-first {
+            display: none;
+        }
+
+            ul.ButtonGroup > li.ButtonGroup-first + li {
+                border-left: none;
+            }
+
+        ul.ButtonGroup > li > a {
+            display: inline-block;
+            padding: 7px 7px 6px 7px;
+            text-decoration: none;
+            color: #333;
+        }
+
+    ul.ButtonGroup span {
+        color: #333;
+    }
+
+
+/* Grouped Multi Input */
+.FormItem .InputGroup {
+    float: left;
+    display: block;
+    width: 32.075%;
+    padding: 5px;
+    margin-bottom: 18px;
+    background: rgba(0,0,0,0.05); /* opaque black */
+}
+
+    .FormItem .InputGroup .Left {
+        width: 100%;
+    }
+
+    .FormItem .InputGroup span {
+        display: inline-block;
+        width: 33%;
+        text-align: right;
+    }
+
+/* Error Styles */
+.FormError label a span {
+    color: red;
+}
+
+.FormError input[type="text"],
+.FormError input[type="password"],
+.FormError input[type="email"],
+.FormError input[type="tel"],
+.FormError select,
+.FormError textarea {
+    border: 1px solid red;
+}
+
+
+/* Tertiary Actions */
+.FormItem input[type="text"] + .TertiaryAction,
+.FormItem input[type="password"] + .TertiaryAction,
+.FormItem input[type="email"] + .TertiaryAction,
+.FormItem input[type="tel"] + .TertiaryAction,
+.FormItem select + .TertiaryAction {
+    display: inline-block;
+    max-width: 60px;
+}
+
+/* Information Feedback Aside */
+.Form fieldset.FormInformation {
+    float: left;
+    width: 32.075%;
+    margin-left: 16px;
+    padding: 18px 0;
+    background: rgba(0,0,0,0.05);
+}
+
+.FormItem textarea {
+    min-height: 80px;
+}
+
+.Address input[type="checkbox"] {
+    margin: 0 5px;
+}
+
+/* Required Fields */
+.FormRadioButtons {
+    float: left;
+    display: block;
+    width: auto;
+}
+
+    .FormRadioButtons input[type=radio] {
+        float: none;
+    }
+
+    .FormRadioButtons label,
+    .FormItem input[type=radio] + label {
+        float: none;
+        display: inline;
+        width: auto;
+        padding-right: 0;
+        margin: 0 10px 0 0;
+        text-align: left;
+        font-weight: normal;
+    }
+
+/* Text Editor */
+.TextEditor {
+    margin-bottom: 18px;
+}
+
+/* Action Items */
+.Actions {
+    float: none;
+    clear: both;
+    display: block; /* prevent ul from collapsing */
+    margin: 0;
+    padding-top: 18px;
+    text-align: left;
+}
+
+    .Actions li {
+        float: left;
+        margin-right: 5px;
+        list-style: none;
+    }
+
+.LoginActions {
+    display: inline-block;
+}
+
+/* Short Form */
+.Form.ShortForm .FormItem label {
+    float: none;
+    width: 100%;
+    margin-bottom: 0.25em;
+    text-align: left;
+}
+
+.Form.ShortForm .FormItem input,
+.Form.ShortForm .FormItem select,
+.Form.ShortForm .FormItem textarea {
+    float: none;
+    text-align: left;
+}
+
+.Form.ShortForm .FormItem a.FormHelp {
+    background-position: left;
+    padding-left: 22px;
+}
+
+/* UI Helpers */
+.Form .ui-helper-hidden {
+    display: none;
+}
+
+.Form .ui-helper-hidden-accessible {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+}
+
+/* Interaction Cues */
+.Form .ui-state-highlight,
+.Form .ui-widget-content .ui-state-highlight,
+.Form .ui-widget-header .ui-state-highlight {
+    border: 1px solid #fed22f;
+    background: #ffe45c;
+    color: #363636;
+}
+
+    .Form .ui-state-highlight a,
+    .Form .ui-widget-content .ui-state-highlight a,
+    .ui-widget-header .ui-state-highlight a {
+        color: #363636;
+    }
+
+.Form .ui-state-error,
+.Form .ui-widget-content .ui-state-error,
+.Form .ui-widget-header .ui-state-error {
+    border: 1px solid #cd0a0a;
+    background: #b81900;
+    color: #ffffff;
+}
+
+    .Form .ui-state-error a,
+    .Form .ui-widget-content .ui-state-error a,
+    .Form .ui-widget-header .ui-state-error a {
+        color: #ffffff;
+    }
+
+.Form .ui-state-error-text,
+.Form .ui-widget-content .ui-state-error-text,
+.Form .ui-widget-header .ui-state-error-text {
+    color: #ffffff;
+}
+
+.Form .ui-priority-primary,
+.Form .ui-widget-content .ui-priority-primary,
+.Form .ui-widget-header .ui-priority-primary {
+    font-weight: bold;
+}
+
+.Form .ui-priority-secondary,
+.Form .ui-widget-content .ui-priority-secondary,
+.ui-widget-header .ui-priority-secondary {
+    opacity: .7;
+    filter: Alpha(Opacity=70);
+    font-weight: normal;
+}
+
+.Form .ui-state-disabled,
+.Form .ui-widget-content .ui-state-disabled,
+.Form .ui-widget-header .ui-state-disabled {
+    opacity: .35;
+    filter: Alpha(Opacity=35);
+    background-image: none;
+}
+
+.Form .ui-draggable {
+    cursor: move;
+}
+
+/* Corner radius */
+.Form .ui-corner-all,
+.Form .ui-corner-top,
+.Form .ui-corner-left,
+.Form .ui-corner-tl {
+    border-radius: 4px;
+}
+
+.Form .ui-corner-all,
+.Form .ui-corner-top,
+.Form .ui-corner-right,
+.Form .ui-corner-tr {
+    border-radius: 4px;
+}
+/*-------------------------------------*/
+/* MODULE TITLE - TEMPORARY */
+/*-------------------------------------*/
+
+/* Need to determine what this is */
+.ModuleTitle_MenuContainer {
+    border: 1px solid blue;
+}
+
+.ModuleTitle_MenuBar {
+}
+
+.ModuleTitle_MenuItem {
+}
+
+.ModuleTitle_MenuIcon {
+}
+
+.ModuleTitle_SubMenu {
+}
+
+.ModuleTitle_MenuBreak {
+}
+
+.ModuleTitle_MenuItemSel {
+}
+
+.ModuleTitle_MenuArrow {
+}
+
+.ModuleTitle_RootMenuArrow {
+}
+
+/*-------------------------------------*/
+/* MAIN MENU - TEMPORARY */
+/*-------------------------------------*/
+
+/* Need to determine what this is */
+.MainMenu_MenuContainer {
+    border: 1px solid green;
+}
+
+.MainMenu_MenuBar {
+}
+
+.MainMenu_MenuItem {
+}
+
+.MainMenu_MenuIcon {
+}
+
+.MainMenu_SubMenu {
+}
+
+.MainMenu_MenuBreak {
+}
+
+.MainMenu_MenuItemSel {
+}
+
+.MainMenu_MenuArrow {
+}
+
+.MainMenu_RootMenuArrow {
+}
+
+/*-------------------------------------*/
+/* POPUP */
+/*-------------------------------------*/
+
+/* Popup Menu */
+.ui-widget-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.65);
+	z-index: 9999;
+}
+
+.FormPopup {
+    position: absolute;
+    padding: 18px;
+    background: #fff;
+    -webkit-box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.75);
+	z-index: 100000;
+}
+    /* Popup header */
+    .FormPopup, .FormPopup > * {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+
+    .FormPopup .ui-dialog-titlebar {
+        position: relative;
+        padding: 0 0 18px 0;
+        border-bottom: 1px solid #ddd;
+        cursor: move;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .FormPopup .ModalCtrl {
+        display: block;
+        position: absolute;
+        top: -30px;
+        right: -30px;
+        width: 69px;
+        height: 26px;
+        border-radius: 10px;
+        background-color: #fff;
+        -webkit-border-radius: 10px;
+        box-shadow: 0px 0px 5px #666;
+    }
+
+        .FormPopup .ModalCtrl .ui-dialog-titlebar-close {
+            float: right;
+            display: block;
+            height: 18px;
+            width: 30px;
+            margin: 4px 4px 0 1px;
+            overflow: hidden;
+            -webkit-border-top-right-radius: 8px;
+            -webkit-border-bottom-right-radius: 8px;
+	        border: none;
+	        outline: none;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            background: #585858 url(../../../assets/images/closeBtn.png) no-repeat;
+            background-position: 8px 4px;
+            text-indent: -9999em;
+	        min-width: 0 !important;
+        }
+
+            .FormPopup .ModalCtrl .ui-dialog-titlebar-close:hover {
+                background: #358EEA url(../../../assets/images/closeBtn.png) no-repeat;
+                background-position: 8px 4px;
+	            cursor: pointer;
+            }
+
+        .FormPopup .ModalCtrl a.ToggleMax {
+            float: left;
+            display: block;
+            height: 18px;
+            width: 30px;
+            margin: 4px 0 0 4px;
+            overflow: hidden;
+            -webkit-border-top-left-radius: 8px;
+            -webkit-border-bottom-left-radius: 8px;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            background: #585858 url(../../../assets/images/resizeBtn.png) no-repeat;
+            background-position: 10px 2px;
+            text-indent: -9999em;
+        }
+
+            .FormPopup .ModalCtrl a.ToggleMax:hover {
+                background: #358EEA url(../../../assets/images/resizeBtn.png) no-repeat;
+                background-position: 10px 2px;
+            }
+
+div.ui-dialog-titlebar > .ui-dialog-titlebar-close {
+    display: block;
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    height: 24px;
+    width: 24px;
+    margin: 0px;
+    overflow: hidden;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    background: #585858 url(../../../assets/images/closeBtn.png) no-repeat;
+    background-position: 4px 4px;
+    border: 3px solid #fff;
+    text-indent: -9999em;
+	min-width: 0 !important;
+}
+
+/* Poup Iframe styles*/
+.FormPopup #iPopUp {
+    width: 100%!important; /* to overwrite inline javscript styles */
+    padding-top: 10px;
+}
+
+.FormPopup .ui-dialog-content, #iPopUp .ui-dialog-content {
+    position: relative;
+    border: 0;
+    padding: 0px;
+    overflow: auto;
+    background: #fff;
+    zoom: 1;
+}
+
+.FormPopup .ui-dialog-buttonpane {
+    margin: .5em 0 0 0;
+    padding: .3em 1em 0em 0em;
+    overflow: hidden;
+    border-width: 1px 0 0 0;
+    background-image: none;
+    text-align: left;
+    border-top: 1px solid #ddd;
+}
+
+    .FormPopup .ui-dialog-buttonpane button {
+        margin: 0.5em 0.4em 0.5em 0em;
+        padding: 0.5em 1em;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+
+.FormPopup .ui-resizable-se {
+    float: right;
+    height: 24px;
+    width: 24px;
+    background: url(../../../assets/images/modal-resize-icn.png) no-repeat bottom;
+}
+
+.FormPopup .Dialog {
+    padding: 10px;
+}
+
+.Loading {
+    background: #fff url(../../../assets/images/loading.gif) no-repeat center center;
+    position: absolute;
+    z-index: 9999;
+}
+.PanelLoading {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    -ms-opacity: 0.7;
+    opacity: 0.7;
+}
+
+/*-------------------------------------*/
+/* URL ACTION */
+/*-------------------------------------*/
+.urlControl label {
+    width: auto;
+    margin-top: 0;
+    font-weight: normal;
+}
+
+.urlControlLinkType {
+    width: auto;
+}
+
+    .urlControlLinkType span,
+    .FormItem .urlControlLinkType span {
+        float: none;
+        display: block;
+        width: auto;
+        text-align: left;
+    }
+
+.FormItem .ucLinkTypeRadioButtons label {
+    display: inline-block;
+    width: 260px;
+    padding-right: 0;
+    margin-top: 0;
+    font-weight: normal;
+    text-align: left;
+}
+
+.urlControlLinkType span input {
+    min-width: 3%;
+}
+
+.Form.ModuleSettings .FormItem .urlControlLinkType span label {
+    text-align: left;
+}
+
+.urlControlFileRow {
+    clear: both;
+}
+
+    .urlControlFileRow span.FormLabel {
+        width: auto;
+        text-align: right;
+    }
+
+    .urlControlFileRow select, .urlControlFileRow input[type=file] {
+        clear: both;
+    }
+
+.urlControlImagesRow {
+    overflow: hidden;
+    clear: both;
+}
+
+    .urlControlImagesRow span.FormLabel {
+        width: auto;
+        text-align: right;
+    }
+
+    .urlControlImagesRow select {
+        clear: both;
+    }
+
+/*-------------------------------------*/
+/* WIZARD TABS STEPS
+/*-------------------------------------*/
+
+/* Jquery UI tabs base */
+.WizardTab.ui-tabs {
+    position: relative;
+    padding: 0;
+}
+
+    .WizardTab.ui-tabs .ui-tabs-nav {
+        display: block;
+        height: 46px;
+        margin: 0;
+        padding: 0;
+        background: transparent url(../../../assets/images/InstallWizardBG.png) repeat-x;
+    }
+
+        .WizardTab.ui-tabs .ui-tabs-nav li {
+            float: left;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            border-bottom: 0 !important;
+            list-style: none;
+            white-space: nowrap;
+        }
+
+            .WizardTab.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+                margin-bottom: 0;
+            }
+
+                .WizardTab.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
+                .ui-tabs .ui-tabs-nav li.ui-state-disabled a,
+                .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+                    cursor: text;
+                }
+
+            .WizardTab.ui-tabs .ui-tabs-nav li a,
+            .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-active a {
+                cursor: pointer;
+            }
+
+    .WizardTab.ui-tabs .ui-tabs-panel {
+        clear: both;
+        display: block;
+        padding: 3em 1em 1.4em;
+        border-width: 0;
+        background: none;
+    }
+
+    .WizardTab.ui-tabs .ui-tabs-hide {
+        display: none !important;
+    }
+
+    .WizardTab.ui-tabs .ui-tabs-nav li a {
+        display: block;
+    }
+
+.WizardStep > span {
+    display: block;
+    float: left;
+}
+
+.WizardStep {
+    height: 46px;
+    padding: 0 0 0 20px;
+    background: transparent url(../../../assets/images/InstallWizardBG.png) repeat-x;
+    background-position: 0 0;
+    cursor: pointer;
+}
+
+.ui-tabs .ui-tabs-nav li:first-child .WizardStep {
+    padding-left: 30px;
+}
+
+.WizardStepNumber {
+    margin: 10px 10px 0 0;
+    padding: 3px 8px 3px 8px;
+    background-color: #999;
+    -webkit-border-radius: 18px;
+    border-radius: 18px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.WizardStepTitle {
+    margin: 13px 20px 0 0;
+    color: #999;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.WizardStepArrow {
+    width: 25px;
+    height: 46px;
+    background: transparent url(../../../assets/images/InstallWizardBG.png) no-repeat;
+    background-position: 0 -401px;
+}
+
+.WizardTab.ui-tabs .ui-tabs-nav li.ui-tabs-active .WizardStep {
+    height: 46px;
+    background-position: 0 -100px;
+}
+
+.WizardTab.ui-tabs .ui-tabs-nav li.ui-tabs-active .WizardStepNumber {
+    background-color: #333;
+}
+
+.WizardTab.ui-tabs .ui-tabs-nav li.ui-tabs-active .WizardStepTitle {
+    color: #333;
+}
+
+.FormExpandContent {
+    margin: 10px 0;
+}
+
+    .FormExpandContent > a {
+        color: #333;
+        font-size: 13px;
+        font-weight: bold;
+    }
+/*-------------------------------------*/
+/*  SIMPLE GRID
+/*-------------------------------------*/
+
+table.PermissionsGrid,
+table.Grid,
+table.ASPGrid {
+    margin-bottom: 20px;
+    border: 1px solid #c9c9c9;
+}
+
+    table.PermissionsGrid {
+        color: #777;
+    }
+
+    table.PermissionsGrid tr.GridHeader td {
+        padding: 4px 4px 4px 4px;
+        vertical-align: middle;
+        line-height: 120%;
+        text-align: center;    
+    }
+
+    table.PermissionsGrid tr.GridItem td,
+    table.PermissionsGrid tr.GridAltItem td {
+        padding: 5px 4px 5px 4px;
+        border-top: 1px solid #c9c9c9;
+        border-bottom: 1px solid #c9c9c9;
+        width: 70px;
+        text-align: center;
+    }
+
+    table.PermissionsGrid tr.GridItem td.permissionHeader,
+    table.PermissionsGrid tr.GridAltItem td.permissionHeader {
+        border-right: 1px solid #c9c9c9;
+        text-align: left;
+        padding-left: 10px;
+        width: 150px;
+    }
+
+    table.PermissionsGrid tr.GridHeader td.permissionHeader {
+        padding-left: 10px;
+        text-align: left;
+    }
+
+    .PermissionsGrid > .FormItem label {
+        margin-right: 8px;        
+        color: #777;
+    }
+
+    .PermissionsGrid > .FormItem select {
+        width: 25%;
+        margin: 0 5px 5px 0;
+        min-width: 180px;
+        color: #777;
+    }
+
+    .PermissionsGrid > .FormItem input {        
+        margin-bottom: 0;
+        height: 17px;
+        color: #777;
+        width: 25%;
+    }
+    .PermissionsGrid > .FormItem ul.token-input-list-facebook {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .PermissionsGrid > .FormItem > .leftGroup {
+        margin-right: 35px;
+        float:left;
+    }
+
+    .PermissionsGrid > .FormItem >  .rightGroup {
+        float: left;
+    }
+
+    .PermissionsGrid > .FormItem >  .rightGroup  > .SecondaryAction {
+        position: absolute;
+    }
+
+    .PermissionsGrid > .FormItem {
+        margin-bottom: 18px;
+        overflow: auto;     
+    }
+
+.GridHeader td, thead.GridHeader th,  tr.GridHeader th{
+    padding: 6px 12px 6px 12px;
+    border-bottom: 1px solid #c9c9c9;
+    border-right: 1px solid #c9c9c9;
+    background: #f0f2f1;
+    background: -moz-linear-gradient(top, #fff 0%, #f0f2f1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f0f2f1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #fff 0%,#f0f2f1 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(top, #fff 0%,#f0f2f1 100%); /* W3C */
+}
+
+.GridItem td, .GridAltItem td {
+    padding: 6px;
+    border-right: 1px solid #c9c9c9;
+}
+
+    .GridItem td input, .GridAltItem td input {
+        margin-bottom: none;
+    }
+
+.GridAltItem {
+    background: #F2F2F2;
+}
+
+    .GridItem:hover, .GridAltItem:hover {
+        background-color: #e8f1fa;
+    }
+
+/* td > input[type="image"],
+    td > input[type="image"] + a,
+    td a > img{
+        display:block;
+        float: left;
+        margin-right: 3px;
+    } */
+
+/*-------------------------------------*/
+/* URL Control
+/*-------------------------------------*/
+
+.urlControl {
+    float: left;
+    display: block;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+}
+
+    .urlControl select,
+    .urlControl input {
+        width: 180px;
+        margin-bottom: 10px;
+    }
+
+    .urlControl FormItem > a.SecondaryAction {
+        margin: 10px 10px 0 0;
+        float: left;
+    }
+
+    .urlControl .urlControlLinkType {
+        float: left;
+        width: 100%;
+    }
+
+        .urlControl .urlControlLinkType .FormLabel {
+            float: left;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .urlControl .urlControlLinkType input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+/*-------------------------------------*/
+/* File Picker
+/*-------------------------------------*/
+span[id$="FileControl"] {
+    display: block;
+    float: left;
+}
+
+.FilePicker {
+    display: block;
+    float: left;
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 0 15px 0 15px;
+    width: 450px;
+}
+
+    .FilePicker .Left {
+        margin: 0;
+        padding: 0;
+        margin-top: -30px;
+    }
+
+    .FilePicker FormItem {
+        margin: 0;
+        margin-top: -10px;
+        padding: 0;
+        position: static;
+    }
+
+    .FilePicker .Left img {
+        max-width: 135px;
+        max-height: 100px;
+    }
+
+    .FilePicker .Left .FilePickerImageHolder {
+        width: 135px;
+        height: 100px;
+        background-color: #ccc;
+        margin: 20px 15px;
+    }
+
+    .FilePicker .FormItem span {
+        display: block;
+        float: left;
+        width: 40px;
+        margin-top: 8px;
+        padding-left: 5px;
+        text-align: left;
+    }
+
+    .FilePicker select,
+    .FilePicker input {
+        width: 200px;
+        margin: 0;
+        margin-right: 10px;
+        float: none;
+    }
+
+    .FilePicker .Left a.SecondaryAction {
+        margin: 10px 10px 0 0;
+        display: inline-block;
+    }
+
+    .FilePicker .Left img {
+        display: block;
+        margin: 20px 15px;
+    }
+
+/* FILE UPLOAD CSS */
+span.InputFileWrapper > input[type="file"] { /* force file upload style here, cause some module just override */
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    direction: ltr;
+    cursor: pointer;
+    height: 100%;
+	font-size: 200px;
+}
+
+span.InputFileWrapper { /* Notes(by Richard): here must set !important */
+    overflow: hidden !important;
+    margin: 0px 4px 0 0;
+    width: auto !important;
+    display: block !important;
+    float: left !important;
+	position: relative;
+}
+
+    span.InputFileWrapper > span.SecondaryAction {
+        display: inline-block;
+        float: none;
+        width: auto;
+    }
+
+/*  DRAG n DROP FILE PICKER UPLOAD */
+.FileUploadScope {
+    display: block;
+    float: left;
+    background-color: #F0F0F0;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 0;
+    width: 500px;
+}
+
+    .FileUploadScope .Left {
+        margin: 0;
+        padding: 15px 10px 15px 10px;
+    }
+
+        .FileUploadScope .Left .FormItem {
+            margin-bottom: 10px;
+        }
+
+    .FileUploadScope .FormItem span, .urlControlTab .FormItem > span {
+        display: block;
+        float: left;
+        width: 40px;
+        margin-top: 8px;
+        padding-left: 5px;
+        text-align: left;
+    }
+
+    .FileUploadScope .FormItem .DropDownList span {
+        margin: 0;
+        width: auto;
+    }
+
+    .FileUploadScope .FormItem .RadComboBox_Default,  .FileUploadScope .FormItem .DropDownList{
+        width: 180px;
+        margin: 0;
+        float: none;
+    }
+
+    .FileUploadScope .Left .FileUploadDropZone {
+        position: relative;
+        margin: 0;
+        width: 180px;
+        height: 150px;
+        background: #d9eeff;
+        border: 1px dashed #bbb;
+        box-shadow: 0px 1px 0px #fff;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        color: #4577a2;
+    }
+
+        .FileUploadScope .Left .FileUploadDropZone span {
+            display: block;
+            position: absolute;
+            left: 38px;
+            top: 60px;
+            color: #fff;
+            font-size: 12px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 7px;
+            border-radius: 3px;
+            box-shadow: 0px 1px 0px #fff, inset 1px 1px 0px #555;
+            opacity: 0.5;
+            cursor: default;
+            -webkit-transition: all 500ms ease-in-out;
+            -moz-transition: all 500ms ease-in-out;
+            -ms-transition: all 500ms ease-in-out;
+            -o-transition: all 500ms ease-in-out;
+            transition: all 500ms ease-in-out;
+        }
+
+        .FileUploadScope .Left .FileUploadDropZone:hover span {
+            opacity: 1;
+        }
+
+input.FixedSizeComboBox {
+    width: 200px !important;
+    margin-right: 10px;
+    float: left;
+}
+
+div.FixedSizeComboBox {
+    width: 218px !important;
+    margin-right: 15px;
+    float: left;
+}
+
+.FixedSizeComboBox + a.SecondaryAction {
+    float: left;
+    margin-right: 10px;
+}
+
+input.SmallSizeComboBox {
+    width: 100px !important;
+    margin-right: 10px;
+    float: left;
+}
+
+div.SmallSizeComboBox {
+    width: 118px !important;
+    margin-right: 15px;
+    float: left;
+}
+
+.SmallSizeComboBox + a.SecondaryAction {
+    float: left;
+    margin-right: 10px;
+}
+
+td.GridHeaderTD-NoBorder {
+    border-right: none !important;
+}
+
+tr.GridItem td, tr.GridAltItem td {
+    border-right: none;
+}
+
+    tr.GridItem td input {
+        margin-bottom: 0;
+    }
+
+/*-------------------------------------*/
+/* ACCORDIAN
+/*-------------------------------------*/
+h2.FormSectionHead {
+    margin-top: 8px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #ddd;
+    font-size: 32px;
+    line-height: 36px;
+    letter-spacing: -0.03em;
+}
+
+    h2.FormSectionHead a {
+        display: block;
+        padding-left: 3px;
+        background: url(../../../assets/images/down-icn.png) no-repeat right 50%;
+        text-decoration: none;
+        color: #333;
+        font-size: 18px;
+        letter-spacing: normal;
+        font-weight: normal;
+    }
+
+        h2.FormSectionHead a:hover {
+            color: #222;
+            background: rgba(2,139,255,0.05) /* blue */ url(../../../assets/images/down-icn.png) no-repeat right 50%;
+        }
+
+        h2.FormSectionHead a.SectionExpanded {
+            background: url(../../../assets/images/up-icn.png) no-repeat right 50%;
+            color: #222;
+        }
+
+            h2.FormSectionHead a.SectionExpanded:hover {
+                color: #222;
+                background: rgba(2,139,255,0.05) /* blue */ url(../../../assets/images/up-icn.png) no-repeat right 50%; /* ACTIVE BLUE */
+            }
+
+/*-------------------------------------*/
+/* VERTICAL TABS */
+/*-------------------------------------*/
+.VerticalTabs {
+    margin-left: 0;
+}
+
+    .VerticalTabs li {
+        list-style: none;
+    }
+
+        .VerticalTabs li a {
+            display: block;
+            padding: 15px 15px;
+            border-bottom: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            background: rgba(0, 0, 0, 0.04);
+            color: #999;
+            text-decoration: none;
+        }
+
+            .VerticalTabs li a:hover {
+                background: rgba(0, 0, 0, 0.06);
+                color: #333;
+            }
+
+        .VerticalTabs li.active a {
+            background: none;
+            color: #333;
+            border-right: 1px solid transparent;
+        }
+
+.tabBody {
+    display: none;
+}
+
+/*-------------------------------------*/
+/* SCROLL BAR */
+/*-------------------------------------*/
+
+.jspContainer {
+    overflow: hidden;
+    position: relative;
+}
+
+.jspPane {
+    position: absolute;
+}
+
+.jspVerticalBar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 11px;
+    height: 100%;
+    background: #ccc;
+}
+
+.jspHorizontalBar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 11px;
+    background: #ccc;
+}
+
+    .jspVerticalBar *,
+    .jspHorizontalBar * {
+        margin: 0;
+        padding: 0;
+    }
+
+.jspCap {
+    display: none;
+}
+
+.jspHorizontalBar .jspCap {
+    float: left;
+}
+
+.jspTrack {
+    background: transparent;
+    position: relative;
+}
+
+.jspVerticalBar .jspTrack {
+    width: 10px;
+    margin: 0 0 0 3px;
+}
+
+.jspHorizontalBar .jspTrack {
+    height: 5px;
+    margin: 3px 0 3px 0;
+}
+
+.jspVerticalBar .jspCap {
+    display: block;
+    height: 3px;
+    width: 11px;
+}
+
+.jspHorizontalBar .jspCap {
+    display: block;
+    width: 3px;
+    height: 11px;
+}
+
+.jspDrag {
+    position: relative;
+    top: 0;
+    left: 0;
+    border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    opacity: .75;
+    background: #000;
+    cursor: pointer;
+}
+
+.jspHorizontalBar .jspTrack,
+.jspHorizontalBar .jspDrag {
+    float: left;
+    height: 5px;
+}
+
+/*-------------------------------------*/
+/* UPGRADE FIXES */
+/*-------------------------------------*/
+
+/* Compatible with some old forge modules---*/
+div.ModAnnouncementsC table.ucLinkTypeRadioButtons label {
+    display: inline !important;
+}
+
+div.ModAnnouncementsC table.ucLinkTypeRadioButtons span.Radiobutton {
+    display: inline !important;
+}
+
+div.ModAnnouncementsC .urlControl label, div.ModLinksC .urlControl label {
+    display: inline !important;
+}
+
+div.ModFAQsC .Normal {
+    width: auto !important;
+}
+
+div.ModFeedbackC .FormItem > label {
+    display: inline-block;
+    width: 33%;
+    text-align: right;
+}
+
+div.ModUserDefinedTableC div.RadEditor {
+    height: auto !important;
+}
+
+div.ModUserDefinedTableC ul.Actions {
+    display: block;
+}
+
+div.ModIFrameC .urlControl span.Radiobutton {
+    display: inline !important;
+}
+
+div.ModIFrameC table.Normal td .Label {
+    width: 100px;
+}
+
+div.ModIFrameC table.Normal td span.Radiobutton {
+    margin: 5px 0 0 30px;
+}
+
+div.ModLinksC .urlControl span.Radiobutton {
+    display: inline !important;
+}
+
+/*-------------------------------------*/
+/* GENERIC CLASSES */
+/*-------------------------------------*/
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.Left {
+    float: left;
+}
+
+.Right {
+    float: right;
+}
+
+.Clear {
+    clear: both;
+}
+
+    .Clear:after {
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+        font-size: 0;
+    }
+
+* + html .Clear {
+    min-height: 1%;
+}
+
+/* used to set the different module align options - from module settings */
+.Alignleft {
+    text-align: left;
+}
+
+.Alignright {
+    text-align: right;
+}
+
+.Aligncenter {
+    text-align: center;
+}
+
+/* used to collapse panes without any content in them */
+body:not(.EditState) .EmptyPane {
+    width: 0px;
+}
+
+/* style to apply if the content should be hidden */
+.Hidden {
+    display: none;
+}
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
+/*Edit In Place Tool Bar Classes*/
+.eipbackimg {
+	position:absolute;
+	margin-top:-32px;
+	white-space:nowrap;
+	background:url(../../../assets/images/eip_toolbar.png) repeat-x;
+	height:32px;
+	z-index: 1;
+}
+.eipbackimg.editMode {
+	border: 1px solid #777777 !important;
+	background: -moz-linear-gradient(top, #303030 0%, #191919 100%) !important; /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#303030), color-stop(100%,#191919)) !important; /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #303030 0%,#191919 100%) !important; /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #303030 0%,#191919 100%) !important; /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #303030 0%,#191919 100%) !important; /* IE10+ */
+    background: linear-gradient(to bottom, #303030 0%,#191919 100%) !important; /* W3C */
+	opacity: 0.8;
+}
+.eipbackimg.containerTitle {
+	margin-top: -8px;
+}
+.eipbackimg.containerTitle.editMode {
+	left: auto;
+	right: 0px;
+	margin-top: 2px;
+	background: none !important;
+	border: none !important;
+}
+.eipbuttonbackimg{
+	width: 32px;
+	height: 32px; 
+	cursor: pointer;
+	float:left;
+	background: url(../../../assets/images/eip_toolbar.png) no-repeat;
+	
+}
+.eipbackimg.editMode .eipbuttonbackimg {
+	border-left: 1px solid #1f1f1f;
+	border-right: 1px solid #393939;
+	opacity: 0.5;
+}
+
+.eipbackimg.editMode.containerTitle .eipbuttonbackimg {
+	border: none;
+	opacity: 1;
+}
+
+.eipbuttonbackimg.eipbutton_cancel{ background-position: -32px 0;}
+.eipbuttonbackimg.eipbutton_bold{ background-position: -64px 0;}
+.eipbuttonbackimg.eipbutton_italic{ background-position: -96px 0;}
+.eipbuttonbackimg.eipbutton_underline{ background-position: -128px 0;}
+.eipbuttonbackimg.eipbutton_justifyleft{ background-position: -160px 0;}
+.eipbuttonbackimg.eipbutton_justifycenter{ background-position: -192px 0;}
+.eipbuttonbackimg.eipbutton_justifyright{ background-position: -224px 0;}
+.eipbuttonbackimg.eipbutton_orderedlist{ background-position: -256px 0;}
+.eipbuttonbackimg.eipbutton_unorderedlist{ background-position: -288px 0;}
+.eipbuttonbackimg.eipbutton_outdent{ background-position: -320px 0;}
+.eipbuttonbackimg.eipbutton_indent{ background-position: -352px 0;}
+.eipbuttonbackimg.eipbutton_createlink{ background-position: -384px 0;}
+
+.eipbackimg.containerTitle .eipbutton_cancel {
+	background: url(../../../assets/images/eip_title_cancel.png) no-repeat center center;
+}
+
+.eipbutton_edit {
+	background: url(../../../assets/images/eip_edit.png) no-repeat 100% center;
+	float:left;
+}
+
+.eipbutton_save {
+	background: url(../../../assets/images/eip_save.png) no-repeat 100% center;
+	float:left;
+}
+.eipbackimg.containerTitle .eipbutton_save {
+	background-image: url(../../../assets/images/eip_title_save.png);
+}
+
+.eipbackimg.editMode .eipborderhover {
+	background-color: #333;
+	opacity: 1;
+}
+.eipbackimg.editMode.containerTitle .eipborderhover {
+	background-color: inherit;
+}
+div[id$=titleLabel_tb].visible ~ span{ margin-left: 32px;}
+
+/*Critical Error Popup*/
+div.errorWin p{ margin: 0 0 10px 0;}
+
+input[type="button"].rspCollapseBarSpacer
+{ min-width: 0; padding: 0 0; }
+
+
+/*------------------------------------------------*/
+/* DEFAULT PROFILE STYLE */
+/*------------------------------------------------*/
+
+.UserProfileControls ul li {
+    list-style-type: none;
+}
+
+/*------------------------------------------------*/
+/* PROFILE STYLE */
+/*------------------------------------------------*/
+.console.profile {
+    /*width: 250px;*/
+    width:100% !important; /* updated for responsive*/
+    height: auto;
+    background-color: #484848; /* Menu Background Color */
+}
+
+.console.profile .console-none div {
+    cursor: pointer;
+    cursor: hand;
+    float: left;
+    height: auto;
+    /*width: 250px;*/
+    width:100% !important; /* updated for responsive*/
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+}
+
+.console.profile .console-none h3 {
+    padding: 10px 8px 10px 40px;
+    margin: 0;
+    border-bottom: solid 1px #fff;
+    background: url('../../../assets/images/arrow-right-white.png') 18px center no-repeat;
+    color: #eee;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.console.profile .console-none div div {
+    display: none;
+}
+
+.console.profile .console-mouseon {
+    background-color: #70b1c7; /* Menu Hover Background Color */
+}
+/*-------------------------------------------------*/
+
+/* Login/register/reset paswsword controls in mobile view */
+body.mobileView.FormPopup.FormPopupMobileView{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: inherit !important;
+}
+body.mobileView.FormPopup.FormPopupMobileView .FormMessage{
+	margin: 0;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	padding: 10px 0 10px 0;
+}
+body.mobileView.FormPopup.FormPopupMobileView .FormMessage.FormValidationSummary{
+	padding: 10px;
+}
+body.mobileView.FormPopup.FormPopupMobileView .LoginPanel,
+body.mobileView.FormPopup.FormPopupMobileView .SendPasswordContent,
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm {
+    width: 100%;
+	padding: 18px 0 0 0;
+    margin: 0;
+    float: none;	
+	min-width: inherit !important;	
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form{
+	width: 100%;
+	margin: 0;
+	float: none;
+	min-width: inherit !important;
+}
+
+
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem > .Label {
+    display: block;
+    text-align: left;
+    float: none;
+    width: 100% !important;
+    font-size: 14px;
+    margin: 0 0 7px 0;
+    vertical-align: top;
+	padding: 0;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .SocialRegistration{
+	display: none;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Captcha{
+	width: 100%;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Left img{
+	display: block;
+	margin: 0 0 5px 0;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem > .Label a.FormHelp{
+	display: none !important;
+	width: 0 !important;
+	margin: 0 !important;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem > .Label div.Tooltip{
+	display: none !important;
+	width: 0 !important;
+	position: static !important;
+	right: 0 !important;
+	margin: 0 !important;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem input[type="text"],
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem > input[type="password"]{
+    display: block;
+    box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    max-width: 100% !important;
+	margin-bottom: 18px;
+	min-width: 100% !important;	
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem > span#_ctr_Login_Login__lblLogin{
+	display: none !important;
+	width: 0;
+	margin: 0;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .FormItem span.FormMessage.FormError{
+	border-radius: 0;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	right: 0;
+	width: auto;
+	max-width: 100%;
+	padding: 10px;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form.LoginService a.PrimaryAction,
+body.mobileView.FormPopup.FormPopupMobileView .Form.LoginService a.SecondaryAction{
+	width: 45%;
+	padding: 18px 0 18px 0;
+	display: block;
+	float: left;
+	margin: 0 5px 0 0;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .LoginRememberMe{
+	display: block;
+	float: left;
+	margin: 10px 0 0 5px;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .LoginActions {
+	display: block;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .Actions a.SecondaryAction,
+body.mobileView.FormPopup.FormPopupMobileView .Form .Actions a.PrimaryAction{
+	width: 100%;
+	padding: 18px 0 18px 0;
+	display: block;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .Form .Actions{
+	padding: 0;
+}
+body.mobileView.FormPopup.FormPopupMobileView .Form .Actions li{
+	width: 45%;
+}
+
+/* password strength control in iPopup */
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm .password-strength-container{
+	width: 100%;
+	margin: 0 0 12px 0;
+	padding: 8px 0 8px 0;
+	display: block;
+	max-width: inherit !important;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm .FormItem .password-strength-container input[type="password"]{
+	display: block;
+	margin: 0 8px 0 8px;
+	width: calc(100% - 20px);
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    max-width: inherit !important;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm .FormItem .password-strength-container span.min-length-text{
+	display: block;	
+	margin: 5px 0 5px 8px;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm .FormItem .password-strength-container div.meter{
+	float: none;	
+	width: 90%;
+	margin: 0 0 0 8px;
+}
+body.mobileView.FormPopup.FormPopupMobileView .FormItem input.unmatched{
+	background: none !important;
+}
+
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm .FormItem .password-strength-tooltip, 
+body.mobileView.FormPopup.FormPopupMobileView .RegistrationForm .FormItem .confirm-password-tooltip{
+	display: none !important;
+}
+
+.mobileView .FormPopup .ui-dialog-content, .mobileVie #iPopUp .ui-dialog-content {
+    max-height: none !important; 
+}
+
+.mobileView .ui-widget-overlay {
+    display: none;
+}
+.FormPopup.FormPopupMobileView {
+    width: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    box-shadow: none !important;
+}
+.FormPopup.FormPopupMobileView div.ui-dialog-titlebar > .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.FormPopup.FormPopupMobileView .ui-dialog-titlebar {
+    border-bottom: none;
+    cursor: inherit;
+    font-size: 22px;
+    color: #000;
+    padding: 5px 0 0 0;
+}
+
+.FormPopup.FormPopupMobileView .Form .FormItem > .Label {
+    display: block;
+    text-align: left;
+    float: none;
+    width: auto !important;
+    font-size: 14px;
+    margin: 0 0 7px 0;
+    vertical-align: top;
+}
+
+.FormPopup.FormPopupMobileView .Form .FormItem > input[type="text"] {
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    max-width: inherit !important;
+}
+
+.FormPopup.FormPopupMobileView .Form .FormItem > textarea,
+.FormPopup.FormPopupMobileView .Form .FormItem > .redactor_box {
+    display: block;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    max-width: inherit !important;
+}
+
+.FormPopup.FormPopupMobileView .Form .FormItem > select {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    max-width: inherit !important;
+}
+
+.FormPopup.FormPopupMobileView .Form .FormItem > .TagsInput {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100% !important;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin-bottom: 18px;
+    max-width: inherit !important;
+}
+
+.FormPopup.FormPopupMobileView .Form .FormItem > .Label > input[type="checkbox"].normalCheckBox {
+    display: inline-block;
+    margin: 0 5px 0 12px;
+}
+
+.FormPopup.FormPopupMobileView .FormItem span.FormMessage.FormError {
+    right: 0;
+    width: auto;
+    border-radius: 0;
+    text-align: right;
+    max-width: 100%;
+}
+
+.FormPopup.FormPopupMobileView a.PrimaryAction,
+.FormPopup.FormPopupMobileView .ui-dialog-buttonpane button.PrimaryAction,
+.FormPopup.FormPopupMobileView a.SecondaryAction,
+.FormPopup.FormPopupMobileView .ui-dialog-buttonpane button.SecondaryAction {
+    width: 49%;
+    margin: 0;
+    padding: 20px 0 20px 0;
+    display: block;
+}
+
+.FormPopup.FormPopupMobileView a.PrimaryAction,
+.FormPopup.FormPopupMobileView .ui-dialog-buttonpane button.PrimaryAction {
+    float: left;
+}
+
+.FormPopup.FormPopupMobileView a.SecondaryAction,
+.FormPopup.FormPopupMobileView .ui-dialog-buttonpane button.SecondaryAction {
+    float: right;
+}
+
+.FormPopup.FormPopupMobileView .ui-dialog-buttonpane {
+    border-top: none;
+}
+
+    .FormPopup.FormPopupMobileView .ui-dialog-buttonpane .ui-dialog-buttonset {
+        float: none;
+    }
+
+.FormPopup.FormPopupMobileView .four-btn-panel a.PrimaryAction,
+.FormPopup.FormPopupMobileView .four-btn-panel a.SecondaryAction {
+    width: 24%;
+    display: inline-block;
+    margin-right: 1%;
+    float: none;
+}
+
+.FormPopup.FormPopupMobileView .FormMessage {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    margin: 25px 0 15px 0;
+}
+
+html.mobileView {
+    overflow: auto !important;
+}
+
+.mobileView .FormPopup .ui-dialog-content, 
+.mobileView #iPopUp .ui-dialog-content {
+    max-height: none !important; 
+}
+
+.Placeholder{ color: #666; }
+
+/*  Slider Input Style */
+div.SliderInput {
+	position: relative;
+	display: inline-block;
+	width: 47%;
+    margin:15px 0 23px 0;
+    max-width: 445px;
+	border: 1px solid #d3d3d3;
+	-ms-border-radius: 3px;
+	border-radius: 3px;
+	height: 10px;
+}
+
+div.SliderInput .ui-slider-handle {
+	position: absolute;
+    z-index: 2;
+    width: 14px;
+    height: 14px;
+    cursor: default;
+	border: 1px solid #aaaaaa;
+    background-color: #cccccc;
+    font-weight: normal;
+    color: #555555;
+	outline: none;
+	top: -2px;
+	margin-left: -7px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+div.SliderInput .Tooltip {
+	top: -37px;
+	margin-left: -22px;
+}
+div.SliderInput .Tooltip .FormHelpContent {
+	visibility: visible;
+	padding: 4px 10px;
+	width: 25px;
+	text-align: center;
+	z-index: 1;
+}
+/*END  Slider Input Style*/
+
+/* Overflow for Menu dropdown */
+#Menu .dropdown-menu {
+    word-wrap: break-word;
+}
+
+/* End Overflow for Menu dropdown */

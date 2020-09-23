@@ -1,0 +1,105 @@
+:host {
+    display: flex;
+    justify-content: center;
+}
+
+.invalid-feedback {
+    font-size: 12px;
+}
+
+.field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+    margin-right: 10px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    width: 45px;
+    height: 27px;
+}
+
+/* Hide default HTML checkbox */
+/*.switch input {display:none;}*/
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+input[type="checkbox"]:checked + .slider {
+    background-color: #0088cc;
+}
+
+.switch:focus-within {
+    border: 1px solid #0088cc;
+}
+
+.form-control:focus {
+    border: 1px solid #0088cc;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#stepTwo {
+    .form-control.is-invalid,
+    .form-control.is-valid {
+        background-image: none;
+    }
+}
+
+.finalStepText,
+label {
+    color: black;
+}
+
+.paperlessConfirmText {
+    font-size: 14px;
+    color: #696969;
+    input[type="checkbox"] {
+        zoom: 1.3;
+    }
+}
+
+a {
+    color: blue;
+    font-weight: bold;
+}

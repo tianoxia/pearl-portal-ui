@@ -1,0 +1,167 @@
+<header id="header" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 45, 'stickyChangeLogo': false}">
+    <div class="header-body">
+        <div class="header-container container">
+            <div class="header-row">
+                <div class="header-column">
+                    <div class="header-row">
+                        <div class="header-logo">
+                            <a title="OnlinePortal" routerLink="/">
+                                <img id="headerlogo" alt="OnlinePortal" width="302" height="48" data-sticky-width="82" data-sticky-height="40" data-sticky-top="25" src="assets/logo/averypearllogo.gif">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-column justify-content-end">
+                    <div class="header-row pt-3">
+                        <div class="header-nav-features header-nav-features-no-border">
+                            <div class="header-nav-feature d-inline-flex" *ngIf="!isLoggedIn() && !currentIsLoginPage()">
+                                <a class="btn btn-success btn-lg text-transform-none" routerLink="/login">
+                                    <i class="fa fa-lock"></i>Sign In
+                                </a>
+                            </div>
+                            <div *ngIf="isLoggedIn()" class="search dropdown">
+                                <button type="button" class="btn btn-primary btn-lg " data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i> {{employeeName}} <i class="fas fa-caret-down"></i>
+                                </button>
+                                <div class="dropdown-menu" style="width: 100%; position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
+                                    <a class="dropdown-item" href="#" routerLink="/my-profile"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" routerLink="" (click)="logout();">
+                                        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>&nbsp;Sign Out</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-row">
+                        <div class="header-nav pt-1 mt-1">
+                            <div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1">
+                                <nav class="collapse">
+                                    <ul class="nav nav-pills" id="mainNav">
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle" href="#">
+                                                Reports
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" routerLink="/account-profile">
+                                                        Summary Report
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" routerLink='/account-management'>
+                                                        Custom Report
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        Team P&L Report
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        New Assignment Report
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" routerLink="/accountsummary">
+                                                        ACA Report
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown dropdown-mega">
+                                            <a href="#" class="dropdown-item dropdown-toggle bp_link" routerLink="/accountoverview">
+                                                Pay Periods
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <div class="dropdown-mega-content">
+                                                        <div class="row">
+                                                            <div class="col-lg-5">
+                                                                <span class="dropdown-mega-sub-title">Bi-Weekly</span>
+                                                                <ul class="dropdown-mega-sub-nav">
+                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Perm Placement Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Pay File</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Timesheet Pdf</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Invoice+Timesheet Pdf</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Employee Pay File</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Reports</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-lg-5">
+                                                                <span class="dropdown-mega-sub-title">Weekly</span>
+                                                                <ul class="dropdown-mega-sub-nav">
+                                                                    <li><a class="dropdown-item" href="#">Weekly Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Weekly Pay File</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Timesheet Pdf</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Invoice+Timesheet Pdf</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Perm Placement Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Weekly Reports</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle" href="#">
+                                                People
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        Contractors
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        Employees                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="#">
+                                                        Provider Employees                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle" href="#">
+                                                MORE
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Assignments</a></li>
+                                                <li><a class="dropdown-item" href="#">Clients</a></li>
+                                                <li><a class="dropdown-item" href="#">Timesheets</a></li>
+                                                <li><a class="dropdown-item" href="#">Expenses</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>                                    
+                                </nav>
+                            </div>
+                            <div class="social-icons">
+                                <ul class="social-icons new"><li class="facebook mr-1"><a href="https://www.facebook.com/averypartners" target="_blank" title="Facebook">Facebook Icon</a></li>
+                                    <li class="twitter mr-1"><a href="https://twitter.com/averypartnersco" target="_blank" title="Twitter">Twitter Icon</a></li>
+                                    <li class="youtube"><a href="https://www.youtube.com/user/averypartners" target="_blank" title="Youtube">Youtube Icon</a></li>
+                                </ul>
+                            </div>
+                            <button class="btn header-btn-signin-nav" *ngIf="!isLoggedIn()" routerLink="/login" title="Sign In">
+                                <i class="icofont-lock"></i>
+                            </button>
+                            <button *ngIf="isLoggedIn()" class="btn header-btn-signout-nav" href="#" (click)="logout();" title="Sign Out">
+                                <i class="icofont-sign-out"></i>
+                            </button>                                                        
+                            <button *ngIf="isLoggedIn()" class="btn header-btn-user-nav" routerLink="/account-profile" title="View Profile">
+                                <i class="icofont-user-alt-7"></i>
+                            </button>
+                            <button class="btn header-btn-collapse-nav collapsed" data-toggle="collapse" data-target=".header-nav-main nav">
+                                <i class="fas fa-bars"></i>
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>                     
+        </div>
+    </div>
+</header>
