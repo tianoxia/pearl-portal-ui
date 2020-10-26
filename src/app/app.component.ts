@@ -19,7 +19,7 @@ declare let $: any;
 })
 
 export class AppComponent implements OnInit, OnDestroy {
-    title = 'Meridian Portal';
+    title = 'Pearl Portal';
     location: any;
     routerSubscription: any;
     isShown: boolean;

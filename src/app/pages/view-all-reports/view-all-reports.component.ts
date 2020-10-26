@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-view-all-reports',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewAllReportsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
+    this.spinner.hide();
   }
 
 }
