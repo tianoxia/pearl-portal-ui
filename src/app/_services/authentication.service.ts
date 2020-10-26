@@ -38,8 +38,6 @@ export class AuthenticationService {
   logout() {
         // remove user from session storage to log user out
         localStorage.removeItem('currentUser');
-        localStorage.removeItem('accountList');
-        localStorage.removeItem('accountInfo');
         this.currentUserSubject.next(null);
     }
 }

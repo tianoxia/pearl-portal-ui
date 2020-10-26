@@ -5,5 +5,6 @@ export * from './error-details';
 export * from './register-stepone-response';
 export * from './account-profile';
 export * from './api-response';
-export * from './member-details-response';
-export * from './member-details-request';
+export * from './summary-report-response';
+export * from './department';
+export * from './summary-report-request';

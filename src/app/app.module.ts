@@ -17,12 +17,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent, LoginHelpDialogComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { AccountManagementModule } from './pages/account-management/account-management.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-reports.component';
-import { ViewSummaryReportComponent } from './pages/view-all-reports/view-summary-report/view-summary-report.component';
+import { ViewAllReportsModule } from './pages/view-all-reports/view-all-reports.module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -39,8 +38,8 @@ export function initializeApp(appConfig: AppConfig) {
     LayoutModule,
     SharedModule,
     FormsModule,
-    AccountManagementModule,
     NgxSpinnerModule,
+    ViewAllReportsModule,
     NgbModule
   ],
   declarations: [
@@ -51,8 +50,7 @@ export function initializeApp(appConfig: AppConfig) {
     RegisterComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    ViewAllReportsComponent,
-    ViewSummaryReportComponent
+    ViewAllReportsComponent
   ],
   providers: [
     AppConfig, AuthGuard,

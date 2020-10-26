@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
                 private spinner: NgxSpinnerService) {
 
         if (this.authenticationService.currentUserValue) {
-          this.router.navigate(['accountoverview']);
+          this.router.navigate(['home']);
         }
        }
 

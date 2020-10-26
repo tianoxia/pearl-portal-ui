@@ -12,6 +12,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule } from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AlertComponent } from './components/alert/alert.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -37,7 +41,11 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatInputModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatCardModule,
+    MatNativeDateModule
   ],
   declarations: [
     AlertComponent,
@@ -67,7 +75,11 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatInputModule,
     MatSortModule,
     MatPaginatorModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatCardModule,
+    MatNativeDateModule
   ],
   providers: [
     FormatPhonePipe,

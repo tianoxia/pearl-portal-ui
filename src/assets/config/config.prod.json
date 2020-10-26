@@ -1,14 +1,14 @@
 {
     "env": {
         "name": "prod"
-     },
+    },
     "logging": {
         "console": true,
         "appInsights": false
     },
     "ad": {
         "requireAuth": true,
-        "clientId": "meridian.api.portal",
+        "clientId": "pearl.api.portal",
         "clientSecret": "0a2e472b-f263-43fd-8372-3b13f5acf222"
     },
     "apiServer": {
