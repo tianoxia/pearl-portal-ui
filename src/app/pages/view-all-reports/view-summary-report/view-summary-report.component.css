@@ -18,6 +18,9 @@ th.mat-header-cell {
     text-align: left !important;
     max-width: 300px;
 }
+td.mat-cell {
+    text-align: center;
+}
 td.mat-cell:first-child {
     padding: 0px 8px 0px 0px;
 }
@@ -30,6 +33,9 @@ tr.mat-row:nth-child(2n+1) {
 tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
+.mat-card-actions > .mat-raised-button {
+    height: 47px;
+}
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;
@@ -37,16 +43,23 @@ tr.mat-row:not(:nth-child(2n+1)) {
         padding-bottom: 10px;
     }
     .container i {
-        font-size: 12px;
+        font-size: 14px;
         display: inline-block;
         line-height: 1;
         margin-right: 6px;
+    }
+    .col > .mat-form-field, .mat-card-actions > .mat-raised-button {
+        width: 100%;
     }
     th.mat-header-cell {
         font-weight: 600 !important;
         font-size: 0.9em;
         text-align: left !important;
         max-width: 300px;
+    }
+    td.mat-cell {
+        font-size: 0.8em;
+        text-align: center;
     }
     td.mat-cell:first-child {
         padding: 0px 6px 0px 0px;

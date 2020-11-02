@@ -19,8 +19,6 @@ export class JwtInterceptor implements HttpInterceptor {
             if (this.isTokenExpired(token)) {
                 this.router.navigate(['/login']);
             }
-        } else {
-            this.router.navigate(['login']);
         }
         if (token != null) {
             req = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
