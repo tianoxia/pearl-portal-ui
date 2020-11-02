@@ -171,3 +171,19 @@ ul.social-icons li.instagram:hover {
         display: none !important;
     }
 }
+
+@media only screen and (max-width: 600px) {
+    .btn.header-btn-signin-nav, .btn.header-btn-signout-nav, .btn.header-btn-user-nav,
+    .btn.header-btn-collapse-nav {
+        width: 43px;
+		height: 40px;
+    }
+    .icofont-lock, .icofont-sign-out, .icofont-user-alt-7 {
+        line-height:80% !important;
+        font-size: 18px !important;
+    }
+    .header-btn-collapse-nav .fa-times, .header-btn-collapse-nav .fa-bars {
+        font-size: 14px !important;
+        margin-left: -6px !important;
+    }
+}
