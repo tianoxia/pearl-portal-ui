@@ -13,5 +13,3 @@ export class LoginResponse {
     isClerical: boolean;
     employeeId: number;
 }
-
-

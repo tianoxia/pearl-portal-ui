@@ -1,0 +1,33 @@
+div.filter-header {
+    font-size: 23px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+.btn.btn-link:hover {
+    text-decoration: underline !important;
+}
+.wrapper {
+    position: relative;
+    input {
+        padding-right: 40px;
+    }    
+    span {
+        position: absolute;
+        right: 22px;
+        top: 11px;
+    }
+}
+label {
+    display: inline-block;
+    color: #000000;
+}
+@media (max-width: 600px) {
+    .btn.btn-primary, .btn.btn-link {
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    input, select, label {
+        font-size: 12px !important;
+    }    
+}
