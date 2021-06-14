@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
-import { Observable } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { LoginResponse } from '../_models';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -16,14 +17,29 @@ export class JwtInterceptor implements HttpInterceptor {
         if (localStorage.getItem('currentUser') !== null) {
             loginResponse = JSON.parse(localStorage.getItem('currentUser'));
             token = loginResponse.accessToken;
-            if (this.isTokenExpired(token)) {
+            if (this.isTokenExpired(token) || !loginResponse.employeeId) {
+                localStorage.removeItem('currentUser');
                 this.router.navigate(['/login']);
             }
         }
         if (token != null) {
             req = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
         }
-        return next.handle(req);
+        return next.handle(req).pipe(catchError(x=> this.handleAuthError(x)));
+    }
+
+    private handleAuthError(err: HttpErrorResponse): Observable<any> {
+        //handle your auth error or rethrow
+        switch (err.status) {
+            case 401:      //login
+                localStorage.removeItem('currentUser');
+                this.router.navigate(['/login'], { queryParams: { sessionTimeOut: true }, skipLocationChange: false });
+                return of(err.message);
+            case 403:     //forbidden
+                this.router.navigateByUrl("/unauthorized");
+                break;
+        }
+        return throwError(err);
     }
 
     isTokenExpired(token?: string): boolean {

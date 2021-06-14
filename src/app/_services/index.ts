@@ -5,3 +5,4 @@ export * from './registration.service';
 export * from './account.service';
 export * from './user-token-validation.service';
 export * from './data.service';
+export * from './contractor.service';

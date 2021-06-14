@@ -10,12 +10,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
-import {MatPaginatorModule } from '@angular/material/paginator';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTabsModule} from '@angular/material/tabs';
+import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxMaskModule } from 'ngx-mask';
+import { NgxDataTableModule } from './components/ngx-data-table/ngx-data-table.module';
 
 import { AlertComponent } from './components/alert/alert.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -44,8 +49,12 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatTabsModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatCardModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTooltipModule,
+    NgxDataTableModule,
+    NgxMaskModule.forRoot()
   ],
   declarations: [
     AlertComponent,
@@ -78,8 +87,13 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatTabsModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatCardModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatDividerModule,
+    MatTooltipModule,
+    NgxMaskModule,
+    NgxDataTableModule
   ],
   providers: [
     FormatPhonePipe,

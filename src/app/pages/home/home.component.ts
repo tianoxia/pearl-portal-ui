@@ -10,6 +10,7 @@ export class HomeComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.spinner.hide();
   }
 }

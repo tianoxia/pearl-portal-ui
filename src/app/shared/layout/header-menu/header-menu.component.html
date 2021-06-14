@@ -24,7 +24,7 @@
                                     <i class="fas fa-user"></i> {{employeeName}} <i class="fas fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-menu" style="width: 100%; position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
-                                    <a class="dropdown-item" href="#" routerLink="/my-profile"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
+                                    <a class="dropdown-item" href="#" routerLink="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" routerLink="" (click)="logout();">
                                         <i class="fas fa-sign-out-alt" aria-hidden="true"></i>&nbsp;Sign Out</a>
@@ -48,12 +48,12 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" routerLink='/account-management'>
+                                                    <a class="dropdown-item" routerLink='/view-custom-report'>
                                                         Custom Report
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" routerLink="/view-team-pl-report">
                                                         Team P&L Report
                                                     </a>
                                                 </li>
@@ -63,14 +63,14 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" routerLink="/accountsummary">
+                                                    <a class="dropdown-item" routerLink="/home">
                                                         ACA Report
                                                     </a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="dropdown dropdown-mega">
-                                            <a href="#" class="dropdown-item dropdown-toggle bp_link" routerLink="/home">
+                                            <a href="#" class="dropdown-item dropdown-toggle bp_link" routerLink="/view-pay-periods">
                                                 Pay Periods
                                             </a>
                                             <ul class="dropdown-menu">
@@ -111,7 +111,7 @@
                                             </a>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" routerLink="/contractor-list">
                                                         Contractors
                                                     </a>
                                                 </li>
@@ -142,7 +142,7 @@
                             <div class="social-icons">
                                 <ul class="social-icons new"><li class="facebook mr-1"><a href="https://www.facebook.com/averypartners" target="_blank" title="Facebook">Facebook Icon</a></li>
                                     <li class="twitter mr-1"><a href="https://twitter.com/averypartnersco" target="_blank" title="Twitter">Twitter Icon</a></li>
-                                    <li class="youtube"><a href="https://www.youtube.com/user/averypartners" target="_blank" title="Youtube">Youtube Icon</a></li>
+                                    <li class="linkedin"><a href="https://www.linkedin.com/company/avery-partners" target="_blank" title="Linkedin">Linkedin Icon</a></li>
                                 </ul>
                             </div>
                             <button class="btn header-btn-signin-nav" *ngIf="!isLoggedIn()" routerLink="/login" title="Sign In">

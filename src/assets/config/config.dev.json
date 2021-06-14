@@ -12,6 +12,7 @@
         "clientSecret": "0a2e472b-f263-43fd-8372-3b13f5acf222"
     },
     "apiServer": {
-        "baseUrl": "http://localhost:14038/api"
+        "baseUrl": "http://localhost:14038/api",
+        "timeoutInSeconds":120000
     }
 }

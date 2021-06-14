@@ -6,7 +6,8 @@ import { AuthGuard } from './_helpers';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-reports.component';
-
+import { ContractorListComponent } from './pages/contractor-list/contractor-list.component';
+import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
 
 const appRoutes: Routes = [
   {
@@ -29,11 +30,6 @@ const appRoutes: Routes = [
       pathMatch: 'full'
   },
   {
-      path: 'account-management',
-      redirectTo: 'pages/account-management',
-      pathMatch: 'full'
-  },
-  {
       path: 'forgot-password',
       redirectTo: 'pages/forgot-password',
       pathMatch: 'full'
@@ -43,7 +39,9 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard]}
+  { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard]},
+  { path: 'contractor-list', component: ContractorListComponent, canActivate: [AuthGuard] },
+  { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard]}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

@@ -6,7 +6,9 @@ import { first } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import { AuthenticationService } from '../../_services';
+import { LoginRequest } from '../../_models';
 import { AlertService } from '../../_services/alert.service';
+import { StripParamFromUrlPipe } from 'app/shared/pipes/strip-param-from-url.pipe';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +31,7 @@ export class LoginComponent implements OnInit {
                 private route: ActivatedRoute,
                 public alertService: AlertService,
                 private router: Router,
+                private stripParamPipe: StripParamFromUrlPipe,
                 public helpDialog: MatDialog,
                 private spinner: NgxSpinnerService) {
 
@@ -56,13 +59,14 @@ export class LoginComponent implements OnInit {
     }
     this.loading = true;
     this.spinner.show();
-    this.authenticationService.login(this.loginForm.value)
+    const request = this.setLoginRequest() as LoginRequest;
+    this.authenticationService.login(request)
       .pipe(first())
       .subscribe(
           data => {
             this.alertService.success('Request successfull, please wait..');
             this.returnUrl = this.returnUrl !== '/' ? this.returnUrl : 'home';
-            this.router.navigate([this.returnUrl]);
+            this.router.navigate([this.stripParamPipe.transform(this.returnUrl)]);
           },
           error => {
               this.spinner.hide();
@@ -70,6 +74,8 @@ export class LoginComponent implements OnInit {
               this.submitted = false;
               this.alertService.error(error);
               this.loginForm.reset();
+              this.loginForm.patchValue({ password: '' });
+              this.emailRef.nativeElement.focus();
             }
           );
         }
@@ -81,6 +87,14 @@ export class LoginComponent implements OnInit {
         }
         togglePassword() {
           this.showPassword = !this.showPassword;
+        }
+        private setLoginRequest(): LoginRequest {
+          const request = new LoginRequest();
+          request.userName = this.loginForm.controls.email.value;
+          request.password = this.loginForm.controls.password.value;
+          request.portalType = "Corporate";
+          request.browser = window.navigator.userAgent;
+          return request;
         }
 }
 

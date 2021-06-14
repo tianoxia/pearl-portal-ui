@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
-import { forkJoin, Observable, BehaviorSubject, throwError } from 'rxjs';
-import { concatMap, map, catchError } from 'rxjs/operators';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { catchError, timeout } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorDetails, SummaryReportRequest } from '../_models';
+import { ErrorDetails, SummaryReportRequest,
+  PLReportRequest, CustomReportRequest, LoginRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   baseurl: string;
+  timeoutInSeconds: number;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.baseurl = AppConfig.settings.apiServer.baseUrl;
+    this.timeoutInSeconds = AppConfig.settings.apiServer.timeoutInSeconds;
   }
 
   handleError(error: HttpErrorResponse) {
@@ -21,6 +25,11 @@ export class DataService {
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
       errorMessage = 'Error: ${error.error.message}';
+    } else if (error.status === 404) {
+      errorMessage = 'Service unavailable, please contact administrator.';
+    } else if (error.status === 401) {
+      setTimeout(() => this.router.navigate(['login'], { queryParams: { returnUrl: this.router.routerState.snapshot.url } }));
+      errorMessage = errorDetails[0].message;
     } else if (error.status === 400) {
       // Server-side errors
       errorMessage = errorDetails[0].message;
@@ -33,15 +42,29 @@ export class DataService {
     }
     return throwError(errorMessage);
   }
-  sendValidateUserRequest(loginData: any): Observable<any> {
-    return this.http.post(this.baseurl + '/tokenauth/validatelogin',
-      { userName: loginData.email, password: loginData.password, browser: window.navigator.userAgent })
-      .pipe(catchError(this.handleError));
-  }
-  getSummaryReport(summaryReportRequest: SummaryReportRequest) {
-    return this.http.post(this.baseurl + `/report/summary`, summaryReportRequest).pipe(catchError(this.handleError));
+  sendValidateUserRequest(loginData: LoginRequest): Observable<any> {
+    return this.http.post(this.baseurl + '/tokenauth/validatelogin', loginData)
+      .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllDepartments() {
-    return this.http.get(this.baseurl + `/department/all`).pipe(catchError(this.handleError))
+    return this.http.get(this.baseurl + `/department/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getAllRecruiters() {
+    return this.http.get(this.baseurl + `/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getAllClients() {
+    return this.http.get(this.baseurl + `/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getSummaryReport(summaryReportRequest: SummaryReportRequest) {
+    return this.http.post(this.baseurl + `/report/summary`, summaryReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }  
+  getCustomReport(customReportRequest: CustomReportRequest) {
+    return this.http.post(this.baseurl + `/report/custom`, customReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getTeamPLReport(teamPLReportRequest: PLReportRequest) {
+    return this.http.post(this.baseurl + `/report/teampl`, teamPLReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getAllPayPeriods(payFreq: string) {
+    return this.http.get(this.baseurl + `/payperiod/payfreq/${payFreq}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

@@ -14,5 +14,6 @@ export interface IAppConfig {
     };
     apiServer: {
         baseUrl: string;
+        timeoutInSeconds: number;
     };
 }
