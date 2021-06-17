@@ -3,7 +3,6 @@ export * from './login-request';
 export * from './login-response';
 export * from './app-config';
 export * from './error-details';
-export * from './register-stepone-response';
 export * from './custom-report-response';
 export * from './account-profile';
 export * from './api-response';

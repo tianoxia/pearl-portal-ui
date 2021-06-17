@@ -16,10 +16,7 @@ import { AuthGuard, JwtInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { LoginComponent, LoginHelpDialogComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-reports.component';
 import { ViewAllReportsModule } from './pages/view-all-reports/view-all-reports.module';
 import { ContractorListComponent } from './pages/contractor-list/contractor-list.component';
@@ -53,9 +50,6 @@ export function initializeApp(appConfig: AppConfig) {
     LoginComponent,
     LoginHelpDialogComponent,
     HomeComponent,
-    RegisterComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
     ViewAllReportsComponent,
     ContractorListComponent,
     ViewPayPeriodsComponent
