@@ -19,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxDataTableModule } from './components/ngx-data-table/ngx-data-table.module';
 
@@ -52,6 +53,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatCheckboxModule,
     MatCardModule,
     MatNativeDateModule,
+    MatMenuModule,
     MatTooltipModule,
     NgxDataTableModule,
     NgxMaskModule.forRoot()
@@ -89,6 +91,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatSelectModule,
     MatCheckboxModule,
     MatCardModule,
+    MatMenuModule,
     MatNativeDateModule,
     MatDividerModule,
     MatTooltipModule,

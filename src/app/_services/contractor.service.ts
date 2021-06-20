@@ -49,7 +49,10 @@ export class ContractorService {
   }
   getAllCandidateSources() {
     return this.http.get(this.baseurl + `/candidatesources`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }  
+  }
+  getContractorByStatus(status: string) {
+    return this.http.get(this.baseurl + `/contractor/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
   getContractorById(id: number) {
     return this.http.get(this.baseurl + `/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
@@ -57,6 +60,9 @@ export class ContractorService {
     return this.http.post(this.baseurl + `/contractor`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   updateContractor(id: number, contractorRequest: ContractorRequest) {
-    return this.http.put(this.baseurl + `/contractor/${id}}`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.put(this.baseurl + `/contractor/${id}`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  deleteContractor(id: number) {
+    return this.http.delete(this.baseurl + `/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }
