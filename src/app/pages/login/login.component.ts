@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
             password: ['', [Validators.required]]
         });
         this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+        this.spinner.hide();
       }
       get f() { return this.loginForm.controls; }
 

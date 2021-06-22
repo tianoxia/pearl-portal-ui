@@ -11,11 +11,12 @@ import { MustMatch } from 'app/_helpers';
 import { CustomValidator } from '../../../shared/validation';
 import { ContractorListResponse, ContractorRequest, Recruiter, IApiResponse, CandidateSource } from 'app/_models';
 import { states } from '../../../constants/states';
+import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-add-edit-contractor',
   templateUrl: './add-edit-contractor.component.html',
-  styleUrls: ['./add-edit-contractor.component.scss']
+  styleUrls: ['./add-edit-contractor.component.css']
 })
 export class AddEditContractorComponent implements OnInit {
   @Input() contractorAddEditForm: FormGroup;
@@ -25,6 +26,7 @@ export class AddEditContractorComponent implements OnInit {
   showPassword = false;
   showConfirmPassword = false;
   states = states;
+  action: string;
   recruiters: Recruiter[];
   candSources: CandidateSource[];
   salesPersonList: Recruiter[];
@@ -32,6 +34,8 @@ export class AddEditContractorComponent implements OnInit {
   defaultSalesPerson: Recruiter;
   defaultCandSource: CandidateSource;
   contractor: ContractorListResponse;
+  pwd_hide = true;
+  cfm_pwd_hide = true;
   user: string;
   phoneRegex = /^(\()[1-9]\d{2}(\))(\s)[1-9]{1}\d{2}(-)\d{4}$/;
   constructor(
@@ -41,7 +45,9 @@ export class AddEditContractorComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService,
     private contractorService: ContractorService,
-    private alertService: AlertService) {}
+    private alertService: AlertService) {
+      this.contractor = new ContractorListResponse();
+    }
 
   ngOnInit() {
     if (this.authService.currentUserValue !== null) {
@@ -86,7 +92,7 @@ export class AddEditContractorComponent implements OnInit {
       salesPerson: this.defaultSalesPerson,
       recruiter: this.defaultRecruiter,
       toReleaseTimesheet: [true, [Validators.required]]
-    }, {
+    } , {
         validator: MustMatch('password', 'confirmPassword')
     });
     const passwordValidators = [Validators.minLength(6)];
@@ -94,8 +100,10 @@ export class AddEditContractorComponent implements OnInit {
       passwordValidators.push(Validators.required);
     }
     if (!this.isAddMode) {
+        this.action = 'Edit';
         this.loadData();
     } else {
+      this.action = 'Add';
       this.loadRecruitersCandSources();
     }
   }
@@ -135,7 +143,7 @@ export class AddEditContractorComponent implements OnInit {
         this.salesPersonList.splice(0, 0, this.defaultSalesPerson);
         this.candSources.splice(0, 0, this.defaultCandSource);
         delete this.contractor.password;
-        this.contractorAddEditForm.patchValue(this.contractor);
+        //this.contractorAddEditForm.patchValue(this.contractor);
         if (this.contractor.recruiterId > 0) {
           this.contractorAddEditForm.get("recruiter").patchValue(this.contractor.recruiterId);
         } else {
@@ -238,5 +246,85 @@ export class AddEditContractorComponent implements OnInit {
     request.accessLevel = this.contractorAddEditForm.controls.accessLevel.value;
     request.password = this.contractorAddEditForm.controls.password.value;
     return request;
+  }
+
+  public hasError = (controlName: string) => {
+    return this.contractorAddEditForm.controls[controlName].hasError;
+  }
+
+  getErrorMessage(control: string) {
+    switch (control) {
+      case 'firstname': 
+        if (this.contractorAddEditForm.controls.firstName.hasError('required')) {
+          return 'First name is required';
+        }
+        break;
+      case 'lastname':
+        if (this.contractorAddEditForm.controls.lastName.hasError('required')) {
+          return 'Last name is required';
+        }
+        break;
+      case 'ssn':
+        if (this.contractorAddEditForm.controls.ssn.hasError('required')) {
+          return 'SSN is required';
+        } else if (this.contractorAddEditForm.controls.ssn.hasError('invalidSsn')) {
+          return 'SSN must be 9 numeric digits';
+        }
+        break;
+      case 'emailAddress':
+        if (this.contractorAddEditForm.controls.emailAddress.hasError('required')) {
+          return 'Email address is required';
+        } else if (this.contractorAddEditForm.controls.emailAddress.hasError('email')) {
+          return 'Email must be a valid email address';
+        }
+        break;
+      case 'address':
+        if (this.contractorAddEditForm.controls.address.hasError('required')) {
+          return 'Address is required';
+        }
+        break;
+      case 'city':
+        if (this.contractorAddEditForm.controls.city.hasError('required')) {
+          return 'City is required';
+        }
+        break;
+      case 'state':
+        if (this.contractorAddEditForm.controls.state.hasError('required')) {
+          return 'State is required';
+        }
+        break;
+      case 'zip':
+        if (this.contractorAddEditForm.controls.zip.hasError('required')) {
+          return 'Zip is required';
+        } else if (this.contractorAddEditForm.controls.zip.hasError('pattern')) {
+          return 'Zip code must be a 5 or 9 digit number(Ex: 98745-4321).';
+        }
+        break;
+      case 'password':
+        if (this.contractorAddEditForm.controls.password.hasError('required')) {
+          return 'Password is required';
+        }
+        break;
+      case 'confirmPassword':
+        if (this.contractorAddEditForm.controls.confirmPassword.hasError('required')) {
+          return 'Confirm password is required';
+        }
+        break;
+      case 'candidateSourceId':
+        if (this.contractorAddEditForm.controls.candidateSourceId.hasError('required')) {
+          return 'Candidate source is required';
+        }
+        break;
+      case 'accessLevel':
+        if (this.contractorAddEditForm.controls.accessLevel.hasError('required')) {
+          return 'Access level is required';
+        }
+        break;
+      case 'phone':
+        if (this.contractorAddEditForm.controls.phone.hasError('required')) {
+          return 'Phone is required';
+        }
+        break;
+    }
   }
 }

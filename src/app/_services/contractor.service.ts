@@ -48,7 +48,7 @@ export class ContractorService {
     return this.http.get(this.baseurl + `/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllCandidateSources() {
-    return this.http.get(this.baseurl + `/candidatesources`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/candidatesource/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getContractorByStatus(status: string) {
     return this.http.get(this.baseurl + `/contractor/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
