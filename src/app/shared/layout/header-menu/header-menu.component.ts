@@ -1,6 +1,7 @@
 import {OnInit, OnDestroy, Component,
         ViewEncapsulation, ViewChild, ViewContainerRef} from '@angular/core';
 import { Router} from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { AuthenticationService, UserTokenValidationService, DataService } from 'app/_services';
 import { StripParamFromUrlPipe } from 'app/shared/pipes/strip-param-from-url.pipe';
@@ -23,6 +24,7 @@ export class HeaderMenuComponent implements OnInit, OnDestroy {
               public dataService: DataService,
               public validateService: UserTokenValidationService,
               private router: Router,
+              private spinner: NgxSpinnerService,
               private stripParamPipe: StripParamFromUrlPipe) { }
 
   ngOnInit() { }

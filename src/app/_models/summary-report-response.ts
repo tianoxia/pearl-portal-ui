@@ -1,5 +1,3 @@
-import { Department } from './department';
-
 export class SummaryReportResponse {
     fromDate: Date;
     toDate: Date;

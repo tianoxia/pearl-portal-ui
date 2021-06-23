@@ -16,12 +16,13 @@ import { AuthGuard, JwtInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { LoginComponent, LoginHelpDialogComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { RegisterComponent } from './pages/register/register.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-reports.component';
 import { ViewAllReportsModule } from './pages/view-all-reports/view-all-reports.module';
+import { ContractorListComponent } from './pages/contractor-list/contractor-list.component';
+import { ContractorListModule } from './pages/contractor-list/contractor-list.module';
+import { ViewPayPeriodsModule } from './pages/view-pay-periods/view-pay-periods.module';
+import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -40,6 +41,8 @@ export function initializeApp(appConfig: AppConfig) {
     FormsModule,
     NgxSpinnerModule,
     ViewAllReportsModule,
+    ViewPayPeriodsModule,
+    ContractorListModule,
     NgbModule
   ],
   declarations: [
@@ -47,10 +50,9 @@ export function initializeApp(appConfig: AppConfig) {
     LoginComponent,
     LoginHelpDialogComponent,
     HomeComponent,
-    RegisterComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
-    ViewAllReportsComponent
+    ViewAllReportsComponent,
+    ContractorListComponent,
+    ViewPayPeriodsComponent
   ],
   providers: [
     AppConfig, AuthGuard,

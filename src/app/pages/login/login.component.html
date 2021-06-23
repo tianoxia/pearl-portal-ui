@@ -28,6 +28,7 @@
                                 type="password" ondrag="return false" oncopy="return false" (keydown.space)="$event.preventDefault()">
                                 <span>Password</span>
                                 <span toggle="#password" class="fa fa-fw fa-eye field-icon"
+                                *ngIf="f.password.value.length > 0"
                                 [ngClass]="{'fa-eye': !showPassword ,'fa-eye-slash':showPassword}"
                                     (click)="togglePassword()"></span>
                             </label>                            
@@ -44,7 +45,7 @@
                             </div>
                         </div>
                     </form>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6 user-register text-right">
                             <div Class="helpText">New User ? <a tabindex="4" class="pageLinks" routerLink='/register'>Create
                                     account</a></div>
@@ -52,7 +53,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-6 forgot-password text-left">
                             <div><a tabindex="5" class="pageLinks" routerLink='/forgot-password' data-toggle="collapse">Forgot password ?</a></div>
                         </div>                                                                
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="col-sm-12 helpText card-text text-center click-here" style="margin-top:2%">
                             <a href="javascript:void(0);" (click)="openHelpDialog()" data-toggle="collapse" data-target=".header-nav-main nav.show" tabindex="6">Click here</a><span style="color: black"> if you need any assistance logging in.</span>
