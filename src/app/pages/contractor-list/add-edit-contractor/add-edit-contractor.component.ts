@@ -253,6 +253,50 @@ export class AddEditContractorComponent implements OnInit {
     return this.contractorAddEditForm.controls[controlName].hasError;
   }
 
+  reset(control: string) {
+    switch (control) {
+      case 'firstname': 
+        this.contractorAddEditForm.controls.firstName.patchValue('');
+        break;
+      case 'lastname':
+        this.contractorAddEditForm.controls.lastName.patchValue('');
+        break;
+      case 'ssn':
+        this.contractorAddEditForm.controls.ssn.patchValue('');
+        break;
+      case 'emailAddress':
+        this.contractorAddEditForm.controls.emailAddress.patchValue('');
+        break;
+      case 'address':
+        this.contractorAddEditForm.controls.address.patchValue('');
+        break;
+      case 'address2':
+        this.contractorAddEditForm.controls.address2.patchValue('');
+        break;
+      case 'city':
+        this.contractorAddEditForm.controls.city.patchValue('');
+        break;
+      case 'state':
+        this.contractorAddEditForm.controls.state.patchValue('');
+        break;
+      case 'zip':
+        this.contractorAddEditForm.controls.zip.patchValue('');
+        break;
+      case 'phone':
+        this.contractorAddEditForm.controls.phone.patchValue('');
+        break;
+      case 'cellPhone':
+        this.contractorAddEditForm.controls.cellPhone.patchValue('');
+        break;
+      case 'emergencyContact':
+        this.contractorAddEditForm.controls.emergencyContact.patchValue('');
+        break;
+      case 'ecPhone':
+        this.contractorAddEditForm.controls.ecPhone.patchValue('');
+        break;
+    }
+  }
+
   getErrorMessage(control: string) {
     switch (control) {
       case 'firstname': 

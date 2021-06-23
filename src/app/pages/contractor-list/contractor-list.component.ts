@@ -119,4 +119,12 @@ export class ContractorListComponent implements OnInit {
         this.spinner.hide();
       });
   }
+
+  uploadAttachments(id: number) {
+
+  }
+
+  viewAttachments(id: number) {
+
+  }
 }
