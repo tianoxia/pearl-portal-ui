@@ -23,6 +23,8 @@ export class ContractorListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input() contractorListForm: FormGroup;
+  isAddEdit: boolean;
+  message: string;
   floatLabelControl = new FormControl('auto');
   public displayedColumns = ['firstName', 'created', 'modified', 'user', 'star'];
   public dataSource = new MatTableDataSource<ContractorListResponse>();
@@ -34,7 +36,6 @@ export class ContractorListComponent implements OnInit {
     fb: FormBuilder,
     private dialog: MatDialog,
     private contractorService: ContractorService,
-    private authService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
@@ -47,6 +48,11 @@ export class ContractorListComponent implements OnInit {
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       this.spinner.show();
+      this.message = params.get('message');
+      const action = params.get('action');
+      if (action) {
+        this.isAddEdit = action.toLowerCase() === 'add' || action.toLowerCase() === 'edit';
+      }      
       this.executeGetReport('Active');
     });
   }
@@ -66,6 +72,9 @@ export class ContractorListComponent implements OnInit {
       this.dataSource.data = result as ContractorListResponse[];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      if (this.isAddEdit) {
+        this.alertService.success(this.message);
+      }      
       window.scrollTo(0, 0);
       this.spinner.hide();
     },
@@ -80,8 +89,7 @@ export class ContractorListComponent implements OnInit {
   }
 
   navigateToEditContractor(id: number) {
-    this.router.navigate(['/edit-contractor'],
-    { queryParams: { contractorid: id }, skipLocationChange: false });
+    this.router.navigate([`/edit-contractor/${id}`]);
   }
 
   applyFilterOne(filterValue: string) {

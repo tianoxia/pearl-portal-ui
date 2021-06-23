@@ -16,7 +16,7 @@ import { timeStamp } from 'console';
 @Component({
   selector: 'app-add-edit-contractor',
   templateUrl: './add-edit-contractor.component.html',
-  styleUrls: ['./add-edit-contractor.component.css']
+  styleUrls: ['./add-edit-contractor.component.scss']
 })
 export class AddEditContractorComponent implements OnInit {
   @Input() contractorAddEditForm: FormGroup;
@@ -143,7 +143,8 @@ export class AddEditContractorComponent implements OnInit {
         this.salesPersonList.splice(0, 0, this.defaultSalesPerson);
         this.candSources.splice(0, 0, this.defaultCandSource);
         delete this.contractor.password;
-        //this.contractorAddEditForm.patchValue(this.contractor);
+        this.contractorAddEditForm.patchValue(this.contractor);
+        this.contractorAddEditForm.get('toReleaseTimesheet').patchValue(this.contractor.toReleaseTimesheet?'true':'false');
         if (this.contractor.recruiterId > 0) {
           this.contractorAddEditForm.get("recruiter").patchValue(this.contractor.recruiterId);
         } else {
@@ -190,7 +191,7 @@ export class AddEditContractorComponent implements OnInit {
     this.contractorService.createContractor(request)
         .pipe(first())
         .subscribe((response: IApiResponse) => {
-          this.router.navigate(['contractor-list'], {queryParams: { message: response.message }});          
+          this.router.navigate(['contractor-list'], {queryParams: { message: response.message, action: this.action }});          
         },
         error => {
           window.scrollTo(0, 0);
@@ -204,7 +205,7 @@ export class AddEditContractorComponent implements OnInit {
       this.contractorService.updateContractor(this.contractorId, request)
           .pipe(first())
           .subscribe((response: IApiResponse) => {
-            this.router.navigate(['contractor-list'], {queryParams: { message: response.message }});            
+            this.router.navigate(['contractor-list'], {queryParams: { message: response.message, action: this.action }});            
           },
           error => {
             window.scrollTo(0, 0);
@@ -308,6 +309,8 @@ export class AddEditContractorComponent implements OnInit {
       case 'confirmPassword':
         if (this.contractorAddEditForm.controls.confirmPassword.hasError('required')) {
           return 'Confirm password is required';
+        } else if (this.contractorAddEditForm.controls.confirmPassword.hasError('mustMatch')) {
+          return 'Passwords must match';
         }
         break;
       case 'candidateSourceId':

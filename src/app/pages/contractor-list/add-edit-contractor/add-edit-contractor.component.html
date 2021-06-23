@@ -7,8 +7,7 @@
                      {{action}} Contractor
                 </div>
                 <form [formGroup]="contractorAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px">
-                        
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                             <mat-form-field appearance="outline" fxFlex="20%">
                                 <mat-label>First Name</mat-label>
                                 <input matInput formControlName="firstName" [(ngModel)]="firstnamevalue" />
@@ -46,7 +45,7 @@
                             </mat-form-field>
                         
                     </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px">                        
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="outline" fxFlex="25%">
                             <mat-label>Address</mat-label>
                             <input matInput formControlName="address" [(ngModel)]="addressvalue" />
@@ -86,7 +85,7 @@
                             <mat-error *ngIf="hasError('zip')">{{getErrorMessage('zip')}}</mat-error>
                         </mat-form-field>
                     </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px">                        
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="outline" fxFlex="25%">
                             <mat-label>Phone</mat-label>
                             <input matInput formControlName="phone" [(ngModel)]="phonevalue" />
@@ -124,30 +123,30 @@
                             <mat-error *ngIf="hasError('candidateSourceId')">{{getErrorMessage('candidateSourceId')}}</mat-error>
                         </mat-form-field>                        
                     </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px">                        
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="outline" fxFlex="20%">
                             <mat-label>Access Level</mat-label>
                             <mat-select formControlName="accessLevel">
-                                <mat-option [value]="">Select Access Level</mat-option>
-                                <mat-option [value]="Admin">Admin</mat-option>
-                                <mat-option [value]="Contractor">Contractor</mat-option>
+                                <mat-option value="">Select Access Level</mat-option>
+                                <mat-option value="Admin">Admin</mat-option>
+                                <mat-option value="Contractor">Contractor</mat-option>
                             </mat-select>
                             <mat-error *ngIf="hasError('accessLevel')">{{getErrorMessage('accessLevel')}}</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="20%">
                             <mat-label>Release Timesheet?</mat-label>
                             <mat-select formControlName="toReleaseTimesheet">
-                                <mat-option [value]="true">Yes</mat-option>
-                                <mat-option [value]="false">No</mat-option>
+                                <mat-option value="true">Yes</mat-option>
+                                <mat-option value="false">No</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="16%">
                             <mat-label>Service Type</mat-label>
                             <mat-select formControlName="homeHealthStatus">
-                                <mat-option [value]="">Select Type</mat-option>
-                                <mat-option [value]="Richmond">Richmond</mat-option>
-                                <mat-option [value]="'SW VA'">SW VA</mat-option>
-                                <mat-option [value]="Largo">Largo</mat-option>
+                                <mat-option value="">Select Type</mat-option>
+                                <mat-option value="Richmond">Richmond</mat-option>
+                                <mat-option value="SW VA">SW VA</mat-option>
+                                <mat-option value="Largo">Largo</mat-option>
                             </mat-select>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="22%">
@@ -163,32 +162,26 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div fxLayout="row" *ngIf="!isAddMode">
-                        <h3 class="pt-3">Change Password</h3>
-                        <p>Leave blank to keep the same password</p>
+                    <div fxLayout="row wrap" *ngIf="!isAddMode">
+                        <h4 class="pt-2" fxFlex="100%">Change Password</h4>
+                        <p class="pb-2">Leave blank to keep the same password</p>
                     </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px">                        
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="outline" fxFlex="50%">
                             <mat-label>Password</mat-label>
-                            <input matInput formControlName="password" [type]="pwd_hide ? 'password' : 'text'" [(ngModel)]="passwordvalue" />
-                            <button mat-button *ngIf="passwordvalue" matSuffix mat-icon-button aria-label="Clear" (click)="passwordvalue=''">
-                                <mat-icon>close</mat-icon>
-                            </button>
+                            <input matInput formControlName="password" [type]="pwd_hide ? 'password' : 'text'" />
                             <mat-icon matSuffix (click)="pwd_hide = !pwd_hide">{{pwd_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             <mat-error *ngIf="hasError('password')">{{getErrorMessage('password')}}</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="50%">
                             <mat-label>Confirm Password</mat-label>
-                            <input matInput formControlName="confirmPassword" [type]="cfm_pwd_hide ? 'password' : 'text'" [(ngModel)]="confirmpasswordvalue" />
-                            <button mat-button *ngIf="confirmpasswordvalue" matSuffix mat-icon-button aria-label="Clear" (click)="confirmpasswordvalue=''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-icon matSuffix (click)="cfm_pwd_hide = !cfm_pwd_hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            <input matInput formControlName="confirmPassword" [type]="cfm_pwd_hide ? 'password' : 'text'" />
+                            <mat-icon matSuffix (click)="cfm_pwd_hide = !cfm_pwd_hide">{{cfm_pwd_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             <mat-error *ngIf="hasError('confirmPassword')">{{getErrorMessage('confirmPassword')}}</mat-error>
                         </mat-form-field>
                     </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="20px">
-                        <button mat-raised-button [disabled]="!contractorAddEditForm.valid" color="primary">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <button mat-raised-button color="primary">
                             Save
                         </button>
                         <a mat-raised-button routerLink="/contractor-list" class="btn btn-link">Cancel</a>
