@@ -20,7 +20,9 @@ export class ContractorListComponent implements OnInit {
   contractorId: number;
   statuses = contractorStatus;
   selectedContractor: ContractorListResponse;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild('ctrTable', {read: MatSort, static: false }) set content1(sort: MatSort) {
+    this.dataSource.sort = sort;
+  }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input() contractorListForm: FormGroup;
   isAddEdit: boolean;
@@ -71,7 +73,6 @@ export class ContractorListComponent implements OnInit {
     .subscribe(result => {
       this.dataSource.data = result as ContractorListResponse[];
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
       if (this.isAddEdit) {
         this.alertService.success(this.message);
       }      
