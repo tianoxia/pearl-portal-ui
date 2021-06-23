@@ -10,8 +10,8 @@
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                             <mat-form-field appearance="outline" fxFlex="20%">
                                 <mat-label>First Name</mat-label>
-                                <input matInput formControlName="firstName" [(ngModel)]="firstnamevalue" />
-                                <button mat-button *ngIf="firstnamevalue" matSuffix mat-icon-button aria-label="Clear" (click)="firstnamevalue=''">
+                                <input matInput formControlName="firstName" />
+                                <button mat-button *ngIf="contractorAddEditForm.controls['firstName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstname')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('firstName')">{{getErrorMessage('firstname')}}</mat-error>
@@ -19,8 +19,8 @@
                         
                             <mat-form-field appearance="outline" fxFlex="20%">
                                 <mat-label>Last Name</mat-label>
-                                <input matInput formControlName="lastName" [(ngModel)]="lastnamevalue" />
-                                <button mat-button *ngIf="lastnamevalue" matSuffix mat-icon-button aria-label="Clear" (click)="lastnamevalue=''">
+                                <input matInput formControlName="lastName" />
+                                <button mat-button *ngIf="contractorAddEditForm.controls['lastName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastname')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('lastName')">{{getErrorMessage('lastname')}}</mat-error>
@@ -28,8 +28,8 @@
                         
                             <mat-form-field appearance="outline" fxFlex="15%">
                                 <mat-label>SSN</mat-label>
-                                <input matInput formControlName="ssn" [(ngModel)]="ssnvalue" mask="000-00-0000" placeholder="###-##-####" />
-                                <button mat-button *ngIf="ssnvalue" matSuffix mat-icon-button aria-label="Clear" (click)="ssnvalue=''">
+                                <input matInput formControlName="ssn" mask="000-00-0000" placeholder="###-##-####" />
+                                <button mat-button *ngIf="contractorAddEditForm.controls['ssn'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ssn')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('ssn')">{{getErrorMessage('ssn')}}</mat-error>
@@ -37,8 +37,8 @@
                                                 
                             <mat-form-field appearance="outline" fxFlex="45%">
                                 <mat-label>Email</mat-label>
-                                <input matInput formControlName="emailAddress" [(ngModel)]="emailvalue" />
-                                <button mat-button *ngIf="emailvalue" matSuffix mat-icon-button aria-label="Clear" (click)="emailvalue=''">
+                                <input matInput formControlName="emailAddress" />
+                                <button mat-button *ngIf="contractorAddEditForm.controls['emailAddress'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailAddress')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('emailAddress')">{{getErrorMessage('emailAddress')}}</mat-error>
@@ -48,23 +48,23 @@
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="outline" fxFlex="25%">
                             <mat-label>Address</mat-label>
-                            <input matInput formControlName="address" [(ngModel)]="addressvalue" />
-                            <button mat-button *ngIf="addressvalue" matSuffix mat-icon-button aria-label="Clear" (click)="addressvalue=''">
+                            <input matInput formControlName="address" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['address'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('address')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('address')">{{getErrorMessage('address')}}</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="25%">
                             <mat-label>Address2</mat-label>
-                            <input matInput formControlName="address2" [(ngModel)]="address2value" />
-                            <button mat-button *ngIf="address2value" matSuffix mat-icon-button aria-label="Clear" (click)="address2value=''">
+                            <input matInput formControlName="address2" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['address2'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('address2')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="15%">
                             <mat-label>City</mat-label>
-                            <input matInput formControlName="city" [(ngModel)]="cityvalue" />
-                            <button mat-button *ngIf="cityvalue" matSuffix mat-icon-button aria-label="Clear" (click)="cityvalue=''">
+                            <input matInput formControlName="city" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['city'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('city')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('city')">{{getErrorMessage('city')}}</mat-error>
@@ -78,8 +78,8 @@
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="20%">
                             <mat-label>Zip Code</mat-label>
-                            <input matInput formControlName="zip" [(ngModel)]="zipvalue" />
-                            <button mat-button *ngIf="zipvalue" matSuffix mat-icon-button aria-label="Clear" (click)="zipvalue=''">
+                            <input matInput formControlName="zip" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['zip'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('zip')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('zip')">{{getErrorMessage('zip')}}</mat-error>
@@ -88,30 +88,30 @@
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="outline" fxFlex="25%">
                             <mat-label>Phone</mat-label>
-                            <input matInput formControlName="phone" [(ngModel)]="phonevalue" />
-                            <button mat-button *ngIf="phonevalue" matSuffix mat-icon-button aria-label="Clear" (click)="phonevalue=''">
+                            <input matInput formControlName="phone" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['phone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('phone')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('phone')">{{getErrorMessage('phone')}}</mat-error>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="25%">
                             <mat-label>Cell Phone</mat-label>
-                            <input matInput formControlName="cellPhone" [(ngModel)]="cellphonevalue" />
-                            <button mat-button *ngIf="cellphonevalue" matSuffix mat-icon-button aria-label="Clear" (click)="cellphonevalue=''">
+                            <input matInput formControlName="cellPhone" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['cellPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('cellPhone')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="15%">
                             <mat-label>Emergency Contact</mat-label>
-                            <input matInput formControlName="emergencyContact" [(ngModel)]="emergencyvalue" />
-                            <button mat-button *ngIf="emergencyvalue" matSuffix mat-icon-button aria-label="Clear" (click)="emergencyvalue=''">
+                            <input matInput formControlName="emergencyContact" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['emergencyContact'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emergencyContact')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
                         <mat-form-field appearance="outline" fxFlex="20%">
                             <mat-label>EC Phone</mat-label>
-                            <input matInput formControlName="ecPhone" [(ngModel)]="ecphonevalue" />
-                            <button mat-button *ngIf="ecphonevalue" matSuffix mat-icon-button aria-label="Clear" (click)="ecphonevalue=''">
+                            <input matInput formControlName="ecPhone" />
+                            <button mat-button *ngIf="contractorAddEditForm.controls['ecPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ecPhone')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>

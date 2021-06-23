@@ -69,11 +69,11 @@
                                                 <mat-icon>edit</mat-icon>
                                                 <span>Edit</span>
                                             </button>
-                                            <button mat-menu-item (click)="uploadAttachments(contractor);">
+                                            <button mat-menu-item (click)="uploadAttachments(contractor.contractorId);">
                                                 <mat-icon>cloud_upload</mat-icon>
                                                 <span>Upload Files</span>
                                             </button>
-                                            <button mat-menu-item (click)="viewAttached(contractor);">
+                                            <button mat-menu-item (click)="viewAttachments(contractor.contractorId);">
                                                 <mat-icon>attach_file</mat-icon>
                                                 <span>View Attachments</span>
                                             </button>
