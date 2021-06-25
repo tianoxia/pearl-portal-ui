@@ -65,4 +65,10 @@ export class ContractorService {
   deleteContractor(id: number) {
     return this.http.delete(this.baseurl + `/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  uploadContractorFiles(data: FormData) {
+    return this.http.post(this.baseurl + `/contractor/uploadfiles/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getContractorFiles(id: number) {
+    return this.http.get(this.baseurl + `/contractor/${id}/uploadfiles`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
 }

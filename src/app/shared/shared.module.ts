@@ -20,8 +20,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxDataTableModule } from './components/ngx-data-table/ngx-data-table.module';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 import { AlertComponent } from './components/alert/alert.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -55,7 +57,9 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
+    MatListModule,
     NgxDataTableModule,
+    FileUploadModule,
     NgxMaskModule.forRoot()
   ],
   declarations: [
@@ -94,8 +98,10 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatMenuModule,
     MatNativeDateModule,
     MatDividerModule,
+    MatListModule,
     MatTooltipModule,
     NgxMaskModule,
+    FileUploadModule,
     NgxDataTableModule
   ],
   providers: [

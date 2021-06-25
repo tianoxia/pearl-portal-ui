@@ -23,5 +23,12 @@ export class ContractorListResponse {
     isContractService: boolean;
     salesPersonId: number;
     recruiterId: number;
-    toReleaseTimesheet: boolean
+    toReleaseTimesheet: boolean;
+    contractorAttachments: UploadedFile[];
+}
+
+export class UploadedFile {
+    fileName: string;
+	fileNameWithPath: string;
+    created: Date;
 }

@@ -1,11 +1,13 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { FileUploadValidators } from '@iplab/ngx-file-upload';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 import { ContractorService, AlertService, AuthenticationService } from 'app/_services';
 import { ContractorListResponse, IApiResponse } from 'app/_models';
@@ -14,7 +16,8 @@ import { contractorStatus } from 'app/constants/contractor-status';
 @Component({
   selector: 'app-contractor-list',
   templateUrl: './contractor-list.component.html',
-  styleUrls: ['./contractor-list.component.css']
+  styleUrls: ['./contractor-list.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ContractorListComponent implements OnInit {
   contractorId: number;
@@ -24,10 +27,14 @@ export class ContractorListComponent implements OnInit {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('uploadFilesDialog', { static: true, read: TemplateRef }) uploadFilesRef: TemplateRef<any>;
+  @ViewChild('viewFilesDialog', { static: true, read: TemplateRef }) viewFilesRef: TemplateRef<any>;
   @Input() contractorListForm: FormGroup;
+  @Input() contractorUploadFilesForm: FormGroup;
   isAddEdit: boolean;
   message: string;
   floatLabelControl = new FormControl('auto');
+  private filesControl = new FormControl(null, FileUploadValidators.fileSize(10000000));
   public displayedColumns = ['firstName', 'created', 'modified', 'user', 'star'];
   public dataSource = new MatTableDataSource<ContractorListResponse>();
   public doFilter = (value: string) => {
@@ -42,7 +49,10 @@ export class ContractorListComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService) {
       this.contractorListForm = fb.group({
-        contractorStatus: 'Active'
+        contractorStatus: 'Active'        
+      });
+      this.contractorUploadFilesForm = fb.group({
+        files: this.filesControl
       });
       this.selectedContractor = new ContractorListResponse();
   }
@@ -85,10 +95,6 @@ export class ContractorListComponent implements OnInit {
       });
   }
 
-  navigateToAddContractor(contractor: ContractorListResponse) {
-    this.router.navigate(['/add-contractor']);
-  }
-
   navigateToEditContractor(id: number) {
     this.router.navigate([`/edit-contractor/${id}`]);
   }
@@ -121,11 +127,82 @@ export class ContractorListComponent implements OnInit {
       });
   }
 
-  uploadAttachments(id: number) {
+  public hasError = (controlName: string) => {
+    return this.contractorUploadFilesForm.controls[controlName].hasError('required');
+  }
 
+  uploadFiles() {    
+    if (this.contractorUploadFilesForm.get('files').value === null) {
+      this.contractorUploadFilesForm.controls.files.setErrors({ required: true })
+      return false;
+    }
+    const formData = new FormData();
+    if (this.contractorUploadFilesForm.get('files').value !== null) {
+      this.contractorUploadFilesForm.get('files').value.forEach((f) => formData.append('files', f));
+    }
+    this.contractorUploadFilesForm.get('files').patchValue([]); // empty files container in UI
+    this.contractorUploadFilesForm.get('files').patchValue(null); // set object to null  
+    formData.append('contractorId', this.selectedContractor.contractorId.toString());
+    this.contractorService.uploadContractorFiles(formData)
+        .pipe(first())
+        .subscribe((response: IApiResponse) => {
+          this.contractorUploadFilesForm.get('files').patchValue([]); // empty files container in UI
+          this.contractorUploadFilesForm.get('files').patchValue(null); // set object to null for further upload
+          this.alertService.success(response.message);
+          window.scrollTo(0, 0);
+          this.spinner.hide();
+        },
+        error => {
+          window.scrollTo(0, 0);
+          this.alertService.error(error);
+          this.spinner.hide();
+        });
+    this.dialog.closeAll();
+  }
+
+  uploadAttachments(id: number) {
+    this.selectedContractor.firstName = this.dataSource.data.find(c => c.contractorId === id).firstName;
+    this.selectedContractor.lastName = this.dataSource.data.find(c => c.contractorId === id).lastName;
+    this.selectedContractor.contractorId = id;
+    this.openUploadFilesDialog(this.uploadFilesRef);
+    return false;
+  }
+
+  openUploadFilesDialog(uploadFilesDialog) {
+    this.dialog.open(uploadFilesDialog, {
+      autoFocus: true,
+      width: '600px',
+      disableClose: true
+    });
+    return false;
   }
 
   viewAttachments(id: number) {
+    this.selectedContractor.firstName = this.dataSource.data.find(c => c.contractorId === id).firstName;
+    this.selectedContractor.lastName = this.dataSource.data.find(c => c.contractorId === id).lastName;
+    this.selectedContractor.contractorId = id;
+    this.openViewFilesDialog(this.viewFilesRef);
+    this.contractorService.getContractorFiles(id)
+        .pipe(first())
+        .subscribe((response: ContractorListResponse) => {
+          this.selectedContractor = response;
+          window.scrollTo(0, 0);
+          this.spinner.hide();
+        },
+        error => {
+          window.scrollTo(0, 0);
+          this.alertService.error(error);
+          this.spinner.hide();
+        });
+    return false;
+  }
 
+  openViewFilesDialog(viewFilesDialog) {
+    this.dialog.open(viewFilesDialog, {
+      autoFocus: true,
+      width: '600px',
+      disableClose: true
+    });    
+    return false;
   }
 }
