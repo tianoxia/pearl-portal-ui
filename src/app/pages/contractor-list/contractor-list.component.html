@@ -89,7 +89,8 @@
                             </table>
                         </div>
                     </ng-template>
-                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons> 
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+                    (page)="onPaginateChange($event)" showFirstLastButtons> 
                     </mat-paginator>
                     <ng-template #warningDialog let-modal>
                         <div class="modal-header justify-content-center bg-warning">

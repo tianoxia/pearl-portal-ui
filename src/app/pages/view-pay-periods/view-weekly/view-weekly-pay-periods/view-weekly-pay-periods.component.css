@@ -57,7 +57,6 @@ a.less:hover {
 .container .more .mat-icon, .container .less .mat-icon {
     vertical-align: middle;
 }
-
 @media (max-width: 568px) {
     .container .card {
         width: 100%;

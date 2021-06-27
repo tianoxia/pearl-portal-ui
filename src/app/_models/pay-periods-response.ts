@@ -1,7 +1,7 @@
 export class PayPeriodsResponse {
-    PayPeriodId: number;
-    WeekEnding1: Date;
-    WeekEnding2: Date;
-    PayDate: Date;
-    PayFrequency: string;
+    payPeriodId: number;
+    weekEnding1: Date;
+    weekEnding2: Date;
+    payDate: Date;
+    payFrequency: string;
 }

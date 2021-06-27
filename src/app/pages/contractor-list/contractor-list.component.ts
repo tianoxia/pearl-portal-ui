@@ -171,7 +171,7 @@ export class ContractorListComponent implements OnInit {
   openUploadFilesDialog(uploadFilesDialog) {
     this.dialog.open(uploadFilesDialog, {
       autoFocus: true,
-      width: '600px',
+      width: '700px',
       disableClose: true
     });
     return false;
@@ -204,5 +204,9 @@ export class ContractorListComponent implements OnInit {
       disableClose: true
     });    
     return false;
+  }
+
+  onPaginateChange(event){
+    window.scrollTo(0, 0);
   }
 }

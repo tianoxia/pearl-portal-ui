@@ -5,12 +5,6 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;    
 }
-.container i {
-    font-size: 18px;
-    display: inline-block;
-    line-height: 1;
-    margin-right: 10px;
-}
 .mat-table {
     overflow: auto;
     width: 100%;
@@ -102,5 +96,15 @@ div.modal-body h5 {
     }
     td.mat-cell:not(:first-child) {
         padding: 6px 6px 6px 0;
+    }
+    .mat-dialog-container {
+        padding-top: 30px;
+        padding: 0px !important;
+        margin: 60px -10px 0px 0px !important;
+        max-height: 400px;
+        overflow: auto;
+    }
+    .mat-dialog-container .modal-body {
+        margin: 0px -20px 0px !important;
     }
 }

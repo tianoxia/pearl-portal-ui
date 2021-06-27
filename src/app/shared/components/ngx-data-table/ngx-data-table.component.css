@@ -1,0 +1,30 @@
+.detail-table {
+    display: flex;flex-direction: column;display: block;margin: 10px;width: 100%;
+}
+.expand-icon {
+    color: rgba(0,0,0,.44);font-size: 12px; margin-right: 5px; cursor: pointer;
+}
+.col-value:first-child span {
+    margin-left: 15px;
+}    
+.mat-form-field {
+    padding: 10px 10px 0 10px;width: calc(100% - 20px);
+}
+.mat-form-field:first-child {
+    width: 40%;
+}
+.mat-header-cell {
+    font-weight:500; color:#000000; background-color:#f8f7f7;
+}
+.mat-header-cell:first-child {
+    min-width: 100px;
+}
+.mat-cell:first-child {
+    min-width: 100px;
+}
+.mat-header-cell:nth-child(6) {
+    min-width: 80px;
+}
+.mat-cell:nth-child(6) {
+    min-width: 80px;
+}
