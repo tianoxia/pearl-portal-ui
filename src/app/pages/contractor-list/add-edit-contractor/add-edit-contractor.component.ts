@@ -11,7 +11,6 @@ import { MustMatch } from 'app/_helpers';
 import { CustomValidator } from '../../../shared/validation';
 import { ContractorListResponse, ContractorRequest, Recruiter, IApiResponse, CandidateSource } from 'app/_models';
 import { states } from '../../../constants/states';
-import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-add-edit-contractor',

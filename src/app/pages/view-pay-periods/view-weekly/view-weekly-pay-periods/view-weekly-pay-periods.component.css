@@ -58,7 +58,7 @@ a.less:hover {
     vertical-align: middle;
 }
 @media (max-width: 568px) {
-    .container .card {
+    .container .card, .container .mat-form-field {
         width: 100%;
     }
 }

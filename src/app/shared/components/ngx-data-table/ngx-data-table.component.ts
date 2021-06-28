@@ -30,7 +30,9 @@ import {
     .mat-cell:nth-child(3){min-width: 30px;}
     .mat-header-cell:nth-child(3){min-width: 30px;}
     .mat-cell:nth-child(7),.mat-cell:nth-child(14),.mat-cell:nth-child(15){min-width: 50px;}
-    .mat-header-cell:nth-child(7),.mat-header-cell:nth-child(14),.mat-header-cell:nth-child(15){min-width: 50px;}`
+    .mat-header-cell:nth-child(7),.mat-header-cell:nth-child(14),.mat-header-cell:nth-child(15){min-width: 50px;}
+    .mat-row:nth-child(2n+1) {background-color: #f5f5f5;}
+    .mat-row:not(:nth-child(2n+1)) {background-color: #fff;}`
   ],
   animations: [
     trigger('detailExpand', [

@@ -5,6 +5,12 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;    
 }
+.container>.contractorlist i {
+    font-size: 18px;
+    display: inline-block;
+    line-height: 1;
+    margin-right: 10px;
+}
 .mat-table {
     overflow: auto;
     width: 100%;
@@ -72,7 +78,7 @@ div.modal-body h5 {
         margin-bottom: 10px;
         padding-bottom: 10px;
     }
-    .container i {
+    .container>.contractorlist i {
         font-size: 14px;
         display: inline-block;
         line-height: 1;
