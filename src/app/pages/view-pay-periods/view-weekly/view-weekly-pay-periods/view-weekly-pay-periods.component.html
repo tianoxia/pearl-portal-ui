@@ -6,7 +6,7 @@
                 <h3>Weekly Pay Periods</h3>
                 <p>Click each pay period to view pay roll, invoices, control report, leaderboard report, commission report, timesheets and P&L report.</p>
                 <form [formGroup]="payPeriodsForm" autocomplete="off" novalidate>
-                    <div class="col-lg-12 col-md-12">                                            
+                    <div class="col-lg-12 col-md-12">
                         <mat-form-field appearance="fill">
                             <mat-label>Select A Month</mat-label>
                             <mat-select formControlName="payPeriodMonth" (selectionChange)="changeMonth($event)" [compareWith]="compareWeekEndings">

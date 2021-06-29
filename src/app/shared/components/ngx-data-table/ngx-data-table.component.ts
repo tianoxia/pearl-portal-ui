@@ -18,13 +18,13 @@ import {
     .col-value:first-child span{margin-left: 15px;}    
     .mat-form-field {padding: 10px 10px 0 10px;width: calc(100% - 20px);}
     .mat-form-field:first-child{width: 40%;}
-    .mat-header-cell{font-weight:500; color:#000000; background-color:#f8f7f7;}
+    .mat-header-cell{font-weight:500; color:#000000; background-color:#d9dbdd;}
     .mat-cell:nth-child(6){min-width: 60px;}
     .mat-header-cell:nth-child(6){min-width: 60px;}
     .mat-cell:not(:nth-child(6)){min-width: 45px;}
     .mat-header-cell:not(:nth-child(6)){min-width: 45px;}
     .mat-cell:first-child{min-width: 100px;margin-left:3px;padding-left:3px}
-    .mat-header-cell:first-child{min-width: 100px;margin-left:3px;padding-left:3px}
+    .mat-header-cell:first-child{min-width: 100px;margin-left:0px;padding-left:6px}
     .mat-cell:nth-child(4){min-width: 20px;}
     .mat-header-cell:nth-child(4){min-width: 20px;}
     .mat-cell:nth-child(3){min-width: 30px;}

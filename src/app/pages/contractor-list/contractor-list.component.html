@@ -34,7 +34,7 @@
                     <a routerLink="/notification" class="btn btn-sm btn-info"><i class="icofont-bullhorn"></i> Send Notification</a>
                 </div>
                 <div *ngIf="dataSource.data.length > 0; then hasContractorBlock else noContractorBlock"></div>
-                    <ng-template #noContractorBlock><div class="alert alert-danger text-center">No Draft Found</div></ng-template>
+                    <ng-template #noContractorBlock><div class="alert alert-danger text-center">No Contractor Found</div></ng-template>
                     <ng-template #hasContractorBlock>
                         <div class="contractor-list-container mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort #ctrTable>
