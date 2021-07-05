@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import {cloneDeep} from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { ContractorService, AlertService, AuthenticationService } from 'app/_services';
 import { MustMatch } from 'app/_helpers';

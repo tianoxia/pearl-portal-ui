@@ -52,7 +52,7 @@ export function initializeApp(appConfig: AppConfig) {
     HomeComponent,
     ViewAllReportsComponent,
     ContractorListComponent,
-    ViewPayPeriodsComponent
+    ViewPayPeriodsComponent,
   ],
   providers: [
     AppConfig, AuthGuard,

@@ -4,11 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { routing } from './view-pay-periods.routing';
 import { SharedModule } from '../../shared/shared.module';
-import { ViewWeeklyPayPeriodsComponent } from './view-weekly/view-weekly-pay-periods/view-weekly-pay-periods.component';
+import { WeeklyPayPeriodsComponent } from './weekly-pay-periods/weekly-pay-periods.component';
+import { ViewMonthlyControlReportComponent } from './view-monthly-control-report/view-monthly-control-report.component';
+import { ViewInvoicesComponent } from './view-invoices/view-invoices.component';
 
 @NgModule({
   declarations: [
-    ViewWeeklyPayPeriodsComponent
+    WeeklyPayPeriodsComponent,
+    ViewMonthlyControlReportComponent,
+    ViewInvoicesComponent
   ],
   imports: [
     CommonModule,

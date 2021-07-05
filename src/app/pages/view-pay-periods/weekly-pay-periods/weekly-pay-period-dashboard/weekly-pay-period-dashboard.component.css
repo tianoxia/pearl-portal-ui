@@ -1,0 +1,12 @@
+.container.weekly-dashboard i {
+    display: inline-block;
+    line-height: 1;
+    margin-right: -8px;
+}
+div.filter-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 25px;
+    font-weight: 500;
+    color: #000000;
+}

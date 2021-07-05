@@ -28,9 +28,13 @@ const appRoutes: Routes = [
   },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard]},
+  { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard] },
   { path: 'contractor-list', component: ContractorListComponent, canActivate: [AuthGuard] },
-  { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard]}
+  { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard] },
+  { path: 'view-pay-periods', loadChildren: () => import('./pages/view-pay-periods/view-pay-periods.module').then(m => m.ViewPayPeriodsModule),
+  canActivate: [AuthGuard] },
+  { path: 'view-pay-periods/weekly-pay-periods', loadChildren: () => import('./pages/view-pay-periods/weekly-pay-periods/weekly-pay-periods.module').then(m => m.ViewWeeklyPayPeriodsModule),
+  canActivate: [AuthGuard] }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

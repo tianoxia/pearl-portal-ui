@@ -1,0 +1,229 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container weekly-dashboard">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+            <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                {{payType}} Pay Period
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+            <mat-form-field appearance="outline">
+                <mat-label>Pay Date</mat-label>
+                <input matInput readonly value="{{payDate | date: 'MM/dd/yyyy'}}">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>WeekEnding</mat-label>
+                <mat-select [(value)]="selected">
+                    <mat-option *ngFor="let week of weekEndings" [value]="week">{{week | date: 'MM/dd/yyyy'}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-invoices">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-file-invoice"></i>
+                            </div>
+                            <div><h3>Invoices</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to access weekly invoices.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-monthly-control-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="icofont-file-spreadsheet"></i>
+                            </div>
+                            <div><h3>Monthly Control Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view monthly control report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-payroll-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="icofont-coins"></i>
+                            </div>
+                            <div><h3>Payroll Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to access payroll report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/assignment-hours">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <mat-icon>av_timer</mat-icon>
+                            </div>
+                            <div><h3>Assignment Hours</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to access assignment hours.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/employee-hours">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-user-clock"></i>
+                            </div>
+                            <div><h3>Employee Hours</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view employee hours.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-control-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div><h3>Control Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to access control report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-commission-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div><h3>Commission Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to access commission report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-referal-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                            <div><h3>Referal Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view referal report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-leaderboard-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-list-ol"></i>
+                            </div>
+                            <div><h3>Leaderboard Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view leaderboard report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-employee-pl-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div><h3>Employee P&L Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view employee PL report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-headcount-report">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div><h3>Headcount Report</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view headcount report.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/view-candidate-source">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="icofont-search-user"></i>
+                            </div>
+                            <div><h3>Candidate Source</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to view candidate source.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

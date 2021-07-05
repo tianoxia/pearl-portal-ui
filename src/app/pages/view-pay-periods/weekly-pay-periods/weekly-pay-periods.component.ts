@@ -8,11 +8,11 @@ import { AlertService, DataService } from 'app/_services';
 import { PayPeriodsResponse } from 'app/_models';
 
 @Component({
-  selector: 'app-view-weekly-pay-periods',
-  templateUrl: './view-weekly-pay-periods.component.html',
-  styleUrls: ['./view-weekly-pay-periods.component.css']
+  selector: 'app-weekly-pay-periods',
+  templateUrl: './weekly-pay-periods.component.html',
+  styleUrls: ['./weekly-pay-periods.component.css']
 })
-export class ViewWeeklyPayPeriodsComponent implements OnInit {
+export class WeeklyPayPeriodsComponent implements OnInit {
 payPeriods: PayPeriodsResponse[] = [];
 allPayPeriods: PayPeriodsResponse[];
 months = new Set();
