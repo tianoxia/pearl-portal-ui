@@ -18,7 +18,7 @@
                 <div *ngIf="payPeriods?.length>0">
                     <ul>  
                         <li *ngFor="let period of payPeriods | slice:0:limit; let i=index">
-                            <a href="#" [routerLink]="['weekly-pay-period-dashboard']" [queryParams]="{weekending: period.weekEnding1, paydate: period.payDate, paytype: 'Weekly'}" 
+                            <a href="#" [routerLink]="['weekly-pay-period-dashboard']" [queryParams]="{weekending: period.weekEnding1, payperiodid: period.payPeriodId, paydate: period.payDate, paytype: 'Weekly'}" 
                             class="card"><i class="icofont-ui-calendar"></i> {{ period.weekEnding1 | date: 'MM/dd/yyyy' }}</a>
                         </li>
                     </ul>

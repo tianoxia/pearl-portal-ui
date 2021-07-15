@@ -5,7 +5,7 @@ import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, SummaryReportRequest,
-  PLReportRequest, CustomReportRequest, LoginRequest } from '../_models';
+  PLReportRequest, CustomReportRequest, LoginRequest, InvoiceReportRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +66,5 @@ export class DataService {
   }
   getAllPayPeriods(payFreq: string) {
     return this.http.get(this.baseurl + `/payperiod/payfreq/${payFreq}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }
+  }  
 }

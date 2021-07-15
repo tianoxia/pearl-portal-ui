@@ -1,84 +1,68 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ViewEncapsulation } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { forkJoin } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
-import { AlertService, DataService } from 'app/_services';
-import { SummaryReportResponse, SummaryReportRequest, Department, SummaryReportTotals } from 'app/_models';
+import { AlertService, InvoiceReportService } from 'app/_services';
+import { InvoiceReportResponse, InvoiceReportRequest } from 'app/_models';
 
 @Component({
   selector: 'app-view-invoices',
   templateUrl: './view-invoices.component.html',
-  styleUrls: ['./view-invoices.component.css']
+  styleUrls: ['./view-invoices.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewInvoicesComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  //@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @Input() summaryReportForm: FormGroup;
-  @Input() departments: Department[];
-  startDate: Date;
-  sum: SummaryReportTotals;
-  defaultDept: Department = {
-    departmentId: 0,
-    name: 'All',
-    departmentNumber: '0'
-  };
+  @Input() invoiceReportForm: FormGroup;
+  payDate: Date;
+  weekEnding: Date;
   floatLabelControl = new FormControl('auto');
 
-  public displayedColumns = ['weekEnding', 'contractorCount', 'totalHours', 'billRate',
-          'payRate', 'hourlyMargin', 'totalCost', 'totalDiscount', 'totalInvoice',
-          'burden', 'totalMargin'];
-  public dataSource = new MatTableDataSource<SummaryReportResponse>();
+  public displayedColumns = ['select', 'invoiceNumber', 'clientName', 'discount', 'amount',
+          'expenses', 'invoiceTotal', 'receipt', 'fileName', 'sentDate', 'reportSent'];
+  public dataSource = new MatTableDataSource<InvoiceReportResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
   constructor(public alertService: AlertService,
     fb: FormBuilder,
-    private dataService: DataService,
+    private route: ActivatedRoute,
+    private invoiceService: InvoiceReportService,
+    private datePipe: DatePipe,
     private spinner: NgxSpinnerService) {
-      this.summaryReportForm = fb.group({
+      this.invoiceReportForm = fb.group({
         floatLabel: this.floatLabelControl,
-        fromdate: new FormControl(new Date(new Date().getFullYear(), 0, 1), [Validators.required]),
-        todate: new FormControl(new Date(), [Validators.required]),
-        department: this.defaultDept
       });
-      this.sum = new SummaryReportTotals();
     }
 
   ngOnInit() {
     window.scrollTo(0, 0);
     this.spinner.show();
-    this.loadData();
+    this.route.queryParamMap.subscribe(params => {
+      this.payDate = new Date(params.get('paydate'));
+      this.weekEnding = new Date(params.get('weekending'));
+      const request: InvoiceReportRequest = {
+        payPeriodId: +params.get('payperiodid'),
+        payDate: this.datePipe.transform(params.get('paydate'), 'yyyy-MM-dd'),
+        payFrequency: params.get('payfrequency'),
+        weekEnding1: this.datePipe.transform(params.get('weekending'), 'yyyy-MM-dd'),
+        weekEnding2: '2021-07-30'
+      };
+      this.loadData(request);
+    });    
   }
 
-  private loadData() {
-    const request: SummaryReportRequest = {
-      fromDate: new Date(new Date().getFullYear(), 0, 1),
-      toDate: new Date(),
-      department: null
-    };
-    forkJoin([this.dataService.getAllDepartments(),
-    this.dataService.getSummaryReport(request)])
-      .subscribe(([departments, summaryReports]) => {
-        this.departments = departments as Department[];
-        
-        this.departments.splice(0, 0, this.defaultDept);
-        this.summaryReportForm.get('department').patchValue(this.defaultDept);
-        this.dataSource.data = summaryReports as SummaryReportResponse[];
+  private loadData(request: InvoiceReportRequest) {
+    
+    this.invoiceService.getInvoiceReport(request)
+      .subscribe(invoiceReports => {
+        this.dataSource.data = invoiceReports as InvoiceReportResponse[];
         this.dataSource.sort = this.sort;
-        this.sum = new SummaryReportTotals();
-        if (this.dataSource)
-          for (let row of this.dataSource.data) {
-            if (row.totalHours !== 0) this.sum.totalHours += row.totalHours;
-            if (row.totalCost !== 0) this.sum.totalCost += row.totalCost;
-            if (row.totalDiscount !== 0) this.sum.totalDiscount += row.totalDiscount;
-            if (row.totalInvoice !== 0) this.sum.totalInvoice += row.totalInvoice;
-            if (row.burden !== 0) this.sum.totalBurden += row.burden;
-            if (row.totalMargin !== 0) this.sum.totalMargin += row.totalMargin;
-          }
-        //this.dataSource.paginator = this.paginator;
         this.spinner.hide();
       },
       (error => {
@@ -87,44 +71,36 @@ export class ViewInvoicesComponent implements OnInit {
       })
     );
   }
-  compareDepartments(o1: any, o2: any) {
-    return (o1.name == o2.name && o1.departmentId == o2.departmentId);
-  }
-  public showReport = (summaryReportFormValue) => {
-    if (this.summaryReportForm.valid) {
+  public submitInvoiceReport = (invoiceReportFormValue) => {
+    if (this.invoiceReportForm.valid) {
       this.spinner.show();
-      this.executeGetReport(summaryReportFormValue);
+      
     }
   }
+  selection = new SelectionModel<InvoiceReportResponse>(true, []);
 
-  private executeGetReport = (summaryReportFormValue) => {
-    this.sum = new SummaryReportTotals();
-    const request: SummaryReportRequest = {
-      fromDate: summaryReportFormValue.fromdate,
-      toDate: summaryReportFormValue.todate,
-      department: summaryReportFormValue.department
-    };
-    this.dataService.getSummaryReport(request)
-      .subscribe((res: SummaryReportResponse[]) => {
-        window.scrollTo(0, 0);
-        this.dataSource.data = res as SummaryReportResponse[];
-        this.dataSource.sort = this.sort;
-        if (this.dataSource)
-          for (let row of this.dataSource.data) {
-            if (row.totalHours !== 0) this.sum.totalHours += row.totalHours;
-            if (row.totalCost !== 0) this.sum.totalCost += row.totalCost;
-            if (row.totalDiscount !== 0) this.sum.totalDiscount += row.totalDiscount;
-            if (row.totalInvoice !== 0) this.sum.totalInvoice += row.totalInvoice;
-            if (row.burden !== 0) this.sum.totalBurden += row.burden;
-            if (row.totalMargin !== 0) this.sum.totalMargin += row.totalMargin;
-          }
-        //this.dataSource.paginator = this.paginator;
-        this.spinner.hide();
-      },
-      (error => {
-        this.spinner.hide();
-        this.alertService.error(error);
-      })
-    );
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: InvoiceReportResponse): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.invoiceNumber + 1}`;
   }
 }

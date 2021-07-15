@@ -21,3 +21,5 @@ export * from './candidate-source';
 export * from './pl-report-request';
 export * from './pl-report-response';
 export * from './pay-periods-response';
+export * from './invoice-report-request';
+export * from './invoice-report-response';

@@ -1,124 +1,97 @@
 <section class="services-area ptb-100 bg-gray">
-    <div class="container">
+    <div class="container invoice-report">
         <div class="row mt-1 pt-1">
             <div class="col-md-12 col-lg-12 mt-3 pt-3">
                 <app-alert></app-alert>
                 <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                    Summary Report
+                    Invoice Report
                 </div>
-                <form [formGroup]="summaryReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(summaryReportForm.value)">
-                    <div class="row">                        
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                            <mat-label>From Date</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="fromdate">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                            <mat-label>To Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="todate">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Department</mat-label>
-                                <mat-select formControlName="department" [compareWith]="compareDepartments">
-                                    <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-card-actions>
-                                <button mat-raised-button color="primary" [disabled]="!summaryReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
-                            </mat-card-actions>
-                        </div>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="-10px">
+                    <div fxFlex="20%"><h5>Pay Date: </h5></div>
+                    <div fxFlex="30%">{{payDate | date: 'MM/dd/yyyy'}}</div>
+                </div>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutGap="-10px">
+                    <div fxFlex="20%"><h5>WeekEnding: </h5></div>
+                    <div fxFlex="30%">{{weekEnding | date: 'MM/dd/yyyy'}}</div>
+                </div>
+                <form [formGroup]="invoiceReportForm" autocomplete="off" novalidate (ngSubmit)="submitInvoiceReport(invoiceReportForm.value)">
+                    <div fxLayout fxLayoutAlign="start" class="mt-2 pt-2">
+                        <mat-form-field fxFlex="40%">
+                        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                    </div>
+                    <div class="report-container mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSource" matSort>
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                        [aria-label]="checkboxLabel()">
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)"
+                                    [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="invoiceNumber" sticky>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice#</th>
+                                <td mat-cell *matCellDef="let report">{{report.invoiceNumber}}</td>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="clientName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                                <td mat-cell *matCellDef="let report"><pre>{{report.clientName}}</pre></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="discount">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Discount</th>
+                                <td mat-cell *matCellDef="let report">{{report.discount | number:'1.2-2'}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="amount">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+                                <td mat-cell *matCellDef="let report">{{report.amount | currency}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="expenses">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Expense</th>
+                                <td mat-cell *matCellDef="let report">{{report.expenses | currency}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="invoiceTotal">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                                <td mat-cell *matCellDef="let report">{{report.invoiceTotal | currency}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="receipt">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Receipt</th>
+                                <td mat-cell *matCellDef="let report">Attachment Link</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="fileName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Attachement</th>
+                                <td mat-cell *matCellDef="let report"><a href={{report.filePath}} target="_blank"><span class="nav-link">{{report.fileName}}</span></a></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="sentDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sent Date</th>
+                                <td mat-cell *matCellDef="let report">{{report.sentDate | date: 'MM/dd/yyyy'}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="reportSent">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>reportSent</th>
+                                <td mat-cell *matCellDef="let report">{{report.reportSent}}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>    
+                        </table>
                     </div>
                 </form>
-                <mat-divider></mat-divider>
-                <div fxLayout fxLayoutAlign="start" class="mt-2 pt-2">
-                    <mat-form-field fxFlex="40%">
-                      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
-                    </mat-form-field>
-                </div>
-                <div class="report-container mat-elevation-z8">
-                    <table mat-table [dataSource]="dataSource" matSort>
-                        <ng-container matColumnDef="weekEnding" sticky>
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Week Ending</th>
-                            <td mat-cell *matCellDef="let report"><span class="nav-link">{{report.weekEnding | date: 'MM/dd/yyyy'}}</span></td>
-                            <td mat-footer-cell *matFooterCellDef>Contract Total:</td>
-                        </ng-container>
-                    
-                        <ng-container matColumnDef="contractorCount">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor#</th>
-                            <td mat-cell *matCellDef="let report">{{report.contractorCount}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="totalHours">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Hours</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalHours | number:'1.2-2'}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalHours | number: '1.2-2'}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="billRate">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Avg Hourly Bill Rate</th>
-                            <td mat-cell *matCellDef="let report">{{report.billRate | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="payRate">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Avg Hourly Pay Rate</th>
-                            <td mat-cell *matCellDef="let report">{{report.payRate | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="hourlyMargin">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Hourly Margin</th>
-                            <td mat-cell *matCellDef="let report">{{report.hourlyMargin | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="totalCost">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Cost</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalCost | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalCost | currency}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="totalDiscount">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Discount</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalDiscount | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalDiscount | currency}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="totalInvoice">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Invoice</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalInvoice | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalInvoice | currency}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="burden">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Burden</th>
-                            <td mat-cell *matCellDef="let report">{{report.burden | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalBurden | currency}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="totalMargin">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Margin</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalMargin | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalMargin | currency}}</td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>    
-                    </table>
-                </div>
-                <!-- <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons> 
-                </mat-paginator> -->
             </div>
         </div>
     </div>

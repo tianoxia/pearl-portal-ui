@@ -5,3 +5,5 @@ export * from './account.service';
 export * from './user-token-validation.service';
 export * from './data.service';
 export * from './contractor.service';
+export * from './invoice-report.service';
+
