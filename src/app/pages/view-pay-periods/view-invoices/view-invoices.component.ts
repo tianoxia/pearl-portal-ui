@@ -253,4 +253,18 @@ export class ViewInvoicesComponent implements OnInit {
   navigateViewInvoice(invoiceGroupId: number) {
     
   }
+
+  reset(control: string) {
+    switch (control) {
+      case 'emailcc': 
+        this.invoiceReportForm.controls.emailCc.patchValue('');
+        break;
+      case 'emailsubject':
+        this.invoiceReportForm.controls.emailSubject.patchValue('');
+        break;
+      case 'emailbody':
+        this.invoiceReportForm.controls.emailBody.patchValue('');
+        break;
+    }
+  }
 }

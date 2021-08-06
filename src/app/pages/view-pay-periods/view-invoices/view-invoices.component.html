@@ -114,7 +114,7 @@
                             <mat-form-field appearance="outline" fxFlex="20%">
                                 <mat-label>Email Cc</mat-label>
                                 <input matInput formControlName="emailCc" />
-                                <button mat-button *ngIf="invoiceReportForm.controls['emailCc'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstname')">
+                                <button mat-button *ngIf="invoiceReportForm.controls['emailCc'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailcc')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('emailCc')">{{getErrorMessage('emailCc')}}</mat-error>
@@ -123,7 +123,7 @@
                             <mat-form-field appearance="outline" fxFlex="20%">
                                 <mat-label>Email Subject</mat-label>
                                 <input matInput formControlName="emailSubject" />
-                                <button mat-button *ngIf="invoiceReportForm.controls['emailSubject'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastname')">
+                                <button mat-button *ngIf="invoiceReportForm.controls['emailSubject'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailsubject')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('emailSubject')">{{getErrorMessage('emailSubject')}}</mat-error>
@@ -133,7 +133,7 @@
                             <mat-form-field appearance="outline" fxFlex="40.8%">
                                 <mat-label>Email Body</mat-label>
                                 <textarea matInput formControlName="emailBody"></textarea>
-                                <button mat-button *ngIf="invoiceReportForm.controls['emailBody'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ssn')">
+                                <button mat-button *ngIf="invoiceReportForm.controls['emailBody'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailbody')">
                                     <mat-icon>close</mat-icon>
                                 </button>
                                 <mat-error *ngIf="hasError('emailBody')">{{getErrorMessage('emailBody')}}</mat-error>
