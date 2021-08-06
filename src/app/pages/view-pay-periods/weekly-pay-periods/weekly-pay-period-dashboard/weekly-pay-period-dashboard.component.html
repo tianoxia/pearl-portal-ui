@@ -1,5 +1,6 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container weekly-dashboard">
+        <app-alert></app-alert>
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
             <div fxLayout fxLayoutAlign="center center" class="filter-header">
                 {{payType}} Pay Period
@@ -16,6 +17,58 @@
                     <mat-option *ngFor="let week of weekEndings" [value]="week">{{week | date: 'MM/dd/yyyy'}}</mat-option>
                 </mat-select>
             </mat-form-field>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="javascript:void(0);" (click)="downloadReport()">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="icofont-file-pdf"></i>
+                            </div>
+                            <div><h3>Invoices PDF</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to print invoices.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/print-timesheets">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="far fa-file-pdf"></i>
+                            </div>
+                            <div><h3>Timesheets PDF</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to print timesheets.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" routerLink="/view-pay-periods/print-permplacment-invoices">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <mat-icon>picture_as_pdf</mat-icon>
+                            </div>
+                            <div><h3>Perm Placement Invoices</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>View perm placement invoices.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">

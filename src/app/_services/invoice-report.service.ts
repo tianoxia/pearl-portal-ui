@@ -42,6 +42,17 @@ export class InvoiceReportService {
     return throwError(errorMessage);
   }
   getInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/report/invoice`, InvoiceReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/report/invoices`, InvoiceReportRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getLogoImage() {
+    return this.http.get(`../pearl/assets/logo/avery_logo.gif`, { responseType: `blob` });
+  }
+  emailInvoices(data: FormData) {
+    return this.http.post(this.baseurl + `/report/invoices/email/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  printInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/report/invoices/pdf`, InvoiceReportRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

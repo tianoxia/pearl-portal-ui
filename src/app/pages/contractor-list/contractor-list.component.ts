@@ -6,10 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router  } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { ContractorService, AlertService, AuthenticationService } from 'app/_services';
+import { ContractorService, AlertService } from 'app/_services';
 import { ContractorListResponse, IApiResponse } from 'app/_models';
 import { contractorStatus } from 'app/constants/contractor-status';
 

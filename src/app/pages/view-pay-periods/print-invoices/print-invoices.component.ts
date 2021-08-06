@@ -10,19 +10,19 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router';
 import { StaticUtilities } from '../../../_helpers/static-utilities';
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';  
+import autoTable from 'jspdf-autotable';
 
 
 import { AlertService, InvoiceReportService } from 'app/_services';
 import { InvoiceReportResponse, InvoiceReportRequest, IApiResponse } from 'app/_models';
 
 @Component({
-  selector: 'app-view-invoices',
-  templateUrl: './view-invoices.component.html',
-  styleUrls: ['./view-invoices.component.css'],
+  selector: 'app-print-invoices',
+  templateUrl: './print-invoices.component.html',
+  styleUrls: ['./print-invoices.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ViewInvoicesComponent implements OnInit {
+export class PrintInvoicesComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input() invoiceReportForm: FormGroup;
   payDate: Date;
@@ -72,7 +72,8 @@ export class ViewInvoicesComponent implements OnInit {
         weekEnding1: this.datePipe.transform(params.get('weekending'), 'yyyy-MM-dd'),
         weekEnding2: '2021-07-30'
       };
-      this.loadData(request);
+      this.onExportPdf();
+      //this.downloadReport(request);
     });    
   }
 
@@ -96,63 +97,7 @@ export class ViewInvoicesComponent implements OnInit {
       
     }
   }
-  selection = new SelectionModel<InvoiceReportResponse>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: InvoiceReportResponse): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.invoiceNumber + 1}`;
-  }
-
-  viewReceipts(invoiceGroupId: number) {
-    this.selectedInvoice = this.dataSource.data.find(i => i.invoiceGroupId === invoiceGroupId);
-    this.openViewReceiptsDialog(this.viewFilesRef);
-    return false;
-  }
-
-  openViewReceiptsDialog(viewReceiptsDialog) {
-    this.dialog.open(viewReceiptsDialog, {
-      autoFocus: true,
-      width: '400px',
-      disableClose: true
-    });    
-    return false;
-  }
-
-  public hasError = (controlName: string) => {
-    return this.invoiceReportForm.controls[controlName].hasError;
-  }
-
-  getErrorMessage(control: string) {
-    switch (control) {
-      case 'firstname':
-        break;
-      case 'emailSubject': 
-        break;
-      case 'emailBody':
-        break;
-    }
-    return '';
-  }
   onExportPdf() {
     const title_height = 30;
     this.invoiceService.getLogoImage().subscribe(res => {
@@ -181,7 +126,7 @@ export class ViewInvoicesComponent implements OnInit {
         autoTable(doc, {// styles: { fillColor: [255, 0, 0] },
           //columnStyles: { 0: { halign: 'center', fillColor: [0, 255, 0] } },
           margin: { top: 55 }, head: head, body: body });
-        const blob = doc.output('blob');
+        /* const blob = doc.output('blob');
         formData.append('files', blob);
         formData.append('invoiceGroupId', '123456');
         this.invoiceService.emailInvoices(formData)
@@ -194,15 +139,15 @@ export class ViewInvoicesComponent implements OnInit {
           window.scrollTo(0, 0);
           this.alertService.error(error);
           this.spinner.hide();
-        });
-        //this.spinner.hide();
-        //doc.save('table.pdf');
+        }); */
+        this.spinner.hide();
+        doc.save('table.pdf');
       }
       reader.readAsDataURL(res);
       
-    });    
+    });
   }
-  downloadReport() { 
+  downloadReport(request: InvoiceReportRequest) { 
     let row : any[] = [];
     let rowD : any[] = [];
     let col=['Segment','Title','Total','Description' ]; // initialization for headers 

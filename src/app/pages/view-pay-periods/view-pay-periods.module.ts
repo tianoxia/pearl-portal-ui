@@ -7,12 +7,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { WeeklyPayPeriodsComponent } from './weekly-pay-periods/weekly-pay-periods.component';
 import { ViewMonthlyControlReportComponent } from './view-monthly-control-report/view-monthly-control-report.component';
 import { ViewInvoicesComponent } from './view-invoices/view-invoices.component';
+import { PrintInvoicesComponent } from './print-invoices/print-invoices.component';
 
 @NgModule({
   declarations: [
     WeeklyPayPeriodsComponent,
     ViewMonthlyControlReportComponent,
-    ViewInvoicesComponent
+    ViewInvoicesComponent,
+    PrintInvoicesComponent
   ],
   imports: [
     CommonModule,
