@@ -48,11 +48,22 @@ export class InvoiceReportService {
   getLogoImage() {
     return this.http.get(`../pearl/assets/logo/avery_logo.gif`, { responseType: `blob` });
   }
+  getAveryPartnersLogoImage() {
+    return this.http.get(`../pearl/assets/logo/avery_partners_logo.gif`, { responseType: `blob` });
+  }
   emailInvoices(data: FormData) {
     return this.http.post(this.baseurl + `/report/invoices/email/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   printInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
     return this.http.post(this.baseurl + `/report/invoices/pdf`, InvoiceReportRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  printPermInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/report/invoices/perm/pdf`, InvoiceReportRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  printTimesheetReport(InvoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/report/timesheets/pdf`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

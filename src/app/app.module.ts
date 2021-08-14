@@ -12,6 +12,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { LayoutModule } from './shared/layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { AppConfig } from './app.config';
+import { NavigationService } from './_services';
 import { AuthGuard, JwtInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { LoginComponent, LoginHelpDialogComponent } from './pages/login/login.component';

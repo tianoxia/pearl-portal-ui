@@ -1,12 +1,16 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container weekly-dashboard">
         <app-alert></app-alert>
-        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
-            <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                {{payType}} Pay Period
-            </div>
-        </div>
         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+            <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                {{payType}} Pay Period<div class="back">                    
+                <div class="icon mr-2 pr-2">
+                    <i class="fas fa-arrow-left" (click)="back()" title="Back"></i>
+                </div>
+                </div>
+            </div>            
+        </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">            
             <mat-form-field appearance="outline">
                 <mat-label>Pay Date</mat-label>
                 <input matInput readonly value="{{payDate | date: 'MM/dd/yyyy'}}">
@@ -17,10 +21,11 @@
                     <mat-option *ngFor="let week of weekEndings" [value]="week">{{week | date: 'MM/dd/yyyy'}}</mat-option>
                 </mat-select>
             </mat-form-field>
+            
         </div>
         <div class="row">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="javascript:void(0);" (click)="downloadReport()">
+                <a href="javascript:void(0);" (click)="downloadInvoiceReport()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -37,7 +42,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/print-timesheets">
+                <a href="javascript:void(0);" (click)="downloadTimesheetReport()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -54,7 +59,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/print-permplacment-invoices">
+                <a href="javascript:void(0);" (click)="downloadPermInvoiceReport()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">

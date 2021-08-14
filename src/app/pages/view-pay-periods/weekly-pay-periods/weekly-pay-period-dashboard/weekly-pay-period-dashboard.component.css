@@ -10,3 +10,22 @@ div.filter-header {
     font-weight: 500;
     color: #000000;
 }
+.back .icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    font-size: 15px;
+    background: #3b96b6;
+    color: #edf5ff;
+    margin-left: 8px;
+    -webkit-transition: none;
+    transition: none;
+  }
+  .back:hover .icon {
+    background: #ffffff;
+    color: #3b96b6;
+    cursor: pointer;
+  }
