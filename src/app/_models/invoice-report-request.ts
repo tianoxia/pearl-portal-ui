@@ -4,4 +4,6 @@ export class InvoiceReportRequest {
     weekEnding1: string;
     weekEnding2: string;
     payFrequency: string;
+    invoiceGroupId?: number;
+    isRequestFromInvoicesReport: boolean;
 }

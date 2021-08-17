@@ -3,10 +3,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { RowInput, CellInput } from 'jspdf-autotable';
+import { RowInput } from 'jspdf-autotable';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 
-import { InvoiceReportService, AlertService, NavigationService } from 'app/_services';
+import { InvoiceReportService, AlertService } from 'app/_services';
 import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse, InvoiceReportRequest } from 'app/_models';
 
 @Component({
@@ -51,7 +51,8 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           payDate: this.datePipe.transform(this.payDate, 'yyyy-MM-dd'),
           payFrequency: this.payType,
           weekEnding1: this.datePipe.transform(this.selected, 'yyyy-MM-dd'),
-          weekEnding2: '2021-07-30'
+          weekEnding2: '2021-07-30',
+          isRequestFromInvoicesReport: false
         };
         this.invoiceService.printPermInvoiceReport(request)
           .subscribe((reports: InvoicePdfResponse[]) => {
@@ -75,7 +76,8 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           payDate: this.datePipe.transform(this.payDate, 'yyyy-MM-dd'),
           payFrequency: this.payType,
           weekEnding1: this.datePipe.transform(this.selected, 'yyyy-MM-dd'),
-          weekEnding2: '2021-07-30'
+          weekEnding2: '2021-07-30',
+          isRequestFromInvoicesReport: false
         };
         this.invoiceService.printInvoiceReport(request)
           .subscribe((reports: InvoicePdfResponse[]) => {
@@ -289,7 +291,8 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           payDate: this.datePipe.transform(this.payDate, 'yyyy-MM-dd'),
           payFrequency: this.payType,
           weekEnding1: this.datePipe.transform(this.selected, 'yyyy-MM-dd'),
-          weekEnding2: '2021-07-30'
+          weekEnding2: '2021-07-30',
+          isRequestFromInvoicesReport: false
         };
         this.invoiceService.printTimesheetReport(request)
           .subscribe((reports: TimesheetReportResponse[]) => {

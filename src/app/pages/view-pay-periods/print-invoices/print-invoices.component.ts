@@ -70,7 +70,8 @@ export class PrintInvoicesComponent implements OnInit {
         payDate: this.datePipe.transform(params.get('paydate'), 'yyyy-MM-dd'),
         payFrequency: params.get('payfrequency'),
         weekEnding1: this.datePipe.transform(params.get('weekending'), 'yyyy-MM-dd'),
-        weekEnding2: '2021-07-30'
+        weekEnding2: '2021-07-30',
+        isRequestFromInvoicesReport: false
       };
       this.onExportPdf();
       //this.downloadReport(request);
