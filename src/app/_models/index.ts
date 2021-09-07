@@ -24,3 +24,4 @@ export * from './pay-periods-response';
 export * from './invoice-report-request';
 export * from './invoice-report-response';
 export * from './timesheet-report-response';
+export * from './expense-report-response';

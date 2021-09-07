@@ -43,6 +43,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     });    
   }
   downloadPermInvoiceReport() {
+    this.spinner.show();
     this.invoiceService.getLogoImage().subscribe(res => {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -57,6 +58,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         this.invoiceService.printPermInvoiceReport(request)
           .subscribe((reports: InvoicePdfResponse[]) => {
             this.generateInvoicePdfReport(reports, reader, true);
+            this.spinner.hide();
           },
           (error => {
             this.spinner.hide();
@@ -68,6 +70,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     });
   }
   downloadInvoiceReport() {
+    this.spinner.show();
     this.invoiceService.getLogoImage().subscribe(res => {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -82,6 +85,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         this.invoiceService.printInvoiceReport(request)
           .subscribe((reports: InvoicePdfResponse[]) => {
             this.generateInvoicePdfReport(reports, reader, false);
+            this.spinner.hide();
           },
           (error => {
             this.spinner.hide();
@@ -121,24 +125,32 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       body.push({
         name: detail.name,
         rate: detail.billRate.toFixed(2),
-        discount: detail.discount.toFixed(2),
+        description: detail.position,
         total: this.currencyPipe.transform(detail.invoiceTotal.toFixed(2), 'USD')
       });
     });
     return body;
   }
   
-  headRows(): RowInput[] {
-    return [
-      { name: 'Name', expense: 'Expense', hours: 'Reg\nHours', billRate: 'Bill\nRate',
-      regularAmount: 'Reg\nAmount', otHours: 'OT\nHours', otBillRate: 'OT\nRate', otAmount: 'OT\nAmount',
-      dtHours: 'DT\nHours', dtBillRate: 'DT\nRate', dtAmount: 'DT\nAmount', discount: 'Discount', total: 'Total' }
-    ];
+  headRows(hasDT: boolean, hasDiscount: boolean): RowInput[] {
+    let header = {};
+    header = { name: 'Name', hours: 'Reg\nHours', billRate: 'Bill\nRate',
+    regularAmount: 'Reg\nAmount', expense: 'Expense', otHours: 'OT\nHours', otBillRate: 'OT\nRate', otAmount: 'OT\nAmount' };
+    if (hasDT) {
+      header['dtHours'] = 'DT\nHours';
+      header['dtBillRate'] = 'DT\nRate';
+      header['dtAmount'] = 'DT\nAmount';
+    }
+    if (hasDiscount) {
+      header['discount'] = 'Discount';
+    }
+    header['total'] = 'Total';
+    return [header];
   }
 
   permHeadRows(): RowInput[] {
     return [
-      { name: 'Name', rate: 'Rate', discount: 'Discount', total: 'Total' }
+      { name: 'Name', rate: 'Rate', description: 'Description', total: 'Total' }
     ]
   }
 
@@ -171,11 +183,11 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         return a + b;
       })).toFixed(2), 'USD') }
     ] : [
-      { name: 'Grand Total', expense: (report.invoiceDetails.map(a => a.expenses).reduce(function(a, b)
+      { name: 'Grand Total', hours: '', billRate: '',
+      regularAmount: (report.invoiceDetails.map(a => a.regularAmount).reduce(function(a, b)
       {
         return a + b;
-      })).toFixed(2), hours: '', billRate: '',
-      regularAmount: (report.invoiceDetails.map(a => a.regularAmount).reduce(function(a, b)
+      })).toFixed(2), expense: (report.invoiceDetails.map(a => a.expenses).reduce(function(a, b)
       {
         return a + b;
       })).toFixed(2), otHours: '', otRate: '', otAmount: (report.invoiceDetails.map(a => a.otAmount).reduce(function(a, b)
@@ -201,6 +213,14 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     const wk = this.datePipe.transform(this.selected, 'MM/dd/yyyy');
     if (reports.length > 0) {
       reports.forEach(report => {
+        const hasDT = report.invoiceDetails.map(a => a.dtHours).reduce(function(a, b)
+        {
+          return a + b;
+        }) > 0;
+        const hasDiscount = report.invoiceDetails.map(a => a.discount).reduce(function(a, b)
+        {
+          return a + b;
+        }) > 0;
         // Header
         const image = reader.result.toString();
         doc.setFontSize(12);
@@ -212,7 +232,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         doc.text('Phone: 770.642.6100 | TF: 1.888.966.0214 | Fax: 678.367.4603', 21, 37);
         doc.setFont('Helvetica', '300');
         doc.setFontSize(8);
-        doc.addImage(image, 'GIF', 10, 15, 10, 10);
+        doc.addImage(image, 'GIF', 10, 15, 20, 10);
 
         autoTable(doc, {
           theme: 'grid',
@@ -247,7 +267,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
             valign: 'bottom'
           },
           startY: 90,
-          head: isPermInvoice ? this.permHeadRows() : this.headRows(),
+          head: isPermInvoice ? this.permHeadRows() : this.headRows(hasDT, hasDiscount),
           body: isPermInvoice ? this.permBodyRows(report.invoiceDetails) : this.bodyRows(report.invoiceDetails),
           bodyStyles: {
             fontSize: 8
@@ -279,11 +299,11 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         doc.putTotalPages(totalPagesExp); 
       }    
       doc.save('invoice.pdf');
-    }    
-    this.spinner.hide();
+    }
   }
   downloadTimesheetReport() {
-    this.invoiceService.getAveryPartnersLogoImage().subscribe(res => {
+    this.spinner.show();
+    this.invoiceService.getLogoImage().subscribe(res => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const request: InvoiceReportRequest = {
@@ -297,6 +317,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         this.invoiceService.printTimesheetReport(request)
           .subscribe((reports: TimesheetReportResponse[]) => {
             this.generateTimesheetPdfReport(reports, reader);
+            this.spinner.hide();
           },
           (error => {
             this.spinner.hide();
@@ -318,9 +339,10 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         const image = reader.result.toString();
         doc.setFontSize(15);
         doc.setFont('Arial', 'bold');
+        doc.text('Avery Partners, Inc.', 21, 22);
         doc.text('Timesheet', 100, 21);
         doc.setFontSize(8);
-        doc.addImage(image, 'GIF', 10, 15, 61, 10);
+        doc.addImage(image, 'GIF', 10, 15, 20, 10);
         
         autoTable(doc, {
           theme: 'grid',
@@ -367,8 +389,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         doc.putTotalPages(totalPagesExp); 
       }    
       doc.save('timesheet.pdf');
-    }    
-    this.spinner.hide();
+    }
   }
   timesheetHeadRows(): RowInput[] {
     return [

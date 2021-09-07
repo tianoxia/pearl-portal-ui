@@ -6,8 +6,8 @@ import { FileUploadValidators } from '@iplab/ngx-file-upload';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -15,7 +15,7 @@ import { RowInput } from 'jspdf-autotable';
 
 
 import { AlertService, InvoiceReportService } from 'app/_services';
-import { InvoiceReportResponse, InvoiceReportRequest,
+import { InvoiceReportResponse, InvoiceReportRequest, ExpenseReportResponse,
   IApiResponse, InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse } from 'app/_models';
 
 @Component({
@@ -51,12 +51,14 @@ export class ViewInvoicesComponent implements OnInit {
     private invoiceService: InvoiceReportService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
-    private spinner: NgxSpinnerService) {
+    private spinner: NgxSpinnerService,
+    private router: Router) {
       this.invoiceReportForm = fb.group({
         floatLabel: this.floatLabelControl,
         emailBody: '',
-        emailCc: '',
+        emailCc: ['', [Validators.email]],
         emailSubject: '',
+        invoicePdf: this.filesControl,
         files: this.filesControl
       });
     }
@@ -77,7 +79,11 @@ export class ViewInvoicesComponent implements OnInit {
         weekEnding2: '2021-08-30',
         isRequestFromInvoicesReport: false
       };
-      this.loadData(request);
+      if (this.payPeriodId > 0) {
+        this.loadData(request);
+      } else {
+        this.router.navigate(['/view-pay-periods']);
+      }      
     });
   }
 
@@ -96,51 +102,69 @@ export class ViewInvoicesComponent implements OnInit {
   }
   public submitInvoiceReport = (invoiceReportFormValue) => {
     if (this.invoiceReportForm.valid) {
-      this.spinner.show();
-      this.selection.selected.forEach(x => {
-        const request: InvoiceReportRequest = {
-          payPeriodId: this.payPeriodId,
-          payDate: this.datePipe.transform(this.payDate, 'yyyy-MM-dd'),
-          payFrequency: this.payFrequency,
-          weekEnding1: this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'),
-          invoiceGroupId: x.invoiceGroupId,
-          weekEnding2: '2021-08-30',
-          isRequestFromInvoicesReport: true
-        };        
-        this.invoiceService.getLogoImage().subscribe(res => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            forkJoin([this.invoiceService.printInvoiceReport(request), this.invoiceService.printTimesheetReport(request)])
-              .subscribe(([invoices, timesheets]) => {
-                const invoicePdfSource = invoices as InvoicePdfResponse[];
-                const timesheetSource = timesheets as TimesheetReportResponse[];
-                this.img = reader.result.toString();
-                //const doc = new jsPDF();
-                const formData = new FormData();
-                const blob = this.generateInvoicePdfReport(invoicePdfSource, timesheetSource, reader);
-                formData.append('files', blob);
-                formData.append('invoiceGroupId', x.invoiceGroupId.toString());
-                this.invoiceService.emailInvoices(formData)
-                .subscribe((response: IApiResponse) => {
-                  this.alertService.success(response.message);
-                  window.scrollTo(0, 0);
-                  this.spinner.hide();
+      if (this.selection.selected.length > 0) {
+        this.spinner.show();
+        this.selection.selected.forEach(x => {
+          const request: InvoiceReportRequest = {
+            payPeriodId: this.payPeriodId,
+            payDate: this.datePipe.transform(this.payDate, 'yyyy-MM-dd'),
+            payFrequency: this.payFrequency,
+            weekEnding1: this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'),
+            invoiceGroupId: x.invoiceGroupId,
+            weekEnding2: '2021-08-30',
+            isRequestFromInvoicesReport: true
+          };
+          this.invoiceService.getLogoImage().subscribe(res => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              forkJoin([this.invoiceService.printInvoiceReport(request), 
+                this.invoiceService.printTimesheetReport(request),
+                this.invoiceService.printExpenseReport(request)])
+                .subscribe(([invoices, timesheets, expenses]) => {
+                  const invoicePdfSource = invoices as InvoicePdfResponse[];
+                  const timesheetSource = timesheets as TimesheetReportResponse[];
+                  const expenseSource = expenses as ExpenseReportResponse[];
+                  this.img = reader.result.toString();
+                  const formData = new FormData();
+                  const blob = this.generateInvoicePdfReport(invoicePdfSource, timesheetSource, expenseSource, reader);
+                  formData.append('weekEnding1', this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'));
+                  formData.append('payFrequency', this.payFrequency);
+                  formData.append('payPeriodId', this.payPeriodId.toString());
+                  formData.append('invoiceGroupId', x.invoiceGroupId.toString());
+                  formData.append('clientName', x.clientName);
+                  formData.append('emailCC', this.invoiceReportForm.controls.emailCc.value);
+                  formData.append('emailSubject', this.invoiceReportForm.controls.emailSubject.value);
+                  formData.append('emailBody', this.invoiceReportForm.controls.emailBody.value);
+                  formData.append('invoicePdf', blob, 'invoice'.concat(x.invoiceGroupId.toString()).concat('.pdf'));
+                  if (this.invoiceReportForm.get('files').value !== null) {
+                    this.invoiceReportForm.get('files').value.forEach((f) => formData.append('files', f));
+                  }
+                  formData.append('invoiceGroupId', x.invoiceGroupId.toString());
+                  this.invoiceService.emailInvoices(formData)
+                  .subscribe((response: IApiResponse) => {
+                    this.alertService.success(response.message);
+                    window.scrollTo(0, 0);
+                    this.spinner.hide();
+                  },
+                  error => {
+                    window.scrollTo(0, 0);
+                    this.alertService.error(error);
+                    this.spinner.hide();
+                  });
                 },
-                error => {
-                  window.scrollTo(0, 0);
-                  this.alertService.error(error);
+                (error => {
                   this.spinner.hide();
-                });
-              },
-              (error => {
-                this.spinner.hide();
-                this.alertService.error(error);
-              })
-            );            
-          }
-          reader.readAsDataURL(res);      
+                  this.alertService.error(error);
+                })
+              );            
+            }
+            reader.readAsDataURL(res);
+          });
         });
-      });      
+      } else {
+        window.scrollTo(0, 0);
+        this.alertService.error('Please select at least one invoice to proceed.');
+      }     
     }
   }
   bodyRows(details: InvoicePdfData[]) {
@@ -165,20 +189,38 @@ export class ViewInvoicesComponent implements OnInit {
     return body;
   }
 
-  headRows(): RowInput[] {
-    return [
-      { name: 'Name', expense: 'Expense', hours: 'Reg\nHours', billRate: 'Bill\nRate',
-      regularAmount: 'Reg\nAmount', otHours: 'OT\nHours', otBillRate: 'OT\nRate', otAmount: 'OT\nAmount',
-      dtHours: 'DT\nHours', dtBillRate: 'DT\nRate', dtAmount: 'DT\nAmount', discount: 'Discount', total: 'Total' }
-    ];
+  headRows(hasDT: boolean, hasDiscount: boolean): RowInput[] {
+    let header = {};
+    header = { name: 'Name', hours: 'Reg\nHours', billRate: 'Bill\nRate',
+    regularAmount: 'Reg\nAmount', expense: 'Expense', otHours: 'OT\nHours', otBillRate: 'OT\nRate', otAmount: 'OT\nAmount' };
+    if (hasDT) {
+      header['dtHours'] = 'DT\nHours';
+      header['dtBillRate'] = 'DT\nRate';
+      header['dtAmount'] = 'DT\nAmount';
+    }
+    if (hasDiscount) {
+      header['discount'] = 'Discount';
+    }
+    header['total'] = 'Total';
+    return [header];
   }
-  generateInvoicePdfReport(reports: InvoicePdfResponse[], timesheets: TimesheetReportResponse[], reader: FileReader): Blob {
+
+  generateInvoicePdfReport(reports: InvoicePdfResponse[], timesheets: TimesheetReportResponse[],
+    expenses: ExpenseReportResponse[], reader: FileReader): Blob {
     const doc = new jsPDF();
     const totalPagesExp = '{total_pages_count_string}';
     const freq = this.payFrequency;
     const wk = this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy');
     if (reports.length > 0) {
       reports.forEach(report => {
+        const hasDT = report.invoiceDetails.map(a => a.dtHours).reduce(function(a, b)
+        {
+          return a + b;
+        }) > 0;
+        const hasDiscount = report.invoiceDetails.map(a => a.discount).reduce(function(a, b)
+        {
+          return a + b;
+        }) > 0;
         // Header
         const image = reader.result.toString();
         doc.setFontSize(12);
@@ -190,7 +232,7 @@ export class ViewInvoicesComponent implements OnInit {
         doc.text('Phone: 770.642.6100 | TF: 1.888.966.0214 | Fax: 678.367.4603', 21, 37);
         doc.setFont('Helvetica', '300');
         doc.setFontSize(8);
-        doc.addImage(image, 'GIF', 10, 15, 10, 10);
+        doc.addImage(image, 'GIF', 10, 15, 20, 10);
 
         autoTable(doc, {
           theme: 'grid',
@@ -225,7 +267,7 @@ export class ViewInvoicesComponent implements OnInit {
             valign: 'bottom'
           },
           startY: 90,
-          head: this.headRows(),
+          head: this.headRows(hasDT, hasDiscount),
           body: this.bodyRows(report.invoiceDetails),
           bodyStyles: {
             fontSize: 8
@@ -254,12 +296,13 @@ export class ViewInvoicesComponent implements OnInit {
         if (timesheets.length > 0) {
           timesheets.forEach(ts => {
             // Header
-            const image = reader.result.toString();
+            //const image = reader.result.toString();
             doc.setFontSize(15);
             doc.setFont('Arial', 'bold');
+            doc.text('Avery Partners, Inc.', 21, 22);
             doc.text('Timesheet', 100, 21);
             doc.setFontSize(8);
-            doc.addImage(image, 'GIF', 10, 15, 61, 10);
+            doc.addImage(image, 'GIF', 10, 15, 20, 10);
 
             autoTable(doc, {
               theme: 'grid',
@@ -276,7 +319,7 @@ export class ViewInvoicesComponent implements OnInit {
                 fontSize: 9,
                 valign: 'bottom'
               },
-              startY: 90,
+              startY: 120,
               head: this.timesheetHeadRows(),
               body: this.timesheetBodyRows(ts),
               bodyStyles: {
@@ -301,7 +344,55 @@ export class ViewInvoicesComponent implements OnInit {
             doc.addPage();
           });
         }
-        
+        if (expenses.length > 0) {
+          expenses.forEach(exp => {
+            doc.setFontSize(15);
+            doc.setFont('Arial', 'bold');
+            doc.text('Avery Partners, Inc.', 21, 22);
+            doc.text('Expense', 100, 21);
+            doc.setFontSize(8);
+            doc.addImage(image, 'GIF', 10, 15, 20, 10);
+
+            autoTable(doc, {
+              theme: 'grid',
+              startY: 33,
+              showHead: 'never',
+              tableLineWidth: 0.3,
+              tableLineColor: '#000000',
+              body: this.leftTimesheetGroupHeaderBodyRows(exp),
+              alternateRowStyles: { fillColor: '#ffffff'},
+              bodyStyles: { fontStyle: 'bold', fontSize: 12 }
+            });
+            autoTable(doc, {
+              headStyles: {
+                fontSize: 9,
+                valign: 'bottom'
+              },
+              startY: 120,
+              head: this.expenseHeadRows(),
+              body: this.expenseBodyRows(exp),
+              bodyStyles: {
+                fontSize: 9
+              },
+              footStyles: {
+                fillColor: [22, 160, 133], fontSize: 9
+              },
+              showFoot: 'lastPage',
+              foot: this.expenseFooterRows(exp),
+              didDrawPage: function (data) {              
+                let str = 'Page ' + doc.getNumberOfPages();
+                if (typeof doc.putTotalPages === 'function') {
+                  str = str + ' of ' + totalPagesExp;
+                }
+                doc.setFontSize(10);    
+                const pageSize = doc.internal.pageSize;
+                const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                doc.text(str, data.settings.margin.left, pageHeight - 10);
+              }
+            });
+            doc.addPage();
+          });
+        }
       });
       doc.deletePage(doc.getNumberOfPages());
       if (typeof doc.putTotalPages === 'function') {
@@ -351,6 +442,12 @@ export class ViewInvoicesComponent implements OnInit {
     return [
       { date: 'Date', day: 'Day', workStart: 'Work Start', lunchOut: 'Lunch Out',
       lunchIn: 'Lunch In', workEnd: 'Work End', totalHours: 'Total Hours' }
+    ];
+  }
+  expenseHeadRows(): RowInput[] {
+    return [
+      { date: 'Date', day: 'Day', hotel: 'Hotel', travel: 'Travel', marketing: 'Marketing',
+        meals: 'Meals', mileage: 'Mileage', phone: 'Phone', other: 'Other', totalExpenses: 'Total Expense' }
     ];
   }
   timesheetBodyRows(report: TimesheetReportResponse) {
@@ -420,7 +517,95 @@ export class ViewInvoicesComponent implements OnInit {
     });
     return body;
   }
-  leftTimesheetGroupHeaderBodyRows(report: TimesheetReportResponse) {
+  expenseBodyRows(report: ExpenseReportResponse) {
+    const body = [];
+    body.push({
+      date: this.datePipe.transform(report.sundayDate, 'MM/dd/yyyy'),
+      day: 'Sunday',
+      hotel: report.sundayHotel.toFixed(2),
+      travel: report.sundayTravel.toFixed(2),
+      marketing: report.sundayMarketing.toFixed(2),
+      meals: report.sundayMeals.toFixed(2),
+      mileage: report.sundayMileage.toFixed(2),
+      phone: report.sundayPhone.toFixed(2),
+      other: report.sundayOther.toFixed(2),
+      totalExpenses: report.sundayExpenses.toFixed(2)
+    });
+    body.push({
+      date: this.datePipe.transform(report.mondayDate, 'MM/dd/yyyy'),
+      day: 'Monday',
+      hotel: report.mondayHotel.toFixed(2),
+      travel: report.mondayTravel.toFixed(2),
+      marketing: report.mondayMarketing.toFixed(2),
+      meals: report.mondayMeals.toFixed(2),
+      mileage: report.mondayMileage.toFixed(2),
+      phone: report.mondayPhone.toFixed(2),
+      other: report.mondayOther.toFixed(2),
+      totalExpenses: report.mondayExpenses.toFixed(2)
+    });
+    body.push({
+      date: this.datePipe.transform(report.tuesdayDate, 'MM/dd/yyyy'),
+      day: 'Tuesday',
+      hotel: report.tuesdayHotel.toFixed(2),
+      travel: report.tuesdayTravel.toFixed(2),
+      marketing: report.tuesdayMarketing.toFixed(2),
+      meals: report.tuesdayMeals.toFixed(2),
+      mileage: report.tuesdayMileage.toFixed(2),
+      phone: report.tuesdayPhone.toFixed(2),
+      other: report.tuesdayOther.toFixed(2),
+      totalExpenses: report.tuesdayExpenses.toFixed(2)
+    });
+    body.push({
+      date: this.datePipe.transform(report.wednesdayDate, 'MM/dd/yyyy'),
+      day: 'Wednesday',
+      hotel: report.wednesdayHotel.toFixed(2),
+      travel: report.wednesdayTravel.toFixed(2),
+      marketing: report.wednesdayMarketing.toFixed(2),
+      meals: report.wednesdayMeals.toFixed(2),
+      mileage: report.wednesdayMileage.toFixed(2),
+      phone: report.wednesdayPhone.toFixed(2),
+      other: report.wednesdayOther.toFixed(2),
+      totalExpenses: report.wednesdayExpenses.toFixed(2)
+    });
+    body.push({
+      date: this.datePipe.transform(report.thursdayDate, 'MM/dd/yyyy'),
+      day: 'Thursday',
+      hotel: report.thursdayHotel.toFixed(2),
+      travel: report.thursdayTravel.toFixed(2),
+      marketing: report.thursdayMarketing.toFixed(2),
+      meals: report.thursdayMeals.toFixed(2),
+      mileage: report.thursdayMileage.toFixed(2),
+      phone: report.thursdayPhone.toFixed(2),
+      other: report.thursdayOther.toFixed(2),
+      totalExpenses: report.thursdayExpenses.toFixed(2)
+    });
+    body.push({
+      date: this.datePipe.transform(report.fridayDate, 'MM/dd/yyyy'),
+      day: 'Friday',
+      hotel: report.fridayHotel.toFixed(2),
+      travel: report.fridayTravel.toFixed(2),
+      marketing: report.fridayMarketing.toFixed(2),
+      meals: report.fridayMeals.toFixed(2),
+      mileage: report.fridayMileage.toFixed(2),
+      phone: report.fridayPhone.toFixed(2),
+      other: report.fridayOther.toFixed(2),
+      totalExpenses: report.fridayExpenses.toFixed(2)
+    });
+    body.push({
+      date: this.datePipe.transform(report.saturdayDate, 'MM/dd/yyyy'),
+      day: 'Saturday',
+      hotel: report.saturdayHotel.toFixed(2),
+      travel: report.saturdayTravel.toFixed(2),
+      marketing: report.saturdayMarketing.toFixed(2),
+      meals: report.saturdayMeals.toFixed(2),
+      mileage: report.saturdayMileage.toFixed(2),
+      phone: report.saturdayPhone.toFixed(2),
+      other: report.saturdayOther.toFixed(2),
+      totalExpenses: report.saturdayExpenses.toFixed(2)
+    });
+    return body;
+  }
+  leftTimesheetGroupHeaderBodyRows(report: any) {
     return [
       { content: 'WeekEnding: ' + this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy') },
       { content: 'Name: ' + report.contractorName },
@@ -435,6 +620,13 @@ export class ViewInvoicesComponent implements OnInit {
       totalHours: (report.sundayHours+report.mondayHours+
         report.tuesdayHours+report.wednesdayHours+report.thursdayHours+report.fridayHours+
         report.saturdayHours).toFixed(2).toString()+'\n\n'+this.currencyPipe.transform(report.billRate.toFixed(2), 'USD')+'\n\n'
+        +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
+    ];
+  }
+  expenseFooterRows(report: ExpenseReportResponse) {
+    return [
+      { date: '', day: '', hotel: '', travel: '', marketing: '', meals: '', mileage: '', phone: '', other: 'Weekly Expenses:\n\nApprover:\n\nApproved Date:', 
+      totalExpenses: '\n'+report.weeklyTotalExpense.toFixed(2).toString()+'\n\n'
         +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
     ];
   }
@@ -486,14 +678,13 @@ export class ViewInvoicesComponent implements OnInit {
 
   getErrorMessage(control: string) {
     switch (control) {
-      case 'firstname':
-        break;
+      case 'emailCc':
+        return 'Email must be a valid email address';
       case 'emailSubject': 
         break;
       case 'emailBody':
         break;
     }
-    return '';
   }
 
   reset(control: string) {
@@ -508,5 +699,9 @@ export class ViewInvoicesComponent implements OnInit {
         this.invoiceReportForm.controls.emailBody.patchValue('');
         break;
     }
+  }
+
+  navigateViewInvoice(invoiceGroupId: number) {
+
   }
 }

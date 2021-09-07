@@ -40,4 +40,5 @@ export class InvoicePdfData {
     dtAmount: number;
     amount: number;
     invoiceTotal: number;
+    position: string;
 }

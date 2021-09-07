@@ -66,4 +66,8 @@ export class InvoiceReportService {
     return this.http.post(this.baseurl + `/report/timesheets/pdf`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  printExpenseReport(InvoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/report/expenses/pdf`, InvoiceReportRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
 }
