@@ -9,7 +9,6 @@ export class LoginResponse {
     accessToken: string;
     expireInMinutes: number;
     employeeName: string;
-    isAdmin: boolean;
-    isClerical: boolean;
+    role: string;
     employeeId: number;
 }

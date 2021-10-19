@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { StripParamFromUrlPipe } from 'app/shared/pipes/strip-param-from-url.pip
   styleUrls: ['./login.component.scss']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('emailInput', {
     static: true, read: ElementRef
   }) emailRef: ElementRef;
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     showPassword = false;
+    sessionTimeOut: boolean;
 
     constructor(public authenticationService: AuthenticationService,
                 private formBuilder: FormBuilder,
@@ -50,6 +51,13 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
       }
       get f() { return this.loginForm.controls; }
+
+      ngAfterViewInit(): void {
+        this.sessionTimeOut = this.route.snapshot.queryParams.sessionTimeOut;
+        if (this.sessionTimeOut) {
+          this.alertService.error('You have successfully logged out');
+        }
+      }
 
   onSubmit() {
     this.submitted = true;

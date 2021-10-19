@@ -46,10 +46,10 @@ export class InvoiceReportService {
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getLogoImage() {
-    return this.http.get(`../pearl/assets/logo/avery_logo.gif`, { responseType: `blob` });
+    return this.http.get(`../pearlportal/assets/logo/avery_logo.gif`, { responseType: `blob` });
   }
   getAveryPartnersLogoImage() {
-    return this.http.get(`../pearl/assets/logo/avery_partners_logo.gif`, { responseType: `blob` });
+    return this.http.get(`../pearlportal/assets/logo/avery_partners_logo.gif`, { responseType: `blob` });
   }
   emailInvoices(data: FormData) {
     return this.http.post(this.baseurl + `/report/invoices/email/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

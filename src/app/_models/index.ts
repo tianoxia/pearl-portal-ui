@@ -25,3 +25,10 @@ export * from './invoice-report-request';
 export * from './invoice-report-response';
 export * from './timesheet-report-response';
 export * from './expense-report-response';
+export * from './assignment-list-response';
+export * from './assignment-request';
+export * from './office';
+export * from './location';
+export * from './invoice-group';
+export * from './contact';
+

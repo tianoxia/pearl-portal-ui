@@ -389,7 +389,7 @@ export class ViewInvoicesComponent implements OnInit {
                 const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
                 doc.text(str, data.settings.margin.left, pageHeight - 10);
               }
-            });
+            }); 
             doc.addPage();
           });
         }
@@ -626,7 +626,7 @@ export class ViewInvoicesComponent implements OnInit {
   expenseFooterRows(report: ExpenseReportResponse) {
     return [
       { date: '', day: '', hotel: '', travel: '', marketing: '', meals: '', mileage: '', phone: '', other: 'Weekly Expenses:\n\nApprover:\n\nApproved Date:', 
-      totalExpenses: '\n'+report.weeklyTotalExpense.toFixed(2).toString()+'\n\n'
+      totalExpenses: '\n'+this.currencyPipe.transform(report.weeklyTotalExpense.toFixed(2), 'USD')+'\n\n'
         +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
     ];
   }

@@ -1,5 +1,4 @@
-import {OnInit, OnDestroy, Component,
-        ViewEncapsulation, ViewChild, ViewContainerRef} from '@angular/core';
+import {OnInit, Component, ViewEncapsulation } from '@angular/core';
 import { Router} from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -13,12 +12,9 @@ import { LoginResponse } from 'app/_models';
   styleUrls: ['./header-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HeaderMenuComponent implements OnInit, OnDestroy {
+export class HeaderMenuComponent implements OnInit {
   employeeName: string;
   public flag: boolean;
-  @ViewChild('accountsContainer', {
-    static: true, read: ViewContainerRef
-  }) accountsViewContainerRef: ViewContainerRef;
 
   constructor(public authService: AuthenticationService,
               public dataService: DataService,
@@ -42,21 +38,17 @@ export class HeaderMenuComponent implements OnInit, OnDestroy {
       if (loggedInUser && loggedInUser.accessToken && this.validateService.isUserTokenValid(loggedInUser.accessToken)) {
         this.employeeName = loggedInUser.employeeName;
       } else {
-        this.authService.logout();
+        this.logout(true);
       }
     }
     return loggedInUser === null ? false : true;
   }
-  public logout() {
+  public logout(isTokenExpired: boolean) {
       this.authService.logout();
-      this.router.navigate(['home']);
-      if (this.accountsViewContainerRef) {
-        this.accountsViewContainerRef.remove();
+      if (isTokenExpired) {
+        this.router.navigate(['login'], { queryParams: { sessionTimeOut: true }, skipLocationChange: false });
+      } else {
+        this.router.navigate(['home']);
       }
-  }
-  ngOnDestroy() {
-    if (this.accountsViewContainerRef) {
-      this.accountsViewContainerRef.remove();
-    }
   }
 }

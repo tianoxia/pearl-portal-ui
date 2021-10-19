@@ -4,7 +4,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './_helpers';
 import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-reports.component';
 import { ContractorListComponent } from './pages/contractor-list/contractor-list.component';
+import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
 import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 
 const appRoutes: Routes = [
   {
@@ -27,9 +29,11 @@ const appRoutes: Routes = [
       pathMatch: 'full'
   },
   { path: 'home', component: HomeComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'login', component: LoginComponent },
   { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard] },
   { path: 'contractor-list', component: ContractorListComponent, canActivate: [AuthGuard] },
+  { path: 'assignment-list', component: AssignmentListComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', loadChildren: () => import('./pages/view-pay-periods/view-pay-periods.module').then(m => m.ViewPayPeriodsModule),
   canActivate: [AuthGuard] },

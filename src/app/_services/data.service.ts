@@ -25,6 +25,8 @@ export class DataService {
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
       errorMessage = 'Error: ${error.error.message}';
+    } else if (error.status === 403) {
+      errorMessage = 'You Do Not Have Sufficient Rights To Perform This Action';
     } else if (error.status === 404) {
       errorMessage = 'Service unavailable, please contact administrator.';
     } else if (error.status === 401) {

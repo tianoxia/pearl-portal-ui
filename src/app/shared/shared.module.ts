@@ -20,6 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatListModule } from '@angular/material/list';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxDataTableModule } from './components/ngx-data-table/ngx-data-table.module';
@@ -58,6 +59,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatMenuModule,
     MatTooltipModule,
     MatListModule,
+    MatSlideToggleModule,
     NgxDataTableModule,
     FileUploadModule,
     NgxMaskModule.forRoot()
@@ -96,6 +98,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatCheckboxModule,
     MatCardModule,
     MatMenuModule,
+    MatSlideToggleModule,
     MatNativeDateModule,
     MatDividerModule,
     MatListModule,

@@ -35,13 +35,13 @@ tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
 .mat-card-actions > .mat-raised-button {
-    height: 47px;
+    height: 50px;
 }
-div.action-buttons .btn {
+.contractorlist div.action-buttons .btn {
     text-transform: none !important;
     font-size: 1em;
     padding: 18px 18px !important;
-    margin: -15px 0px 10px 15px;
+    margin: -5px 0px 10px 15px;
 }
 div.modal-body h5 {
     text-transform: none;

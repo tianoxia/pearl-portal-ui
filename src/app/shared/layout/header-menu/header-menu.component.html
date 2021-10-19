@@ -26,7 +26,7 @@
                                 <div class="dropdown-menu" style="width: 100%; position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
                                     <a class="dropdown-item" href="#" routerLink="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" routerLink="" (click)="logout();">
+                                    <a class="dropdown-item" routerLink="" (click)="logout(false);">
                                         <i class="fas fa-sign-out-alt" aria-hidden="true"></i>&nbsp;Sign Out</a>
                                 </div>
                             </div>
@@ -117,11 +117,13 @@
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Employees                                                    </a>
+                                                        Employees                                                    
+                                                    </a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="#">
-                                                        Provider Employees                                                    </a>
+                                                        Provider Employees                                                    
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -130,7 +132,7 @@
                                                 MORE
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Assignments</a></li>
+                                                <li><a class="dropdown-item" routerLink="/assignment-list">Assignments</a></li>
                                                 <li><a class="dropdown-item" href="#">Clients</a></li>
                                                 <li><a class="dropdown-item" href="#">Timesheets</a></li>
                                                 <li><a class="dropdown-item" href="#">Expenses</a></li>
@@ -148,7 +150,7 @@
                             <button class="btn header-btn-signin-nav" *ngIf="!isLoggedIn()" routerLink="/login" title="Sign In">
                                 <i class="icofont-lock"></i>
                             </button>
-                            <button *ngIf="isLoggedIn()" class="btn header-btn-signout-nav" href="#" (click)="logout();" title="Sign Out">
+                            <button *ngIf="isLoggedIn()" class="btn header-btn-signout-nav" href="#" (click)="logout(false);" title="Sign Out">
                                 <i class="icofont-sign-out"></i>
                             </button>                                                        
                             <button *ngIf="isLoggedIn()" class="btn header-btn-user-nav" routerLink="/account-profile" title="View Profile">

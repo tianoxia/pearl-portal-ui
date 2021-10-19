@@ -23,7 +23,7 @@ export class ContractorListComponent implements OnInit {
   contractorId: number;
   statuses = contractorStatus;
   selectedContractor: ContractorListResponse;
-  @ViewChild('ctrTable', {read: MatSort, static: false }) set content1(sort: MatSort) {
+  @ViewChild('ctrTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -85,7 +85,7 @@ export class ContractorListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       if (this.isAddEdit) {
         this.alertService.success(this.message);
-      }      
+      }
       window.scrollTo(0, 0);
       this.spinner.hide();
     },

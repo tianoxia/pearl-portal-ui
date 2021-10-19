@@ -118,9 +118,9 @@ export class AddEditContractorComponent implements OnInit {
         this.salesPersonList.splice(0, 0, this.defaultSalesPerson);
         this.candSources.splice(0, 0, this.defaultCandSource);
         
-        this.contractorAddEditForm.get("recruiter").patchValue(0);
-        this.contractorAddEditForm.get("salesPerson").patchValue(0);
-        this.contractorAddEditForm.get("candidateSourceId").patchValue(null);
+        this.contractorAddEditForm.get('recruiter').patchValue(0);
+        this.contractorAddEditForm.get('salesPerson').patchValue(0);
+        this.contractorAddEditForm.get('candidateSourceId').patchValue(null);
         this.spinner.hide();
       },
       (error => {
@@ -145,16 +145,16 @@ export class AddEditContractorComponent implements OnInit {
         this.contractorAddEditForm.patchValue(this.contractor);
         this.contractorAddEditForm.get('toReleaseTimesheet').patchValue(this.contractor.toReleaseTimesheet?'true':'false');
         if (this.contractor.recruiterId > 0) {
-          this.contractorAddEditForm.get("recruiter").patchValue(this.contractor.recruiterId);
+          this.contractorAddEditForm.get('recruiter').patchValue(this.contractor.recruiterId);
         } else {
-          this.contractorAddEditForm.get("recruiter").patchValue(0);
+          this.contractorAddEditForm.get('recruiter').patchValue(0);
         }
         if (this.contractor.salesPersonId > 0) {
-          this.contractorAddEditForm.get("salesPerson").patchValue(this.contractor.salesPersonId);
+          this.contractorAddEditForm.get('salesPerson').patchValue(this.contractor.salesPersonId);
         } else {
-          this.contractorAddEditForm.get("salesPerson").patchValue(0);
+          this.contractorAddEditForm.get('salesPerson').patchValue(0);
         }
-        this.contractorAddEditForm.get("candidateSourceId").patchValue(this.contractor.candidateSourceId);
+        this.contractorAddEditForm.get('candidateSourceId').patchValue(this.contractor.candidateSourceId);
         this.spinner.hide();
       },
       (error => {

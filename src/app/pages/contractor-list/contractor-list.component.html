@@ -7,28 +7,22 @@
                     View Contractors
                 </div>
                 <form [formGroup]="contractorListForm" autocomplete="off" novalidate (ngSubmit)="showContractorList(contractorListForm.value)">
-                    <div class="row">                        
-                        <div class="col-md-3 col-lg-3">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Select A Status</mat-label>
-                                <mat-select formControlName="contractorStatus" [compareWith]="compareStatuses">
-                                    <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-9 col-lg-9">
-                            <mat-card-actions>
-                                <button mat-raised-button color="primary"><i class="icofont-search-job"></i> View Contractors</button>
-                            </mat-card-actions>
-                        </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="30px" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Select A Status</mat-label>
+                            <mat-select formControlName="contractorStatus" [compareWith]="compareStatuses">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-card-actions fxFlex="25%">
+                            <button mat-raised-button color="primary"><i class="icofont-search-job"></i> View Contractors</button>
+                        </mat-card-actions>
+                        <mat-form-field fxFlex="30%">
+                            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
                     </div>
                 </form>
                 <mat-divider></mat-divider>
-                <div fxLayout fxLayoutAlign="start" class="mt-2 pt-2">
-                    <mat-form-field fxFlex="40%">
-                      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
-                    </mat-form-field>
-                </div>
                 <div class="row action-buttons">
                     <a routerLink="/add-contractor" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add Contractor</a>
                     <a routerLink="/notification" class="btn btn-sm btn-info"><i class="icofont-bullhorn"></i> Send Notification</a>
@@ -36,7 +30,7 @@
                 <div *ngIf="dataSource.data.length > 0; then hasContractorBlock else noContractorBlock"></div>
                     <ng-template #noContractorBlock><div class="alert alert-danger text-center">No Contractor Found</div></ng-template>
                     <ng-template #hasContractorBlock>
-                        <div class="contractor-list-container mat-elevation-z8">
+                        <div class="mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort #ctrTable>
                                 <ng-container matColumnDef="firstName" sticky>
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>

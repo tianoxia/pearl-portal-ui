@@ -24,6 +24,9 @@ import { ContractorListComponent } from './pages/contractor-list/contractor-list
 import { ContractorListModule } from './pages/contractor-list/contractor-list.module';
 import { ViewPayPeriodsModule } from './pages/view-pay-periods/view-pay-periods.module';
 import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
+import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
+import { AssignmentListModule } from './pages/assignment-list/assignment-list.module';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -44,6 +47,7 @@ export function initializeApp(appConfig: AppConfig) {
     ViewAllReportsModule,
     ViewPayPeriodsModule,
     ContractorListModule,
+    AssignmentListModule,
     NgbModule
   ],
   declarations: [
@@ -54,6 +58,8 @@ export function initializeApp(appConfig: AppConfig) {
     ViewAllReportsComponent,
     ContractorListComponent,
     ViewPayPeriodsComponent,
+    AssignmentListComponent,
+    UnauthorizedComponent
   ],
   providers: [
     AppConfig, AuthGuard,
