@@ -31,20 +31,6 @@
                     <ng-template #hasAssignmentBlock>
                         <div class="mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort #assignmentTable>
-                                <!-- <ng-container *ngFor="let disCol of (displayedColumns | async); let colIndex = index" matColumnDef="{{disCol}}">
-                                    <th mat-header-cell *matHeaderCellDef>{{disCol}}</th>
-                                    <td mat-cell *matCellDef="let element">{{element[disCol]}}</td>
-                                  </ng-container>
-                              
-                              
-                                  <tr mat-header-row *matHeaderRowDef="(displayedColumns | async)"></tr>
-                                  <tr mat-row *matRowDef="let row; columns: (displayedColumns | async)"></tr>
-                                <ng-container [matColumnDef]="cols" *ngFor="let cols of displayedColumns; let i = index">
-                                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{cols}}</mat-header-cell>
-                                    <mat-cell *matCellDef="let element">
-                                        <span>{{element[cols]}}</span>
-                                    </mat-cell>
-                                </ng-container> -->
                                 <ng-container matColumnDef="clientName" sticky>
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
                                     <td mat-cell *matCellDef="let assignment">{{assignment.clientName}}</td>
@@ -130,7 +116,7 @@
                                                 <mat-icon>info</mat-icon>
                                                 <span>View</span>
                                             </button>
-                                            <button mat-menu-item (click)="updateEndDate(assignment.assignmentId);">
+                                            <button mat-menu-item (click)="updateEndDate(assignment);">
                                                 <mat-icon>update</mat-icon>
                                                 <span>Update End Date</span>
                                             </button>
@@ -158,7 +144,7 @@
                         </div>
                         <div class="modal-footer">
                             <button mat-button mat-dialog-close class="btn">No</button>
-                            <button mat-button mat-dialog-close class="btn btn-primary"
+                            <button mat-button mat-dialog-close class="btn btn-info"
                             (click)="deleteAssignment()">Yes</button>
                         </div>
                     </ng-template>                    

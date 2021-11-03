@@ -1,0 +1,89 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container view-assignment">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-3 pt-3">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        View Assignment Details<div class="back">                    
+                            <div class="icon mr-2 pr-2">
+                                <i class="fas fa-arrow-left" (click)="back()" title="Back"></i>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+                <form [formGroup]="assignmentViewForm" autocomplete="off">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <h5>{{viewAssignmentTitle}}</h5>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Status</mat-label>
+                            <input matInput formControlName="assignmentStatus" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Pay Frequency</mat-label>
+                            <input matInput formControlName="payFrequency" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Position</mat-label>
+                            <input matInput formControlName="position" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="18.4%">
+                            <mat-label>Start Date</mat-label>
+                            <input matInput formControlName="startDate" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="18.4%">
+                            <mat-label>End Date</mat-label>
+                            <input matInput formControlName="endDate" readonly />
+                        </mat-form-field>                        
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>Pay Rate</mat-label>
+                            <input matInput formControlName="payRate" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>Overtime Rate</mat-label>
+                            <input matInput formControlName="otRate" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>Bill Rate</mat-label>
+                            <input matInput formControlName="billRate" readonly />
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>Overtime Bill Rate</mat-label>
+                            <input matInput formControlName="otBillRate" readonly />
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>DT Pay Rate</mat-label>
+                            <input matInput formControlName="dtRate" readonly />
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>DT Bill Rate</mat-label>
+                            <input matInput formControlName="dtBillRate" readonly />
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="25%">
+                            <mat-label>Contact</mat-label>
+                            <input matInput formControlName="contact" readonly />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="25%">
+                            <mat-label>Accounting Contact</mat-label>
+                            <input matInput formControlName="accountingContact" readonly /> 
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="48.4%">
+                            <mat-label>Accounting Location</mat-label>
+                            <input matInput formControlName="accountingLocation" readonly />
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

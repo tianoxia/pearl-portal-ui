@@ -75,15 +75,10 @@ export class AssignmentService {
     return this.http.post(this.baseurl + `/assignment`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   updateAssignment(id: number, assignmentRequest: AssignmentRequest) {
-    /* let header = new HttpHeaders({ "Authorization": "Bearer "+token, 'Content-Type': 'application/x-www-form-urlencoded'});
-      const httpOptions = {  headers: header };
-      return this.http
-          .post<any>(this.base_path, JSON.stringify(item), this.httpOptions)
-          .pipe(
-            retry(2),
-            catchError(this.handleError)
-          ) */
     return this.http.put(this.baseurl + `/assignment/${id}`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  updateAssignmentEndDate(id: number, assignmentRequest: AssignmentRequest) {
+    return this.http.put(this.baseurl + `/assignment/${id}/enddate`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   deleteAssignment(id: number) {
     return this.http.delete(this.baseurl + `/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

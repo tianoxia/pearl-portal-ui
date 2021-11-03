@@ -29,8 +29,6 @@ export class AddEditAssignmentComponent implements OnInit {
   permPlacementRates = permPlacementRates;
   isAddMode: boolean;
   submitted = false;
-  showPassword = false;
-  showConfirmPassword = false;
   action: string;
   offices: Office[];
   locations: Location[];
@@ -46,7 +44,6 @@ export class AddEditAssignmentComponent implements OnInit {
   assignment: AssignmentListResponse;
   user: string;
   isAdminClerical: boolean;
-  phoneRegex = /^(\()[1-9]\d{2}(\))(\s)[1-9]{1}\d{2}(-)\d{4}$/;
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
@@ -68,7 +65,6 @@ export class AddEditAssignmentComponent implements OnInit {
     this.spinner.show();
     this.assignmentId = this.route.snapshot.params['assignmentId'];
     this.isAddMode = !this.assignmentId;
-    const zipCodeRegex = /^(?!0{5})[0-9]{5}(?:-(?!0{4})[0-9]{4})?$/;
     this.defaultRecruiter = new Recruiter();
     this.defaultSalesPerson = new Recruiter();
     this.assignmentAddEditForm = this.formBuilder.group({
@@ -135,11 +131,6 @@ export class AddEditAssignmentComponent implements OnInit {
         this.recruiters = recruiters as Recruiter[];
         this.salesPersonList = cloneDeep(recruiters as Recruiter[]);
         this.assignmentAddEditForm.controls.refererRate.patchValue(0);
-        //this.recruiters.splice(0, 0, this.defaultRecruiter);
-        //this.salesPersonList.splice(0, 0, this.defaultSalesPerson);
-        //this.assignmentAddEditForm.get("recruiter").patchValue(0);
-        //this.assignmentAddEditForm.get("client").patchValue(this.clients);
-        //this.assignmentAddEditForm.get("contractor").patchValue(0);
         this.assignmentAddEditForm.get("office").patchValue(this.offices);
         this.spinner.hide();
       },
@@ -184,8 +175,8 @@ export class AddEditAssignmentComponent implements OnInit {
             this.assignmentAddEditForm.get('department').patchValue(this.assignment.departmentId);
             this.assignmentAddEditForm.get('assignmentStatus').patchValue(this.assignment.status);
             this.assignmentAddEditForm.get('payFrequency').patchValue(this.assignment.payFrequency);
-            this.assignmentAddEditForm.get('refererRate').patchValue(this.assignment.refererRate);
-            this.assignmentAddEditForm.get('secondRefererRate').patchValue(this.assignment.secondRefererRate);
+            //this.assignmentAddEditForm.get('refererRate').patchValue(this.assignment.refererRate);
+            //this.assignmentAddEditForm.get('secondRefererRate').patchValue(this.assignment.secondRefererRate);
             this.assignmentAddEditForm.get('payMethod').patchValue(this.assignment.payMethod);
             if (this.assignment.recruiterId > 0) {
               this.assignmentAddEditForm.get('recruiter').patchValue(this.assignment.recruiterId);
@@ -266,14 +257,6 @@ export class AddEditAssignmentComponent implements OnInit {
             this.spinner.hide();
           });
   }
-  
-  togglePassword() {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPassword() {
-    this.showConfirmPassword = !this.showConfirmPassword;
-  }
 
   private setAssignmentRequest(): AssignmentRequest {
     const request = new AssignmentRequest();
@@ -307,7 +290,7 @@ export class AddEditAssignmentComponent implements OnInit {
     request.refererID = +this.assignmentAddEditForm.controls.referer.value;
     request.refererRate = +this.assignmentAddEditForm.controls.refererRate.value;
     request.secondRefererID = +this.assignmentAddEditForm.controls.secondReferer.value;
-    request.secondRefererRate +this.assignmentAddEditForm.controls.secondRefererRate.value;
+    request.secondRefererRate = +this.assignmentAddEditForm.controls.secondRefererRate.value;
     request.adpFileNumber = this.assignmentAddEditForm.controls.adpFileNumber.value;
     request.purchaseOrder = this.assignmentAddEditForm.controls.purchaseOrder.value;
     request.payMethod = this.assignmentAddEditForm.controls.payMethod.value;

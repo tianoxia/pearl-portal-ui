@@ -5,10 +5,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routing } from './assignment-list.routing';
 import { SharedModule } from '../../shared/shared.module';
 import { AddEditAssignmentComponent } from './add-edit-assignment/add-edit-assignment.component';
+import { ViewAssignmentComponent } from './view-assignment/view-assignment.component';
 
 @NgModule({
   declarations: [
-    AddEditAssignmentComponent
+    AddEditAssignmentComponent,
+    ViewAssignmentComponent
   ],
   imports: [
     CommonModule,

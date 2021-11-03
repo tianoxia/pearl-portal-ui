@@ -14,12 +14,6 @@ div.filter-header {
 .mat-raised-button {
     min-width: 150px;
 }
-.datepickerOne {
-    margin-top: 105px !important;
-}
-/* .mat-form-field .mat-form-field-flex { 
-    background-color: #EEE8AA !important; 
-} */
 @media (max-width: 600px) {
     .btn.btn-primary, .btn.btn-link {
         width: 100%;

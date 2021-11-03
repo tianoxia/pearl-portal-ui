@@ -102,11 +102,11 @@
                     </ng-template>
                     <ng-template #uploadFilesDialog let-modal>
                         <form [formGroup]="contractorUploadFilesForm" autocomplete="off" novalidate (ngSubmit)="showContractorList(contractorListForm.value)">
-                            <div class="modal-header justify-content-center bg-warning">
+                            <div class="modal-header file-upload-header justify-content-center bg-warning">
                                 <h5 class="modal-title">Upload Files for {{selectedContractor.firstName + ' ' +
                                     selectedContractor.lastName}}</h5>
                             </div>
-                            <div class="modal-body text-center">                                
+                            <div class="modal-body file-upload-div text-center">
                                 <div class="col" style="background-color:transparent;">
                                     <file-upload class="mb-2 pb-2" formControlName="files"></file-upload>
                                     <mat-error *ngIf="hasError('files')">Select at least one file to upload</mat-error>

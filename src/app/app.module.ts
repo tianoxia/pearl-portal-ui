@@ -27,6 +27,7 @@ import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-perio
 import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
 import { AssignmentListModule } from './pages/assignment-list/assignment-list.module';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { UpdateAssignmentEndDateComponent } from './pages/assignment-list/update-assignment-enddate/update-assignment-enddate.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -59,7 +60,8 @@ export function initializeApp(appConfig: AppConfig) {
     ContractorListComponent,
     ViewPayPeriodsComponent,
     AssignmentListComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    UpdateAssignmentEndDateComponent
   ],
   providers: [
     AppConfig, AuthGuard,
@@ -69,6 +71,6 @@ export function initializeApp(appConfig: AppConfig) {
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
  ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginHelpDialogComponent]
+  entryComponents: [LoginHelpDialogComponent, UpdateAssignmentEndDateComponent]
 })
 export class AppModule { }

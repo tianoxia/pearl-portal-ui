@@ -5,13 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router  } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AssignmentService, AlertService } from 'app/_services';
 import { AssignmentListResponse, IApiResponse } from 'app/_models';
 import { assignmentStatus } from 'app/constants/assignment-status';
-import { Observable } from 'rxjs';
+import { UpdateAssignmentEndDateComponent } from './update-assignment-enddate/update-assignment-enddate.component';
 
 @Component({
   selector: 'app-assignment-list',
@@ -27,6 +27,7 @@ export class AssignmentListComponent implements OnInit {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('updateEndDateDialog', { static: true, read: TemplateRef }) updateEndDateRef: TemplateRef<any>;
   @Input() assignmentListForm: FormGroup;
   isAddEdit: boolean;
   message: string;
@@ -41,7 +42,7 @@ export class AssignmentListComponent implements OnInit {
   }
   constructor(
     public alertService: AlertService,
-    fb: FormBuilder,
+    private fb: FormBuilder,
     private dialog: MatDialog,
     private assignmentService: AssignmentService,
     private route: ActivatedRoute,
@@ -105,10 +106,15 @@ export class AssignmentListComponent implements OnInit {
     }
   }
 
-  updateEndDate(id: number) {
+  updateEndDate(assignment: AssignmentListResponse) {
+    const modalref = this.dialog.open(UpdateAssignmentEndDateComponent, {
+      data: {
+        assignment,
+        updateEndDateTitle: assignment.contractorName.concat(' Assigned to ').concat(assignment.clientName)
+      }
+    });
     return false;
   }
-
   editAssignment(id: number) {
     this.router.navigate([`/edit-assignment/${id}`]);
   }

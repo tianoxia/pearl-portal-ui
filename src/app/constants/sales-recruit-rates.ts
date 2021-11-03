@@ -46,10 +46,10 @@ export const permPlacementRates = [
     { label: '100%', value: 1.0 }
 ];
 export function refererRates(): any[] {
-    let secondRates = [];
+    let refererRates = [];
     for(let i = 0; i < 0.5025; i += 0.0025) {
-        var rate = { label: (i * 100).toFixed(2).concat('%'), value: i.toFixed(2) };
-        secondRates.push(rate);
+        var rate = { label: (i * 100).toFixed(2).concat('%'), value: i };
+        refererRates.push(rate);
     }
-    return secondRates;
+    return refererRates;
 };
