@@ -1,3 +1,6 @@
+.contractorlist-container {
+    overflow: auto;
+}
 div.filter-header {
     font-size: 25px;
     font-weight: 500;
@@ -11,7 +14,7 @@ div.filter-header {
     line-height: 1;
     margin-right: 10px;
 }
-.mat-table {
+.container>.contractorlist .mat-table {
     overflow: auto;
     width: 100%;
 }

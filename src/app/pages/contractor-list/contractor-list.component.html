@@ -30,7 +30,7 @@
                 <div *ngIf="dataSource.data.length > 0; then hasContractorBlock else noContractorBlock"></div>
                     <ng-template #noContractorBlock><div class="alert alert-danger text-center">No Contractor Found</div></ng-template>
                     <ng-template #hasContractorBlock>
-                        <div class="mat-elevation-z8">
+                        <div class="contractorlist-container mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort #ctrTable>
                                 <ng-container matColumnDef="firstName" sticky>
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>

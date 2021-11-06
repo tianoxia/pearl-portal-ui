@@ -29,7 +29,7 @@
                 <div *ngIf="dataSource.data.length > 0; then hasAssignmentBlock else noAssignmentBlock"></div>
                     <ng-template #noAssignmentBlock><div class="alert alert-danger text-center">No Assignment Found</div></ng-template>
                     <ng-template #hasAssignmentBlock>
-                        <div class="mat-elevation-z8">
+                        <div class="assignmentlist-container mat-elevation-z8">
                             <table mat-table [dataSource]="dataSource" matSort #assignmentTable>
                                 <ng-container matColumnDef="clientName" sticky>
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>

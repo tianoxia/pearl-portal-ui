@@ -32,7 +32,6 @@ export class AssignmentListComponent implements OnInit {
   isAddEdit: boolean;
   message: string;
   floatLabelControl = new FormControl('auto');
-  //public displayedColumns$ = Observable[];
   public displayedColumns = ['clientName', 'contractorName', 'locationName', 'startDate', 'endDate',
    'status', 'payRate', 'billRate', 'position', 'permPlacementRate', 'permPlacementDate',
    'annualSalary', 'payMethod', 'adpFileNumber', 'star'];
@@ -108,6 +107,7 @@ export class AssignmentListComponent implements OnInit {
 
   updateEndDate(assignment: AssignmentListResponse) {
     const modalref = this.dialog.open(UpdateAssignmentEndDateComponent, {
+      panelClass: 'update-enddate-dialog',
       data: {
         assignment,
         updateEndDateTitle: assignment.contractorName.concat(' Assigned to ').concat(assignment.clientName)

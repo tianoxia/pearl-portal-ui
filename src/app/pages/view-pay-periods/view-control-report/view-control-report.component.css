@@ -3,10 +3,10 @@
     overflow: auto;
 }
 div.filter-header {
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 500;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin: 8px 0px;
+    padding: 10px 0px;
     color: #000000;
 }
 .container i {
@@ -49,6 +49,9 @@ tr.mat-row:not(:nth-child(2n+1)) {
 .mat-card-actions > .mat-raised-button {
     height: 47px;
 }
+.select-all{
+    margin: 5px 17px;
+}
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;
@@ -61,7 +64,7 @@ tr.mat-row:not(:nth-child(2n+1)) {
         line-height: 1;
         margin-right: 6px;
     }
-    .col > .mat-form-field, .mat-card-actions > .mat-raised-button {
+    .row .mat-form-field, .mat-card-actions > .mat-raised-button {
         width: 100%;
     }
     th.mat-header-cell {

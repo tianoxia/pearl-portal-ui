@@ -5,7 +5,7 @@ import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, SummaryReportRequest,
-  PLReportRequest, CustomReportRequest, LoginRequest, InvoiceReportRequest } from '../_models';
+  PLReportRequest, CustomReportRequest, LoginRequest, ControlReportRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +62,9 @@ export class DataService {
   }  
   getCustomReport(customReportRequest: CustomReportRequest) {
     return this.http.post(this.baseurl + `/report/custom`, customReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getControlReport(controlReportRequest: ControlReportRequest) {
+    return this.http.post(this.baseurl + `/report/control`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getTeamPLReport(teamPLReportRequest: PLReportRequest) {
     return this.http.post(this.baseurl + `/report/teampl`, teamPLReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

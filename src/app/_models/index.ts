@@ -31,4 +31,5 @@ export * from './office';
 export * from './location';
 export * from './invoice-group';
 export * from './contact';
-
+export * from './control-report-request';
+export * from './control-report-response';
