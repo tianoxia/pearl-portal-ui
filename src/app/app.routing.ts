@@ -37,7 +37,11 @@ const appRoutes: Routes = [
   { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', loadChildren: () => import('./pages/view-pay-periods/view-pay-periods.module').then(m => m.ViewPayPeriodsModule),
   canActivate: [AuthGuard] },
-  { path: 'view-pay-periods/weekly-pay-periods', loadChildren: () => import('./pages/view-pay-periods/weekly-pay-periods/weekly-pay-periods.module').then(m => m.ViewWeeklyPayPeriodsModule),
+  { path: 'view-pay-periods/pay-period-dashboard',
+  loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/pay-period-dashboard.module').then(m => m.PayPeriodDashboardModule),
+  canActivate: [AuthGuard] },
+  { path: 'view-pay-periods/pay-period-dashboard/weekly-pay-periods',
+  loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/weekly-pay-periods/weekly-pay-periods.module').then(m => m.ViewWeeklyPayPeriodsModule),
   canActivate: [AuthGuard] }
 ];
 

@@ -20,6 +20,10 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
   weekEndings: Date[] = [];
   payDate: Date;
   payType: string;
+  isReportClick: boolean;
+  isInvoiceClick: boolean;
+  isPayfileClick: boolean;
+  pageType: string;
   payPeriodId: number;
   selected: Date;
   constructor(public alertService: AlertService,
@@ -30,16 +34,24 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
   back(): void {
-    this.router.navigate(['/view-pay-periods/weekly-pay-periods']);
+    this.router.navigate(['view-pay-periods/pay-period-dashboard/weekly-pay-periods'], {queryParams: { pagetype: this.pageType}});
   }
   ngOnInit() {
     window.scrollTo(0, 0);
     this.route.queryParamMap.subscribe(params => {
       this.payType = params.get('paytype');
+      this.pageType = params.get('pagetype');
       this.payPeriodId = +params.get('payperiodid');
       this.payDate = new Date(params.get('paydate'));
       this.weekEndings.push(new Date(params.get('weekending')));
       this.selected = this.weekEndings[0];
+      if (this.pageType === 'invoice') {
+        this.isInvoiceClick = true;
+      } else if (this.pageType === 'report') {
+        this.isReportClick = true;
+      } else if (this.pageType === 'payfile') {
+        this.isPayfileClick = true;
+      }
     });    
   }
   downloadPermInvoiceReport() {

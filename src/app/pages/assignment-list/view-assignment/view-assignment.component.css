@@ -5,11 +5,6 @@ div.filter-header {
     color: #000000;
     font-weight: 500;
 }
-.container.view-assignment i {
-    display: inline-block;
-    line-height: 1;
-    margin-right: -8px;
-}
 .container.view-assignment > div h5 {
     text-align: left;
     font-size: 16px;
@@ -32,25 +27,6 @@ div.filter-header {
 }
 .datepickerOne {
     margin-top: 105px !important;
-}
-.back .icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    border-radius: 50%;
-    font-size: 15px;
-    background: #3b96b6;
-    color: #edf5ff;
-    margin-left: 8px;
-    -webkit-transition: none;
-    transition: none;
-}
-.back:hover .icon {
-    background: #ffffff;
-    color: #3b96b6;
-    cursor: pointer;
 }
 @media (max-width: 600px) {
     .btn.btn-primary, .btn.btn-link {

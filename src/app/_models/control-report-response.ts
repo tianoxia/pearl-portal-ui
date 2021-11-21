@@ -13,6 +13,7 @@ export class ControlReportResponse {
     otRate: number;
     dtRate: number;
     pay: number;
+    burdenRate: number;
     burden: number;
     ppExp: number;
     oopExp: number;

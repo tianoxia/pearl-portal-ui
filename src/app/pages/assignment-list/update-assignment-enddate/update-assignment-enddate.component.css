@@ -19,11 +19,20 @@ div.modal-body.update-enddate-div {
     padding-top: 10px;
     padding-bottom: 0px;
     padding-right: 30px;
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - 130px);
     overflow: auto;
 }
 @media (max-width: 600px) {
     .btn.btn-primary, .btn.btn-link {
         width: 100%;
     }
+    .update-enddate-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .update-enddate-div > *:not(:last-child) {
+        margin-right: unset;
+        margin-bottom: -2px;
+      }
 }

@@ -78,26 +78,21 @@
                                                     <div class="dropdown-mega-content">
                                                         <div class="row">
                                                             <div class="col-lg-5">
-                                                                <span class="dropdown-mega-sub-title">Bi-Weekly</span>
+                                                                <a class="dropdown-mega-sub-title" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard']" [queryParams]="{payfrequency: 'Bi-Weekly'}">Bi-Weekly</a>
                                                                 <ul class="dropdown-mega-sub-nav">
-                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Perm Placement Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Pay File</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Invoice+Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Employee Pay File</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Reports</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Bi-Weekly'}">Bi-Weekly Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Bi-Weekly'}">Bi-Weekly Timesheets</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'payfile', payfrequency: 'Bi-Weekly'}">Bi-Weekly Pay Files</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'report', payfrequency: 'Bi-Weekly'}">Bi-Weekly Reports</a></li>
                                                                 </ul>
                                                             </div>
                                                             <div class="col-lg-5">
-                                                                <span class="dropdown-mega-sub-title">Weekly</span>
+                                                                <a class="dropdown-mega-sub-title" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard']" [queryParams]="{payfrequency: 'Weekly'}">Weekly</a>
                                                                 <ul class="dropdown-mega-sub-nav">
-                                                                    <li><a class="dropdown-item" href="#">Weekly Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Weekly Pay File</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Invoice+Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Perm Placement Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Weekly Reports</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Weekly'}">Weekly Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Weekly'}">Weekly Timesheets</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'payfile', payfrequency: 'Weekly'}">Weekly Pay Files</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'report', payfrequency: 'Weekly'}">Weekly Reports</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>

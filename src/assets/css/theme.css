@@ -1373,7 +1373,7 @@ html.sticky-header-enabled.sticky-header-active #header .header-logo-sticky-chan
 		text-align: left;
 	}
 
-	#header .header-nav-main nav > ul > li.dropdown .dropdown-menu li a {
+	/* #header .header-nav-main nav > ul > li.dropdown .dropdown-menu li a {
 		border-bottom: 1px solid #f7f7f7;
 		color: #000;
 		font-size: 0.8em;
@@ -1382,7 +1382,7 @@ html.sticky-header-enabled.sticky-header-active #header .header-logo-sticky-chan
 		position: relative;
 		text-transform: none;
 		letter-spacing: -0.5px;
-	}
+	} */
 
 	#header .header-nav-main nav > ul > li.dropdown .dropdown-menu li a:hover, #header .header-nav-main nav > ul > li.dropdown .dropdown-menu li a:focus, #header .header-nav-main nav > ul > li.dropdown .dropdown-menu li a.active, #header .header-nav-main nav > ul > li.dropdown .dropdown-menu li a:active {
 		background-color: transparent;

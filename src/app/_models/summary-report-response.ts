@@ -1,4 +1,30 @@
 export class SummaryReportResponse {
+    monthlySummary: MonthlySummary[];
+}
+
+export class MonthlySummary {
+    month: number;
+    totalHours: number;
+    totalBurden: number;
+    totalCost: number;
+    totalDiscount: number;
+    totalInvoice: number;
+    totalMargin: number;
+    netMargin: number;
+    weeklySummary: WeeklySummary[];
+    monthlyPermSummary: PermPlacementMonthlySummary;
+}
+
+export class PermPlacementMonthlySummary {
+    month: number;
+    permCount: number;
+    permBurden: number;
+    totalCost: number;
+    grossMargin: number;
+    netMargin: number;
+}
+
+export class WeeklySummary {
     fromDate: Date;
     toDate: Date;
     weekEnding: Date;
@@ -11,6 +37,9 @@ export class SummaryReportResponse {
     totalCost: number;
     totalDiscount: number;
     totalInvoice: number;
-    burden: number;
-    totalMargin: number;
+    grossMargin: number;
+    contractBurden: number;
+    netMargin: number;
 }
+
+

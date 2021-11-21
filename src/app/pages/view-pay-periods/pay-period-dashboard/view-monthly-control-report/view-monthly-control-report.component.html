@@ -101,15 +101,15 @@
                             <td mat-footer-cell *matFooterCellDef>{{sum.totalInvoice | currency}}</td>
                         </ng-container>
 
-                        <ng-container matColumnDef="burden">
+                        <ng-container matColumnDef="contractBurden">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Burden</th>
-                            <td mat-cell *matCellDef="let report">{{report.burden | currency}}</td>
+                            <td mat-cell *matCellDef="let report">{{report.contractBurden | currency}}</td>
                             <td mat-footer-cell *matFooterCellDef>{{sum.totalBurden | currency}}</td>
                         </ng-container>
 
-                        <ng-container matColumnDef="totalMargin">
+                        <ng-container matColumnDef="grossMargin">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Margin</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalMargin | currency}}</td>
+                            <td mat-cell *matCellDef="let report">{{report.grossMargin | currency}}</td>
                             <td mat-footer-cell *matFooterCellDef>{{sum.totalMargin | currency}}</td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

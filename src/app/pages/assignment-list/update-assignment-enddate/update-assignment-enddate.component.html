@@ -6,30 +6,30 @@
         <div>
             <h5>{{updateEndDateTitle}}</h5>
         </div>
-        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                                    
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>                                    
             <mat-form-field appearance="fill" fxFlex="100%">
                 <mat-label>Location</mat-label>
                 <input matInput formControlName="updateEndDateLocation" readonly>
             </mat-form-field>
         </div>
-        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
-            <mat-form-field appearance="fill" fxFlex="49%">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%">
+            <mat-form-field appearance="fill" fxFlex="49.5%">
                 <mat-label>Sales Person</mat-label>
                 <input matInput formControlName="updateEndDateSalesPerson" readonly>
             </mat-form-field>
-            <mat-form-field appearance="fill" fxFlex="49%">
+            <mat-form-field appearance="fill" fxFlex="49.5%">
                 <mat-label>Recruiter</mat-label>
                 <input matInput formControlName="updateEndDateRecruiter" readonly>
             </mat-form-field>
         </div>
-        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
-            <mat-form-field appearance="fill" fxFlex="49%">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%">
+            <mat-form-field appearance="fill" fxFlex="49.5%">
                 <mat-label>Start Date</mat-label>
                 <input matInput [matDatepicker]="picker1" formControlName="startDate" [readonly]="true">
                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1 disabled="true"></mat-datepicker>
             </mat-form-field>
-            <mat-form-field appearance="fill" fxFlex="49%">
+            <mat-form-field appearance="fill" fxFlex="49.5%">
                 <mat-label>End Date</mat-label>
                 <input matInput [matDatepicker]="picker2" formControlName="endDate">
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -37,7 +37,7 @@
                 <mat-error *ngIf="hasError('endDate')">{{getErrorMessage('endDate')}}</mat-error>
             </mat-form-field>
         </div>
-        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
             <mat-form-field appearance="fill" fxFlex="100%">
                 <mat-label>Notes</mat-label>
                 <textarea matInput formControlName="notesTwo" rows="3"></textarea>

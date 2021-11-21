@@ -1,10 +1,12 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container">
         <div class="row mt-1 pt-1">
-            <div class="col-md-12 col-lg-12 mt-3 pt-3">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
                 <app-alert></app-alert>
-                <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                     {{action}} Contractor
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        {{action}} Contractor
+                    </div>
                 </div>
                 <form [formGroup]="contractorAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        

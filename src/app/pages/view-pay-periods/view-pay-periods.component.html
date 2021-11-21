@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/weekly-pay-period-dashboard">
+                <a href="#" [routerLink]="['pay-period-dashboard']" [queryParams]="{payfrequency: 'Bi-Weekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -19,7 +19,7 @@
             </div>
 
             <div class="col-lg-6 col-md-6 mt-1 pt-1">
-                <a href="#" [routerLink]="['weekly-pay-periods']">
+                <a href="#" [routerLink]="['pay-period-dashboard']" [queryParams]="{payfrequency: 'Weekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">

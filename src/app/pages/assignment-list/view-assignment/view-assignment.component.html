@@ -6,8 +6,8 @@
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
                         View Assignment Details<div class="back">                    
-                            <div class="icon mr-2 pr-2">
-                                <i class="fas fa-arrow-left" (click)="back()" title="Back"></i>
+                            <div class="icon mr-2 pr-2" (click)="back()">
+                                <i class="fas fa-arrow-left" title="Back"></i>
                             </div>
                             </div>
                     </div>
@@ -41,30 +41,30 @@
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
                         <mat-form-field appearance="fill" fxFlex="16%">
                             <mat-label>Pay Rate</mat-label>
-                            <input matInput formControlName="payRate" readonly />
+                            <input matInput formControlName="payRate" [value]="assignmentViewForm.get('payRate').value | currency" readonly />
                         </mat-form-field>
                         <mat-form-field appearance="fill" fxFlex="16%">
                             <mat-label>Overtime Rate</mat-label>
-                            <input matInput formControlName="otRate" readonly />
+                            <input matInput formControlName="otRate" [value]="assignmentViewForm.get('otRate').value | currency" readonly />
                         </mat-form-field>
                         <mat-form-field appearance="fill" fxFlex="16%">
                             <mat-label>Bill Rate</mat-label>
-                            <input matInput formControlName="billRate" readonly />
+                            <input matInput formControlName="billRate" [value]="assignmentViewForm.get('billRate').value | currency" readonly />
                         </mat-form-field>
 
                         <mat-form-field appearance="fill" fxFlex="16%">
                             <mat-label>Overtime Bill Rate</mat-label>
-                            <input matInput formControlName="otBillRate" readonly />
+                            <input matInput formControlName="otBillRate" [value]="assignmentViewForm.get('otBillRate').value | currency" readonly />
                         </mat-form-field>
 
                         <mat-form-field appearance="fill" fxFlex="16%">
                             <mat-label>DT Pay Rate</mat-label>
-                            <input matInput formControlName="dtRate" readonly />
+                            <input matInput formControlName="dtRate" [value]="assignmentViewForm.get('dtRate').value | currency" readonly />
                         </mat-form-field>
 
                         <mat-form-field appearance="fill" fxFlex="16%">
                             <mat-label>DT Bill Rate</mat-label>
-                            <input matInput formControlName="dtBillRate" readonly />
+                            <input matInput formControlName="dtBillRate" [value]="assignmentViewForm.get('dtBillRate').value | currency" readonly />
                         </mat-form-field>
                     </div>
 

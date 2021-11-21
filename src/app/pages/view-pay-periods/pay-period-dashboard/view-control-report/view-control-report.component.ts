@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatSelect } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
 import { AlertService, DataService } from 'app/_services';
@@ -23,6 +24,7 @@ export class ViewControlReportComponent implements OnInit {
   @Input() departments: Department[];
   @Input() clients: Client[];
   @Input() recruiters: Recruiter[];
+  subTitle: string;
   startDate: Date;
   sum: CustomReportTotals;
   weekEnding: Date;
@@ -49,6 +51,7 @@ export class ViewControlReportComponent implements OnInit {
   constructor(public alertService: AlertService,
     fb: FormBuilder, private route: ActivatedRoute,
     private dataService: DataService,
+    private datePipe: DatePipe,
     private spinner: NgxSpinnerService) {
       this.defaultClient = new Client();
       this.defaultClient.clientId = 0;
@@ -116,7 +119,8 @@ export class ViewControlReportComponent implements OnInit {
             if (row.invoice !== 0) this.sum.totalInvoice += row.invoice;
             if (row.margin !== 0) this.sum.totalMargin += row.margin;
           }
-          this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
+        this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
+        this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
         this.spinner.hide();
       },
       (error => {
@@ -142,6 +146,7 @@ export class ViewControlReportComponent implements OnInit {
   }
 
   private executeGetReport = (controlReportFormValue) => {
+    this.sum = new CustomReportTotals();
     const request: ControlReportRequest = {
       departmentId: controlReportFormValue.department.departmentId,
       employeeId: controlReportFormValue.recruiter.employeeId,

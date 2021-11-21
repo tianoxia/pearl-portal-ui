@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { forkJoin } from 'rxjs';
 
 import { AlertService, DataService } from 'app/_services';
-import { SummaryReportResponse, SummaryReportRequest, Department, SummaryReportTotals } from 'app/_models';
+import { SummaryReportResponse, SummaryReportRequest, Department, MonthlySummary } from 'app/_models';
 
 @Component({
   selector: 'app-view-summary-report',
@@ -19,7 +19,6 @@ export class ViewSummaryReportComponent implements OnInit {
   @Input() summaryReportForm: FormGroup;
   @Input() departments: Department[];
   startDate: Date;
-  sum: SummaryReportTotals;
   defaultDept: Department = {
     departmentId: 0,
     name: 'All',
@@ -28,9 +27,12 @@ export class ViewSummaryReportComponent implements OnInit {
   floatLabelControl = new FormControl('auto');
 
   public displayedColumns = ['weekEnding', 'contractorCount', 'totalHours', 'billRate',
-          'payRate', 'hourlyMargin', 'totalCost', 'totalDiscount', 'totalInvoice',
-          'burden', 'totalMargin'];
-  public dataSource = new MatTableDataSource<SummaryReportResponse>();
+          'payRate', 'hourlyMargin', 'totalCost', 'totalDiscount', 'totalInvoice', 'grossMargin',
+          'contractBurden', 'netMargin'];
+  public displayedColumns2 = ['weekEnding1', 'totalHours1', 'totalCost1', 'totalDiscount1', 'totalInvoice1', 'grossMargin1',
+          'contractBurden1', 'netMargin1'];
+  public displayedColumns3 = ['weekEnding2', 'totalHours2', 'netMargin2'];
+  public dataSource = new MatTableDataSource<MonthlySummary>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
@@ -44,7 +46,6 @@ export class ViewSummaryReportComponent implements OnInit {
         todate: new FormControl(new Date(), [Validators.required]),
         department: this.defaultDept
       });
-      this.sum = new SummaryReportTotals();
     }
 
   ngOnInit() {
@@ -66,18 +67,10 @@ export class ViewSummaryReportComponent implements OnInit {
         
         this.departments.splice(0, 0, this.defaultDept);
         this.summaryReportForm.get('department').patchValue(this.defaultDept);
-        this.dataSource.data = summaryReports as SummaryReportResponse[];
+        const report = summaryReports as SummaryReportResponse;
+        this.dataSource.data = report.monthlySummary;
         this.dataSource.sort = this.sort;
-        this.sum = new SummaryReportTotals();
-        if (this.dataSource)
-          for (let row of this.dataSource.data) {
-            if (row.totalHours !== 0) this.sum.totalHours += row.totalHours;
-            if (row.totalCost !== 0) this.sum.totalCost += row.totalCost;
-            if (row.totalDiscount !== 0) this.sum.totalDiscount += row.totalDiscount;
-            if (row.totalInvoice !== 0) this.sum.totalInvoice += row.totalInvoice;
-            if (row.burden !== 0) this.sum.totalBurden += row.burden;
-            if (row.totalMargin !== 0) this.sum.totalMargin += row.totalMargin;
-          }
+        
         //this.dataSource.paginator = this.paginator;
         this.spinner.hide();
       },
@@ -98,26 +91,16 @@ export class ViewSummaryReportComponent implements OnInit {
   }
 
   private executeGetReport = (summaryReportFormValue) => {
-    this.sum = new SummaryReportTotals();
     const request: SummaryReportRequest = {
       fromDate: summaryReportFormValue.fromdate,
       toDate: summaryReportFormValue.todate,
       department: summaryReportFormValue.department
     };
     this.dataService.getSummaryReport(request)
-      .subscribe((res: SummaryReportResponse[]) => {
+      .subscribe((res: SummaryReportResponse) => {
         window.scrollTo(0, 0);
-        this.dataSource.data = res as SummaryReportResponse[];
+        this.dataSource.data = res.monthlySummary;
         this.dataSource.sort = this.sort;
-        if (this.dataSource)
-          for (let row of this.dataSource.data) {
-            if (row.totalHours !== 0) this.sum.totalHours += row.totalHours;
-            if (row.totalCost !== 0) this.sum.totalCost += row.totalCost;
-            if (row.totalDiscount !== 0) this.sum.totalDiscount += row.totalDiscount;
-            if (row.totalInvoice !== 0) this.sum.totalInvoice += row.totalInvoice;
-            if (row.burden !== 0) this.sum.totalBurden += row.burden;
-            if (row.totalMargin !== 0) this.sum.totalMargin += row.totalMargin;
-          }
         //this.dataSource.paginator = this.paginator;
         this.spinner.hide();
       },

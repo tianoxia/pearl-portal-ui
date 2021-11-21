@@ -3,10 +3,20 @@
         <div class="row mt-2 pt-2">
             <div class="col-lg-12 col-md-12">
                 <app-alert></app-alert>
-                <h3>Weekly Pay Periods</h3>
-                <p>Click each pay period to view pay roll, invoices, control report, leaderboard report, commission report, timesheets and P&L report.</p>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                    Weekly Pay Periods<div class="back">                    
+                        <div class="icon mr-2 pr-2" (click)="back()">
+                            <i class="fas fa-arrow-left" title="Back"></i>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
+                    <p>{{weeklyPayPeriodSubTitle}}</p>
+                </div>
                 <form [formGroup]="payPeriodsForm" autocomplete="off" novalidate>
-                    <div class="col-lg-12 col-md-12">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                         <mat-form-field appearance="fill">
                             <mat-label>Select A Month</mat-label>
                             <mat-select formControlName="payPeriodMonth" (selectionChange)="changeMonth($event)" [compareWith]="compareWeekEndings">
@@ -18,7 +28,8 @@
                 <div *ngIf="payPeriods?.length>0">
                     <ul>  
                         <li *ngFor="let period of payPeriods | slice:0:limit; let i=index">
-                            <a href="#" [routerLink]="['weekly-pay-period-dashboard']" [queryParams]="{weekending: period.weekEnding1, payperiodid: period.payPeriodId, paydate: period.payDate, paytype: 'Weekly'}" 
+                            <a href="#" [routerLink]="['weekly-pay-period-dashboard']"
+                            [queryParams]="{weekending: period.weekEnding1, payperiodid: period.payPeriodId, paydate: period.payDate, paytype: 'Weekly', pagetype: pageType}" 
                             class="card"><i class="icofont-ui-calendar"></i> {{ period.weekEnding1 | date: 'MM/dd/yyyy' }}</a>
                         </li>
                     </ul>

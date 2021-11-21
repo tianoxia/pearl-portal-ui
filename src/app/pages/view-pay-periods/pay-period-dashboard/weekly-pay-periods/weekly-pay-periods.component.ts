@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { DatePipe } from '@angular/common';
 
@@ -15,22 +16,38 @@ import { PayPeriodsResponse } from 'app/_models';
 export class WeeklyPayPeriodsComponent implements OnInit {
 payPeriods: PayPeriodsResponse[] = [];
 allPayPeriods: PayPeriodsResponse[];
+weeklyPayPeriodSubTitle: string;
 months = new Set();
+pageType: string;
 @Input() payPeriodsForm: FormGroup;
 limit = 10;
   constructor(public alertService: AlertService,
     private dataService: DataService,
     private datePipe: DatePipe,
+    private route: ActivatedRoute,
+    private router: Router,
     fb: FormBuilder,
     private spinner: NgxSpinnerService) {
       this.payPeriodsForm = fb.group({
         payPeriodMonth: ''
       });
      }
-
+    back(): void {
+    this.router.navigate(['view-pay-periods/pay-period-dashboard'], {queryParams: { pagetype: this.pageType, payfrequency: 'Weekly'}});
+  }
   ngOnInit() {
     this.spinner.show();
-    this.loadData();
+    this.route.queryParamMap.subscribe(params => {
+      this.pageType = params.get('pagetype');
+      if (this.pageType === 'invoice') {
+        this.weeklyPayPeriodSubTitle = 'Click each pay period to view/print invoices, timesheets in PDF.';
+      } else if (this.pageType === 'payfile') {
+        this.weeklyPayPeriodSubTitle = 'Click each pay period to view/print employee pay files.';
+      } else if (this.pageType === 'report') {
+        this.weeklyPayPeriodSubTitle = 'Click each pay period to view/export assignment hours, control report, leaderboard report, commission report, timesheets and P&L report.';
+      }
+      this.loadData();
+    });
   }
   private loadData() {
     this.alertService.clear();

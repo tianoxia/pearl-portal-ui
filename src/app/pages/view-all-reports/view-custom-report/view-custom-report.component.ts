@@ -126,6 +126,7 @@ export class ViewCustomReportComponent implements OnInit {
 
   private executeGetReport = (customReportFormValue) => {
     let clientIds = [];
+    this.sum = new CustomReportTotals();
     if (this.selectClients.options.first.selected) {
         clientIds.push(0);
     } else {

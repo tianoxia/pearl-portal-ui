@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { StaticUtilities } from '../../../_helpers/static-utilities';
+import { StaticUtilities } from '../../../../_helpers/static-utilities';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 

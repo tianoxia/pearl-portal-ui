@@ -5,4 +5,5 @@ export class SummaryReportTotals {
     totalDiscount: number = 0;
     totalInvoice: number = 0;
     totalMargin: number = 0;
+    netMargin: number = 0;
 }
