@@ -1,5 +1,25 @@
 export class SummaryReportResponse {
     monthlySummary: MonthlySummary[];
+    annualSummary: AnnualSummary;
+}
+
+export class AnnualSummary {
+    annualContractHours: number;
+    annualTotalHours: number;
+    annualContractBurden: number;
+    annualPermBurden: number;
+    annualTotalBurden: number;
+    annualContractCost: number;
+    annualPermCost: number;
+    annualTotalCost: number;
+    annualContractInvoice: number;
+    annualTotalInvoice: number;
+    annualContractMargin: number;
+    annualPermMargin: number;
+    annualTotalMargin: number;
+    annualContractNetMargin: number;
+    annualPermNetMargin: number;
+    annualTotalNetMargin: number;
 }
 
 export class MonthlySummary {

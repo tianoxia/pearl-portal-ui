@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { forkJoin } from 'rxjs';
 
 import { AlertService, DataService } from 'app/_services';
-import { SummaryReportResponse, SummaryReportRequest, Department, MonthlySummary } from 'app/_models';
+import { SummaryReportResponse, SummaryReportRequest, Department, MonthlySummary, AnnualSummary } from 'app/_models';
 
 @Component({
   selector: 'app-view-summary-report',
@@ -19,6 +19,7 @@ export class ViewSummaryReportComponent implements OnInit {
   @Input() summaryReportForm: FormGroup;
   @Input() departments: Department[];
   startDate: Date;
+  annualSummary: AnnualSummary;
   defaultDept: Department = {
     departmentId: 0,
     name: 'All',
@@ -29,9 +30,11 @@ export class ViewSummaryReportComponent implements OnInit {
   public displayedColumns = ['weekEnding', 'contractorCount', 'totalHours', 'billRate',
           'payRate', 'hourlyMargin', 'totalCost', 'totalDiscount', 'totalInvoice', 'grossMargin',
           'contractBurden', 'netMargin'];
-  public displayedColumns2 = ['weekEnding1', 'totalHours1', 'totalCost1', 'totalDiscount1', 'totalInvoice1', 'grossMargin1',
+  public contractMonthlyColumns = ['weekEnding1', 'totalHours1', 'totalCost1', 'totalDiscount1', 'totalInvoice1', 'grossMargin1',
           'contractBurden1', 'netMargin1'];
-  public displayedColumns3 = ['weekEnding2', 'totalHours2', 'netMargin2'];
+  public permMonthlyColumns = ['weekEnding2', 'totalHours2', 'grossMargin2', 'permBurden', 'netMargin2'];
+  public monthlyTotalColumns = ['weekEnding3', 'totalHours3', 'grossMargin3', 'totalBurden', 'netMargin3'];
+  public annualTotalColumns = ['label','hours','rate','cost','discount','invoice','margin','burden','net'];
   public dataSource = new MatTableDataSource<MonthlySummary>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -58,17 +61,18 @@ export class ViewSummaryReportComponent implements OnInit {
     const request: SummaryReportRequest = {
       fromDate: new Date(new Date().getFullYear(), 0, 1),
       toDate: new Date(),
-      department: null
+      departmentId: 0
     };
+    this.summaryReportForm.get('department').patchValue(this.defaultDept);
     forkJoin([this.dataService.getAllDepartments(),
     this.dataService.getSummaryReport(request)])
       .subscribe(([departments, summaryReports]) => {
         this.departments = departments as Department[];
         
         this.departments.splice(0, 0, this.defaultDept);
-        this.summaryReportForm.get('department').patchValue(this.defaultDept);
         const report = summaryReports as SummaryReportResponse;
         this.dataSource.data = report.monthlySummary;
+        this.annualSummary = report.annualSummary;
         this.dataSource.sort = this.sort;
         
         //this.dataSource.paginator = this.paginator;
@@ -94,12 +98,13 @@ export class ViewSummaryReportComponent implements OnInit {
     const request: SummaryReportRequest = {
       fromDate: summaryReportFormValue.fromdate,
       toDate: summaryReportFormValue.todate,
-      department: summaryReportFormValue.department
+      departmentId: summaryReportFormValue.department.departmentId
     };
     this.dataService.getSummaryReport(request)
       .subscribe((res: SummaryReportResponse) => {
         window.scrollTo(0, 0);
         this.dataSource.data = res.monthlySummary;
+        this.annualSummary = res.annualSummary;
         this.dataSource.sort = this.sort;
         //this.dataSource.paginator = this.paginator;
         this.spinner.hide();

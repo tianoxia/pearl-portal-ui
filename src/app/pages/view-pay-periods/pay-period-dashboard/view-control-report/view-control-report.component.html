@@ -34,10 +34,15 @@
                     </div>
                 </form>
                 <mat-divider></mat-divider>
-                <div fxLayout fxLayoutAlign="start" class="mt-2 pt-2">
+                <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
                     <mat-form-field fxFlex="40%">
                       <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
                     </mat-form-field>
+                    <div fxFlex="60%" class="text-right" *ngIf="dataSource.data.length > 0">
+                        <button mat-button class="btn btn-primary text-transform-none" (click)="exportToExcel($event)"  matTooltip="Export to excel">
+                            <i class="fa fa-file-excel"></i> Export
+                        </button>
+                    </div>
                 </div>
                 <div class="report-container mat-elevation-z8">
                     <table mat-table [dataSource]="dataSource" matSort>

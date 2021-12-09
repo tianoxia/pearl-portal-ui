@@ -66,6 +66,9 @@ export class DataService {
   getControlReport(controlReportRequest: ControlReportRequest) {
     return this.http.post(this.baseurl + `/report/control`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  getMonthlyControlReport(controlReportRequest: ControlReportRequest) {
+    return this.http.post(this.baseurl + `/report/control/monthly`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
   getTeamPLReport(teamPLReportRequest: PLReportRequest) {
     return this.http.post(this.baseurl + `/report/teampl`, teamPLReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }

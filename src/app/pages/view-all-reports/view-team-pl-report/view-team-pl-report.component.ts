@@ -151,7 +151,7 @@ export class ViewTeamPlReportComponent implements OnInit {
           }
         }
       }
-      this.myData = response;
+      this.myData = response.filter(x => x.details.length > 0);
     }
   }
 }
