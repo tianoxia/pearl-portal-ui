@@ -2,6 +2,7 @@ export class ControlReportResponse {
     office: string;
     contractor: number;
     client: number;
+    duration: string;
     status: string;
     position: string;
     departmentName: string;

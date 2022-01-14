@@ -14,7 +14,7 @@
                 </div>
                 <div fxLayout="row" fxLayoutGap="20px">
                     <div fxFlex="15"><h5>WeekEnding: </h5></div>
-                    <div fxFlex>{{weekEnding | date: 'MM/dd/yyyy'}}</div>
+                    <div fxFlex>{{weekEnding | date: 'MM/dd/yyyy'}}, {{altWeekEnding | date: 'MM/dd/yyyy'}}</div>
                 </div>
                 <form [formGroup]="invoiceReportForm" autocomplete="off" novalidate (ngSubmit)="submitInvoiceReport(invoiceReportForm.value)">
                     <div fxLayout fxLayoutAlign="start" class="mt-2 pt-2">
@@ -150,9 +150,7 @@
                             <button mat-raised-button color="primary" fxFlex="20%">
                                 Send Invoices
                             </button>
-                            <a mat-raised-button href="#" routerLink="/view-pay-periods/weekly-pay-periods/weekly-pay-period-dashboard" 
-                            [queryParams]="{weekending: weekEnding, payperiodid: payPeriodId, paydate: payDate, paytype: payFrequency}"
-                            fxFlex="20%" class="btn btn-link">Cancel</a>
+                            <a mat-raised-button href="javascript:void(0);" (click)="navigateToPrevious()" fxFlex="20%" class="btn btn-link">Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -13,6 +13,6 @@
     },
     "apiServer": {
         "baseUrl": "http://localhost:14038/api",
-        "timeoutInSeconds":120000
+        "timeoutInSeconds":1200000
     }
 }

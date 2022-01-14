@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, SummaryReportRequest,
   PLReportRequest, CustomReportRequest, LoginRequest, ControlReportRequest } from '../_models';
+import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,12 @@ export class DataService {
   }
   getControlReport(controlReportRequest: ControlReportRequest) {
     return this.http.post(this.baseurl + `/report/control`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getCommissionReport(commissionReportRequest: CommissionReportRequest) {
+    return this.http.post(this.baseurl + `/report/commission`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getCommissionDetailReport(commissionReportRequest: CommissionReportRequest) {
+    return this.http.post(this.baseurl + `/report/commission/detail`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getMonthlyControlReport(controlReportRequest: ControlReportRequest) {
     return this.http.post(this.baseurl + `/report/control/monthly`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

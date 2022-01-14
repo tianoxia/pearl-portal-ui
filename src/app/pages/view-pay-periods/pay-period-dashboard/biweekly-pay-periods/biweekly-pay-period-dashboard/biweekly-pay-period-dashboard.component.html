@@ -77,7 +77,7 @@
         </div>
         <div class="row" *ngIf="isReportClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-invoices" [queryParams]="{weekending: selected, payperiodid: payPeriodId, paytype: 'Weekly', payfrequency: 'Weekly', paydate: payDate}">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-invoices" [queryParams]="{weekending: selected, altweekending: altWeekEnding, payperiodid: payPeriodId, paytype: 'Biweekly', payfrequency: 'Biweekly', paydate: payDate}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -94,7 +94,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-monthly-control-report" [queryParams]="{weekending: selected, payfrequency: 'Weekly'}">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-monthly-control-report" [queryParams]="{weekending: selected, payfrequency: 'Biweekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -163,7 +163,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-control-report" [queryParams]="{weekending: selected, payfrequency: 'Weekly'}">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-control-report" [queryParams]="{weekending: selected, payfrequency: 'Biweekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -181,7 +181,7 @@
         </div>
         <div class="row" *ngIf="isReportClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-commission-report" [queryParams]="{weekending: selected, payfrequency: 'Weekly'}">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-commission-report" [queryParams]="{weekending: selected, payfrequency: 'BiWeekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">

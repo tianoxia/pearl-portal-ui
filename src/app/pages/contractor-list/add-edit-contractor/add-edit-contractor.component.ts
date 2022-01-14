@@ -190,7 +190,7 @@ export class AddEditContractorComponent implements OnInit {
     this.contractorService.createContractor(request)
         .pipe(first())
         .subscribe((response: IApiResponse) => {
-          this.router.navigate(['contractor-list'], {queryParams: { message: response.message, action: this.action }});          
+          this.router.navigate(['contractor-list'], {queryParams: { message: response.message, action: this.action }});
         },
         error => {
           window.scrollTo(0, 0);

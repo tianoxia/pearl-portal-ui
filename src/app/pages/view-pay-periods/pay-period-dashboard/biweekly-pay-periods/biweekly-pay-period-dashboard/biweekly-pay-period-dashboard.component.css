@@ -1,0 +1,11 @@
+.container.weekly-dashboard mat-icon {
+  padding-left: 4px;
+  padding-top: 17px;
+}
+div.filter-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 25px;
+    font-weight: 500;
+    color: #000000;
+}

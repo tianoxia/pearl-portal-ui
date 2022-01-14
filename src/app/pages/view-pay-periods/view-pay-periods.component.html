@@ -1,8 +1,24 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 mt-1 pt-1">
-                <a href="#" [routerLink]="['pay-period-dashboard']" [queryParams]="{payfrequency: 'Bi-Weekly'}">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" [routerLink]="['pay-period-dashboard']" [queryParams]="{payfrequency: 'Biweekly'}">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2 mb-2 pb-2">
+                                <i class="material-icons">monetization_on</i>
+                            </div>
+                            <div><h3>Pay Periods</h3></div>
+                        </div>
+                        <div class="row">
+                            <p>Click here to manage pay periods.</p>
+                            <i class="icofont-bubble-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a href="#" [routerLink]="['pay-period-dashboard']" [queryParams]="{payfrequency: 'Biweekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -18,7 +34,7 @@
                 </a>
             </div>
 
-            <div class="col-lg-6 col-md-6 mt-1 pt-1">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
                 <a href="#" [routerLink]="['pay-period-dashboard']" [queryParams]="{payfrequency: 'Weekly'}">
                     <div class="single-services">
                         <div class="row">

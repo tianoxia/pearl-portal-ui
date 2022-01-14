@@ -30,6 +30,7 @@ export class ViewInvoicesComponent implements OnInit {
   @Input() invoiceReportForm: FormGroup;
   payDate: Date;
   weekEnding: Date;
+  altWeekEnding: Date;
   payPeriodId: number;
   payFrequency: string;
   selectedInvoice: InvoiceReportResponse;
@@ -69,6 +70,7 @@ export class ViewInvoicesComponent implements OnInit {
     this.route.queryParamMap.subscribe(params => {
       this.payDate = new Date(params.get('paydate'));
       this.weekEnding = new Date(params.get('weekending'));
+      this.altWeekEnding = params.get('altweekending') ? new Date(params.get('altweekending')) : null;
       this.payPeriodId = +params.get('payperiodid');
       this.payFrequency = params.get('payfrequency');
       const request: InvoiceReportRequest = {
@@ -76,7 +78,8 @@ export class ViewInvoicesComponent implements OnInit {
         payDate: this.datePipe.transform(params.get('paydate'), 'yyyy-MM-dd'),
         payFrequency: params.get('payfrequency'),
         weekEnding1: this.datePipe.transform(params.get('weekending'), 'yyyy-MM-dd'),
-        weekEnding2: '2021-08-30',
+        weekEnding2: this.altWeekEnding ? this.datePipe.transform(params.get('altweekending'), 'yyyy-MM-dd') :
+        this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
         isRequestFromInvoicesReport: false
       };
       if (this.payPeriodId > 0) {
@@ -111,7 +114,8 @@ export class ViewInvoicesComponent implements OnInit {
             payFrequency: this.payFrequency,
             weekEnding1: this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'),
             invoiceGroupId: x.invoiceGroupId,
-            weekEnding2: '2021-08-30',
+            weekEnding2: this.altWeekEnding ? this.datePipe.transform(this.altWeekEnding, 'yyyy-MM-dd') :
+            this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
             isRequestFromInvoicesReport: true
           };
           this.invoiceService.getLogoImage().subscribe(res => {
@@ -703,5 +707,11 @@ export class ViewInvoicesComponent implements OnInit {
 
   navigateViewInvoice(invoiceGroupId: number) {
 
+  }
+
+  navigateToPrevious() {    
+    this.router.navigate(this.payFrequency === 'Weekly' ? ['view-pay-periods/pay-period-dashboard/weekly-pay-periods/weekly-pay-period-dashboard'] :
+    ['view-pay-periods/pay-period-dashboard/biweekly-pay-periods/biweekly-pay-period-dashboard'],
+    {queryParams: { weekending: this.weekEnding, altweekending: this.altWeekEnding, pagetype: 'report', payperiodid: this.payPeriodId, paydate: this.payDate, paytype: this.payFrequency }});
   }
 }

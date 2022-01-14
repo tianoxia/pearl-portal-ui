@@ -24,7 +24,7 @@
                         </mat-form-field>                        
                         <mat-form-field appearance="fill" fxFlex="20%">
                             <mat-label>Client</mat-label>                
-                            <mat-select formControlName="client" [compareWith]="compareDepartments">
+                            <mat-select formControlName="client" [compareWith]="compareClients">
                                 <mat-option *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>                        

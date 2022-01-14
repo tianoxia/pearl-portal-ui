@@ -42,6 +42,9 @@ const appRoutes: Routes = [
   canActivate: [AuthGuard] },
   { path: 'view-pay-periods/pay-period-dashboard/weekly-pay-periods',
   loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/weekly-pay-periods/weekly-pay-periods.module').then(m => m.ViewWeeklyPayPeriodsModule),
+  canActivate: [AuthGuard] },
+  { path: 'view-pay-periods/pay-period-dashboard/biweekly-pay-periods',
+  loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/biweekly-pay-periods/biweekly-pay-periods.module').then(m => m.ViewBiWeeklyPayPeriodsModule),
   canActivate: [AuthGuard] }
 ];
 

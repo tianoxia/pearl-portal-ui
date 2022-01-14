@@ -92,18 +92,18 @@ export class ViewMonthlyControlReportComponent implements OnInit {
     this.dataService.getAllRecruiters(), this.dataService.getAllClients(),
     this.dataService.getMonthlyControlReport(request)])
       .subscribe(([departments, recruiters, clients, controlReports]) => {
-        this.departments = departments as Department[];
-        this.recruiters = recruiters as Recruiter[];
-        this.clients = clients as Client[];
         this.dataSource.data = controlReports as ControlReportResponse[];
         this.dataSource.sort = this.sort;
-        this.departments.splice(0, 0, this.defaultDept);
-        this.controlReportForm.get('department').patchValue(this.defaultDept);
-        this.clients.splice(0, 0, this.defaultClient);
-        this.recruiters.splice(0, 0, this.defaultRecruiter);
-        this.controlReportForm.get('recruiter').patchValue(this.defaultRecruiter); 
-        this.controlReportForm.get('client').patchValue(this.defaultClient);
-        if (this.dataSource)
+        if (this.dataSource.data.length > 0) {
+          this.departments = departments as Department[];
+          this.recruiters = recruiters as Recruiter[];
+          this.clients = clients as Client[];
+          this.departments.splice(0, 0, this.defaultDept);
+          this.controlReportForm.get('department').patchValue(this.defaultDept);
+          this.clients.splice(0, 0, this.defaultClient);
+          this.recruiters.splice(0, 0, this.defaultRecruiter);
+          this.controlReportForm.get('recruiter').patchValue(this.defaultRecruiter); 
+          this.controlReportForm.get('client').patchValue(this.defaultClient);          
           for (let row of this.dataSource.data) {
             if (row.hours !== 0) this.sum.totalHours += row.hours;
             if (row.otHours !== 0) this.sum.totalOTHours += row.otHours;
@@ -120,8 +120,11 @@ export class ViewMonthlyControlReportComponent implements OnInit {
             if (row.invoice !== 0) this.sum.totalInvoice += row.invoice;
             if (row.margin !== 0) this.sum.totalMargin += row.margin;
           }
-        this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
-        this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
+          this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
+          this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
+        } else {
+          this.alertService.error('No Record Found');
+        }
         this.spinner.hide();
       },
       (error => {
@@ -158,9 +161,9 @@ export class ViewMonthlyControlReportComponent implements OnInit {
     this.dataService.getMonthlyControlReport(request)
       .subscribe((res: ControlReportResponse[]) => {
         window.scrollTo(0, 0);
-        this.dataSource.data = res as ControlReportResponse[];
+        this.dataSource.data = res;
         this.dataSource.sort = this.sort;
-        if (this.dataSource)
+        if (this.dataSource.data.length > 0) {
           for (let row of this.dataSource.data) {
             if (row.hours !== 0) this.sum.totalHours += row.hours;
             if (row.otHours !== 0) this.sum.totalOTHours += row.otHours;
@@ -177,9 +180,12 @@ export class ViewMonthlyControlReportComponent implements OnInit {
             if (row.invoice !== 0) this.sum.totalInvoice += row.invoice;
             if (row.margin !== 0) this.sum.totalMargin += row.margin;
           }
-          this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
-          this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
-          this.spinner.hide();
+        } else {
+          this.alertService.error('No Record Found');
+        }
+        this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
+        this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
+        this.spinner.hide();
       },
       (error => {
         this.spinner.hide();

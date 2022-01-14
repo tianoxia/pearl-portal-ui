@@ -33,3 +33,5 @@ export * from './invoice-group';
 export * from './contact';
 export * from './control-report-request';
 export * from './control-report-response';
+export * from './commission-report-request';
+export * from './commission-report-response';
