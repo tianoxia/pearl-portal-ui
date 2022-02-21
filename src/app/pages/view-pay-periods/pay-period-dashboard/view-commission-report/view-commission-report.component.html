@@ -45,7 +45,7 @@
                         </button>
                     </div> -->
                 </div>
-                <div class="report-container mat-elevation-z8">
+                <div class="commission-report-container mat-elevation-z8">
                     <table *ngIf="commissionReport?.employeeCommissionReportDetails.length>0" multiTemplateDataRows
                         mat-table [dataSource]="commissionReport?.employeeCommissionReportDetails" matSort>
                         <ng-container [matColumnDef]="dynamicColumn" *ngFor="let dynamicColumn of displayedColumns">
@@ -63,7 +63,7 @@
                                     </span>
                                 </span>
                             </td>
-                            <td mat-footer-cell *matFooterCellDef>
+                            <td mat-footer-cell *matFooterCellDef sticky>
                                 <span *ngIf="dynamicColumn == 'MTDRecruitCommission'">
                                     {{commissionReport.mtdRecruitCommissionTotal | currency}}</span>
                                 <span *ngIf="isWeekEnding(dynamicColumn)">

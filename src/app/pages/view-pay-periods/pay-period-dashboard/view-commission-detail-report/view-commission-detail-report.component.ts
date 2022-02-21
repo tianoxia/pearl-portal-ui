@@ -27,6 +27,7 @@ export class ViewCommissionDetailReportComponent implements OnInit {
   floatLabelControl = new FormControl('auto');
   employeeId: number;
   employeeStatus: string;
+  commissionReportData: CommissionReportData;
   public displayedColumns: string[] = ['assignment', 'recruitGrossMargin', 'salesGrossMargin',
   'recruitRate', 'salesRate', 'recruitCommission', 'salesCommission', 'totalCommission'];
   public dataSource = new MatTableDataSource<WeeklyCommissionReport>();
@@ -66,6 +67,7 @@ export class ViewCommissionDetailReportComponent implements OnInit {
       .subscribe(([recruiters, commissionReport]) => {
         this.recruiters = recruiters as Recruiter[];
         if (commissionReport) {
+          this.commissionReportData = commissionReport as CommissionReportData;
           this.dataSource.data = (commissionReport as CommissionReportData).weeklyCommissionReports as WeeklyCommissionReport[];
           this.dataSource.sort = this.sort;
         }
@@ -96,8 +98,11 @@ export class ViewCommissionDetailReportComponent implements OnInit {
       .subscribe((res: CommissionReportData) => {
         window.scrollTo(0, 0);
         if (res) {
+          this.commissionReportData = res as CommissionReportData;
           this.dataSource.data = (res as CommissionReportData).weeklyCommissionReports as WeeklyCommissionReport[];
           this.dataSource.sort = this.sort;
+        } else {
+          this.dataSource.data = [];
         }
         
         this.dataSource.sort = this.sort;

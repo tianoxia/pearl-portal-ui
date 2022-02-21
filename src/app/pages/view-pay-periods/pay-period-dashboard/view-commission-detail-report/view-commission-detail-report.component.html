@@ -25,7 +25,7 @@
                 <div class="report-detail-container mat-elevation-z8" *ngIf="dataSource.data.length>0">
                     <mat-accordion [multi]="false" #accordion="matAccordion">
                         <mat-expansion-panel class="expansion-panel" [expanded]="isFirst"
-                                             *ngFor="let report of dataSource.data; first as isFirst">
+                                             *ngFor="let report of dataSource.data; index as i; first as isFirst; last as isLast">
                           <mat-expansion-panel-header class="expansion-row" #panel>
                             <mat-panel-title>
                               <div class="font-weight-semibold">Detailed Commission Report for Pay Period Ending {{report.weekEnding | date: 'MM/dd/yyyy'}} ({{report.commissionReportDetails.length}} Records)</div>
@@ -38,7 +38,10 @@
                                 <td mat-cell *matCellDef="let detail" class="m-card-title">
                                   {{detail.assignment}}
                                 </td>
-                                <td mat-footer-cell *matFooterCellDef>Total:</td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  <span>Total:</span>
+                                  <span *ngIf="isLast"><br>MTD Totals:</span>
+                                </td>
                               </ng-container>
       
                               <ng-container matColumnDef="recruitGrossMargin">
@@ -46,7 +49,10 @@
                                 <td mat-cell *matCellDef="let detail">
                                   {{detail.recruitGrossMargin | currency}}
                                 </td>
-                                <td mat-footer-cell *matFooterCellDef>{{report.weeklyRecruitGrossMargin | currency}}</td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  <span>{{report.weeklyRecruitGrossMargin | currency}}</span>
+                                  <span *ngIf="isLast"><br>{{commissionReportData.mtdRecruitGrossMargin | currency}}</span>
+                                </td>
                               </ng-container>
                               
                               <ng-container matColumnDef="salesGrossMargin">
@@ -54,7 +60,10 @@
                                 <td mat-cell *matCellDef="let detail">   
                                      {{detail.salesGrossMargin | currency}}
                                 </td>
-                                <td mat-footer-cell *matFooterCellDef>{{report.weeklySalesGrossMargin | currency}}</td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  <span>{{report.weeklySalesGrossMargin | currency}}</span>
+                                  <span *ngIf="isLast"><br>{{commissionReportData.mtdSalesGrossMargin | currency}}</span>
+                                </td>
                               </ng-container>
                               <ng-container matColumnDef="recruitRate">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Recruit Rate</th>
@@ -75,21 +84,30 @@
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.recruitCommission | currency}}
                                 </td>
-                                <td mat-footer-cell *matFooterCellDef>{{report.weeklyRecruitCommission | currency}}</td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  <span>{{report.weeklyRecruitCommission | currency}}</span>
+                                  <span *ngIf="isLast"><br>{{commissionReportData.mtdRecruitCommission | currency}}</span>
+                                </td>
                               </ng-container>
                               <ng-container matColumnDef="salesCommission">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Commission</th>
                                 <td mat-cell *matCellDef="let detail">   
-                                  {{detail.salesCommission | currency}}
+                                  {{detail.salesCommission | currency}}                                  
                                 </td>
-                                <td mat-footer-cell *matFooterCellDef>{{report.weeklySalesCommission | currency}}</td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  <span>{{report.weeklySalesCommission | currency}}</span>
+                                  <span *ngIf="isLast"><br>{{commissionReportData.mtdSalesCommission | currency}}</span>
+                                </td>
                               </ng-container>
                               <ng-container matColumnDef="totalCommission">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Commission</th>
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.totalCommission | currency}}
                                 </td>
-                                <td mat-footer-cell *matFooterCellDef>{{report.weeklyTotalCommission | currency}}</td>
+                                <td mat-footer-cell *matFooterCellDef>                                  
+                                  <span>{{report.weeklyTotalCommission | currency}}</span>
+                                  <span *ngIf="isLast"><br>{{commissionReportData.mtdTotalCommission | currency}}</span>
+                                </td>
                               </ng-container>
                               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -47,7 +47,7 @@
                       <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
                     </mat-form-field>
                 </div>
-                <div class="report-container mat-elevation-z8">
+                <div class="summary-report-container mat-elevation-z8">
                     <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
                         <ng-container matColumnDef="weekEnding" sticky>
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Week Ending</th>
@@ -220,55 +220,55 @@
                             <td mat-footer-cell *matFooterCellDef [attr.colspan]="2">
                                 <span>Contract Totals:</span><br>
                                 <span>PP Totals:</span><br>
-                                <span>Totals:</span>
+                                <span>Totals:</span></td>
                         </ng-container>
                         <ng-container matColumnDef="hours">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span>{{annualSummary?.annualContractHours | number:'1.0-0'}}</span><br>
                                 <span>&nbsp;</span><br>
-                                <span>{{annualSummary?.annualTotalHours | number:'1.0-0'}}</span>
+                                <span>{{annualSummary?.annualTotalHours | number:'1.0-0'}}</span></td>
                         </ng-container>
                         <ng-container matColumnDef="rate">
                             <td mat-footer-cell *matFooterCellDef [attr.colspan]="3">
                                 <span></span><br>
                                 <span></span><br>
-                                <span></span>
+                                <span></span></td>
                         </ng-container>
                         <ng-container matColumnDef="cost">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span>{{annualSummary?.annualContractCost | currency}}</span><br>
                                 <span>{{annualSummary?.annualPermCost | currency}}</span><br>
-                                <span>{{annualSummary?.annualTotalCost | currency}}</span>
+                                <span>{{annualSummary?.annualTotalCost | currency}}</span></td>
                         </ng-container>
                         <ng-container matColumnDef="discount">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span></span><br>
                                 <span></span><br>
-                                <span></span>
+                                <span></span></td>
                         </ng-container>
                         <ng-container matColumnDef="invoice">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span>{{annualSummary?.annualContractInvoice | currency}}</span><br>
                                 <span></span><br>
-                                <span>{{annualSummary?.annualTotalInvoice | currency}}</span>
+                                <span>{{annualSummary?.annualTotalInvoice | currency}}</span></td>
                         </ng-container>
                         <ng-container matColumnDef="margin">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span>{{annualSummary?.annualContractMargin | currency}}</span><br>
                                 <span>{{annualSummary?.annualPermMargin | currency}}</span><br>
-                                <span>{{annualSummary?.annualTotalMargin | currency}}</span>
+                                <span>{{annualSummary?.annualTotalMargin | currency}}</span></td>
                         </ng-container>
                         <ng-container matColumnDef="burden">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span>{{annualSummary?.annualContractBurden | currency}}</span><br>
                                 <span>{{annualSummary?.annualPermBurden | currency}}</span><br>
-                                <span>{{annualSummary?.annualTotalBurden | currency}}</span>
+                                <span>{{annualSummary?.annualTotalBurden | currency}}</span></td>
                         </ng-container>
                         <ng-container matColumnDef="net">
                             <td mat-footer-cell *matFooterCellDef>
                                 <span>{{annualSummary?.annualContractNetMargin | currency}}</span><br>
                                 <span>{{annualSummary?.annualPermNetMargin | currency}}</span><br>
-                                <span>{{annualSummary?.annualTotalNetMargin | currency}}</span>
+                                <span>{{annualSummary?.annualTotalNetMargin | currency}}</span></td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                         <tr mat-row *matRowDef="let report; columns: displayedColumns;"></tr>

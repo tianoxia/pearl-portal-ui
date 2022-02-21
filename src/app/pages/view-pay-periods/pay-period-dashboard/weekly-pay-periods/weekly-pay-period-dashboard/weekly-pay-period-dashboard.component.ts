@@ -5,9 +5,11 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RowInput } from 'jspdf-autotable';
 import { DatePipe, CurrencyPipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 
 import { InvoiceReportService, AlertService } from 'app/_services';
 import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse, InvoiceReportRequest } from 'app/_models';
+import { AddEditPayPeriodComponent } from 'app/pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
 
 @Component({
   selector: 'app-weekly-pay-period-dashboard',
@@ -28,6 +30,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
   selected: Date;
   constructor(public alertService: AlertService,
     private spinner: NgxSpinnerService,
+    private dialog: MatDialog,
     private invoiceService: InvoiceReportService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
@@ -494,5 +497,18 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         report.saturdayHours).toFixed(2).toString()+'\n\n'+this.currencyPipe.transform(report.billRate.toFixed(2), 'USD')+'\n\n'
         +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
     ];
+  }
+  editPayPeriod() {
+    const modalref = this.dialog.open(AddEditPayPeriodComponent, {
+      panelClass: 'update-enddate-dialog',
+      maxWidth: window.innerWidth < 600? '90vw' : '80vw',
+      data: {
+        payPeriodId: this.payPeriodId,
+        payDate: this.payDate,
+        payFrequency: 'W',
+        pageType: this.pageType
+      }
+    });
+    return false;
   }
 }

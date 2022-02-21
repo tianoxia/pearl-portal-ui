@@ -12,7 +12,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { LayoutModule } from './shared/layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { AppConfig } from './app.config';
-import { NavigationService } from './_services';
+import { KeyBoardService, NavigationService } from './_services';
 import { AuthGuard, JwtInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { LoginComponent, LoginHelpDialogComponent } from './pages/login/login.component';
@@ -28,6 +28,8 @@ import { AssignmentListComponent } from './pages/assignment-list/assignment-list
 import { AssignmentListModule } from './pages/assignment-list/assignment-list.module';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { UpdateAssignmentEndDateComponent } from './pages/assignment-list/update-assignment-enddate/update-assignment-enddate.component';
+import { AddEditPayPeriodComponent } from './pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
+import { ArrowDivDirective } from './shared/directives/arrow-div.directive';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -61,16 +63,19 @@ export function initializeApp(appConfig: AppConfig) {
     ViewPayPeriodsComponent,
     AssignmentListComponent,
     UnauthorizedComponent,
-    UpdateAssignmentEndDateComponent
+    UpdateAssignmentEndDateComponent,
+    AddEditPayPeriodComponent,
+    ArrowDivDirective
   ],
   providers: [
     AppConfig, AuthGuard,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [AppConfig], multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    KeyBoardService
  ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginHelpDialogComponent, UpdateAssignmentEndDateComponent]
+  entryComponents: [LoginHelpDialogComponent, UpdateAssignmentEndDateComponent, AddEditPayPeriodComponent]
 })
 export class AppModule { }

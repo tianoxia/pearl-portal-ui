@@ -4,8 +4,8 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorDetails, SummaryReportRequest,
-  PLReportRequest, CustomReportRequest, LoginRequest, ControlReportRequest } from '../_models';
+import { ErrorDetails, SummaryReportRequest, PLReportRequest, CustomReportRequest,
+  LoginRequest, ControlReportRequest, AssignmentHoursRequest } from '../_models';
 import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
@@ -66,6 +66,9 @@ export class DataService {
   }
   getControlReport(controlReportRequest: ControlReportRequest) {
     return this.http.post(this.baseurl + `/report/control`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getAssignmentHours(assignmentHoursRequest: AssignmentHoursRequest) {
+    return this.http.post(this.baseurl + `/report/assignmenthours/all`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getCommissionReport(commissionReportRequest: CommissionReportRequest) {
     return this.http.post(this.baseurl + `/report/commission`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

@@ -672,7 +672,7 @@ export class ViewInvoicesComponent implements OnInit {
       autoFocus: true,
       width: '400px',
       disableClose: true
-    });    
+    });
     return false;
   }
 

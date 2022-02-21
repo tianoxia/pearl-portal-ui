@@ -1,5 +1,4 @@
-.report-container {
-    max-height: 450px;
+.sunmmary-report-container {
     overflow: auto;
 }
 div.filter-header {
@@ -14,6 +13,10 @@ div.filter-header {
     display: inline-block;
     line-height: 1;
     margin-right: 10px;
+}
+.container>.sunmmary-report-container .mat-table {
+    overflow: auto;
+    width: 100%;
 }
 th.mat-header-cell {
     font-weight: 600 !important;
