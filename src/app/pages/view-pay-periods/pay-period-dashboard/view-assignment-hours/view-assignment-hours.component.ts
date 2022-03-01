@@ -6,8 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AlertService, DataService, ExportService, KeyBoardService } from 'app/_services';
-import { AssignmentHoursResponse, AssignmentHoursRequest } from 'app/_models';
+import { AlertService, AssignmentHoursService, KeyBoardService } from 'app/_services';
+import { AssignmentHoursResponse, AssignmentHoursRequest, IApiResponse } from 'app/_models';
 import { ArrowDivDirective } from 'app/shared/directives/arrow-div.directive';
 
 export const data = [["uno", "one"], ["dos", "two"], ["tres", "three"]];
@@ -31,42 +31,28 @@ export class ViewAssignmentHoursComponent implements OnInit {
   myformArray: FormArray;
   floatLabelControl = new FormControl('auto');
   public displayedColumns = ['assignment', 'description',
-          'hours', 'otHours', 'dtHours', 'payRate', 'otRate',
-          'dtRate', 'billRate', 'otBillRate', 'dtBillRate', 'burdenRate', 'expCost', 'notes',
-          'ppExp', 'oopExp', 'expAllowance'];
+    'hours', 'otHours', 'dtHours', 'payRate', 'otRate',
+    'dtRate', 'billRate', 'otBillRate', 'dtBillRate', 'burdenRate', 'expCost', 'notes',
+    'ppExp', 'oopExp', 'expAllowance'];
   public dataSource = new MatTableDataSource<AssignmentHoursResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
   constructor(public alertService: AlertService,
-    fb: FormBuilder, private route: ActivatedRoute,
-    private dataService: DataService,
+    private fb: FormBuilder, private route: ActivatedRoute,
+    private assignmentHoursService: AssignmentHoursService,
     private datePipe: DatePipe,
     private keyboardService: KeyBoardService,
     private router: Router,
     private spinner: NgxSpinnerService) {
-      this.assignmentHoursForm = fb.group({
-        floatLabel: this.floatLabelControl,
-        hours: [''],
-        otHours: [''],
-        dtHours: [''],
-        payRate: [''],
-        otRate: [''],
-        dtRate: [''],
-        burdenRate: [''],
-        ppExp: [''],
-        oopExp: [''],
-        expAllowance: [''],
-        expCost: [''],
-        billRate: [''],
-        otBillRate: [''],
-        dtBillRate: [''],
-        notes: ''
-      });
-    }
+
+    this.assignmentHoursForm = this.fb.group({
+      assignmentHours: this.fb.array([])      
+    });
+  }
   ngOnInit() {
-    window.scrollTo(0, 0);    
-    this.spinner.show();    
+    window.scrollTo(0, 0);
+    this.spinner.show();
     this.route.queryParamMap.subscribe(params => {
       this.payDate = new Date(params.get('paydate'));
       this.altWeekEnding = params.get('altweekending') ? new Date(params.get('altweekending')) : null;
@@ -78,52 +64,54 @@ export class ViewAssignmentHoursComponent implements OnInit {
   }
 
   private loadData() {
-    const request: AssignmentHoursRequest = {
-      weekEnding: this.weekEnding,
-      payFrequency: this.payFrequency
-    };
-    this.dataService.getAssignmentHours(request)
+    const request: AssignmentHoursRequest = new AssignmentHoursRequest();
+    request.payPeriodId = this.payPeriodId;
+    request.payFrequency = this.payFrequency;
+    request.weekEnding = this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd');
+    this.assignmentHoursService.getAssignmentHours(request)
       .subscribe((assignmentHoursReports: AssignmentHoursResponse[]) => {
         this.dataSource.data = assignmentHoursReports;
-        this.dataSource.sort = this.sort;        
-        this.subTitle = 'for Week Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
+        this.dataSource.sort = this.sort;
+        this.setAssignmentHoursForm();
+        this.subTitle = 'for Week Ending ' + this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy') + ' (' + this.dataSource.data.length + ' Records)';
         this.spinner.hide();
         this.keyboardService.keyBoard.subscribe(res => {
           this.move(res);
         });
       },
-      (error => {
-        this.spinner.hide();
-        this.alertService.error(error);
-      })
-    );
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
   }
-  public showReport = (controlReportFormValue) => {
-    if (this.assignmentHoursForm.valid) {
-      this.spinner.show();
-      this.executeGetReport(controlReportFormValue);
-    }
-  }
-
-  private executeGetReport = (controlReportFormValue) => {
-    const request: AssignmentHoursRequest = {
-      weekEnding: this.weekEnding,
-      payFrequency: this.payFrequency
-    };
-    this.dataService.getAssignmentHours(request)
-      .subscribe((res: AssignmentHoursResponse[]) => {
-        window.scrollTo(0, 0);
-        this.dataSource.data = res as AssignmentHoursResponse[];
-        this.dataSource.sort = this.sort;
-        this.subTitle = 'for Week Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
-        this.spinner.hide();
-        this.columns = 17;
-      },
-      (error => {
-        this.spinner.hide();
-        this.alertService.error(error);
-      })
-    );
+  private setAssignmentHoursForm(){
+    const assignmentHoursCtrl = this.assignmentHoursForm.get('assignmentHours') as FormArray;
+    this.dataSource.data.forEach((hr)=>{
+      assignmentHoursCtrl.push(this.setAssignmentHoursFormArray(hr));
+    })
+  };
+  private setAssignmentHoursFormArray(hour){
+    return this.fb.group({
+      assignmentId: [hour.assignmentId],
+      hours: [hour.hours],
+      otHours: [hour.otHours],
+      dtHours: [hour.dtHours],
+      payRate: [hour.payRate],
+      otRate: [hour.otRate],
+      dtRate: [hour.dtRate],
+      burdenRate: [hour.burdenRate],
+      ppExp: [hour.ppExp],
+      oopExp: [hour.oopExp],
+      expAllowance: [hour.expAllowance],
+      expCost: [hour.expCost],
+      billRate: [hour.billRate],
+      otBillRate: [hour.otBillRate],
+      dtBillRate: [hour.billRate],
+      notes: [hour.notes],
+      hoursId: [hour.assignmentHoursId],
+      hoursRecordType: [hour.hoursRecordType]
+    });
   }
   move(object) {
     const inputToArray = this.inputs.toArray();
@@ -157,7 +145,78 @@ export class ViewAssignmentHoursComponent implements OnInit {
       inputToArray[index].element.nativeElement.focus();
     }
   }
-  updateReport() {
-return false;
+  public addEditAssignmentHours = () => {
+    // reset alerts on submit
+    this.alertService.clear();
+
+    // stop here if form is invalid
+    if (this.assignmentHoursForm.invalid) {
+        return;
+    }
+
+    this.spinner.show();
+    let hours: AssignmentHoursRequest[];
+    hours = this.assignmentHoursForm.value.assignmentHours.map(hoursRecord => ({ 
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payFrequency,
+      weekEnding: this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'),
+      assignmentId: +hoursRecord.assignmentId,
+      hours: +hoursRecord.hours,
+      overTimeHours: +hoursRecord.otHours,
+      dtHours: +hoursRecord.dtHours,
+      payRate: +hoursRecord.payRate,
+      otRate: +hoursRecord.otRate,
+      dtRate: +hoursRecord.dtRate,
+      burdenRate: +hoursRecord.burdenRate,
+      averyPrePaidExpenses: +hoursRecord.ppExp,
+      averyOutOfPocketExpenses: +hoursRecord.oopExp,
+      expenseAllowance: +hoursRecord.expAllowance,
+      expenses: +hoursRecord.expCost,
+      billRate: +hoursRecord.billRate,
+      otBillRate: +hoursRecord.otBillRate,
+      dtBillRate: +hoursRecord.dtBillRate,
+      notes: hoursRecord.notes,
+      hoursId: +hoursRecord.hoursId,
+      hoursRecordType: hoursRecord.hoursRecordType
+    }));
+    this.createUpdateAssignmentHours(hours);
+  }
+
+  private createUpdateAssignmentHours(hoursRecord: AssignmentHoursRequest[]) {
+    //const request = this.setAssignmentHoursRequest(hoursRecord) as AssignmentHoursRequest;    
+    this.assignmentHoursService.createUpdateAssignmentHours(hoursRecord)
+        .subscribe((response: IApiResponse) => {
+          this.spinner.hide();
+          this.alertService.success(response.message);
+        },
+        error => {
+          window.scrollTo(0, 0);
+          this.alertService.error(error);
+          this.spinner.hide();
+        });
+  }
+  private setAssignmentHoursRequest(hoursRecord: any): AssignmentHoursRequest {
+    return {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payFrequency,
+      weekEnding: this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'),
+      assignmentId: hoursRecord.assignmentId,
+      hours: hoursRecord.hours,
+      overTimeHours: hoursRecord.otHours,
+      dtHours: hoursRecord.dtHours,
+      payRate: hoursRecord.payRate,
+      otRate: hoursRecord.otRate,
+      dtRate: hoursRecord.dtRate,
+      burdenRate: hoursRecord.burdenRate,
+      averyPrePaidExpenses: hoursRecord.ppExp,
+      averyOutOfPocketExpenses: hoursRecord.oopExp,
+      expenseAllowance: hoursRecord.expAllowance,
+      expenses: hoursRecord.expCost,
+      billRate: hoursRecord.billRate,
+      otBillRate: hoursRecord.otBillRate,
+      dtBillRate: hoursRecord.dtBillRate,
+      notes: hoursRecord.notes,
+      hoursId: hoursRecord.hoursId
+    } as AssignmentHoursRequest;
   }
 }

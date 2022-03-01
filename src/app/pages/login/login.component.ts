@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
           const request = new LoginRequest();
           request.userName = this.loginForm.controls.email.value;
           request.password = this.loginForm.controls.password.value;
-          request.portalType = "Corporate";
+          request.portalType = 'Corporate';
           request.browser = window.navigator.userAgent;
           return request;
         }

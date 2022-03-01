@@ -7,9 +7,10 @@ import { MatOption } from '@angular/material/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
-import { AlertService, DataService } from 'app/_services';
+import { AlertService, DataService, ExportService } from 'app/_services';
 import { CustomReportResponse, CustomReportRequest,
   Department, Recruiter, Client, CustomReportTotals } from 'app/_models';
+import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-custom-report',
@@ -47,6 +48,10 @@ export class ViewCustomReportComponent implements OnInit {
   constructor(public alertService: AlertService,
     fb: FormBuilder,
     private dataService: DataService,
+    private exportService: ExportService,
+    private datePipe: DatePipe,
+    private currencyPipe: CurrencyPipe,
+    private decimalPipe: DecimalPipe,
     private spinner: NgxSpinnerService) {
       this.defaultClient = new Client();
       this.defaultClient.clientId = 0;
@@ -171,5 +176,79 @@ export class ViewCustomReportComponent implements OnInit {
         this.alertService.error(error);
       })
     );
+  }
+  exportToExcel(event) {
+    this.exportService.exportExcelWithFormat(this.customReportPrint(), 'customreport', this.reportColumns());
+    event.preventDefault();
+  }
+  reportColumns(): any[] {
+    const leftColumnStyle = { font: { name: 'Calibri', size: 11 }, alignment: { horizontal: 'left' } };
+    const centerColumnStyle = { font: { name: 'Calibri', size: 11 }, alignment: { horizontal: 'center' } };
+    const rightColumnStyle = { font: { name: 'Calibri', size: 11 }, alignment: { horizontal: 'right' } };
+    return [
+      { header: 'Office', key: 'office', width: 10, style: leftColumnStyle },
+      { header: 'Contractor', key: 'contractor', width: 30, style: centerColumnStyle },
+      { header: 'Client', key: 'client', width: 30, style: centerColumnStyle },
+      { header: 'Position', key: 'position', width: 30, style: centerColumnStyle },
+      { header: 'Week Ending', key: 'weekEnding', width: 12, style: centerColumnStyle },
+      { header: 'Hours', key: 'hours', width: 8, style: rightColumnStyle },
+      { header: 'OT Hours', key: 'otHours', width: 8, style: rightColumnStyle },
+      { header: 'DT Hours', key: 'dtHours', width: 8, style: rightColumnStyle },
+      { header: 'Pay Rate', key: 'payRate', width: 8, style: rightColumnStyle },
+      { header: 'OT Rate', key: 'otRate', width: 8, style: rightColumnStyle },
+      { header: 'DT Rate', key: 'dtRate', width: 8, style: rightColumnStyle },
+      { header: 'Pay', key: 'pay', width: 10, style: rightColumnStyle },
+      { header: 'Burden', key: 'burden', width: 10, style: rightColumnStyle },
+      { header: 'PPExp', key: 'ppExp', width: 8, style: rightColumnStyle },
+      { header: 'OOPExp', key: 'oopExp', width: 8, style: rightColumnStyle },
+      { header: 'ExpAll', key: 'expAllowance', width: 8, style: rightColumnStyle },
+      { header: 'Reimb OOP', key: 'reimbOOP', width: 8, style: rightColumnStyle },
+      { header: 'ExpCost', key: 'expCost', width: 8, style: rightColumnStyle },
+      { header: 'Ref Fee', key: 'refFee', width: 8, style: rightColumnStyle },
+      { header: 'Cost', key: 'cost', width: 15, style: rightColumnStyle },
+      { header: 'Bill Rate', key: 'billRate', width: 8, style: rightColumnStyle },
+      { header: 'OT Bill Rate', key: 'otBillRate', width: 8, style: rightColumnStyle },
+      { header: 'DT Bill Rate', key: 'dtBillRate', width: 8, style: rightColumnStyle },
+      { header: 'Invoice', key: 'invoice', width: 15, style: rightColumnStyle },
+      { header: 'Margin', key: 'margin', width: 15, style: rightColumnStyle },
+      { header: 'GP %', key: 'gp', width: 8, style: rightColumnStyle },
+      { header: 'Sales Person', key: 'salesPerson', width: 20, style: rightColumnStyle },
+      { header: 'Recruiter', key: 'recruiter', width: 20, style: rightColumnStyle }];
+  }
+  customReportPrint() {
+    let data = [];
+    this.dataSource.data.forEach(item => {
+      data.push({
+        'office': item.office,
+        'contractor': item.contractor,
+        'client': item.client,
+        'position': item.position,
+        'weekEnding': this.datePipe.transform(item.weekEnding, 'MM/dd/yyyy'),
+        'hours': this.decimalPipe.transform(item.hours, '1.2-2'),
+        'otHours': this.decimalPipe.transform(item.otHours, '1.2-2'),
+        'dtHours': this.decimalPipe.transform(item.dtHours, '1.2-2'),
+        'payRate': this.currencyPipe.transform(item.payRate),
+        'otRate': this.currencyPipe.transform(item.otRate),
+        'dtRate': this.currencyPipe.transform(item.dtRate),
+        'pay': this.currencyPipe.transform(item.pay),
+        'burden': this.currencyPipe.transform(item.burden),
+        'ppExp': this.currencyPipe.transform(item.ppExp),
+        'oopExp': this.currencyPipe.transform(item.oopExp),
+        'expAllowance': this.currencyPipe.transform(item.expAllowance),
+        'reimbOOP': this.currencyPipe.transform(item.reimbOOP),
+        'expCost': this.currencyPipe.transform(item.expCost),
+        'refFee': this.currencyPipe.transform(item.refFee),
+        'cost': this.currencyPipe.transform(item.cost),
+        'billRate': this.currencyPipe.transform(item.billRate),
+        'otBillRate': this.currencyPipe.transform(item.otBillRate),
+        'dtBillRate': this.currencyPipe.transform(item.dtBillRate),
+        'invoice': this.currencyPipe.transform(item.invoice),
+        'margin': this.currencyPipe.transform(item.margin),
+        'gp': this.decimalPipe.transform(item.gp, '1.2-2'),
+        'salesPerson': item.salesPerson,
+        'recruiter': item.recruiter
+      })
+    });
+    return data;
   }
 }

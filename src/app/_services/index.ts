@@ -11,4 +11,5 @@ export * from './assignment.service';
 export * from './exportservice';
 export * from './keyboard.service';
 export * from './pay-period.service';
+export * from './assignment-hours.service';
 

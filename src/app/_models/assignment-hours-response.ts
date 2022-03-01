@@ -1,5 +1,8 @@
 export class AssignmentHoursResponse {
     payPeriodId: number;
+    assignmentHoursId: number;
+    assignmentId: number;
+    hoursRecordType: string;
     assignment: string;
     description: string;
     hours: number;

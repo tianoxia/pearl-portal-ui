@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe, CurrencyPipe, PercentPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
@@ -113,7 +113,10 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
   providers: [
     FormatPhonePipe,
     FormatZipCodePipe,
-    StripParamFromUrlPipe
+    StripParamFromUrlPipe,
+    DecimalPipe,
+    CurrencyPipe,
+    PercentPipe
   ]
 })
 export class SharedModule { }

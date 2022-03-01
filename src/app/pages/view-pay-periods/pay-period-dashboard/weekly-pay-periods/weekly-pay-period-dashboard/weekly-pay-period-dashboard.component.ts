@@ -37,7 +37,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
   back(): void {
-    this.router.navigate(['view-pay-periods/pay-period-dashboard/weekly-pay-periods'], {queryParams: { pagetype: this.pageType}});
+    this.router.navigate(['view-pay-periods/pay-period-dashboard/weekly-pay-periods'], { queryParams: { pagetype: this.pageType } });
   }
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -55,7 +55,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       } else if (this.pageType === 'payfile') {
         this.isPayfileClick = true;
       }
-    });    
+    });
   }
   downloadPermInvoiceReport() {
     this.spinner.show();
@@ -75,11 +75,11 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
             this.generateInvoicePdfReport(reports, reader, true);
             this.spinner.hide();
           },
-          (error => {
-            this.spinner.hide();
-            this.alertService.error(error);
-          })
-        );
+            (error => {
+              this.spinner.hide();
+              this.alertService.error(error);
+            })
+          );
       };
       reader.readAsDataURL(res);
     });
@@ -102,11 +102,11 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
             this.generateInvoicePdfReport(reports, reader, false);
             this.spinner.hide();
           },
-          (error => {
-            this.spinner.hide();
-            this.alertService.error(error);
-          })
-        );
+            (error => {
+              this.spinner.hide();
+              this.alertService.error(error);
+            })
+          );
       };
       reader.readAsDataURL(res);
     });
@@ -118,7 +118,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       body.push({
         name: detail.name,
         expense: detail.expenses.toFixed(2),
-        hours: detail.hours.toFixed(2),        
+        hours: detail.hours.toFixed(2),
         billRate: detail.billRate.toFixed(2),
         regularAmount: detail.regularAmount.toFixed(2),
         otHours: detail.otHours.toFixed(2),
@@ -146,11 +146,13 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     });
     return body;
   }
-  
+
   headRows(hasDT: boolean, hasDiscount: boolean): RowInput[] {
     let header = {};
-    header = { name: 'Name', hours: 'Reg\nHours', billRate: 'Bill\nRate',
-    regularAmount: 'Reg\nAmount', expense: 'Expense', otHours: 'OT\nHours', otBillRate: 'OT\nRate', otAmount: 'OT\nAmount' };
+    header = {
+      name: 'Name', hours: 'Reg\nHours', billRate: 'Bill\nRate',
+      regularAmount: 'Reg\nAmount', expense: 'Expense', otHours: 'OT\nHours', otBillRate: 'OT\nRate', otAmount: 'OT\nAmount'
+    };
     if (hasDT) {
       header['dtHours'] = 'DT\nHours';
       header['dtBillRate'] = 'DT\nRate';
@@ -177,48 +179,42 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       { content: 'Invoice #: ' + report.invoiceNumber },
       { content: 'Date: ' + this.datePipe.transform(new Date(), 'MM/dd/yyyy') },
       { content: 'P.O. No.: ' + (report.purchaseOrderNo == 0 ? '' : report.purchaseOrderNo) },
-      { content: 'Term: ' + report.term } 
+      { content: 'Term: ' + report.term }
     ];
   }
 
   footerRows(report: InvoicePdfResponse, isPermInvoice: boolean) {
     return isPermInvoice ? [
-      { name: 'Grand Total', expense: (report.invoiceDetails.map(a => a.expenses).reduce(function(a, b)
       {
-        return a + b;
-      })).toFixed(2),
-      rate: (report.invoiceDetails.map(a => a.billRate).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), discount: (report.invoiceDetails.map(a => a.discount).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), total: this.currencyPipe.transform((report.invoiceDetails.map(a => a.invoiceTotal).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), 'USD') }
+        name: 'Grand Total', expense: (report.invoiceDetails.map(a => a.expenses).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2),
+        rate: (report.invoiceDetails.map(a => a.billRate).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), discount: (report.invoiceDetails.map(a => a.discount).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), total: this.currencyPipe.transform((report.invoiceDetails.map(a => a.invoiceTotal).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), 'USD')
+      }
     ] : [
-      { name: 'Grand Total', hours: '', billRate: '',
-      regularAmount: (report.invoiceDetails.map(a => a.regularAmount).reduce(function(a, b)
       {
-        return a + b;
-      })).toFixed(2), expense: (report.invoiceDetails.map(a => a.expenses).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), otHours: '', otRate: '', otAmount: (report.invoiceDetails.map(a => a.otAmount).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2),
-      dtHours: '', dtRate: '', dtAmount: (report.invoiceDetails.map(a => a.dtAmount).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), discount: (report.invoiceDetails.map(a => a.discount).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), total: this.currencyPipe.transform((report.invoiceDetails.map(a => a.invoiceTotal).reduce(function(a, b)
-      {
-        return a + b;
-      })).toFixed(2), 'USD') }
+        name: 'Grand Total', hours: '', billRate: '',
+        regularAmount: (report.invoiceDetails.map(a => a.regularAmount).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), expense: (report.invoiceDetails.map(a => a.expenses).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), otHours: '', otRate: '', otAmount: (report.invoiceDetails.map(a => a.otAmount).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2),
+        dtHours: '', dtRate: '', dtAmount: (report.invoiceDetails.map(a => a.dtAmount).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), discount: (report.invoiceDetails.map(a => a.discount).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), total: this.currencyPipe.transform((report.invoiceDetails.map(a => a.invoiceTotal).reduce(function (a, b) {
+          return a + b;
+        })).toFixed(2), 'USD')
+      }
     ];
   }
   generateInvoicePdfReport(reports: InvoicePdfResponse[], reader: FileReader, isPermInvoice: boolean): void {
@@ -228,12 +224,10 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     const wk = this.datePipe.transform(this.selected, 'MM/dd/yyyy');
     if (reports.length > 0) {
       reports.forEach(report => {
-        const hasDT = report.invoiceDetails.map(a => a.dtHours).reduce(function(a, b)
-        {
+        const hasDT = report.invoiceDetails.map(a => a.dtHours).reduce(function (a, b) {
           return a + b;
         }) > 0;
-        const hasDiscount = report.invoiceDetails.map(a => a.discount).reduce(function(a, b)
-        {
+        const hasDiscount = report.invoiceDetails.map(a => a.discount).reduce(function (a, b) {
           return a + b;
         }) > 0;
         // Header
@@ -257,7 +251,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           tableLineColor: '#000000',
           tableWidth: 110,
           body: this.leftGroupHeaderBodyRows(report),
-          alternateRowStyles: { fillColor: '#ffffff'},
+          alternateRowStyles: { fillColor: '#ffffff' },
           bodyStyles: { fontStyle: 'bold', fontSize: 12 },
           didDrawPage: function (data) {
             doc.setFontSize(8);
@@ -272,7 +266,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           tableLineWidth: 0.3,
           tableLineColor: '#000000',
           body: this.rightGroupHeaderBodyRows(report),
-          alternateRowStyles: { fillColor: '#ffffff'},
+          alternateRowStyles: { fillColor: '#ffffff' },
           bodyStyles: { fontStyle: 'bold', fontSize: 12, lineColor: '#000000' },
           margin: { left: 110 }
         });
@@ -292,17 +286,17 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           },
           showFoot: 'lastPage',
           foot: this.footerRows(report, isPermInvoice),
-          didDrawPage: function (data) {              
+          didDrawPage: function (data) {
             let str = 'Page ' + doc.getNumberOfPages();
             if (typeof doc.putTotalPages === 'function') {
               str = str + ' of ' + totalPagesExp;
             }
-            doc.setFontSize(10);    
+            doc.setFontSize(10);
             const pageSize = doc.internal.pageSize;
             const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
             doc.text(str, data.settings.margin.left, pageHeight - 10);
           }
-        });        
+        });
         const finalY = (doc as any).lastAutoTable.finalY;
         doc.setFontSize(12);
         doc.setFont('Arial', 'bolditalic');
@@ -311,8 +305,8 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       });
       doc.deletePage(doc.getNumberOfPages());
       if (typeof doc.putTotalPages === 'function') {
-        doc.putTotalPages(totalPagesExp); 
-      }    
+        doc.putTotalPages(totalPagesExp);
+      }
       doc.save('invoice.pdf');
     }
   }
@@ -334,11 +328,11 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
             this.generateTimesheetPdfReport(reports, reader);
             this.spinner.hide();
           },
-          (error => {
-            this.spinner.hide();
-            this.alertService.error(error);
-          })
-        );
+            (error => {
+              this.spinner.hide();
+              this.alertService.error(error);
+            })
+          );
       };
       reader.readAsDataURL(res);
     });
@@ -358,7 +352,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
         doc.text('Timesheet', 100, 21);
         doc.setFontSize(8);
         doc.addImage(image, 'GIF', 10, 15, 20, 10);
-        
+
         autoTable(doc, {
           theme: 'grid',
           startY: 33,
@@ -366,10 +360,10 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           tableLineWidth: 0.3,
           tableLineColor: '#000000',
           body: this.leftTimesheetGroupHeaderBodyRows(report),
-          alternateRowStyles: { fillColor: '#ffffff'},
+          alternateRowStyles: { fillColor: '#ffffff' },
           bodyStyles: { fontStyle: 'bold', fontSize: 12 }
         });
-        
+
         autoTable(doc, {
           headStyles: {
             fontSize: 9,
@@ -386,12 +380,12 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
           },
           showFoot: 'lastPage',
           foot: this.timesheetFooterRows(report),
-          didDrawPage: function (data) {              
+          didDrawPage: function (data) {
             let str = 'Page ' + doc.getNumberOfPages();
             if (typeof doc.putTotalPages === 'function') {
               str = str + ' of ' + totalPagesExp;
             }
-            doc.setFontSize(10);    
+            doc.setFontSize(10);
             const pageSize = doc.internal.pageSize;
             const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
             doc.text(str, data.settings.margin.left, pageHeight - 10);
@@ -401,15 +395,17 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       });
       doc.deletePage(doc.getNumberOfPages());
       if (typeof doc.putTotalPages === 'function') {
-        doc.putTotalPages(totalPagesExp); 
-      }    
+        doc.putTotalPages(totalPagesExp);
+      }
       doc.save('timesheet.pdf');
     }
   }
   timesheetHeadRows(): RowInput[] {
     return [
-      { date: 'Date', day: 'Day', workStart: 'Work Start', lunchOut: 'Lunch Out',
-      lunchIn: 'Lunch In', workEnd: 'Work End', totalHours: 'Total Hours' }
+      {
+        date: 'Date', day: 'Day', workStart: 'Work Start', lunchOut: 'Lunch Out',
+        lunchIn: 'Lunch In', workEnd: 'Work End', totalHours: 'Total Hours'
+      }
     ];
   }
   timesheetBodyRows(report: TimesheetReportResponse) {
@@ -417,7 +413,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.sundayDate, 'MM/dd/yyyy'),
       day: 'Sunday',
-      workStart: report.sundayStart,        
+      workStart: report.sundayStart,
       lunchOut: report.sundayLunchOut,
       lunchIn: report.sundayLunchIn,
       workEnd: report.sundayEnd,
@@ -426,7 +422,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.mondayDate, 'MM/dd/yyyy'),
       day: 'Monday',
-      workStart: report.mondayStart,        
+      workStart: report.mondayStart,
       lunchOut: report.mondayLunchOut,
       lunchIn: report.mondayLunchIn,
       workEnd: report.mondayEnd,
@@ -435,7 +431,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.tuesdayDate, 'MM/dd/yyyy'),
       day: 'Tuesday',
-      workStart: report.tuesdayStart,        
+      workStart: report.tuesdayStart,
       lunchOut: report.tuesdayLunchOut,
       lunchIn: report.tuesdayLunchIn,
       workEnd: report.tuesdayEnd,
@@ -444,7 +440,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.wednesdayDate, 'MM/dd/yyyy'),
       day: 'Wednesday',
-      workStart: report.wednesdayStart,        
+      workStart: report.wednesdayStart,
       lunchOut: report.wednesdayLunchOut,
       lunchIn: report.wednesdayLunchIn,
       workEnd: report.wednesdayEnd,
@@ -453,7 +449,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.thursdayDate, 'MM/dd/yyyy'),
       day: 'Thursday',
-      workStart: report.thursdayStart,        
+      workStart: report.thursdayStart,
       lunchOut: report.thursdayLunchOut,
       lunchIn: report.thursdayLunchIn,
       workEnd: report.thursdayEnd,
@@ -462,7 +458,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.fridayDate, 'MM/dd/yyyy'),
       day: 'Friday',
-      workStart: report.fridayStart,        
+      workStart: report.fridayStart,
       lunchOut: report.fridayLunchOut,
       lunchIn: report.fridayLunchIn,
       workEnd: report.fridayEnd,
@@ -471,7 +467,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
     body.push({
       date: this.datePipe.transform(report.saturdayDate, 'MM/dd/yyyy'),
       day: 'Saturday',
-      workStart: report.saturdayStart,        
+      workStart: report.saturdayStart,
       lunchOut: report.saturdayLunchOut,
       lunchIn: report.saturdayLunchIn,
       workEnd: report.saturdayEnd,
@@ -491,17 +487,19 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
 
   timesheetFooterRows(report: TimesheetReportResponse) {
     return [
-      { date: '', day: '', workStart: '', lunchOut: '', lunchIn: '', workEnd: 'Weekly Hours:\n\nBill Rate(hourly):\n\nApprover:\n\nApproved Date:',
-      totalHours: (report.sundayHours+report.mondayHours+
-        report.tuesdayHours+report.wednesdayHours+report.thursdayHours+report.fridayHours+
-        report.saturdayHours).toFixed(2).toString()+'\n\n'+this.currencyPipe.transform(report.billRate.toFixed(2), 'USD')+'\n\n'
-        +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
+      {
+        date: '', day: '', workStart: '', lunchOut: '', lunchIn: '', workEnd: 'Weekly Hours:\n\nBill Rate(hourly):\n\nApprover:\n\nApproved Date:',
+        totalHours: (report.sundayHours + report.mondayHours +
+          report.tuesdayHours + report.wednesdayHours + report.thursdayHours + report.fridayHours +
+          report.saturdayHours).toFixed(2).toString() + '\n\n' + this.currencyPipe.transform(report.billRate.toFixed(2), 'USD') + '\n\n'
+          + report.approverName + '\n\n' + this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a')
+      }
     ];
   }
   editPayPeriod() {
     const modalref = this.dialog.open(AddEditPayPeriodComponent, {
       panelClass: 'update-enddate-dialog',
-      maxWidth: window.innerWidth < 600? '90vw' : '80vw',
+      maxWidth: window.innerWidth < 600 ? '90vw' : '80vw',
       data: {
         payPeriodId: this.payPeriodId,
         payDate: this.payDate,

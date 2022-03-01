@@ -28,7 +28,7 @@ export class ControlReportResponse {
     dtBillRate: number;
     invoice: number;
     margin: number;
-    gP: number;
+    gp: number;
     salesPerson: string;
     recruiter: string;
 }

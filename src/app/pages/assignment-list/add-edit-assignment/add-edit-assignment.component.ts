@@ -260,7 +260,7 @@ export class AddEditAssignmentComponent implements OnInit {
 
   private setAssignmentRequest(): AssignmentRequest {
     const request = new AssignmentRequest();
-    
+
     request.officeID = +this.assignmentAddEditForm.controls.office.value;        
     request.clientID = +this.assignmentAddEditForm.controls.client.value;
     request.departmentID = +this.assignmentAddEditForm.controls.department.value;
