@@ -41,7 +41,6 @@ export class ViewCommissionReportComponent implements OnInit {
   defaultClient: Client;
   defaultRecruiter: Recruiter;
   public displayedColumns: string[];
-  public columns = ['employeeName', 'monthlyGrossMargin', 'recruitRate', 'mtdRecruitCommission'];
   /* public dataSource = new MatTableDataSource<CommissionReportResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();

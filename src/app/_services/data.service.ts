@@ -5,7 +5,7 @@ import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, SummaryReportRequest, PLReportRequest, CustomReportRequest,
-  LoginRequest, ControlReportRequest, AssignmentHoursRequest } from '../_models';
+  LoginRequest, ControlReportRequest, AssignmentHoursRequest, ReferalReportRequest } from '../_models';
 import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
@@ -46,43 +46,46 @@ export class DataService {
     return throwError(errorMessage);
   }
   sendValidateUserRequest(loginData: LoginRequest): Observable<any> {
-    return this.http.post(this.baseurl + '/tokenauth/validatelogin', loginData)
+    return this.http.post(this.baseurl + '/v1/tokenauth/validatelogin', loginData)
       .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllDepartments() {
-    return this.http.get(this.baseurl + `/department/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/department/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllRecruiters() {
-    return this.http.get(this.baseurl + `/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllClients() {
-    return this.http.get(this.baseurl + `/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getSummaryReport(summaryReportRequest: SummaryReportRequest) {
-    return this.http.post(this.baseurl + `/report/summary`, summaryReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/summary`, summaryReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }  
   getCustomReport(customReportRequest: CustomReportRequest) {
-    return this.http.post(this.baseurl + `/report/custom`, customReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/custom`, customReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getControlReport(controlReportRequest: ControlReportRequest) {
-    return this.http.post(this.baseurl + `/report/control`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/control`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAssignmentHours(assignmentHoursRequest: AssignmentHoursRequest) {
-    return this.http.post(this.baseurl + `/report/assignmenthours/all`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/assignmenthours/all`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getCommissionReport(commissionReportRequest: CommissionReportRequest) {
-    return this.http.post(this.baseurl + `/report/commission`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/commission`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getCommissionDetailReport(commissionReportRequest: CommissionReportRequest) {
-    return this.http.post(this.baseurl + `/report/commission/detail`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/commission/detail`, commissionReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getMonthlyControlReport(controlReportRequest: ControlReportRequest) {
-    return this.http.post(this.baseurl + `/report/control/monthly`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/control/monthly`, controlReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getTeamPLReport(teamPLReportRequest: PLReportRequest) {
-    return this.http.post(this.baseurl + `/report/teampl`, teamPLReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/teampl`, teamPLReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllPayPeriods(payFreq: string) {
-    return this.http.get(this.baseurl + `/payperiod/payfreq/${payFreq}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }  
+    return this.http.get(this.baseurl + `/v1/payperiod/payfreq/${payFreq}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getReferalReport(referalReportRequest: ReferalReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/referal`, referalReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
 }

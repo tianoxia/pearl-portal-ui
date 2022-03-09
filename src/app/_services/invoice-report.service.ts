@@ -42,7 +42,7 @@ export class InvoiceReportService {
     return throwError(errorMessage);
   }
   getInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/report/invoices`, InvoiceReportRequest)
+    return this.http.post(this.baseurl + `/v1/report/invoices`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getLogoImage() {
@@ -52,22 +52,22 @@ export class InvoiceReportService {
     return this.http.get(`../pearlportal/assets/logo/avery_partners_logo.gif`, { responseType: `blob` });
   }
   emailInvoices(data: FormData) {
-    return this.http.post(this.baseurl + `/report/invoices/email/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/invoices/email/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   printInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/report/invoices/pdf`, InvoiceReportRequest)
+    return this.http.post(this.baseurl + `/v1/report/invoices/pdf`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   printPermInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/report/invoices/perm/pdf`, InvoiceReportRequest)
+    return this.http.post(this.baseurl + `/v1/report/invoices/perm/pdf`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   printTimesheetReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/report/timesheets/pdf`, InvoiceReportRequest)
+    return this.http.post(this.baseurl + `/v1/report/timesheets/pdf`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   printExpenseReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/report/expenses/pdf`, InvoiceReportRequest)
+    return this.http.post(this.baseurl + `/v1/report/expenses/pdf`, InvoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

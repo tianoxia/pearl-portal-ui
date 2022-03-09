@@ -49,7 +49,12 @@
                     <table *ngIf="commissionReport?.employeeCommissionReportDetails.length>0" multiTemplateDataRows
                         mat-table [dataSource]="commissionReport?.employeeCommissionReportDetails" matSort>
                         <ng-container [matColumnDef]="dynamicColumn" *ngFor="let dynamicColumn of displayedColumns">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{dynamicColumn}}</th>
+                            <th mat-header-cell *matHeaderCellDef>
+                                <span *ngIf="dynamicColumn == 'Employee' || isWeekEnding(dynamicColumn)">{{dynamicColumn}}</span>
+                                <span *ngIf="dynamicColumn == 'MonthlyGrossMargin'">Monthly GM</span>
+                                <span *ngIf="dynamicColumn == 'RecruitRate'">Recruit Rate</span>
+                                <span *ngIf="dynamicColumn == 'MTDRecruitCommission'">MTD Recruit Comm</span>
+                            </th>
                             <td mat-cell *matCellDef="let report">
                                 <span *ngIf="dynamicColumn == 'Employee'">{{report.employeeName}}</span>
                                 <span *ngIf="dynamicColumn == 'MonthlyGrossMargin'">{{report.monthlyGrossMargin | currency}}</span>

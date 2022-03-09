@@ -1,0 +1,71 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Leaderboard Report {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="leaderboardReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(leaderboardReportForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Employee Type</mat-label>                
+                            <mat-select formControlName="employeeStatus" [compareWith]="compareStatuses">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Employee Category</mat-label>
+                            <mat-select formControlName="employeeCategory" [compareWith]="compareCategories">
+                                <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        
+                        <mat-card-actions fxFlex="60%">
+                            <button mat-raised-button color="primary" [disabled]="!leaderboardReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div class="commission-report-container mat-elevation-z8">
+                    <table *ngIf="leaderboardReport?.leaderboardReportDetails.length>0 && leaderboardReport?.weelyLeaderboardTotal.length>0" multiTemplateDataRows
+                        mat-table [dataSource]="leaderboardReport?.leaderboardReportDetails" matSort>
+                        <ng-container [matColumnDef]="dynamicColumn" *ngFor="let dynamicColumn of displayedColumns">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <span *ngIf="dynamicColumn == 'Name' || isWeekEnding(dynamicColumn)">{{dynamicColumn}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdContractGrossMargin'">Contract MTD</span>
+                                <span *ngIf="dynamicColumn == 'ytdContractGrossMargin'">Contract YTD</span>
+                                <span *ngIf="dynamicColumn == 'mtdPermPlacementGrossMargin'">PP MTD</span>
+                                <span *ngIf="dynamicColumn == 'ytdPermPlacementGrossMargin'">PP YTD</span>
+                                <span *ngIf="dynamicColumn == 'mtdGrossMargin'">Total MTD</span>
+                                <span *ngIf="dynamicColumn == 'ytdGrossMargin'">Total YTD</span>
+                            </th>
+                            <th mat-header-cell *matHeaderCellDef>{{dynamicColumn}}</th>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngIf="dynamicColumn == 'Name'">{{report.name}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdContractGrossMargin'">{{report.mtdContractGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'ytdContractGrossMargin'">{{report.ytdContractGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdPermPlacementGrossMargin'">{{report.mtdPermPlacementGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'ytdPermPlacementGrossMargin'">{{report.ytdPermPlacementMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdGrossMargin'">{{report.mtdGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'ytdGrossMargin'">{{report.ytdGrossMargin | currency}}</span>
+                                <span *ngIf="isWeekEnding(dynamicColumn)">
+                                    <span *ngFor="let wk of report.weeklyLeaderboardDetails">
+                                        <span *ngIf="(wk.weekEnding | date: 'MM/dd/yyyy') == dynamicColumn">
+                                            {{wk.weeklyContractGrossMargin | currency}} ({{wk.weeklyPermPlacementMargin | currency}})
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <div *ngIf="!leaderboardReport || leaderboardReport?.weelyLeaderboardTotal.length==0" class="alert alert-danger text-center mt-1 pt-1">No Leaderboard Data Found</div>
+            </div>
+        </div>
+    </div>
+</section>

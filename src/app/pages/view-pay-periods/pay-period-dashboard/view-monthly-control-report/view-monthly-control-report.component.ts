@@ -9,8 +9,10 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
 import { AlertService, DataService, ExportService } from 'app/_services';
-import { ControlReportResponse, ControlReportRequest,
-  Department, Recruiter, Client, CustomReportTotals } from 'app/_models';
+import {
+  ControlReportResponse, ControlReportRequest,
+  Department, Recruiter, Client, CustomReportTotals
+} from 'app/_models';
 
 @Component({
   selector: 'app-view-monthly-control-report',
@@ -40,10 +42,10 @@ export class ViewMonthlyControlReportComponent implements OnInit {
   defaultClient: Client;
   defaultRecruiter: Recruiter;
   public displayedColumns = ['office', 'contractor', 'client', 'position',
-          'hours', 'otHours', 'dtHours', 'payRate', 'otRate',
-          'dtRate', 'pay', 'burden', 'ppExp', 'oopExp', 'expAllowance', 'reimbOOP',
-          'expCost', 'refFee', 'cost', 'billRate', 'otBillRate', 'dtBillRate',
-          'invoice', 'margin', 'gp', 'salesPerson', 'recruiter'];
+    'hours', 'otHours', 'dtHours', 'payRate', 'otRate',
+    'dtRate', 'pay', 'burden', 'ppExp', 'oopExp', 'expAllowance', 'reimbOOP',
+    'expCost', 'refFee', 'cost', 'billRate', 'otBillRate', 'dtBillRate',
+    'invoice', 'margin', 'gp', 'salesPerson', 'recruiter'];
   public dataSource = new MatTableDataSource<ControlReportResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -54,24 +56,24 @@ export class ViewMonthlyControlReportComponent implements OnInit {
     private datePipe: DatePipe,
     private exportService: ExportService,
     private spinner: NgxSpinnerService) {
-      this.defaultClient = new Client();
-      this.defaultClient.clientId = 0;
-      this.defaultClient.name = 'All';
-      this.defaultRecruiter = new Recruiter();
-      this.defaultRecruiter.firstName = 'All';
-      this.defaultRecruiter.lastName = '';
-      this.defaultRecruiter.employeeId = 0;
-      this.controlReportForm = fb.group({
-        floatLabel: this.floatLabelControl,
-        department: this.defaultDept,
-        recruiter: this.defaultRecruiter,
-        client: this.defaultClient
-      });
-      this.sum = new CustomReportTotals();
-    }
+    this.defaultClient = new Client();
+    this.defaultClient.clientId = 0;
+    this.defaultClient.name = 'All';
+    this.defaultRecruiter = new Recruiter();
+    this.defaultRecruiter.firstName = 'All';
+    this.defaultRecruiter.lastName = '';
+    this.defaultRecruiter.employeeId = 0;
+    this.controlReportForm = fb.group({
+      floatLabel: this.floatLabelControl,
+      department: this.defaultDept,
+      recruiter: this.defaultRecruiter,
+      client: this.defaultClient
+    });
+    this.sum = new CustomReportTotals();
+  }
 
   ngOnInit() {
-    window.scrollTo(0, 0);    
+    window.scrollTo(0, 0);
     this.spinner.show();
     this.route.queryParamMap.subscribe(params => {
       this.weekEnding = new Date(params.get('weekending'));
@@ -102,8 +104,8 @@ export class ViewMonthlyControlReportComponent implements OnInit {
           this.controlReportForm.get('department').patchValue(this.defaultDept);
           this.clients.splice(0, 0, this.defaultClient);
           this.recruiters.splice(0, 0, this.defaultRecruiter);
-          this.controlReportForm.get('recruiter').patchValue(this.defaultRecruiter); 
-          this.controlReportForm.get('client').patchValue(this.defaultClient);          
+          this.controlReportForm.get('recruiter').patchValue(this.defaultRecruiter);
+          this.controlReportForm.get('client').patchValue(this.defaultClient);
           for (let row of this.dataSource.data) {
             if (row.hours !== 0) this.sum.totalHours += row.hours;
             if (row.otHours !== 0) this.sum.totalOTHours += row.otHours;
@@ -115,23 +117,23 @@ export class ViewMonthlyControlReportComponent implements OnInit {
             if (row.expAllowance !== 0) this.sum.totalExpAllowance += row.expAllowance;
             if (row.reimbOOP !== 0) this.sum.totalReimbOOP += row.reimbOOP;
             if (row.expCost !== 0) this.sum.totalExpCost += row.expCost;
-            if (row.refFee !== 0)  this.sum.totalRefFee += row.refFee;
+            if (row.refFee !== 0) this.sum.totalRefFee += row.refFee;
             if (row.cost !== 0) this.sum.totalCost += row.cost;
             if (row.invoice !== 0) this.sum.totalInvoice += row.invoice;
             if (row.margin !== 0) this.sum.totalMargin += row.margin;
           }
           this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
-          this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
+          this.subTitle = 'for Pay Period Ending ' + this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy') + ' (' + this.dataSource.data.length + ' Records)';
         } else {
           this.alertService.error('No Record Found');
         }
         this.spinner.hide();
       },
-      (error => {
-        this.spinner.hide();
-        this.alertService.error(error);
-      })
-    );
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
   }
   compareDepartments(o1: any, o2: any) {
     return (o1.name == o2.name && o1.departmentId == o2.departmentId);
@@ -175,7 +177,7 @@ export class ViewMonthlyControlReportComponent implements OnInit {
             if (row.expAllowance !== 0) this.sum.totalExpAllowance += row.expAllowance;
             if (row.reimbOOP !== 0) this.sum.totalReimbOOP += row.reimbOOP;
             if (row.expCost !== 0) this.sum.totalExpCost += row.expCost;
-            if (row.refFee !== 0)  this.sum.totalRefFee += row.refFee;
+            if (row.refFee !== 0) this.sum.totalRefFee += row.refFee;
             if (row.cost !== 0) this.sum.totalCost += row.cost;
             if (row.invoice !== 0) this.sum.totalInvoice += row.invoice;
             if (row.margin !== 0) this.sum.totalMargin += row.margin;
@@ -184,14 +186,14 @@ export class ViewMonthlyControlReportComponent implements OnInit {
           this.alertService.error('No Record Found');
         }
         this.sum.totalGP = this.sum.totalInvoice > 0 ? (this.sum.totalMargin / this.sum.totalInvoice) * 100 : 0;
-        this.subTitle = 'for Pay Period Ending '+this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy')+' ('+this.dataSource.data.length+' Records)';
+        this.subTitle = 'for Pay Period Ending ' + this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy') + ' (' + this.dataSource.data.length + ' Records)';
         this.spinner.hide();
       },
-      (error => {
-        this.spinner.hide();
-        this.alertService.error(error);
-      })
-    );
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
   }
   exportToExcel(event) {
     this.exportService.exportExcelWithFormat(this.dataSource.data, 'monthlycontrolreport-' + this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'), this.reportColumns());

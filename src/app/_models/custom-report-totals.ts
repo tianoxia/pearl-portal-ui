@@ -10,6 +10,7 @@ export class CustomReportTotals {
     totalReimbOOP: number = 0;
     totalExpCost: number = 0;
     totalRefFee: number = 0;
+    totalSecondRefFee: number = 0;
     totalCost: number = 0;
     totalInvoice: number = 0;
     totalMargin: number = 0;

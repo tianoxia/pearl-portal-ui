@@ -38,3 +38,7 @@ export * from './commission-report-response';
 export * from './assignment-hours-request';
 export * from './assignment-hours-response';
 export * from './pay-period-request';
+export * from './referal-report-request';
+export * from './referal-report-response';
+export * from './leaderboard-report-request';
+export * from './leaderboard-report-response';

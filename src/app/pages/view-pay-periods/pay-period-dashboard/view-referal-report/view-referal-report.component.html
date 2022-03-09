@@ -1,0 +1,93 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Referal Report {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="referalReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(referalReportForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Recruiter</mat-label>
+                            <mat-select formControlName="recruiter" [compareWith]="compareRecruiters" [disableOptionCentering]="true">
+                                <mat-option *ngFor="let recruiter of recruiters" [value]="recruiter">{{recruiter.firstName + ' ' + recruiter.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>                       
+                        <mat-card-actions fxFlex="20%">
+                            <button mat-raised-button color="primary" [disabled]="!referalReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
+                    <mat-form-field fxFlex="40%">
+                      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                    </mat-form-field>
+                    <!-- <div fxFlex="60%" class="text-right" *ngIf="dataSource.data.length > 0">
+                        <button mat-button class="btn btn-primary text-transform-none" (click)="exportToExcel($event)"  matTooltip="Export to excel">
+                            <i class="fa fa-file-excel"></i> Export
+                        </button>
+                    </div> -->
+                </div>
+                <div class="report-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort [hidden]="!dataSource.data.length">
+                        <ng-container matColumnDef="assignment" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Assignment</th>
+                            <td mat-cell *matCellDef="let report">{{report.assignment}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="referer">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Referer</th>
+                            <td mat-cell *matCellDef="let report">{{report.referer}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="secondReferer">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Second Referer</th>
+                            <td mat-cell *matCellDef="let report">{{report.secondReferer}}</td>
+                            <td mat-footer-cell *matFooterCellDef>Total:</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="margin">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Margin</th>
+                            <td mat-cell *matCellDef="let report">{{report.margin | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalMargin | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="refererRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Referal Rate</th>
+                            <td mat-cell *matCellDef="let report">{{report.refererRate | percent:'1.2-2'}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="secondRefererRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Second Referal Rate</th>
+                            <td mat-cell *matCellDef="let report">{{report.secondRefererRate | percent:'1.2-2'}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="refererFee">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Referal Fee</th>
+                            <td mat-cell *matCellDef="let report">{{report.refererFee | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalRefFee | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="secondRefererFee">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Second Referal Fee</th>
+                            <td mat-cell *matCellDef="let report">{{report.secondRefererFee | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalSecondRefFee | currency}}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>    
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -45,12 +45,12 @@ export class AssignmentHoursService {
     return throwError(errorMessage);
   }  
   getAssignmentHours(assignmentHoursRequest: AssignmentHoursRequest) {
-    return this.http.post(this.baseurl + `/report/assignmenthours/all`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/assignmenthours/all`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   createUpdateAssignmentHours(assignmentHoursRequest: AssignmentHoursRequest[]) {
-    return this.http.post(this.baseurl + `/report/assignmenthours`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/report/assignmenthours`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   deleteAssignmentHours(id: number) {
-    return this.http.delete(this.baseurl + `/report/assignmenthours/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.delete(this.baseurl + `/v1/report/assignmenthours/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

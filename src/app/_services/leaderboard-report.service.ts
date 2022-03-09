@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { ErrorDetails, PayPeriodRequest } from '../_models';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { ErrorDetails, LeaderboardReportRequest } from '../_models';
+import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PayPeriodService {
+export class LeaderboardReportService {
   baseurl: string;
   timeoutInSeconds: number;
 
@@ -24,6 +25,8 @@ export class PayPeriodService {
     if (error.error instanceof ErrorEvent) {
       // Client-side errors
       errorMessage = 'Error: ${error.error.message}';
+    } else if (error.status === 403) {
+      errorMessage = 'You Do Not Have Sufficient Rights To Perform This Action';
     } else if (error.status === 404) {
       errorMessage = 'Service unavailable, please contact administrator.';
     } else if (error.status === 401) {
@@ -41,13 +44,8 @@ export class PayPeriodService {
     }
     return throwError(errorMessage);
   }
-  createPayPeriod(payPeriodRequest: PayPeriodRequest) {
-    return this.http.post(this.baseurl + `/v1/payperiod`, payPeriodRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }
-  updatePayPeriod(id: number, payPeriodRequest: PayPeriodRequest) {
-    return this.http.put(this.baseurl + `/v1/payperiod/${id}`, payPeriodRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }
-  deletePayPeriod(id: number) {
-    return this.http.delete(this.baseurl + `/v1/payperiod/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  
+  getLeaderboardReport(leaderboardReportRequest: LeaderboardReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/leaderboard`, leaderboardReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

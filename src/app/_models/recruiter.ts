@@ -3,4 +3,5 @@ export class Recruiter {
     firstName: string;
     lastName: string;
     emailAddress: string;
+    isReferer: boolean;
 }

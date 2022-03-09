@@ -42,45 +42,45 @@ export class AssignmentService {
     return throwError(errorMessage);
   }
   getAllRecruiters() {
-    return this.http.get(this.baseurl + `/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllClients() {
-    return this.http.get(this.baseurl + `/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllOffices() {
-    return this.http.get(this.baseurl + `/office/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/office/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllDepartments() {
-    return this.http.get(this.baseurl + `/department/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/department/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllContractors() {
-    return this.http.get(this.baseurl + `/contractor/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/contractor/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getLocationsByClientId(id: number) {
-    return this.http.get(this.baseurl + `/location/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/location/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getInvoiceGroupsByClientId(id: number) {
-    return this.http.get(this.baseurl + `/invoicegroup/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/invoicegroup/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getContactsByClientId(id: number) {
-    return this.http.get(this.baseurl + `/contact/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/contact/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAssignmentByStatus(status: string) {
-    return this.http.get(this.baseurl + `/assignment/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/assignment/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAssignmentById(id: number) {
-    return this.http.get(this.baseurl + `/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   createAssignment(assignmentRequest: AssignmentRequest) {
-    return this.http.post(this.baseurl + `/assignment`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/assignment`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   updateAssignment(id: number, assignmentRequest: AssignmentRequest) {
-    return this.http.put(this.baseurl + `/assignment/${id}`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.put(this.baseurl + `/v1/assignment/${id}`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   updateAssignmentEndDate(id: number, assignmentRequest: AssignmentRequest) {
-    return this.http.put(this.baseurl + `/assignment/${id}/enddate`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.put(this.baseurl + `/v1/assignment/${id}/enddate`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   deleteAssignment(id: number) {
-    return this.http.delete(this.baseurl + `/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.delete(this.baseurl + `/v1/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

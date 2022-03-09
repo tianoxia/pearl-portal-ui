@@ -13,6 +13,8 @@ import { PrintInvoicesComponent } from './print-invoices/print-invoices.componen
 import { ViewCommissionReportComponent } from './view-commission-report/view-commission-report.component';
 import { ViewCommissionDetailReportComponent } from './view-commission-detail-report/view-commission-detail-report.component';
 import { ViewAssignmentHoursComponent } from './view-assignment-hours/view-assignment-hours.component';
+import { ViewReferalReportComponent } from './view-referal-report/view-referal-report.component';
+import { ViewLeaderboardReportComponent } from './view-leaderboard-report/view-leaderboard-report.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ViewAssignmentHoursComponent } from './view-assignment-hours/view-assig
     PrintInvoicesComponent,
     ViewCommissionReportComponent,
     ViewCommissionDetailReportComponent,
-    ViewAssignmentHoursComponent
+    ViewAssignmentHoursComponent,
+    ViewReferalReportComponent,
+    ViewLeaderboardReportComponent
   ],
   imports: [
     CommonModule,

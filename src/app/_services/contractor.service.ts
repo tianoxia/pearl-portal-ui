@@ -42,33 +42,33 @@ export class ContractorService {
     return throwError(errorMessage);
   }
   getAllRecruiters() {
-    return this.http.get(this.baseurl + `/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllClients() {
-    return this.http.get(this.baseurl + `/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllCandidateSources() {
-    return this.http.get(this.baseurl + `/candidatesource/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/candidatesource/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getContractorByStatus(status: string) {
-    return this.http.get(this.baseurl + `/contractor/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/contractor/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getContractorById(id: number) {
-    return this.http.get(this.baseurl + `/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   createContractor(contractorRequest: ContractorRequest) {
-    return this.http.post(this.baseurl + `/contractor`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/contractor`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   updateContractor(id: number, contractorRequest: ContractorRequest) {
-    return this.http.put(this.baseurl + `/contractor/${id}`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.put(this.baseurl + `/v1/contractor/${id}`, contractorRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   deleteContractor(id: number) {
-    return this.http.delete(this.baseurl + `/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.delete(this.baseurl + `/v1/contractor/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   uploadContractorFiles(data: FormData) {
-    return this.http.post(this.baseurl + `/contractor/uploadfiles/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.post(this.baseurl + `/v1/contractor/uploadfiles/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getContractorFiles(id: number) {
-    return this.http.get(this.baseurl + `/contractor/${id}/uploadfiles`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+    return this.http.get(this.baseurl + `/v1/contractor/${id}/uploadfiles`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }
