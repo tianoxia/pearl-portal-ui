@@ -1,3 +1,4 @@
+import { UploadedFile } from "./uploaded-file";
 export class ContractorListResponse {
     contractorId: number;
     firstName: string;
@@ -25,10 +26,4 @@ export class ContractorListResponse {
     recruiterId: number;
     toReleaseTimesheet: boolean;
     contractorAttachments: UploadedFile[];
-}
-
-export class UploadedFile {
-    fileName: string;
-	fileNameWithPath: string;
-    created: Date;
 }

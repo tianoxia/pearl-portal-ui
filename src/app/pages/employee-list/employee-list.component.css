@@ -1,5 +1,4 @@
-.report-container {
-    max-height: 450px;
+.employeelist-container {
     overflow: auto;
 }
 div.filter-header {
@@ -9,11 +8,15 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;    
 }
-.container i {
+.container>.employeelist i {
     font-size: 18px;
     display: inline-block;
     line-height: 1;
     margin-right: 10px;
+}
+.container>.employeelist .mat-table {
+    overflow: auto;
+    width: 100%;
 }
 th.mat-header-cell {
     font-weight: 600 !important;
@@ -22,23 +25,11 @@ th.mat-header-cell {
     padding-left: 10px !important;
     max-width: 300px;
 }
-td.mat-footer-cell {
-    font-weight: 600;
-    font-size: 1em;
-    text-align: center;
-}
-td.mat-footer-cell:first-child {
-    padding-left: 2px;
-    margin-left: 6px;
-}
-td.mat-cell {
-    text-align: center;
-}
 td.mat-cell:first-child {
-    padding: 0px 8px 0px 0px;
+    padding: 0px 8px 0px 5px !important;
 }
 td.mat-cell:not(:first-child) {
-    padding: 8px 8px 8px 0;
+    padding: 8px;
 }
 tr.mat-row:nth-child(2n+1) {
     background-color: #f5f5f5;
@@ -49,19 +40,51 @@ tr.mat-row:not(:nth-child(2n+1)) {
 .mat-card-actions > .mat-raised-button {
     height: 52px;
 }
+.employeelist div.action-buttons .btn {
+    text-transform: none !important;
+    font-size: 1em;
+    padding: 18px 18px !important;
+    margin: -5px 0px 10px 15px;
+}
+div.modal-body h5 {
+    text-transform: none;
+}
+.file-dialog  .mat-dialog-container {
+    margin-top: 133px; 
+    padding-right: 30px;
+}
+.close-button{
+    float: right;
+    top: 4px;
+    right: 4px;
+  }
+  
+  /* .close-icon {
+    transition: 1s ease-in-out;
+  } */
+  
+/*   ::ng-deep .icon-outside .close-button{
+    float: right;
+    top:-52px;
+    right:-52px;
+  } */
+  
+  /* ::ng-deep .icon-outside .mat-dialog-container {
+   overflow: unset
+  } */
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;
         margin-bottom: 10px;
         padding-bottom: 10px;
     }
-    .container i {
+    .container>.employeelist i {
         font-size: 14px;
         display: inline-block;
         line-height: 1;
         margin-right: 6px;
     }
-    .col > .mat-form-field, .mat-card-actions > .mat-raised-button {
+    .mat-form-field, .mat-card-actions > .mat-raised-button {
         width: 100%;
     }
     th.mat-header-cell {
@@ -80,4 +103,18 @@ tr.mat-row:not(:nth-child(2n+1)) {
     td.mat-cell:not(:first-child) {
         padding: 6px 6px 6px 0;
     }
+    .mat-dialog-container .mat-dialog-title {
+        text-align: center;
+    }
+    .mat-dialog-container .modal-body.file-upload-div {
+        margin: 0px -50px 0px !important;
+    }
+    .mat-dialog-container .modal-header.file-upload-header {
+        margin: 0px -10px 0px !important;
+    }
+    .close-button{
+        float: right;
+        top: -10px;
+        right: -10px;
+      }
 }

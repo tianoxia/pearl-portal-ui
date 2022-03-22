@@ -1,4 +1,4 @@
-import { UploadedFile } from './contractor-list-response';
+import { UploadedFile } from "./uploaded-file";
 export class InvoiceReportResponse {
     invoiceNumber: number;
     invoiceGroupId: number;

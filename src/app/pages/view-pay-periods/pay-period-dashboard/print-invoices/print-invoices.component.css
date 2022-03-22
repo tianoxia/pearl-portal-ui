@@ -41,7 +41,7 @@ tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
 .mat-card-actions > .mat-raised-button {
-    height: 47px;
+    height: 52px;
 }
 div.modal-body h5 {
     text-transform: none;

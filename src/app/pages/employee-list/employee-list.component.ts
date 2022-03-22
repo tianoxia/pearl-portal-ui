@@ -9,34 +9,38 @@ import { ActivatedRoute, Router  } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { ContractorService, AlertService } from 'app/_services';
-import { ContractorListResponse, IApiResponse } from 'app/_models';
-import { contractorStatus } from 'app/constants/contractor-status';
+import { EmployeeService, AlertService } from 'app/_services';
+import { EmployeeListResponse, IApiResponse } from 'app/_models';
+import { employeeStatus } from 'app/constants/employee-status';
+import { employeeCategory } from 'app/constants/employee-category';
 
 @Component({
-  selector: 'app-contractor-list',
-  templateUrl: './contractor-list.component.html',
-  styleUrls: ['./contractor-list.component.css'],
+  selector: 'app-employee-list',
+  templateUrl: './employee-list.component.html',
+  styleUrls: ['./employee-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ContractorListComponent implements OnInit {
-  contractorId: number;
-  statuses = contractorStatus;
-  selectedContractor: ContractorListResponse;
+export class EmployeeListComponent implements OnInit {
+  employeeId: number;
+  statuses = employeeStatus;
+  categories = employeeCategory;
+
+  selectedEmployee: EmployeeListResponse;
   @ViewChild('ctrTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild('uploadFilesDialog', { static: true, read: TemplateRef }) uploadFilesRef: TemplateRef<any>;
   @ViewChild('viewFilesDialog', { static: true, read: TemplateRef }) viewFilesRef: TemplateRef<any>;
-  @Input() contractorListForm: FormGroup;
-  @Input() contractorUploadFilesForm: FormGroup;
+  @Input() employeeListForm: FormGroup;
+  @Input() employeeUploadFilesForm: FormGroup;
   isAddEdit: boolean;
   message: string;
   floatLabelControl = new FormControl('auto');
   private filesControl = new FormControl(null, FileUploadValidators.fileSize(10000000));
-  public displayedColumns = ['firstName', 'created', 'modified', 'user', 'star'];
-  public dataSource = new MatTableDataSource<ContractorListResponse>();
+  public displayedColumns = ['firstName', 'accessLevel', 'payType', 'employeeStatus', 'emailAddress',
+  'salesRate', 'recruitRate', 'payRate', 'otRate', 'dtRate', 'payMethod', 'adpFileNumber', 'employeeType', 'star'];
+  public dataSource = new MatTableDataSource<EmployeeListResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
@@ -44,17 +48,19 @@ export class ContractorListComponent implements OnInit {
     public alertService: AlertService,
     fb: FormBuilder,
     private dialog: MatDialog,
-    private contractorService: ContractorService,
+    private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
-      this.contractorListForm = fb.group({
-        contractorStatus: 'Active'        
+      this.employeeListForm = fb.group({
+        employeeStatus: 'Active',
+        employeeCategory: 'Sales',
+        isReferer: ''
       });
-      this.contractorUploadFilesForm = fb.group({
+      this.employeeUploadFilesForm = fb.group({
         files: this.filesControl
       });
-      this.selectedContractor = new ContractorListResponse();
+      this.selectedEmployee = new EmployeeListResponse();
   }
 
   ngOnInit() {
@@ -65,7 +71,7 @@ export class ContractorListComponent implements OnInit {
       if (action) {
         this.isAddEdit = action.toLowerCase() === 'add' || action.toLowerCase() === 'edit';
       }      
-      this.executeGetReport('Active');
+      this.executeGetReport('Active', 'Sales', '');
     });
   }
 
@@ -73,15 +79,19 @@ export class ContractorListComponent implements OnInit {
     return (o1 == o2);
   }
 
-  public showContractorList = (contractorListFormValue) => {
+  compareCategory(o1: any, o2: any) {
+    return (o1 == o2);
+  }
+
+  public showEmployeeList = (employeeListFormValue) => {
     this.spinner.show();
-    this.executeGetReport(contractorListFormValue.contractorStatus);
+    this.executeGetReport(employeeListFormValue.employeeStatus, employeeListFormValue.employeeCategory, employeeListFormValue.isReferer);
   };
 
-  private executeGetReport(status: string) {
-    return this.contractorService.getContractorByStatus(status)        
+  private executeGetReport(status: string, category: string, isReferer: string) {
+    return this.employeeService.getEmployees(status, category, isReferer)
     .subscribe(result => {
-      this.dataSource.data = result as ContractorListResponse[];
+      this.dataSource.data = result as EmployeeListResponse[];
       this.dataSource.paginator = this.paginator;
       if (this.isAddEdit) {
         this.alertService.success(this.message);
@@ -95,8 +105,8 @@ export class ContractorListComponent implements OnInit {
       });
   }
 
-  navigateToEditContractor(id: number) {
-    this.router.navigate([`/edit-contractor/${id}`]);
+  navigateToEditEmployee(id: number) {
+    this.router.navigate([`/edit-employee/${id}`]);
   }
 
   applyFilterOne(filterValue: string) {
@@ -104,9 +114,9 @@ export class ContractorListComponent implements OnInit {
   }
 
   openWarningDialog(warningDialog, id: number) {
-    this.selectedContractor.firstName = this.dataSource.data.find(c => c.contractorId === id).firstName;
-    this.selectedContractor.lastName = this.dataSource.data.find(c => c.contractorId === id).lastName;
-    this.selectedContractor.contractorId = id;
+    this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
+    this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
+    this.selectedEmployee.employeeId = id;
     this.dialog.open(warningDialog, {
       autoFocus: true,
       width: '400px',
@@ -114,11 +124,12 @@ export class ContractorListComponent implements OnInit {
     });
   }
 
-  deleteContractor() {
+  deleteEmployee() {
     this.spinner.show();
-    this.contractorService.deleteContractor(this.selectedContractor.contractorId)
+    this.employeeService.deleteEmployee(this.selectedEmployee.employeeId)
       .subscribe((response: IApiResponse) => {
-        this.executeGetReport(this.contractorListForm.controls.contractorStatus.value);
+        this.executeGetReport(this.employeeListForm.controls.employeeStatus.value, this.employeeListForm.controls.employeeCategory.value,
+          this.employeeListForm.controls.isReferer.value);
         this.alertService.success(response.message);
       },
       error => {
@@ -128,26 +139,26 @@ export class ContractorListComponent implements OnInit {
   }
 
   public hasError = (controlName: string) => {
-    return this.contractorUploadFilesForm.controls[controlName].hasError('required');
+    return this.employeeUploadFilesForm.controls[controlName].hasError('required');
   }
 
   uploadFiles() {    
-    if (this.contractorUploadFilesForm.get('files').value === null) {
-      this.contractorUploadFilesForm.controls.files.setErrors({ required: true })
+    if (this.employeeUploadFilesForm.get('files').value === null) {
+      this.employeeUploadFilesForm.controls.files.setErrors({ required: true })
       return false;
     }
     const formData = new FormData();
-    if (this.contractorUploadFilesForm.get('files').value !== null) {
-      this.contractorUploadFilesForm.get('files').value.forEach((f) => formData.append('files', f));
+    if (this.employeeUploadFilesForm.get('files').value !== null) {
+      this.employeeUploadFilesForm.get('files').value.forEach((f) => formData.append('files', f));
     }
-    this.contractorUploadFilesForm.get('files').patchValue([]); // empty files container in UI
-    this.contractorUploadFilesForm.get('files').patchValue(null); // set object to null  
-    formData.append('contractorId', this.selectedContractor.contractorId.toString());
-    this.contractorService.uploadContractorFiles(formData)
+    this.employeeUploadFilesForm.get('files').patchValue([]); // empty files container in UI
+    this.employeeUploadFilesForm.get('files').patchValue(null); // set object to null  
+    formData.append('employeeId', this.selectedEmployee.employeeId.toString());
+    this.employeeService.uploadEmployeeFiles(formData)
         .pipe(first())
         .subscribe((response: IApiResponse) => {
-          this.contractorUploadFilesForm.get('files').patchValue([]); // empty files container in UI
-          this.contractorUploadFilesForm.get('files').patchValue(null); // set object to null for further upload
+          this.employeeUploadFilesForm.get('files').patchValue([]); // empty files container in UI
+          this.employeeUploadFilesForm.get('files').patchValue(null); // set object to null for further upload
           this.alertService.success(response.message);
           window.scrollTo(0, 0);
           this.spinner.hide();
@@ -161,9 +172,9 @@ export class ContractorListComponent implements OnInit {
   }
 
   uploadAttachments(id: number) {
-    this.selectedContractor.firstName = this.dataSource.data.find(c => c.contractorId === id).firstName;
-    this.selectedContractor.lastName = this.dataSource.data.find(c => c.contractorId === id).lastName;
-    this.selectedContractor.contractorId = id;
+    this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
+    this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
+    this.selectedEmployee.employeeId = id;
     this.openUploadFilesDialog(this.uploadFilesRef);
     return false;
   }
@@ -178,14 +189,14 @@ export class ContractorListComponent implements OnInit {
   }
 
   viewAttachments(id: number) {
-    this.selectedContractor.firstName = this.dataSource.data.find(c => c.contractorId === id).firstName;
-    this.selectedContractor.lastName = this.dataSource.data.find(c => c.contractorId === id).lastName;
-    this.selectedContractor.contractorId = id;
+    this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
+    this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
+    this.selectedEmployee.employeeId = id;
     this.openViewFilesDialog(this.viewFilesRef);
-    this.contractorService.getContractorFiles(id)
+    this.employeeService.getEmployeeFiles(id)
         .pipe(first())
-        .subscribe((response: ContractorListResponse) => {
-          this.selectedContractor = response;
+        .subscribe((response: EmployeeListResponse) => {
+          this.selectedEmployee = response;
           window.scrollTo(0, 0);
           this.spinner.hide();
         },
@@ -200,7 +211,7 @@ export class ContractorListComponent implements OnInit {
   openViewFilesDialog(viewFilesDialog) {
     this.dialog.open(viewFilesDialog, {
       autoFocus: true,
-      width: '400px',
+      width: '450px',
       panelClass: 'file-dialog',
       disableClose: true
     });    

@@ -50,7 +50,7 @@ tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
 .mat-card-actions > .mat-raised-button {
-    height: 47px;
+    height: 52px;
 }
 @media (max-width: 568px) {
     div.filter-header {

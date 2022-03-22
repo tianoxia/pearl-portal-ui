@@ -22,6 +22,8 @@ import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-repor
 import { ViewAllReportsModule } from './pages/view-all-reports/view-all-reports.module';
 import { ContractorListComponent } from './pages/contractor-list/contractor-list.component';
 import { ContractorListModule } from './pages/contractor-list/contractor-list.module';
+import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
+import { EmployeeListModule } from './pages/employee-list/employee-list.module';
 import { ViewPayPeriodsModule } from './pages/view-pay-periods/view-pay-periods.module';
 import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
 import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
@@ -30,6 +32,7 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
 import { UpdateAssignmentEndDateComponent } from './pages/assignment-list/update-assignment-enddate/update-assignment-enddate.component';
 import { AddEditPayPeriodComponent } from './pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
 import { ArrowDivDirective } from './shared/directives/arrow-div.directive';
+import { AccountManagementModule } from './pages/account-management/account-management.module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -50,7 +53,9 @@ export function initializeApp(appConfig: AppConfig) {
     ViewAllReportsModule,
     ViewPayPeriodsModule,
     ContractorListModule,
+    EmployeeListModule,
     AssignmentListModule,
+    AccountManagementModule,
     NgbModule
   ],
   declarations: [
@@ -60,6 +65,7 @@ export function initializeApp(appConfig: AppConfig) {
     HomeComponent,
     ViewAllReportsComponent,
     ContractorListComponent,
+    EmployeeListComponent,
     ViewPayPeriodsComponent,
     AssignmentListComponent,
     UnauthorizedComponent,

@@ -7,6 +7,8 @@ import { ContractorListComponent } from './pages/contractor-list/contractor-list
 import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
 import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { MyProfileComponent } from './pages/account-management/my-profile/my-profile.component';
+import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 
 const appRoutes: Routes = [
   {
@@ -33,6 +35,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard] },
   { path: 'contractor-list', component: ContractorListComponent, canActivate: [AuthGuard] },
+  { path: 'employee-list', component: EmployeeListComponent, canActivate: [AuthGuard] },
   { path: 'assignment-list', component: AssignmentListComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', loadChildren: () => import('./pages/view-pay-periods/view-pay-periods.module').then(m => m.ViewPayPeriodsModule),
@@ -45,7 +48,8 @@ const appRoutes: Routes = [
   canActivate: [AuthGuard] },
   { path: 'view-pay-periods/pay-period-dashboard/biweekly-pay-periods',
   loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/biweekly-pay-periods/biweekly-pay-periods.module').then(m => m.ViewBiWeeklyPayPeriodsModule),
-  canActivate: [AuthGuard] }
+  canActivate: [AuthGuard] },
+  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

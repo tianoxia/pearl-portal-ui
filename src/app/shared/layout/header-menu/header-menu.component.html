@@ -24,7 +24,7 @@
                                     <i class="fas fa-user"></i> {{employeeName}} <i class="fas fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-menu" style="width: 100%; position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
-                                    <a class="dropdown-item" href="#" routerLink="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
+                                    <a class="dropdown-item" href="#" routerLink="/my-profile"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" routerLink="" (click)="logout(false);">
                                         <i class="fas fa-sign-out-alt" aria-hidden="true"></i>&nbsp;Sign Out</a>
@@ -111,7 +111,7 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" routerLink="/employee-list">
                                                         Employees                                                    
                                                     </a>
                                                 </li>
@@ -148,7 +148,7 @@
                             <button *ngIf="isLoggedIn()" class="btn header-btn-signout-nav" href="#" (click)="logout(false);" title="Sign Out">
                                 <i class="icofont-sign-out"></i>
                             </button>                                                        
-                            <button *ngIf="isLoggedIn()" class="btn header-btn-user-nav" routerLink="/account-profile" title="View Profile">
+                            <button *ngIf="isLoggedIn()" class="btn header-btn-user-nav" routerLink="/my-profile" title="View Profile">
                                 <i class="icofont-user-alt-7"></i>
                             </button>
                             <button class="btn header-btn-collapse-nav collapsed" data-toggle="collapse" data-target=".header-nav-main nav">

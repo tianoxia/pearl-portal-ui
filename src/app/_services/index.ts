@@ -13,5 +13,6 @@ export * from './keyboard.service';
 export * from './pay-period.service';
 export * from './assignment-hours.service';
 export * from './leaderboard-report.service';
+export * from './employee.service';
 
 

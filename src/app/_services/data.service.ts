@@ -5,7 +5,7 @@ import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, SummaryReportRequest, PLReportRequest, CustomReportRequest,
-  LoginRequest, ControlReportRequest, AssignmentHoursRequest, ReferalReportRequest } from '../_models';
+  LoginRequest, ControlReportRequest, AssignmentHoursRequest, ReferalReportRequest, CurrentLoginRequest } from '../_models';
 import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
@@ -47,6 +47,18 @@ export class DataService {
   }
   sendValidateUserRequest(loginData: LoginRequest): Observable<any> {
     return this.http.post(this.baseurl + '/v1/tokenauth/validatelogin', loginData)
+      .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  validateCurrentPassword(currentUser: CurrentLoginRequest): Observable<any> {
+    return this.http.post(this.baseurl + '/v1/register/validatecurrentpwd', currentUser)
+      .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  resetPassword(data) {
+    return this.http.post(this.baseurl + '/v1/register/resetpassword',
+      {
+        employeeId: data.employeeId,
+        password: data.password
+      })
       .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllDepartments() {

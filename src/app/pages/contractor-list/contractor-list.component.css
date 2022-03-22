@@ -38,7 +38,7 @@ tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
 .mat-card-actions > .mat-raised-button {
-    height: 50px;
+    height: 52px;
 }
 .contractorlist div.action-buttons .btn {
     text-transform: none !important;
@@ -49,32 +49,16 @@ tr.mat-row:not(:nth-child(2n+1)) {
 div.modal-body h5 {
     text-transform: none;
 }
-.mat-dialog-container {
-    padding-top: 30px;
-    margin-top: 100px;
+.file-dialog .mat-dialog-container {
+    margin-top: 135px;
     padding-right: 30px;
-    max-height: 400px;
-    overflow: auto;
 }
 .close-button{
     float: right;
     top: 4px;
     right: 4px;
   }
-  
-  /* .close-icon {
-    transition: 1s ease-in-out;
-  } */
-  
-/*   ::ng-deep .icon-outside .close-button{
-    float: right;
-    top:-52px;
-    right:-52px;
-  } */
-  
-  /* ::ng-deep .icon-outside .mat-dialog-container {
-   overflow: unset
-  } */
+
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;
