@@ -1,5 +1,5 @@
 export const salesRateStatus = [
-    'Default',
-    'Fixed',
-    'Flexible'
+    { label: 'Default', value: '' },
+    { label: 'Fixed', value: 'FIX' },
+    { label: 'Flexible', value: 'FLEX' }
 ];

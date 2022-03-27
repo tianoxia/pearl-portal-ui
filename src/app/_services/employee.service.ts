@@ -41,6 +41,9 @@ export class EmployeeService {
     }
     return throwError(errorMessage);
   }
+  getActiveSales() {
+    return this.http.get(this.baseurl + `/v1/recruiter/sales`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
   getEmployees(status: string, category: string, isReferer: string) {
     return this.http.get(this.baseurl + `/v1/employee/status/${status}/category/${category}?isReferer=${isReferer}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }

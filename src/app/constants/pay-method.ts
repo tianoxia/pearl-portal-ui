@@ -1,5 +1,5 @@
 export const payMethod = [
-    'ADP ACH',
-    'ACH',
-    'Check'
+    { label: 'ADP ACH', value: 'ADPACH' },
+    { label: 'ACH', value: 'ACH' },
+    { label: 'Check', value: 'Check' }
 ];

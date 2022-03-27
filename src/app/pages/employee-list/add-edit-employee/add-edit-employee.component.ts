@@ -8,9 +8,15 @@ import { cloneDeep } from 'lodash';
 
 import { EmployeeService, AlertService, AuthenticationService } from 'app/_services';
 import { MustMatch } from 'app/_helpers';
-import { CustomValidator } from '../../../shared/validation';
-import { EmployeeListResponse, EmployeeRequest, Recruiter, IApiResponse, CandidateSource } from 'app/_models';
-import { states } from '../../../constants/states';
+import { EmployeeListResponse, EmployeeRequest, Recruiter, IApiResponse } from 'app/_models';
+import { employeeCategory } from 'app/constants/employee-category';
+import { employeeStatus } from 'app/constants/employee-status';
+import { accessLevel } from 'app/constants/access-level';
+import { employeeTypeBurden } from 'app/constants/employee-type-burden';
+import { salesRateStatus } from 'app/constants/sales-rate-status';
+import { recruitRateStatus } from 'app/constants/recruit-rate-status';
+import { rates } from 'app/constants/sales-recruit-rates';
+import { payMethod } from 'app/constants/pay-method';
 
 @Component({
   selector: 'app-add-edit-employee',
@@ -23,13 +29,23 @@ export class AddEditEmployeeComponent implements OnInit {
   isAddMode: boolean;
   submitted = false;
   showPassword = false;
+  isRecruiter: boolean = true;
+  isReferer: boolean = false;
   showConfirmPassword = false;
-  states = states;
+  statuses = employeeStatus.filter(e => e !== 'All');
+  categories = employeeCategory;
+  employeeTypes = employeeTypeBurden.map(e => e.employeeType).filter(e => e !== 'Perm Placement');
+  accessLevels = accessLevel;
   action: string;
-  recruiters: Recruiter[];
-  salesPersonList: Recruiter[];
-  defaultRecruiter: Recruiter;
-  defaultSalesPerson: Recruiter;
+  employeeTypeBurden = employeeTypeBurden;
+  salesRateStatuses = salesRateStatus;
+  recruitRateStatuses = recruitRateStatus;
+  payMethods = payMethod;
+  rates = rates;
+  teamLeads: Recruiter[];
+  teamManagers: Recruiter[];
+  defaultTeamLead: Recruiter;
+  defaultTeamManager: Recruiter;
   employee: EmployeeListResponse;
   pwd_hide = true;
   cfm_pwd_hide = true;
@@ -51,24 +67,32 @@ export class AddEditEmployeeComponent implements OnInit {
     this.spinner.show();
     this.employeeId = this.route.snapshot.params['employeeId'];
     this.isAddMode = !this.employeeId;
-    this.defaultRecruiter = new Recruiter();
-    this.defaultSalesPerson = new Recruiter();
-    this.defaultRecruiter.firstName = 'Select Sales Team';
-    this.defaultRecruiter.lastName = '';
-    this.defaultRecruiter.employeeId = 0;
-    this.defaultSalesPerson.firstName = 'Select Team Manager';
-    this.defaultSalesPerson.lastName = '';
-    this.defaultSalesPerson.employeeId = 0;
     this.employeeAddEditForm = this.formBuilder.group({
+      employeeStatus: ['', Validators.required],
+      category: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      ssn: ['', [Validators.required, CustomValidator.ssnValidator]],
       emailAddress: ['', [Validators.required, Validators.email]],
       password: ['', [this.isAddMode ? Validators.required : Validators.nullValidator]],
       confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator],
-      accessLevel: ['', [Validators.required]],
-      salesPerson: this.defaultSalesPerson,
-      recruiter: this.defaultRecruiter
+      accessLevel: '',
+      teamLead: this.defaultTeamLead,
+      teamManager: this.defaultTeamManager,
+      employeeType: '',
+      burdenRate: '',
+      salesRateStatus: '',
+      salesRate: '',
+      recruitRateStatus: '',
+      recruitRate: '',
+      payType: '',
+      payRate: '',
+      otRate: '',
+      dtRate: '',
+      startDate: ['', Validators.required],
+      endDate: '',
+      payMethod: '',
+      adpFileNumber: ['', [Validators.maxLength(6)]],
+      isReferer: false
     }, {
         validator: MustMatch('password', 'confirmPassword')
     });
@@ -76,34 +100,46 @@ export class AddEditEmployeeComponent implements OnInit {
     if (this.isAddMode) {
       passwordValidators.push(Validators.required);
     }
-    if (!this.isAddMode) {
-        this.action = 'Edit';
-        this.loadData();
-    } else {
-      this.action = 'Add';
-    }
+    this.loadData();
   }
 
   private loadData() {
     this.alertService.clear();
-    forkJoin([this.employeeService.getEmployeeById(this.employeeId)])
-      .subscribe(([employee, recruiters]) => {
-        this.recruiters = recruiters as Recruiter[];
-        this.salesPersonList = cloneDeep(recruiters as Recruiter[]);
+    const observables = [];
+    observables.push(this.employeeService.getActiveSales());
+
+    if (!this.isAddMode) {
+      this.action = 'Edit';
+      observables.push(this.employeeService.getEmployeeById(this.employeeId));
+    } else {
+      this.action = 'Add';
+    }
+    forkJoin(observables).subscribe(data => {
+        const recruiters = data[0] as Recruiter[];
+        const employee = data[1] as EmployeeListResponse;
+
+        this.teamLeads = recruiters;
+        this.teamManagers = cloneDeep(recruiters);
         this.employee = employee as EmployeeListResponse;
-        this.recruiters.splice(0, 0, this.defaultRecruiter);
-        this.salesPersonList.splice(0, 0, this.defaultSalesPerson);
-        delete this.employee.password;
-        this.employeeAddEditForm.patchValue(this.employee);
-        if (this.employee.teamLeadId > 0) {
-          this.employeeAddEditForm.get('teamLead').patchValue(this.employee.teamLeadId);
-        } else {
-          this.employeeAddEditForm.get('teamLead').patchValue(0);
-        }
-        if (this.employee.teamManagerId > 0) {
-          this.employeeAddEditForm.get('teamManager').patchValue(this.employee.teamManagerId);
-        } else {
-          this.employeeAddEditForm.get('teamManager').patchValue(0);
+        this.employeeAddEditForm.get('salesRateStatus').patchValue(0);
+        this.employeeAddEditForm.get('recruitRateStatus').patchValue(0);
+        this.employeeAddEditForm.get('salesRate').patchValue(0);
+        this.employeeAddEditForm.get('recruitRate').patchValue(0);
+        this.employeeAddEditForm.get('payType').patchValue('Salary');
+        this.employeeAddEditForm.get('payMethod').patchValue('ADPACH');
+        if (employee) {
+          delete this.employee.password;
+          this.employeeAddEditForm.patchValue(this.employee);
+          if (this.employee.teamLeadId > 0) {
+            this.employeeAddEditForm.get('teamLead').patchValue(this.employee.teamLeadId);
+          }
+          if (this.employee.teamManagerId > 0) {
+            this.employeeAddEditForm.get('teamManager').patchValue(this.employee.teamManagerId);
+          }
+          if (this.employee.endDate.toString() === '0001-01-01T00:00:00') {
+            this.employeeAddEditForm.get('endDate').patchValue(null);
+          }
+          this.isRecruiter = this.employee.category === 'Recruiter' ? true : false;
         }
         this.spinner.hide();
       },
@@ -177,6 +213,26 @@ export class AddEditEmployeeComponent implements OnInit {
     request.lastName = this.employeeAddEditForm.controls.lastName.value;
     request.emailAddress = this.employeeAddEditForm.controls.emailAddress.value;
     request.password = this.employeeAddEditForm.controls.password.value;
+    request.employeeStatus = this.employeeAddEditForm.controls.employeeStatus.value;
+    request.category = this.employeeAddEditForm.controls.category.value;
+    request.accessLevel = this.employeeAddEditForm.controls.accessLevel.value;
+    request.isReferer = this.employeeAddEditForm.controls.isReferer.value;
+    request.teamLeadId = +this.employeeAddEditForm.controls.teamLead.value;
+    request.teamManagerId = +this.employeeAddEditForm.controls.teamManager.value;
+    request.employeeType = this.employeeAddEditForm.controls.employeeType.value;
+    request.burdenRate = +this.employeeAddEditForm.controls.burdenRate.value;
+    request.salesRateStatus = this.employeeAddEditForm.controls.salesRateStatus.value;
+    request.salesRate = +this.employeeAddEditForm.controls.salesRate.value;
+    request.recruitRateStatus = this.employeeAddEditForm.controls.recruitRateStatus.value;
+    request.recruitRate = +this.employeeAddEditForm.controls.recruitRate.value;
+    request.payType = this.employeeAddEditForm.controls.payType.value;
+    request.payRate = +this.employeeAddEditForm.controls.payRate.value;
+    request.otRate = +this.employeeAddEditForm.controls.otRate.value;
+    request.dtRate = +this.employeeAddEditForm.controls.dtRate.value;
+    request.adpFileNumber = this.employeeAddEditForm.controls.adpFileNumber.value;
+    request.payMethod = this.employeeAddEditForm.controls.payMethod.value;
+    request.startDate = this.employeeAddEditForm.controls.startDate.value;
+    request.endDate = this.employeeAddEditForm.controls.endDate.value;
     return request;
   }
 
@@ -195,12 +251,25 @@ export class AddEditEmployeeComponent implements OnInit {
       case 'emailAddress':
         this.employeeAddEditForm.controls.emailAddress.patchValue('');
         break;
+      case 'adpFileNumber':
+        this.employeeAddEditForm.controls.adpFileNumber.patchValue('');
+        break;
     }
   }
 
   getErrorMessage(control: string) {
     switch (control) {
-      case 'firstname': 
+      case 'employeeStatus':
+        if (this.employeeAddEditForm.controls.employeeStatus.hasError('required')) {
+          return 'Status is required';
+        }
+        break;
+      case 'category':
+        if (this.employeeAddEditForm.controls.category.hasError('required')) {
+          return 'Category is required';
+        }
+        break;
+      case 'firstname':
         if (this.employeeAddEditForm.controls.firstName.hasError('required')) {
           return 'First name is required';
         }
@@ -229,6 +298,33 @@ export class AddEditEmployeeComponent implements OnInit {
           return 'Passwords must match';
         }
         break;
+      case 'startDate':
+        if (this.employeeAddEditForm.controls.startDate.hasError('required')) {
+          return 'Start date is required';
+        }
+        break;
+      case 'adpFileNumber':
+        if (this.employeeAddEditForm.controls.adpFileNumber.hasError('max')) {
+          return 'Must be less than 6 characters';
+        }
     }
+  }
+
+  compareSalesRateStatus(o1: any, o2: any) {
+    return (o1 == o2);
+  }
+
+  comparePayMethod(o1: any, o2: any) {
+    return (o1 == o2);
+  }
+
+  onEmployeeTypeChange() {
+    const burden = this.employeeTypeBurden.filter(e => e.employeeType === this.employeeAddEditForm.controls.employeeType.value)[0].burdenRate;
+    this.employeeAddEditForm.controls.burdenRate.patchValue(burden);
+    return false;
+  }
+
+  onEmployeeCategoryChange() {
+    this.isRecruiter = this.employeeAddEditForm.controls.category.value === 'Recruiter' ? true : false;
   }
 }

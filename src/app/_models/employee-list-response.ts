@@ -21,8 +21,6 @@ export class EmployeeListResponse {
 	dtRate: number;
     emailAddress: string;
     accessLevel: string;
-    created: Date;
-    modified: Date;
     startDate: Date;
     endDate?: Date;
     payMethod: string;   //ACH,ADP ACH, Check

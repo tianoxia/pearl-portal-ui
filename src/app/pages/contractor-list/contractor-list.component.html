@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <form [formGroup]="contractorListForm" autocomplete="off" novalidate (ngSubmit)="showContractorList(contractorListForm.value)">
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="30px" class="mt-2 pt-2">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="8px" class="mt-2 pt-2">
                         <mat-form-field appearance="fill" fxFlex="20%">
                             <mat-label>Select A Status</mat-label>
                             <mat-select formControlName="contractorStatus" [compareWith]="compareStatuses">
