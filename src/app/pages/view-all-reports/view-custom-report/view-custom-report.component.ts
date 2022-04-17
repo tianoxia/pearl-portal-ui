@@ -3,14 +3,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core'; 
+import { MatOption } from '@angular/material/core';
+import { Router } from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
-import { AlertService, DataService, ExportService } from 'app/_services';
+import { AlertService, AuthenticationService, DataService, ExportService } from 'app/_services';
 import { CustomReportResponse, CustomReportRequest,
-  Department, Recruiter, Client, CustomReportTotals } from 'app/_models';
-import { CurrencyPipe, DatePipe, DecimalPipe, PercentPipe } from '@angular/common';
+  Department, Recruiter, Client, CustomReportTotals, Resource, PermissionType } from 'app/_models';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-custom-report',
@@ -47,6 +48,8 @@ export class ViewCustomReportComponent implements OnInit {
   }
   constructor(public alertService: AlertService,
     fb: FormBuilder,
+    private router: Router,
+    private authService: AuthenticationService,
     private dataService: DataService,
     private exportService: ExportService,
     private datePipe: DatePipe,
@@ -72,6 +75,13 @@ export class ViewCustomReportComponent implements OnInit {
     }
 
   ngOnInit() {
+    if (this.authService.currentUserValue !== null) {
+      const perm = this.authService.currentUserValue.employeePermissions;
+      if (!perm.find(e => e.resource === Resource.CustomReport && e.permissionTypes.includes(PermissionType.VIEW))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
+    }
+
     window.scrollTo(0, 0);
     this.spinner.show();
     this.loadData();

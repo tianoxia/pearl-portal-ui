@@ -9,8 +9,8 @@ import { ActivatedRoute, Router  } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { ContractorService, AlertService } from 'app/_services';
-import { ContractorListResponse, IApiResponse } from 'app/_models';
+import { ContractorService, AlertService, AuthenticationService } from 'app/_services';
+import { ContractorListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { contractorStatus } from 'app/constants/contractor-status';
 
 @Component({
@@ -43,6 +43,7 @@ export class ContractorListComponent implements OnInit {
   constructor(
     public alertService: AlertService,
     fb: FormBuilder,
+    private authService: AuthenticationService,
     private dialog: MatDialog,
     private contractorService: ContractorService,
     private route: ActivatedRoute,
@@ -58,6 +59,12 @@ export class ContractorListComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.authService.currentUserValue !== null) {
+      const perm = this.authService.currentUserValue.employeePermissions;
+      if (!perm.find(e => e.resource === Resource.Contractors && e.permissionTypes.includes(PermissionType.LIST))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
+    }
     this.route.queryParamMap.subscribe(params => {
       this.spinner.show();
       this.message = params.get('message');

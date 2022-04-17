@@ -1,3 +1,4 @@
+import { EmployeePermission, EmployeePermissionDetails } from "./permission";
 import { UploadedFile } from "./uploaded-file";
 export class EmployeeListResponse {
     employeeStatus: string;
@@ -25,4 +26,5 @@ export class EmployeeListResponse {
     endDate?: Date;
     payMethod: string;   //ACH,ADP ACH, Check
     employeeAttachments: UploadedFile[];
+    employeePermissionDetails: EmployeePermissionDetails;
 }

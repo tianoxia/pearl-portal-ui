@@ -9,179 +9,222 @@
                     </div>
                 </div>
                 <form [formGroup]="employeeAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
-                        <mat-form-field appearance="fill" fxFlex="13%">
-                            <mat-label>Select A Status</mat-label>
-                            <mat-select formControlName="employeeStatus">
-                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="hasError('employeeStatus')">{{getErrorMessage('employeeStatus')}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="13">
-                            <mat-label>Select A Type</mat-label>
-                            <mat-select formControlName="category" (selectionChange)="onEmployeeCategoryChange()">
-                                <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="hasError('category')">{{getErrorMessage('category')}}</mat-error>
-                        </mat-form-field>
+                    <mat-tab-group dynamicHeight>
+                        <mat-tab id="tab-employee-details" label="Details">                            
+                            <div fxLayout="row" class="mt-3" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                                <mat-form-field appearance="fill" fxFlex="13%">
+                                    <mat-label>Select A Status</mat-label>
+                                    <mat-select formControlName="employeeStatus">
+                                        <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="hasError('employeeStatus')">{{getErrorMessage('employeeStatus')}}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="13">
+                                    <mat-label>Select A Type</mat-label>
+                                    <mat-select formControlName="category" (selectionChange)="onEmployeeCategoryChange()">
+                                        <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="hasError('category')">{{getErrorMessage('category')}}</mat-error>
+                                </mat-form-field>
 
-                        <mat-form-field appearance="fill" fxFlex="20%">
-                            <mat-label>First Name</mat-label>
-                            <input matInput formControlName="firstName" />
-                            <button mat-button *ngIf="employeeAddEditForm.controls['firstName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstname')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('firstName')">{{getErrorMessage('firstname')}}</mat-error>
-                        </mat-form-field>
-                    
-                        <mat-form-field appearance="fill" fxFlex="20%">
-                            <mat-label>Last Name</mat-label>
-                            <input matInput formControlName="lastName" />
-                            <button mat-button *ngIf="employeeAddEditForm.controls['lastName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastname')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('lastName')">{{getErrorMessage('lastname')}}</mat-error>
-                        </mat-form-field>
-                    
-                        <mat-form-field appearance="fill" fxFlex="30.8%">
-                            <mat-label>Email</mat-label>
-                            <input matInput formControlName="emailAddress" />
-                            <button mat-button *ngIf="employeeAddEditForm.controls['emailAddress'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailAddress')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('emailAddress')">{{getErrorMessage('emailAddress')}}</mat-error>
-                        </mat-form-field>                        
-                    </div>                    
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
-                        <mat-form-field appearance="fill" fxFlex="20%">
-                            <mat-label>Select Access Level</mat-label>
-                            <mat-select formControlName="accessLevel">
-                                <mat-option *ngFor="let al of accessLevels" [value]="al">{{al}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        
-                        <mat-form-field appearance="fill" fxFlex="22%" *ngIf="isRecruiter">
-                            <mat-label>Select Sales Team</mat-label>
-                            <mat-select formControlName="teamLead">
-                                <mat-option *ngFor="let tl of teamLeads" [value]="tl.employeeId">{{tl.firstName+' '+tl.lastName}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="22%">
-                            <mat-label>Select Team Manager</mat-label>
-                            <mat-select formControlName="teamManager">
-                                <mat-option *ngFor="let tm of teamManagers" [value]="tm.employeeId">{{tm.firstName+' '+tm.lastName}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="20%">
-                            <mat-label>Employee Type</mat-label>
-                            <mat-select formControlName="employeeType" (selectionChange)="onEmployeeTypeChange()">
-                                <mat-option *ngFor="let type of employeeTypes" [value]="type">{{type}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="20%">
+                                    <mat-label>First Name</mat-label>
+                                    <input matInput formControlName="firstName" />
+                                    <button mat-button *ngIf="employeeAddEditForm.controls['firstName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstname')">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="hasError('firstName')">{{getErrorMessage('firstname')}}</mat-error>
+                                </mat-form-field>
                             
-                        <mat-form-field appearance="fill" fxFlex="12.8%">
-                            <mat-label>Burden</mat-label>
-                            <input matInput formControlName="burdenRate" />
-                        </mat-form-field>
-                    </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
-                        <mat-form-field appearance="fill" fxFlex="20">
-                            <mat-label>Select Sales Rate Status</mat-label>
-                            <mat-select formControlName="salesRateStatus" [compareWith]="compareSalesRateStatus">
-                                <mat-option *ngFor="let srs of salesRateStatuses" [value]="srs.value">{{srs.label}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="12%">
-                            <mat-label>Sales Rate</mat-label>
-                            <mat-select formControlName="salesRate">
-                                <mat-option *ngFor="let rate of rates" [value]="rate.value">{{rate.label}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="20%">
+                                    <mat-label>Last Name</mat-label>
+                                    <input matInput formControlName="lastName" />
+                                    <button mat-button *ngIf="employeeAddEditForm.controls['lastName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastname')">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="hasError('lastName')">{{getErrorMessage('lastname')}}</mat-error>
+                                </mat-form-field>
+                            
+                                <mat-form-field appearance="fill" fxFlex="30.8%">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput formControlName="emailAddress" />
+                                    <button mat-button *ngIf="employeeAddEditForm.controls['emailAddress'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailAddress')">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="hasError('emailAddress')">{{getErrorMessage('emailAddress')}}</mat-error>
+                                </mat-form-field>                        
+                            </div>                    
+                            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
+                                <mat-form-field appearance="fill" fxFlex="20%">
+                                    <mat-label>Select Access Level</mat-label>
+                                    <mat-select formControlName="accessLevel">
+                                        <mat-option *ngFor="let al of accessLevels" [value]="al">{{al}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                
+                                <mat-form-field appearance="fill" fxFlex="22%" *ngIf="isRecruiter">
+                                    <mat-label>Select Sales Team</mat-label>
+                                    <mat-select formControlName="teamLead">
+                                        <mat-option *ngFor="let tl of teamLeads" [value]="tl.employeeId">{{tl.firstName+' '+tl.lastName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="22%">
+                                    <mat-label>Select Team Manager</mat-label>
+                                    <mat-select formControlName="teamManager">
+                                        <mat-option *ngFor="let tm of teamManagers" [value]="tm.employeeId">{{tm.firstName+' '+tm.lastName}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="20%">
+                                    <mat-label>Employee Type</mat-label>
+                                    <mat-select formControlName="employeeType" (selectionChange)="onEmployeeTypeChange()">
+                                        <mat-option *ngFor="let type of employeeTypes" [value]="type">{{type}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                    
+                                <mat-form-field appearance="fill" fxFlex="12.8%">
+                                    <mat-label>Burden</mat-label>
+                                    <input matInput formControlName="burdenRate" />
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                                <mat-form-field appearance="fill" fxFlex="20">
+                                    <mat-label>Select Sales Rate Status</mat-label>
+                                    <mat-select formControlName="salesRateStatus" [compareWith]="compareSalesRateStatus">
+                                        <mat-option *ngFor="let srs of salesRateStatuses" [value]="srs.value">{{srs.label}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Sales Rate</mat-label>
+                                    <mat-select formControlName="salesRate">
+                                        <mat-option *ngFor="let rate of rates" [value]="rate.value">{{rate.label}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
 
-                        <mat-form-field appearance="fill" fxFlex="20">
-                            <mat-label>Select Recruit Rate Status</mat-label>
-                            <mat-select formControlName="recruitRateStatus" [compareWith]="compareSalesRateStatus">
-                                <mat-option *ngFor="let rrs of recruitRateStatuses" [value]="rrs.value">{{rrs.label}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="12%">
-                            <mat-label>Recruit Rate</mat-label>
-                            <mat-select formControlName="recruitRate">
-                                <mat-option *ngFor="let rate of rates" [value]="rate.value">{{rate.label}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="20">
-                            <mat-label>Salary/Hourly</mat-label>
-                            <mat-select formControlName="payType">
-                                <mat-option value="Salary" selected>Salary</mat-option>
-                                <mat-option value="Hourly">Hourly</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="12%">
-                            <mat-label>Pay Rate</mat-label>
-                            <input matInput type="number" formControlName="payRate" />
-                        </mat-form-field>
-                    </div>
+                                <mat-form-field appearance="fill" fxFlex="20">
+                                    <mat-label>Select Recruit Rate Status</mat-label>
+                                    <mat-select formControlName="recruitRateStatus" [compareWith]="compareSalesRateStatus">
+                                        <mat-option *ngFor="let rrs of recruitRateStatuses" [value]="rrs.value">{{rrs.label}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Recruit Rate</mat-label>
+                                    <mat-select formControlName="recruitRate">
+                                        <mat-option *ngFor="let rate of rates" [value]="rate.value">{{rate.label}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="20">
+                                    <mat-label>Salary/Hourly</mat-label>
+                                    <mat-select formControlName="payType">
+                                        <mat-option value="Salary" selected>Salary</mat-option>
+                                        <mat-option value="Hourly">Hourly</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Pay Rate</mat-label>
+                                    <input matInput type="number" formControlName="payRate" />
+                                </mat-form-field>
+                            </div>
+                            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Overtime Rate</mat-label>
+                                    <input matInput type="number" formControlName="otRate" />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>DT Rate</mat-label>
+                                    <input matInput type="number" formControlName="dtRate" />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="15%">
+                                    <mat-label>ADP File Number</mat-label>
+                                    <input matInput formControlName="adpFileNumber" />
+                                    <button mat-button *ngIf="employeeAddEditForm.controls['adpFileNumber'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('adpFileNumber')">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="hasError('adpFileNumber')">{{getErrorMessage('adpFileNumber')}}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="11%">
+                                    <mat-label>Pay Method</mat-label>
+                                    <mat-select formControlName="payMethod"[compareWith]="comparePayMethod">
+                                        <mat-option *ngFor="let pm of payMethods" [value]="pm.value">{{pm.label}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="16.6%">
+                                    <mat-label>Start Date</mat-label>
+                                    <input matInput [matDatepicker]="picker1" formControlName="startDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1 panelClass="datepickerOne"></mat-datepicker>
+                                    <mat-error *ngIf="hasError('startDate')">{{getErrorMessage('startDate')}}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="16.6%">
+                                    <mat-label>End Date</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="endDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                                <div fxFlex="12%" fxLayoutAlign="left center">
+                                    <mat-slide-toggle color="primary" labelPosition="before" formControlName="isReferer">Is Referer</mat-slide-toggle>
+                                </div>
+                            </div>
+                            <div fxLayout="row wrap" *ngIf="!isAddMode">
+                                <h4 class="pt-2" fxFlex="100%">Change Password</h4>
+                                <p class="pb-2 mb-2">Leave blank to keep the same password</p>
+                            </div>
+                            <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
+                                <mat-form-field appearance="fill" fxFlex="49.6%">
+                                    <mat-label>Password</mat-label>
+                                    <input autocomplete="new-password" matInput formControlName="password" [type]="pwd_hide ? 'password' : 'text'" />
+                                    <mat-icon matSuffix (click)="pwd_hide = !pwd_hide">{{pwd_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    <mat-error *ngIf="hasError('password')">{{getErrorMessage('password')}}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="49.6%">
+                                    <mat-label>Confirm Password</mat-label>
+                                    <input matInput formControlName="confirmPassword" [type]="cfm_pwd_hide ? 'password' : 'text'" />
+                                    <mat-icon matSuffix (click)="cfm_pwd_hide = !cfm_pwd_hide">{{cfm_pwd_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                    <mat-error *ngIf="hasError('confirmPassword')">{{getErrorMessage('confirmPassword')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </mat-tab>
+                        <mat-tab id="tab-employee-permission" label="Permissions">
+                            <div fxFlex="100%" class="mt-3 mb-3" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                                <mat-accordion displayMode="flat" #accordion="matAccordion">
+                                    <mat-expansion-panel class="expansion-panel" [expanded]="isFirst"
+                                    *ngFor="let resource of resources; index as i; first as isFirst; last as isLast">                                    
+                                      <mat-expansion-panel-header class="expansion-row" #panel>
+                                        <mat-panel-title>
+                                          <div class="font-weight-semibold">{{resource.heading}}</div>
+                                        </mat-panel-title>
+                                        <mat-panel-description class="right-aligned">
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('reports')">insert_chart</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('pay periods')">attach_money</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('departments')">widgets</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('attachments')">attach_file</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('home health')">healing</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('referers')">supervised_user_circle</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('clients')">how_to_reg</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('contractors')">person_pin</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('locations')">location_on</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('assignments')">assignment</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('contacts')">contacts</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('employees')">people</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('provider employees')">person_pin</mat-icon>
+                                            <mat-icon *ngIf="(resource.heading | lowercase) == ('timesheets')">update</mat-icon>
+                                          </mat-panel-description>
+                                      </mat-expansion-panel-header>
+                                      <ng-template matExpansionPanelContent>
+                                        <div class="resource-list">
+                                            <div *ngFor="let resource of resource.content | keyvalue">
+                                                <div class="mr-2">
+                                                    <mat-slide-toggle color="primary" labelPosition="before" formControlName="{{resource.value}}">{{resource.key}}</mat-slide-toggle>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </ng-template>
+                                    </mat-expansion-panel>
+                                  </mat-accordion>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
-                        <mat-form-field appearance="fill" fxFlex="12%">
-                            <mat-label>Overtime Rate</mat-label>
-                            <input matInput type="number" formControlName="otRate" />
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="12%">
-                            <mat-label>DT Rate</mat-label>
-                            <input matInput type="number" formControlName="dtRate" />
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="15%">
-                            <mat-label>ADP File Number</mat-label>
-                            <input matInput formControlName="adpFileNumber" />
-                            <button mat-button *ngIf="employeeAddEditForm.controls['adpFileNumber'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('adpFileNumber')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('adpFileNumber')">{{getErrorMessage('adpFileNumber')}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="11%">
-                            <mat-label>Pay Method</mat-label>
-                            <mat-select formControlName="payMethod"[compareWith]="comparePayMethod">
-                                <mat-option *ngFor="let pm of payMethods" [value]="pm.value">{{pm.label}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="16.6%">
-                            <mat-label>Start Date</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="startDate">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1 panelClass="datepickerOne"></mat-datepicker>
-                            <mat-error *ngIf="hasError('startDate')">{{getErrorMessage('startDate')}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="16.6%">
-                            <mat-label>End Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="endDate">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
-                        <div fxFlex="12%" fxLayoutAlign="left center">
-                            <mat-slide-toggle color="primary" labelPosition="before" formControlName="isReferer">Is Referer</mat-slide-toggle>
-                        </div>
-                    </div>
-                    <div fxLayout="row wrap" *ngIf="!isAddMode">
-                        <h4 class="pt-2" fxFlex="100%">Change Password</h4>
-                        <p class="pb-2 mb-2">Leave blank to keep the same password</p>
-                    </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
-                        <mat-form-field appearance="fill" fxFlex="49.6%">
-                            <mat-label>Password</mat-label>
-                            <input autocomplete="new-password" matInput formControlName="password" [type]="pwd_hide ? 'password' : 'text'" />
-                            <mat-icon matSuffix (click)="pwd_hide = !pwd_hide">{{pwd_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                            <mat-error *ngIf="hasError('password')">{{getErrorMessage('password')}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="49.6%">
-                            <mat-label>Confirm Password</mat-label>
-                            <input matInput formControlName="confirmPassword" [type]="cfm_pwd_hide ? 'password' : 'text'" />
-                            <mat-icon matSuffix (click)="cfm_pwd_hide = !cfm_pwd_hide">{{cfm_pwd_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                            <mat-error *ngIf="hasError('confirmPassword')">{{getErrorMessage('confirmPassword')}}</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
-                        <button mat-raised-button color="primary" [disabled]="!employeeAddEditForm.valid">
+                        <button mat-raised-button color="primary">
                             Save employee
                         </button>
                         <a mat-raised-button routerLink="/employee-list" class="btn btn-link">Cancel</a>

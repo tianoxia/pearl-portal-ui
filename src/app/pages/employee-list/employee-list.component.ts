@@ -9,8 +9,8 @@ import { ActivatedRoute, Router  } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { EmployeeService, AlertService } from 'app/_services';
-import { EmployeeListResponse, IApiResponse } from 'app/_models';
+import { EmployeeService, AlertService, AuthenticationService } from 'app/_services';
+import { EmployeeListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { employeeStatus } from 'app/constants/employee-status';
 import { employeeCategory } from 'app/constants/employee-category';
 
@@ -47,6 +47,7 @@ export class EmployeeListComponent implements OnInit {
   constructor(
     public alertService: AlertService,
     fb: FormBuilder,
+    private authService: AuthenticationService,
     private dialog: MatDialog,
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
@@ -64,6 +65,12 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.authService.currentUserValue !== null) {
+      const perm = this.authService.currentUserValue.employeePermissions;
+      if (!perm.find(e => e.resource === Resource.Employees && e.permissionTypes.includes(PermissionType.LIST))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
+    }
     this.route.queryParamMap.subscribe(params => {
       this.spinner.show();
       this.message = params.get('message');
@@ -189,6 +196,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   viewAttachments(id: number) {
+    this.spinner.show();
     this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
     this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
     this.selectedEmployee.employeeId = id;

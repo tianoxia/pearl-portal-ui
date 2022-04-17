@@ -5,8 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
-import { AlertService, DataService } from 'app/_services';
-import { SummaryReportResponse, SummaryReportRequest, Department, MonthlySummary, AnnualSummary } from 'app/_models';
+import { AlertService, AuthenticationService, DataService } from 'app/_services';
+import { SummaryReportResponse, SummaryReportRequest, Department, MonthlySummary, AnnualSummary, Resource, PermissionType } from 'app/_models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-summary-report',
@@ -41,6 +42,8 @@ export class ViewSummaryReportComponent implements OnInit {
   }
   constructor(public alertService: AlertService,
     fb: FormBuilder,
+    private authService: AuthenticationService,
+    private router: Router,
     private dataService: DataService,
     private spinner: NgxSpinnerService) {
       this.summaryReportForm = fb.group({
@@ -52,6 +55,12 @@ export class ViewSummaryReportComponent implements OnInit {
     }
 
   ngOnInit() {
+    if (this.authService.currentUserValue !== null) {
+      const perm = this.authService.currentUserValue.employeePermissions;
+      if (!perm.find(e => e.resource === Resource.SummaryReport && e.permissionTypes.includes(PermissionType.VIEW))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
+    }
     window.scrollTo(0, 0);
     this.spinner.show();
     this.loadData();

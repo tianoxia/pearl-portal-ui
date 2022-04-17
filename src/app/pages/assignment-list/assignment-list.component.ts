@@ -8,8 +8,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { AssignmentService, AlertService, ExportService } from 'app/_services';
-import { AssignmentListResponse, IApiResponse } from 'app/_models';
+import { AssignmentService, AlertService, ExportService, AuthenticationService } from 'app/_services';
+import { AssignmentListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { assignmentStatus } from 'app/constants/assignment-status';
 import { UpdateAssignmentEndDateComponent } from './update-assignment-enddate/update-assignment-enddate.component';
 
@@ -42,6 +42,7 @@ export class AssignmentListComponent implements OnInit {
   constructor(
     public alertService: AlertService,
     private fb: FormBuilder,
+    private authService: AuthenticationService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
     private percentPipe: PercentPipe,
@@ -58,6 +59,12 @@ export class AssignmentListComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.authService.currentUserValue !== null) {
+      const perm = this.authService.currentUserValue.employeePermissions;
+      if (!perm.find(e => e.resource === Resource.Assignments && e.permissionTypes.includes(PermissionType.LIST))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
+    }
     this.route.queryParamMap.subscribe(params => {
       this.spinner.show();
       this.message = params.get('message');

@@ -1,3 +1,5 @@
+import { EmployeePermissionDetails } from "./permission";
+
 export class EmployeeRequest {
     employeeStatus: string;
     firstName: string;
@@ -23,4 +25,5 @@ export class EmployeeRequest {
 	payMethod: string;   //ACH,ADP ACH, Check
     startDate: Date;
     endDate?: Date;
+    EmployeePermissionDetails: EmployeePermissionDetails;
 }

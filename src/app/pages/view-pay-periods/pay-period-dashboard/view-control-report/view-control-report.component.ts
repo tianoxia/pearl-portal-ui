@@ -8,9 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
-import { AlertService, DataService, ExportService } from 'app/_services';
+import { AlertService, AuthenticationService, DataService, ExportService } from 'app/_services';
 import { ControlReportResponse, ControlReportRequest,
-  Department, Recruiter, Client, CustomReportTotals } from 'app/_models';
+  Department, Recruiter, Client, CustomReportTotals, Resource, PermissionType } from 'app/_models';
 
 @Component({
   selector: 'app-view-control-report',
@@ -50,6 +50,8 @@ export class ViewControlReportComponent implements OnInit {
   }
   constructor(public alertService: AlertService,
     fb: FormBuilder, private route: ActivatedRoute,
+    private authService: AuthenticationService,
+    private router: Router,
     private dataService: DataService,
     private datePipe: DatePipe,
     private exportService: ExportService,
@@ -71,6 +73,12 @@ export class ViewControlReportComponent implements OnInit {
     }
 
   ngOnInit() {
+    if (this.authService.currentUserValue !== null) {
+      const perm = this.authService.currentUserValue.employeePermissions;
+      if (!perm.find(e => e.resource === Resource.ControlReport && e.permissionTypes.includes(PermissionType.VIEW))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
+    }
     window.scrollTo(0, 0);    
     this.spinner.show();
     this.route.queryParamMap.subscribe(params => {

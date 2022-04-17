@@ -89,7 +89,7 @@ export class ViewAssignmentHoursComponent implements OnInit {
     const assignmentHoursCtrl = this.assignmentHoursForm.get('assignmentHours') as FormArray;
     this.dataSource.data.forEach((hr)=>{
       assignmentHoursCtrl.push(this.setAssignmentHoursFormArray(hr));
-    })
+    });
   };
   private setAssignmentHoursFormArray(hour){
     return this.fb.group({

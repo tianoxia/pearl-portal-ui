@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxDataTableModule } from './components/ngx-data-table/ngx-data-table.module';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
@@ -60,6 +61,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatMenuModule,
     MatTooltipModule,
     MatListModule,
+    MatGridListModule,
     MatSlideToggleModule,
     NgxDataTableModule,
     FileUploadModule,
@@ -101,6 +103,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatCheckboxModule,
     MatCardModule,
     MatMenuModule,
+    MatGridListModule,
     MatSlideToggleModule,
     MatNativeDateModule,
     MatDividerModule,

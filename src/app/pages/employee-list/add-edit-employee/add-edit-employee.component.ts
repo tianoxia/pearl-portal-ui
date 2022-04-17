@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { cloneDeep } from 'lodash';
 
 import { EmployeeService, AlertService, AuthenticationService } from 'app/_services';
 import { MustMatch } from 'app/_helpers';
-import { EmployeeListResponse, EmployeeRequest, Recruiter, IApiResponse } from 'app/_models';
+import { EmployeeListResponse, EmployeeRequest, Recruiter, IApiResponse, Resource, PermissionType, Reports, EmployeePermissionDetails } from 'app/_models';
 import { employeeCategory } from 'app/constants/employee-category';
 import { employeeStatus } from 'app/constants/employee-status';
 import { accessLevel } from 'app/constants/access-level';
@@ -17,11 +17,13 @@ import { salesRateStatus } from 'app/constants/sales-rate-status';
 import { recruitRateStatus } from 'app/constants/recruit-rate-status';
 import { rates } from 'app/constants/sales-recruit-rates';
 import { payMethod } from 'app/constants/pay-method';
+import { grantedPermissionModules } from 'app/constants/granted-permission-pages';
 
 @Component({
   selector: 'app-add-edit-employee',
   templateUrl: './add-edit-employee.component.html',
-  styleUrls: ['./add-edit-employee.component.scss']
+  styleUrls: ['./add-edit-employee.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddEditEmployeeComponent implements OnInit {
   @Input() employeeAddEditForm: FormGroup;
@@ -41,7 +43,9 @@ export class AddEditEmployeeComponent implements OnInit {
   salesRateStatuses = salesRateStatus;
   recruitRateStatuses = recruitRateStatus;
   payMethods = payMethod;
+  resources = grantedPermissionModules;
   rates = rates;
+  reports = Reports;
   teamLeads: Recruiter[];
   teamManagers: Recruiter[];
   defaultTeamLead: Recruiter;
@@ -49,6 +53,7 @@ export class AddEditEmployeeComponent implements OnInit {
   employee: EmployeeListResponse;
   pwd_hide = true;
   cfm_pwd_hide = true;
+  operations = PermissionType;
   user: string;
   constructor(
     private formBuilder: FormBuilder,
@@ -60,7 +65,9 @@ export class AddEditEmployeeComponent implements OnInit {
     private alertService: AlertService) {}
 
   ngOnInit() {
+    let perm;
     if (this.authService.currentUserValue !== null) {
+      perm = this.authService.currentUserValue.employeePermissions;
       this.user = this.authService.currentUserValue.employeeName;
     }
     window.scrollTo(0, 0);
@@ -75,7 +82,7 @@ export class AddEditEmployeeComponent implements OnInit {
       emailAddress: ['', [Validators.required, Validators.email]],
       password: ['', [this.isAddMode ? Validators.required : Validators.nullValidator]],
       confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator],
-      accessLevel: '',
+      accessLevel: ['', Validators.required],
       teamLead: this.defaultTeamLead,
       teamManager: this.defaultTeamManager,
       employeeType: '',
@@ -89,21 +96,103 @@ export class AddEditEmployeeComponent implements OnInit {
       otRate: '',
       dtRate: '',
       startDate: ['', Validators.required],
-      endDate: '',
+      endDate: null,
       payMethod: '',
       adpFileNumber: ['', [Validators.maxLength(6)]],
-      isReferer: false
+      isReferer: false,
+      viewReferer: false,
+      viewPayroll: false,
+      viewPayPeriod: false,
+      viewLeaderboard: false,
+      viewInvoices: false,
+      viewEmployee: false,
+      viewMonConRep: false,
+      viewControlReport: false,
+      viewContractor: false,
+      viewContact: false,
+      viewCommReport: false,
+      viewClient: false,
+      viewAssignment: false,
+      listReferers: false,
+      enterFunding: false,
+      editEmployeeHours: false,
+      editAssignmentHours: false,
+      listEmployees: false,
+      editReferer: false,
+      editPayPeriod: false,
+      editLocation: false,
+      editEmployee: false,
+      editContractor: false,
+      editContact: false,
+      editClient: false,
+      editAssignment: false,
+      listContractors: false,
+      listContactForms: false,
+      listClients: false,
+      listAssignments: false,
+      listReports: false,
+      addAssignment: false,
+      addReferer: false,
+      addPayPeriod: false,
+      addLocation: false,
+      addEmployee: false,
+      addContractor: false,
+      addContact: false,
+      addClient: false,
+      deleteAssignment: false,
+      deleteClient: false,
+      deleteContact: false,
+      deleteContractor: false,
+      deleteEmployee: false,
+      deleteLocation: false,
+      viewSumReport: false,
+      viewCustomReport: false,
+      viewEmpPLReport: false,
+      viewHeadcountRep: false,
+      viewGovernment: false,
+      viewHealthcare: false,
+      viewIT: false,
+      viewXerox: false,
+      viewImaging: false,
+      viewMedicalTemps: false,
+      viewTherapyServices: false,
+      viewDental: false,
+      viewFiles: false,
+      uploadFiles: false,
+      downloadFiles: false,
+      viewTimesheets: false,
+      viewExecutiveSearch: false,
+      viewScribes: false,
+      viewOSCenter: false,
+      viewInfoTech: false,
+      viewGrossProfitReport: false,
+      viewRichmond: false,
+      viewSWVA: false,
+      viewLargo: false,
+      viewProviderEmployee: false,
+      listProviderEmployees: false,
+      addProviderEmployee: false,
+      editProviderEmployee: false,
+      deleteProviderEmployee: false,
+      viewLongTerm: false,
+      viewOutPatient: false
     }, {
         validator: MustMatch('password', 'confirmPassword')
     });
     const passwordValidators = [Validators.minLength(6)];
     if (this.isAddMode) {
+      if (!perm.find(e => e.resource === Resource.Employee && e.permissionTypes.includes(PermissionType.ADD))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
       passwordValidators.push(Validators.required);
+    } else {
+      if (!perm.find(e => e.resource === Resource.Employee && e.permissionTypes.includes(PermissionType.EDIT))) {
+        this.router.navigateByUrl("/unauthorized");
+      }
     }
     this.loadData();
   }
-
-  private loadData() {
+  private loadData() {    
     this.alertService.clear();
     const observables = [];
     observables.push(this.employeeService.getActiveSales());
@@ -111,7 +200,7 @@ export class AddEditEmployeeComponent implements OnInit {
     if (!this.isAddMode) {
       this.action = 'Edit';
       observables.push(this.employeeService.getEmployeeById(this.employeeId));
-    } else {
+    } else {      
       this.action = 'Add';
     }
     forkJoin(observables).subscribe(data => {
@@ -121,8 +210,8 @@ export class AddEditEmployeeComponent implements OnInit {
         this.teamLeads = recruiters;
         this.teamManagers = cloneDeep(recruiters);
         this.employee = employee as EmployeeListResponse;
-        this.employeeAddEditForm.get('salesRateStatus').patchValue(0);
-        this.employeeAddEditForm.get('recruitRateStatus').patchValue(0);
+        this.employeeAddEditForm.get('salesRateStatus').patchValue('');
+        this.employeeAddEditForm.get('recruitRateStatus').patchValue('');
         this.employeeAddEditForm.get('salesRate').patchValue(0);
         this.employeeAddEditForm.get('recruitRate').patchValue(0);
         this.employeeAddEditForm.get('payType').patchValue('Salary');
@@ -130,6 +219,7 @@ export class AddEditEmployeeComponent implements OnInit {
         if (employee) {
           delete this.employee.password;
           this.employeeAddEditForm.patchValue(this.employee);
+          this.employeeAddEditForm.patchValue(this.employee.employeePermissionDetails);
           if (this.employee.teamLeadId > 0) {
             this.employeeAddEditForm.get('teamLead').patchValue(this.employee.teamLeadId);
           }
@@ -233,6 +323,84 @@ export class AddEditEmployeeComponent implements OnInit {
     request.payMethod = this.employeeAddEditForm.controls.payMethod.value;
     request.startDate = this.employeeAddEditForm.controls.startDate.value;
     request.endDate = this.employeeAddEditForm.controls.endDate.value;
+    request.EmployeePermissionDetails = new EmployeePermissionDetails();
+    request.EmployeePermissionDetails.viewReferer = this.employeeAddEditForm.controls.viewReferer.value;
+    request.EmployeePermissionDetails.viewPayroll = this.employeeAddEditForm.controls.viewPayroll.value;
+    request.EmployeePermissionDetails.viewPayPeriod = this.employeeAddEditForm.controls.viewPayPeriod.value;
+    request.EmployeePermissionDetails.viewLeaderboard = this.employeeAddEditForm.controls.viewLeaderboard.value;
+    request.EmployeePermissionDetails.viewInvoices = this.employeeAddEditForm.controls.viewInvoices.value;
+    request.EmployeePermissionDetails.viewEmployee = this.employeeAddEditForm.controls.viewEmployee.value;
+    request.EmployeePermissionDetails.viewMonConRep = this.employeeAddEditForm.controls.viewMonConRep.value;
+    request.EmployeePermissionDetails.viewControlReport = this.employeeAddEditForm.controls.viewControlReport.value;
+    request.EmployeePermissionDetails.viewContractor = this.employeeAddEditForm.controls.viewContractor.value;
+    request.EmployeePermissionDetails.viewContact = this.employeeAddEditForm.controls.viewContact.value;
+    request.EmployeePermissionDetails.viewCommReport = this.employeeAddEditForm.controls.viewCommReport.value;
+    request.EmployeePermissionDetails.viewClient = this.employeeAddEditForm.controls.viewClient.value;
+    request.EmployeePermissionDetails.viewAssignment = this.employeeAddEditForm.controls.viewAssignment.value;
+    request.EmployeePermissionDetails.listReferers = this.employeeAddEditForm.controls.listReferers.value;
+    request.EmployeePermissionDetails.enterFunding = this.employeeAddEditForm.controls.enterFunding.value;
+    request.EmployeePermissionDetails.editEmployeeHours = this.employeeAddEditForm.controls.editEmployeeHours.value;
+    request.EmployeePermissionDetails.editAssignmentHours = this.employeeAddEditForm.controls.editAssignmentHours.value;
+    request.EmployeePermissionDetails.listEmployees = this.employeeAddEditForm.controls.listEmployees.value;
+    request.EmployeePermissionDetails.editReferer = this.employeeAddEditForm.controls.editReferer.value;
+    request.EmployeePermissionDetails.editPayPeriod = this.employeeAddEditForm.controls.editPayPeriod.value;
+    request.EmployeePermissionDetails.editLocation = this.employeeAddEditForm.controls.editLocation.value;
+    request.EmployeePermissionDetails.editEmployee = this.employeeAddEditForm.controls.editEmployee.value;
+    request.EmployeePermissionDetails.editContractor = this.employeeAddEditForm.controls.editContractor.value;
+    request.EmployeePermissionDetails.editContact = this.employeeAddEditForm.controls.editContact.value;
+    request.EmployeePermissionDetails.editClient = this.employeeAddEditForm.controls.editClient.value;
+    request.EmployeePermissionDetails.editAssignment = this.employeeAddEditForm.controls.editAssignment.value;
+    request.EmployeePermissionDetails.listContractors = this.employeeAddEditForm.controls.listContractors.value;
+    request.EmployeePermissionDetails.listContactForms = this.employeeAddEditForm.controls.listContactForms.value;
+    request.EmployeePermissionDetails.listClients = this.employeeAddEditForm.controls.listClients.value;
+    request.EmployeePermissionDetails.listAssignments = this.employeeAddEditForm.controls.listAssignments.value;
+    request.EmployeePermissionDetails.listReports = this.employeeAddEditForm.controls.listReports.value;
+    request.EmployeePermissionDetails.addAssignment = this.employeeAddEditForm.controls.addAssignment.value;
+    request.EmployeePermissionDetails.addReferer = this.employeeAddEditForm.controls.addReferer.value;
+    request.EmployeePermissionDetails.addPayPeriod = this.employeeAddEditForm.controls.addPayPeriod.value;
+    request.EmployeePermissionDetails.addLocation = this.employeeAddEditForm.controls.addLocation.value;
+    request.EmployeePermissionDetails.addEmployee = this.employeeAddEditForm.controls.addEmployee.value;
+    request.EmployeePermissionDetails.addContractor = this.employeeAddEditForm.controls.addContractor.value;
+    request.EmployeePermissionDetails.addContact = this.employeeAddEditForm.controls.addContact.value;
+    request.EmployeePermissionDetails.addClient = this.employeeAddEditForm.controls.addClient.value;
+    request.EmployeePermissionDetails.deleteAssignment = this.employeeAddEditForm.controls.deleteAssignment.value;
+    request.EmployeePermissionDetails.deleteClient = this.employeeAddEditForm.controls.deleteClient.value;
+    request.EmployeePermissionDetails.deleteContact = this.employeeAddEditForm.controls.deleteContact.value;
+    request.EmployeePermissionDetails.deleteContractor = this.employeeAddEditForm.controls.deleteContractor.value;
+    request.EmployeePermissionDetails.deleteEmployee = this.employeeAddEditForm.controls.deleteEmployee.value;
+    request.EmployeePermissionDetails.deleteLocation = this.employeeAddEditForm.controls.deleteLocation.value;
+    request.EmployeePermissionDetails.viewSumReport = this.employeeAddEditForm.controls.viewSumReport.value;
+    request.EmployeePermissionDetails.viewCustomReport = this.employeeAddEditForm.controls.viewCustomReport.value;
+    request.EmployeePermissionDetails.viewEmpPLReport = this.employeeAddEditForm.controls.viewEmpPLReport.value;
+    request.EmployeePermissionDetails.viewHeadcountRep = this.employeeAddEditForm.controls.viewHeadcountRep.value;
+    request.EmployeePermissionDetails.viewGovernment = this.employeeAddEditForm.controls.viewGovernment.value;
+    request.EmployeePermissionDetails.viewHealthcare = this.employeeAddEditForm.controls.viewHealthcare.value;
+    request.EmployeePermissionDetails.viewIT = this.employeeAddEditForm.controls.viewIT.value;
+    request.EmployeePermissionDetails.viewXerox = this.employeeAddEditForm.controls.viewXerox.value;
+    request.EmployeePermissionDetails.viewImaging = this.employeeAddEditForm.controls.viewImaging.value;
+    request.EmployeePermissionDetails.viewMedicalTemps = this.employeeAddEditForm.controls.viewMedicalTemps.value;
+    request.EmployeePermissionDetails.viewTherapyServices = this.employeeAddEditForm.controls.viewTherapyServices.value;
+    request.EmployeePermissionDetails.viewDental = this.employeeAddEditForm.controls.viewDental.value;
+    request.EmployeePermissionDetails.viewFiles = this.employeeAddEditForm.controls.viewFiles.value;
+    request.EmployeePermissionDetails.uploadFiles = this.employeeAddEditForm.controls.uploadFiles.value;
+    request.EmployeePermissionDetails.downloadFiles = this.employeeAddEditForm.controls.downloadFiles.value;
+    request.EmployeePermissionDetails.viewTimesheets = this.employeeAddEditForm.controls.viewTimesheets.value;
+    request.EmployeePermissionDetails.viewExecutiveSearch = this.employeeAddEditForm.controls.viewExecutiveSearch.value;
+    request.EmployeePermissionDetails.viewScribes = this.employeeAddEditForm.controls.viewScribes.value;
+    request.EmployeePermissionDetails.viewOSCenter = this.employeeAddEditForm.controls.viewOSCenter.value;
+    request.EmployeePermissionDetails.viewInfoTech = this.employeeAddEditForm.controls.viewInfoTech.value;
+    request.EmployeePermissionDetails.viewGrossProfitReport = this.employeeAddEditForm.controls.viewGrossProfitReport.value;
+    request.EmployeePermissionDetails.viewRichmond = this.employeeAddEditForm.controls.viewRichmond.value;
+    request.EmployeePermissionDetails.viewSWVA = this.employeeAddEditForm.controls.viewSWVA.value;
+    request.EmployeePermissionDetails.viewLargo = this.employeeAddEditForm.controls.viewLargo.value;
+    request.EmployeePermissionDetails.viewProviderEmployee = this.employeeAddEditForm.controls.viewProviderEmployee.value;
+    request.EmployeePermissionDetails.listProviderEmployees = this.employeeAddEditForm.controls.listProviderEmployees.value;
+    request.EmployeePermissionDetails.addProviderEmployee = this.employeeAddEditForm.controls.addProviderEmployee.value;
+    request.EmployeePermissionDetails.editProviderEmployee = this.employeeAddEditForm.controls.editProviderEmployee.value;
+    request.EmployeePermissionDetails.deleteProviderEmployee = this.employeeAddEditForm.controls.deleteProviderEmployee.value;
+    request.EmployeePermissionDetails.viewLongTerm = this.employeeAddEditForm.controls.viewLongTerm.value;
+    request.EmployeePermissionDetails.viewOutPatient = this.employeeAddEditForm.controls.viewOutPatient.value;
+
     return request;
   }
 
@@ -304,8 +472,8 @@ export class AddEditEmployeeComponent implements OnInit {
         }
         break;
       case 'adpFileNumber':
-        if (this.employeeAddEditForm.controls.adpFileNumber.hasError('max')) {
-          return 'Must be less than 6 characters';
+        if (this.employeeAddEditForm.controls.adpFileNumber.hasError('maxlength')) {
+          return 'Must be less than 7 characters';
         }
     }
   }

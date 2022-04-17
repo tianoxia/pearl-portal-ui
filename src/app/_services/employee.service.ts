@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AppConfig } from '../app.config';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorDetails, EmployeeListResponse, EmployeeRequest } from '../_models';
+import { ErrorDetails, EmployeeRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
