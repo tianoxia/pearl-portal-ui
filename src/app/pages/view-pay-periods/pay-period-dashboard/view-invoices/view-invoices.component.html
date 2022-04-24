@@ -43,7 +43,9 @@
                             </ng-container>
                             <ng-container matColumnDef="invoiceNumber" sticky>
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice#</th>
-                                <td mat-cell *matCellDef="let report"><a routerLink="" (click)="navigateViewInvoice(report.invoiceGroupId)">{{report.invoiceNumber}}</a></td>
+                                <td mat-cell *matCellDef="let report">
+                                    <!-- <a routerLink="" (click)="navigateViewInvoice(report.invoiceGroupId)"> -->{{report.invoiceNumber}}<!-- </a> -->
+                                </td>
                             </ng-container>
                         
                             <ng-container matColumnDef="clientName">

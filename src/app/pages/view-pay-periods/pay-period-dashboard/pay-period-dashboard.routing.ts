@@ -12,6 +12,7 @@ import { ViewAssignmentHoursComponent } from './view-assignment-hours/view-assig
 import { ViewReferalReportComponent } from './view-referal-report/view-referal-report.component';
 import { ViewLeaderboardReportComponent } from './view-leaderboard-report/view-leaderboard-report.component';
 import { ViewHeadCountReportComponent } from './view-headcount-report/view-headcount-report.component';
+import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-gross-profit-report.component';
 
 const childRoutes: Routes = [
   { path: 'weekly-pay-periods', component: WeeklyPayPeriodsComponent },
@@ -25,7 +26,8 @@ const childRoutes: Routes = [
   { path: 'view-assignment-hours', component: ViewAssignmentHoursComponent, canActivate: [AuthGuard]},
   { path: 'view-referal-report', component: ViewReferalReportComponent, canActivate: [AuthGuard]},
   { path: 'view-leaderboard-report', component: ViewLeaderboardReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-headcount-report', component: ViewHeadCountReportComponent, canActivate: [AuthGuard]}
+  { path: 'view-headcount-report', component: ViewHeadCountReportComponent, canActivate: [AuthGuard]},
+  { path: 'view-gross-profit-report', component: ViewGrossProfitReportComponent, canActivate: [AuthGuard]}
 ];
 
 export const routing = RouterModule.forChild(childRoutes);

@@ -16,6 +16,7 @@ import { ViewAssignmentHoursComponent } from './view-assignment-hours/view-assig
 import { ViewReferalReportComponent } from './view-referal-report/view-referal-report.component';
 import { ViewLeaderboardReportComponent } from './view-leaderboard-report/view-leaderboard-report.component';
 import { ViewHeadCountReportComponent } from './view-headcount-report/view-headcount-report.component';
+import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-gross-profit-report.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ViewHeadCountReportComponent } from './view-headcount-report/view-headc
     ViewAssignmentHoursComponent,
     ViewReferalReportComponent,
     ViewLeaderboardReportComponent,
-    ViewHeadCountReportComponent
+    ViewHeadCountReportComponent,
+    ViewGrossProfitReportComponent
   ],
   imports: [
     CommonModule,

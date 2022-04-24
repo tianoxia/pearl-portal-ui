@@ -2,6 +2,13 @@
     font-size: 30px;
     padding-top: 15px;
 }
+div.filter-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 25px;
+    font-weight: 500;
+    color: #000000;
+}
 .mat-dialog-container {
     padding-top: 30px;
     margin-top: 100px;
@@ -17,3 +24,6 @@
 .update-enddate-dialog .mat-dialog-container {    
     margin-top: 29px;
 }
+/* .single-services {
+    min-height: 50px !important;
+} */

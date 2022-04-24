@@ -10,6 +10,8 @@ export enum Resource {
     Invoices = 'Invoices',
     Employee = 'Employee',
     Employees = 'Employees',
+    ProviderEmployee = 'ProviderEmployee',
+    ProviderEmployees = 'ProviderEmployees',
     MonthlyControlReport = 'MonConRep',
     ControlReport = 'ControlReport',
     Contractor = 'Contractor',
@@ -49,7 +51,6 @@ export enum Resource {
     Richmond = 'Richmond',
     SWVA = 'SWVA',
     Largo = 'Largo',
-    ProviderEmployee = 'ProviderEmployee',
     LongTerm = 'LongTerm',
     OutPatient = 'OutPatient'
   }

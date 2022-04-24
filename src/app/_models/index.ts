@@ -52,3 +52,9 @@ export * from './base.permissions';
 export * from './permission';
 export * from './headcount-report-request';
 export * from './headcount-report-response';
+export * from './gross-profit-report-request';
+export * from './gross-profit-report-response';
+export * from './provider-employee-request';
+export * from './provider-employee-list-response';
+export * from './provider-employee-request';
+

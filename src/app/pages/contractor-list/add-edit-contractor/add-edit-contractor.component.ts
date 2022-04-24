@@ -15,7 +15,7 @@ import { states } from '../../../constants/states';
 @Component({
   selector: 'app-add-edit-contractor',
   templateUrl: './add-edit-contractor.component.html',
-  styleUrls: ['./add-edit-contractor.component.scss']
+  styleUrls: ['./add-edit-contractor.component.css']
 })
 export class AddEditContractorComponent implements OnInit {
   @Input() contractorAddEditForm: FormGroup;

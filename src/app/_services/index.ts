@@ -15,5 +15,7 @@ export * from './assignment-hours.service';
 export * from './leaderboard-report.service';
 export * from './employee.service';
 export * from './permission-manager.service';
+export * from './provider-employee.service';
+
 
 

@@ -3,90 +3,76 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
-import { AlertService, AuthenticationService, DataService, ExportService } from 'app/_services';
+import { AlertService, DataService, ExportService } from 'app/_services';
 import {
-  HeadCountReportResponse, HeadCountReportRequest,
-  Department, Recruiter, Client, HeadCountByDepartment, Resource, PermissionType
+  GrossProfitReportResponse, GrossProfitReportRequest, CustomReportTotals
 } from 'app/_models';
 
 @Component({
-  selector: 'app-view-headcount-report',
-  templateUrl: './view-headcount-report.component.html',
-  styleUrls: ['./view-headcount-report.component.css']
+  selector: 'app-view-gross-profit-report',
+  templateUrl: './view-gross-profit-report.component.html',
+  styleUrls: ['./view-gross-profit-report.component.css']
 })
-export class ViewHeadCountReportComponent implements OnInit {
+export class ViewGrossProfitReportComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @Input() headCountReportForm: FormGroup;
-  @Input() departments: Department[];
-  @Input() clients: Client[];
-  @Input() recruiters: Recruiter[];
+  @Input() grossProfitReportForm: FormGroup;
   subTitle: string;
-  headCountReportData: HeadCountReportResponse;
-  weekEnding: Date;
   fromDate: Date;
   toDate: Date;
-  payFrequency: string;
-  defaultRecruiter: Recruiter;
-  public displayedColumns = ['client', 'contractorCount', 'hours', 'revenue', 'grossMargin'];
-  public dataSource = new MatTableDataSource<HeadCountByDepartment>();
+  sum: CustomReportTotals;
+  weekEnding: Date;
+  floatLabelControl = new FormControl('auto');
+  public displayedColumns = ['candidateSourceName', 'grossMargin'];
+  public dataSource = new MatTableDataSource<GrossProfitReportResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
   constructor(public alertService: AlertService,
     fb: FormBuilder, private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthenticationService,
     private dataService: DataService,
     private datePipe: DatePipe,
     private exportService: ExportService,
     private spinner: NgxSpinnerService) {
-    this.defaultRecruiter = new Recruiter();
-    this.defaultRecruiter.firstName = 'All';
-    this.defaultRecruiter.lastName = '';
-    this.defaultRecruiter.employeeId = 0;
-    this.headCountReportForm = fb.group({
+    this.grossProfitReportForm = fb.group({
+      floatLabel: this.floatLabelControl,
       fromDate: '',
-      toDate: '',
-      recruiter: this.defaultRecruiter
+      toDate: ''
     });
+    this.sum = new CustomReportTotals();
   }
 
   ngOnInit() {
-    if (this.authService.currentUserValue !== null) {
-      const perm = this.authService.currentUserValue.employeePermissions;
-      if (!perm.find(e => e.resource === Resource.HeadcountReport && e.permissionTypes.includes(PermissionType.VIEW))) {
-        this.router.navigateByUrl("/unauthorized");
-      }
-    }
     window.scrollTo(0, 0);
     this.spinner.show();
     this.route.queryParamMap.subscribe(params => {
       this.weekEnding = new Date(params.get('weekending'));
-      this.payFrequency = params.get('payfrequency');
+      this.fromDate = new Date(params.get('weekending'));
+      this.fromDate.setDate(this.fromDate.getDate() - 6);
+      this.toDate = this.weekEnding;
       this.loadData();
     });
   }
 
   private loadData() {
-    const request: HeadCountReportRequest = {
-      employeeId: 0,
-      weekEnding: this.weekEnding,
-      payFrequency: this.payFrequency
+    const request: GrossProfitReportRequest = {
+      fromDate: this.fromDate,
+      toDate: this.toDate
     };
-    forkJoin([this.dataService.getAllRecruiters(), this.dataService.getHeadCountReport(request)])
-      .subscribe(([recruiters, headCountReports]) => {
-        this.headCountReportData = headCountReports as HeadCountReportResponse;
-        this.dataSource.data = this.headCountReportData.headCountsByDepartment as HeadCountByDepartment[];
-        this.recruiters = recruiters as Recruiter[];
-          this.recruiters.splice(0, 0, this.defaultRecruiter);
-          this.headCountReportForm.get('recruiter').patchValue(this.defaultRecruiter);
-        if (this.dataSource.data.length > 0) {          
-          this.subTitle = 'for Pay Period Ending ' + this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy') +
-          ' (' + this.dataSource.data.length + ' Records)';
+    forkJoin([this.dataService.getGrossProfitReport(request)])
+      .subscribe((grossProfitReports) => {
+        this.dataSource.data = grossProfitReports[0] as GrossProfitReportResponse[];
+        this.dataSource.sort = this.sort;
+        if (this.dataSource.data.length > 0) {
+          for (let row of this.dataSource.data) {
+            if (row.grossMargin !== 0) this.sum.totalMargin += row.grossMargin;
+          }
+          this.subTitle = 'for Pay Period Ending ' + this.datePipe.transform(this.weekEnding, 'MM/dd/yyyy') + ' (' + this.dataSource.data.length + ' Records)';
+        } else {
+          this.alertService.error('No Record Found');
         }
         this.spinner.hide();
       },
@@ -96,32 +82,31 @@ export class ViewHeadCountReportComponent implements OnInit {
         })
       );
   }
-  compareRecruiters(o1: any, o2: any) {
-    return (o1.firstName == o2.firstName && o1.lastName == o2.lastName && o1.employeeId == o2.employeeId);
-  }
-  public showReport = (headCountReportFormValue) => {
-    if (this.headCountReportForm.valid) {
+  public showReport = (grossProfitReportFormValue) => {
+    if (this.grossProfitReportForm.valid) {
       this.spinner.show();
-      this.executeGetReport(headCountReportFormValue);
+      this.executeGetReport(grossProfitReportFormValue);
     }
   }
 
-  private executeGetReport = (headCountReportFormValue) => {
-    const request: HeadCountReportRequest = {
-      employeeId: headCountReportFormValue.recruiter.employeeId,
-      weekEnding: this.weekEnding,
-      payFrequency: this.payFrequency
+  private executeGetReport = (grossProfitReportFormValue) => {
+    this.sum = new CustomReportTotals();
+    const request: GrossProfitReportRequest = {
+      fromDate: grossProfitReportFormValue.fromDate,
+      toDate: grossProfitReportFormValue.toDate
     };
-    if (headCountReportFormValue.fromDate) {
-      this.fromDate = request.fromDate = headCountReportFormValue.fromDate;
-      this.toDate = request.toDate = headCountReportFormValue.toDate;
-    }
-    this.dataService.getHeadCountReport(request)
-      .subscribe((res: HeadCountReportResponse) => {
+    this.dataService.getGrossProfitReport(request)
+      .subscribe((res: GrossProfitReportResponse[]) => {
         window.scrollTo(0, 0);
-        this.headCountReportData = res;
-        this.dataSource.data = res.headCountsByDepartment as HeadCountByDepartment[];
+        this.dataSource.data = res;
         this.dataSource.sort = this.sort;
+        if (this.dataSource.data.length > 0) {
+          for (let row of this.dataSource.data) {
+            if (row.grossMargin !== 0) this.sum.totalMargin += row.grossMargin;
+          }
+        } else {
+          this.alertService.error('No Record Found');
+        }
         if (this.fromDate) {
           this.subTitle = 'for date between ' + this.datePipe.transform(this.fromDate, 'MM/dd/yyyy') +
           ' - ' + this.datePipe.transform(this.toDate, 'MM/dd/yyyy') + ' (' + this.dataSource.data.length + ' Records)';
@@ -138,7 +123,8 @@ export class ViewHeadCountReportComponent implements OnInit {
       );
   }
   exportToExcel(event) {
-    this.exportService.exportExcelWithFormat(this.dataSource.data, 'HeadCountreport-' + this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'), this.reportColumns());
+    this.exportService.exportExcelWithFormat(this.dataSource.data, 'grossProfitreport-' +
+    this.datePipe.transform(this.weekEnding, 'yyyy-MM-dd'), this.reportColumns());
     event.preventDefault();
   }
   reportColumns(): any[] {

@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, SummaryReportRequest, PLReportRequest, CustomReportRequest,
   LoginRequest, ControlReportRequest, AssignmentHoursRequest, ReferalReportRequest,
-  CurrentLoginRequest, HeadCountReportRequest } from '../_models';
+  CurrentLoginRequest, HeadCountReportRequest, GrossProfitReportRequest } from '../_models';
 import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
@@ -103,5 +103,8 @@ export class DataService {
   }
   getHeadCountReport(headCountReportRequest: HeadCountReportRequest) {
     return this.http.post(this.baseurl + `/v1/report/headcount`, headCountReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getGrossProfitReport(grossProfitReportRequest: GrossProfitReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/grossprofit`, grossProfitReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }
