@@ -65,4 +65,7 @@ export class EmployeeService {
   getEmployeeFiles(id: number) {
     return this.http.get(this.baseurl + `/v1/employee/${id}/uploadfiles`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  deleteEmployeeFile(id: number) {
+    return this.http.delete(this.baseurl + `/v1/employee/file/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
 }

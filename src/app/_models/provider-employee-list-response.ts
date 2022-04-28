@@ -1,6 +1,7 @@
 import { UploadedFile } from "./uploaded-file";
 
 export class ProviderEmployeeListResponse {
+    employeeStatus: string;
     firstName: string;
     lastName: string;
     providerEmployeeId: number;

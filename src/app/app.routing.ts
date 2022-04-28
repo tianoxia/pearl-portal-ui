@@ -10,6 +10,7 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
 import { MyProfileComponent } from './pages/account-management/my-profile/my-profile.component';
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { ProviderEmployeeListComponent } from './pages/provider-employee-list/provider-employee-list.component';
+import { ClientListComponent } from './pages/client-list/client-list.component';
 
 const appRoutes: Routes = [
   {
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
   { path: 'employee-list', component: EmployeeListComponent, canActivate: [AuthGuard] },
   { path: 'provider-employee-list', component: ProviderEmployeeListComponent, canActivate: [AuthGuard] },
   { path: 'assignment-list', component: AssignmentListComponent, canActivate: [AuthGuard] },
+  { path: 'client-list', component: ClientListComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', component: ViewPayPeriodsComponent, canActivate: [AuthGuard] },
   { path: 'view-pay-periods', loadChildren: () => import('./pages/view-pay-periods/view-pay-periods.module').then(m => m.ViewPayPeriodsModule),
   canActivate: [AuthGuard] },

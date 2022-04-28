@@ -91,7 +91,7 @@ export class ViewMonthlyControlReportComponent implements OnInit {
       payFrequency: this.payFrequency
     };
     forkJoin([this.dataService.getAllDepartments(),
-    this.dataService.getAllRecruiters(), this.dataService.getAllClients(),
+    this.dataService.getAllRecruiters(), this.dataService.getActiveClients(),
     this.dataService.getMonthlyControlReport(request)])
       .subscribe(([departments, recruiters, clients, controlReports]) => {
         this.dataSource.data = controlReports as ControlReportResponse[];

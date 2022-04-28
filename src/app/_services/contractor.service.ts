@@ -44,8 +44,8 @@ export class ContractorService {
   getAllRecruiters() {
     return this.http.get(this.baseurl + `/v1/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  getAllClients() {
-    return this.http.get(this.baseurl + `/v1/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  getActiveClients() {
+    return this.http.get(this.baseurl + `/v1/client/active`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllCandidateSources() {
     return this.http.get(this.baseurl + `/v1/candidatesource/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
@@ -70,5 +70,8 @@ export class ContractorService {
   }
   getContractorFiles(id: number) {
     return this.http.get(this.baseurl + `/v1/contractor/${id}/uploadfiles`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  deleteContractorFile(id: number) {
+    return this.http.delete(this.baseurl + `/v1/contractor/file/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

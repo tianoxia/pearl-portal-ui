@@ -11,6 +11,7 @@ import { CustomValidator } from '../../../shared/validation';
 import { ProviderEmployeeListResponse, ProviderEmployeeRequest, Recruiter, IApiResponse, CandidateSource } from 'app/_models';
 import { states } from '../../../constants/states';
 import { ServiceTypes } from 'app/constants/service-types';
+import { employeeStatus } from 'app/constants/employee-status';
 
 @Component({
   selector: 'app-add-edit-provider-employee',
@@ -25,6 +26,7 @@ export class AddEditProviderEmployeeComponent implements OnInit {
   showPassword = false;
   showConfirmPassword = false;
   states = states;
+  statuses = employeeStatus.filter(e => e !== 'All');
   action: string;
   serviceTypes = ServiceTypes;
   candSources: CandidateSource[];
@@ -58,6 +60,7 @@ export class AddEditProviderEmployeeComponent implements OnInit {
     this.defaultCandSource.candidateSourceId = null;
     this.defaultCandSource.sourceName = 'Select Candidate Source';
     this.providerEmployeeAddEditForm = this.formBuilder.group({
+      employeeStatus: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       ssn: ['', [Validators.required, CustomValidator.ssnValidator]],
@@ -184,6 +187,7 @@ export class AddEditProviderEmployeeComponent implements OnInit {
 
   private setProviderEmployeeRequest(): ProviderEmployeeRequest {
     const request = new ProviderEmployeeRequest();
+    request.employeeStatus = this.providerEmployeeAddEditForm.controls.employeeStatus.value;
     request.user = this.user;
     request.firstName = this.providerEmployeeAddEditForm.controls.firstName.value;
     request.lastName = this.providerEmployeeAddEditForm.controls.lastName.value;

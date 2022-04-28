@@ -5,59 +5,53 @@
                 <app-alert></app-alert>
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                        {{action}} Provider Employee
+                        {{action}} Client
                     </div>
                 </div>
-                <form [formGroup]="providerEmployeeAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
+                <form [formGroup]="clientAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
-                        <mat-form-field appearance="fill" fxFlex="16%">
-                            <mat-label>Select A Status</mat-label>
-                            <mat-select formControlName="employeeStatus">
-                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="hasError('employeeStatus')">{{getErrorMessage('employeeStatus')}}</mat-error>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill" fxFlex="15%">
-                            <mat-label>First Name</mat-label>
-                            <input matInput formControlName="firstName" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['firstName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstname')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('firstName')">{{getErrorMessage('firstname')}}</mat-error>
-                        </mat-form-field>
-                    
-                        <mat-form-field appearance="fill" fxFlex="15%">
-                            <mat-label>Last Name</mat-label>
-                            <input matInput formControlName="lastName" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['lastName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastname')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('lastName')">{{getErrorMessage('lastname')}}</mat-error>
-                        </mat-form-field>
-                    
-                        <mat-form-field appearance="fill" fxFlex="15%">
-                            <mat-label>SSN</mat-label>
-                            <input matInput formControlName="ssn" mask="000-00-0000" placeholder="###-##-####" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['ssn'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ssn')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('ssn')">{{getErrorMessage('ssn')}}</mat-error>
-                        </mat-form-field>
-                                            
-                        <mat-form-field appearance="fill" fxFlex="39%">
-                            <mat-label>Email</mat-label>
-                            <input matInput formControlName="emailAddress" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['emailAddress'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailAddress')">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                            <mat-error *ngIf="hasError('emailAddress')">{{getErrorMessage('emailAddress')}}</mat-error>
-                        </mat-form-field>
+                            <mat-form-field appearance="fill" fxFlex="20%">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName" />
+                                <button mat-button *ngIf="clientAddEditForm.controls['firstName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstname')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('firstName')">{{getErrorMessage('firstname')}}</mat-error>
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="fill" fxFlex="20%">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName" />
+                                <button mat-button *ngIf="clientAddEditForm.controls['lastName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastname')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('lastName')">{{getErrorMessage('lastname')}}</mat-error>
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="fill" fxFlex="15%">
+                                <mat-label>SSN</mat-label>
+                                <input matInput formControlName="ssn" mask="000-00-0000" placeholder="###-##-####" />
+                                <button mat-button *ngIf="clientAddEditForm.controls['ssn'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ssn')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('ssn')">{{getErrorMessage('ssn')}}</mat-error>
+                            </mat-form-field>
+                                                
+                            <mat-form-field appearance="fill" fxFlex="45%">
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="emailAddress" />
+                                <button mat-button *ngIf="clientAddEditForm.controls['emailAddress'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailAddress')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('emailAddress')">{{getErrorMessage('emailAddress')}}</mat-error>
+                            </mat-form-field>
+                        
                     </div>
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
                         <mat-form-field appearance="fill" fxFlex="25%">
                             <mat-label>Address</mat-label>
                             <input matInput formControlName="address" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['address'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('address')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['address'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('address')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('address')">{{getErrorMessage('address')}}</mat-error>
@@ -65,14 +59,14 @@
                         <mat-form-field appearance="fill" fxFlex="25%">
                             <mat-label>Address2</mat-label>
                             <input matInput formControlName="address2" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['address2'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('address2')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['address2'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('address2')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
                         <mat-form-field appearance="fill" fxFlex="15%">
                             <mat-label>City</mat-label>
                             <input matInput formControlName="city" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['city'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('city')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['city'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('city')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('city')">{{getErrorMessage('city')}}</mat-error>
@@ -87,7 +81,7 @@
                         <mat-form-field appearance="fill" fxFlex="20%">
                             <mat-label>Zip Code</mat-label>
                             <input matInput formControlName="zip" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['zip'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('zip')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['zip'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('zip')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('zip')">{{getErrorMessage('zip')}}</mat-error>
@@ -97,7 +91,7 @@
                         <mat-form-field appearance="fill" fxFlex="25%">
                             <mat-label>Phone</mat-label>
                             <input matInput formControlName="phone" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['phone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('phone')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['phone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('phone')">
                                 <mat-icon>close</mat-icon>
                             </button>
                             <mat-error *ngIf="hasError('phone')">{{getErrorMessage('phone')}}</mat-error>
@@ -105,21 +99,21 @@
                         <mat-form-field appearance="fill" fxFlex="25%">
                             <mat-label>Cell Phone</mat-label>
                             <input matInput formControlName="cellPhone" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['cellPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('cellPhone')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['cellPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('cellPhone')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
                         <mat-form-field appearance="fill" fxFlex="15%">
                             <mat-label>Emergency Contact</mat-label>
                             <input matInput formControlName="emergencyContact" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['emergencyContact'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emergencyContact')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['emergencyContact'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emergencyContact')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
                         <mat-form-field appearance="fill" fxFlex="20%">
                             <mat-label>EC Phone</mat-label>
                             <input matInput formControlName="ecPhone" />
-                            <button mat-button *ngIf="providerEmployeeAddEditForm.controls['ecPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ecPhone')">
+                            <button mat-button *ngIf="clientAddEditForm.controls['ecPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('ecPhone')">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
@@ -132,20 +126,43 @@
                         </mat-form-field>                        
                     </div>
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
-                        <mat-form-field appearance="fill" fxFlex="16%">
-                            <mat-label>Select A Service Type</mat-label>
-                            <mat-select formControlName="serviceType" panelClass="select-type" [compareWith]="compareServiceType">
-                                <div *ngFor="let st of serviceTypes">
-                                    <mat-option *ngIf="st.name!=='Home Health Service'" [value]="st.value">{{st.name}}</mat-option>
-                                    <mat-optgroup *ngIf="st.name=='Home Health Service'" [label]="st.name">
-                                        <mat-option *ngFor="let hhs of st.content" [value]="hhs.value">{{hhs.name}}</mat-option>
-                                    </mat-optgroup>
-                                </div>                                
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Access Level</mat-label>
+                            <mat-select formControlName="accessLevel">
+                                <mat-option value="">Select Access Level</mat-option>
+                                <mat-option value="Admin">Admin</mat-option>
+                                <mat-option value="Contractor">Contractor</mat-option>
                             </mat-select>
-                            <mat-error *ngIf="hasError('serviceType')">{{getErrorMessage('serviceType')}}</mat-error>
-                        </mat-form-field> 
-                        <mat-checkbox fxFlex="15%" fxLayoutAlign="start center" formControlName="isContractService" style="vertical-align: bottom;">Is Contract Service?
-                        </mat-checkbox>                    
+                            <mat-error *ngIf="hasError('accessLevel')">{{getErrorMessage('accessLevel')}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Release Timesheet?</mat-label>
+                            <mat-select formControlName="toReleaseTimesheet">
+                                <mat-option value="true">Yes</mat-option>
+                                <mat-option value="false">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="16%">
+                            <mat-label>Service Type</mat-label>
+                            <mat-select formControlName="homeHealthStatus">
+                                <mat-option value="">Select Type</mat-option>
+                                <mat-option value="Richmond">Richmond</mat-option>
+                                <mat-option value="SW VA">SW VA</mat-option>
+                                <mat-option value="Largo">Largo</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="22%">
+                            <mat-label>Sales Person</mat-label>
+                            <mat-select formControlName="salesPerson">
+                                <mat-option *ngFor="let sales of salesPersonList" [value]="sales.employeeId">{{sales.firstName+' '+sales.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="22%">
+                            <mat-label>Recruiter</mat-label>
+                            <mat-select formControlName="recruiter">
+                                <mat-option *ngFor="let rec of recruiters" [value]="rec.employeeId">{{rec.firstName+' '+rec.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
                     <div fxLayout="row wrap" *ngIf="!isAddMode">
                         <h4 class="pt-2" fxFlex="100%">Change Password</h4>
@@ -167,9 +184,9 @@
                     </div>
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
                         <button mat-raised-button color="primary">
-                            Save ProviderEmployee
+                            Save Client
                         </button>
-                        <a mat-raised-button routerLink="/provider-employee-list" class="btn btn-link">Cancel</a>
+                        <a mat-raised-button routerLink="/client-list" class="btn btn-link">Cancel</a>
                     </div>
                 </form>
             </div>

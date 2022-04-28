@@ -17,17 +17,17 @@ import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-
 const childRoutes: Routes = [
   { path: 'weekly-pay-periods', component: WeeklyPayPeriodsComponent },
   { path: 'biweekly-pay-periods', component: BiWeeklyPayPeriodsComponent },
-  { path: 'view-invoices', component: ViewInvoicesComponent, canActivate: [AuthGuard]},
-  { path: 'print-invoices', component: PrintInvoicesComponent, canActivate: [AuthGuard]},
-  { path: 'view-monthly-control-report', component: ViewMonthlyControlReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-control-report', component: ViewControlReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-commission-report', component: ViewCommissionReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-commission-detail-report', component: ViewCommissionDetailReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-assignment-hours', component: ViewAssignmentHoursComponent, canActivate: [AuthGuard]},
-  { path: 'view-referal-report', component: ViewReferalReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-leaderboard-report', component: ViewLeaderboardReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-headcount-report', component: ViewHeadCountReportComponent, canActivate: [AuthGuard]},
-  { path: 'view-gross-profit-report', component: ViewGrossProfitReportComponent, canActivate: [AuthGuard]}
+  { path: 'view-invoices', component: ViewInvoicesComponent },
+  { path: 'print-invoices', component: PrintInvoicesComponent },
+  { path: 'view-monthly-control-report', component: ViewMonthlyControlReportComponent },
+  { path: 'view-control-report', component: ViewControlReportComponent },
+  { path: 'view-commission-report', component: ViewCommissionReportComponent },
+  { path: 'view-commission-detail-report', component: ViewCommissionDetailReportComponent },
+  { path: 'view-assignment-hours', component: ViewAssignmentHoursComponent },
+  { path: 'view-referal-report', component: ViewReferalReportComponent },
+  { path: 'view-leaderboard-report', component: ViewLeaderboardReportComponent },
+  { path: 'view-headcount-report', component: ViewHeadCountReportComponent },
+  { path: 'view-gross-profit-report', component: ViewGrossProfitReportComponent }
 ];
 
 export const routing = RouterModule.forChild(childRoutes);

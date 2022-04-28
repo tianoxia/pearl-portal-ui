@@ -66,7 +66,7 @@ export class ViewAssignmentComponent implements OnInit {
   private loadData() {
     this.alertService.clear();
     forkJoin([this.assignmentService.getAssignmentById(this.assignmentId),
-      this.assignmentService.getAllClients(),
+      this.assignmentService.getActiveClients(),
       this.assignmentService.getAllContractors()])
       .subscribe(([assignment, clients, contractors]) => {
         this.clients = clients as Client[];

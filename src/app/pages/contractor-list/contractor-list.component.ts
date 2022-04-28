@@ -22,6 +22,7 @@ import { contractorStatus } from 'app/constants/contractor-status';
 export class ContractorListComponent implements OnInit {
   contractorId: number;
   statuses = contractorStatus;
+  subTitle: string;
   selectedContractor: ContractorListResponse;
   @ViewChild('ctrTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -93,6 +94,7 @@ export class ContractorListComponent implements OnInit {
       if (this.isAddEdit) {
         this.alertService.success(this.message);
       }
+      this.subTitle = ' ('+this.dataSource.data.length+' Records)';
       window.scrollTo(0, 0);
       this.spinner.hide();
     },

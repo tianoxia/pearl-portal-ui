@@ -34,6 +34,7 @@ export class ProviderEmployeeListComponent implements OnInit {
   @Input() providerEmployeeUploadFilesForm: FormGroup;
   isAddEdit: boolean;
   message: string;
+  subTitle: string;
   serviceTypes = ServiceTypes;
   floatLabelControl = new FormControl('auto');
   private filesControl = new FormControl(null, FileUploadValidators.fileSize(10000000));
@@ -101,6 +102,7 @@ export class ProviderEmployeeListComponent implements OnInit {
       if (this.isAddEdit) {
         this.alertService.success(this.message);
       }
+      this.subTitle = ' ('+this.dataSource.data.length+' Records)';
       window.scrollTo(0, 0);
       this.spinner.hide();
     },

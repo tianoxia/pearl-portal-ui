@@ -4,12 +4,12 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { ErrorDetails, AssignmentListResponse, AssignmentRequest } from '../_models';
+import { ErrorDetails, ClientListResponse, ClientRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssignmentService {
+export class ClientService {
   baseurl: string;
   timeoutInSeconds: number;
 
@@ -41,20 +41,11 @@ export class AssignmentService {
     }
     return throwError(errorMessage);
   }
-  getAllRecruiters() {
-    return this.http.get(this.baseurl + `/v1/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }
   getActiveClients() {
     return this.http.get(this.baseurl + `/v1/client/active`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAllOffices() {
     return this.http.get(this.baseurl + `/v1/office/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }
-  getAllDepartments() {
-    return this.http.get(this.baseurl + `/v1/department/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
-  }
-  getAllContractors() {
-    return this.http.get(this.baseurl + `/v1/contractor/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getLocationsByClientId(id: number) {
     return this.http.get(this.baseurl + `/v1/location/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
@@ -65,22 +56,31 @@ export class AssignmentService {
   getContactsByClientId(id: number) {
     return this.http.get(this.baseurl + `/v1/contact/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  getAssignmentByStatus(status: string) {
-    return this.http.get(this.baseurl + `/v1/assignment/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  getClientByStatus(status: string) {
+    return this.http.get(this.baseurl + `/v1/client/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  getAssignmentById(id: number) {
-    return this.http.get(this.baseurl + `/v1/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  getClientById(id: number) {
+    return this.http.get(this.baseurl + `/v1/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  createAssignment(assignmentRequest: AssignmentRequest) {
-    return this.http.post(this.baseurl + `/v1/assignment`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  createClient(clientRequest: ClientRequest) {
+    return this.http.post(this.baseurl + `/v1/client`, clientRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  updateAssignment(id: number, assignmentRequest: AssignmentRequest) {
-    return this.http.put(this.baseurl + `/v1/assignment/${id}`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  updateClient(id: number, clientRequest: ClientRequest) {
+    return this.http.put(this.baseurl + `/v1/client/${id}`, clientRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  updateAssignmentEndDate(id: number, assignmentRequest: AssignmentRequest) {
-    return this.http.put(this.baseurl + `/v1/assignment/${id}/enddate`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  updateClientEndDate(id: number, clientRequest: ClientRequest) {
+    return this.http.put(this.baseurl + `/v1/client/${id}/enddate`, clientRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  deleteAssignment(id: number) {
-    return this.http.delete(this.baseurl + `/v1/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  deleteClient(id: number) {
+    return this.http.delete(this.baseurl + `/v1/client/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  uploadClientFiles(data: FormData) {
+    return this.http.post(this.baseurl + `/v1/client/uploadfiles/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getClientFiles(id: number) {
+    return this.http.get(this.baseurl + `/v1/client/${id}/uploadfiles`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  deleteClientFile(id: number) {
+    return this.http.delete(this.baseurl + `/v1/client/file/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

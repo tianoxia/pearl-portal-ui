@@ -3,7 +3,7 @@ import { PayPeriodDashboardComponent } from './pay-period-dashboard/pay-period-d
 import { AuthGuard } from '../../_helpers';
 
 const childRoutes: Routes = [
-  { path: 'pay-period-dashboard', component: PayPeriodDashboardComponent, canActivate: [AuthGuard]}
+  { path: 'pay-period-dashboard', component: PayPeriodDashboardComponent }
 ];
 
 export const routing = RouterModule.forChild(childRoutes);

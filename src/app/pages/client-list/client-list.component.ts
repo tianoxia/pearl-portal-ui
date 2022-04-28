@@ -9,38 +9,38 @@ import { ActivatedRoute, Router  } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { EmployeeService, AlertService, AuthenticationService } from 'app/_services';
-import { EmployeeListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
+import { ClientService, AlertService, AuthenticationService } from 'app/_services';
+import { ClientListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { employeeStatus } from 'app/constants/employee-status';
-import { employeeCategory } from 'app/constants/employee-category';
+import { UploadedFile } from 'app/_models/uploaded-file';
 
 @Component({
-  selector: 'app-employee-list',
-  templateUrl: './employee-list.component.html',
-  styleUrls: ['./employee-list.component.css'],
+  selector: 'app-client-list',
+  templateUrl: './client-list.component.html',
+  styleUrls: ['./client-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class EmployeeListComponent implements OnInit {
-  employeeId: number;
-  statuses = employeeStatus;
-  categories = employeeCategory;
-  subTitle: string;
-  selectedEmployee: EmployeeListResponse;
-  @ViewChild('ctrTable', {read: MatSort, static: false }) set content(sort: MatSort) {
+export class ClientListComponent implements OnInit {
+  clientId: number;
+  selectedClient: ClientListResponse;
+  selectedFile: UploadedFile;
+  @ViewChild('clientTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild('uploadFilesDialog', { static: true, read: TemplateRef }) uploadFilesRef: TemplateRef<any>;
   @ViewChild('viewFilesDialog', { static: true, read: TemplateRef }) viewFilesRef: TemplateRef<any>;
-  @Input() employeeListForm: FormGroup;
-  @Input() employeeUploadFilesForm: FormGroup;
+  @Input() clientListForm: FormGroup;
+  @Input() clientUploadFilesForm: FormGroup;
   isAddEdit: boolean;
+  isAdmin: boolean;
   message: string;
+  statuses = employeeStatus;
+  subTitle: string;
   floatLabelControl = new FormControl('auto');
   private filesControl = new FormControl(null, FileUploadValidators.fileSize(10000000));
-  public displayedColumns = ['firstName', 'accessLevel', 'payType', 'employeeStatus', 'emailAddress',
-  'salesRate', 'recruitRate', 'payRate', 'otRate', 'dtRate', 'payMethod', 'adpFileNumber', 'employeeType', 'star'];
-  public dataSource = new MatTableDataSource<EmployeeListResponse>();
+  public displayedColumns = ['name', 'salesPersonName', 'created', 'modified', 'user', 'star'];
+  public dataSource = new MatTableDataSource<ClientListResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
@@ -49,25 +49,25 @@ export class EmployeeListComponent implements OnInit {
     fb: FormBuilder,
     private authService: AuthenticationService,
     private dialog: MatDialog,
-    private employeeService: EmployeeService,
+    private clientService: ClientService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
-      this.employeeListForm = fb.group({
-        employeeStatus: 'Active',
-        employeeCategory: 'Sales',
-        isReferer: ''
+      this.clientListForm = fb.group({
+        clientStatus: 'Active'        
       });
-      this.employeeUploadFilesForm = fb.group({
+      this.clientUploadFilesForm = fb.group({
         files: this.filesControl
       });
-      this.selectedEmployee = new EmployeeListResponse();
+      this.selectedClient = new ClientListResponse();      
   }
 
   ngOnInit() {
-    if (this.authService.currentUserValue !== null) {
+    if (this.authService.currentUserValue !== null) {      
+      this.isAdmin = this.authService.currentUserValue.role === 'Admin';
+      
       const perm = this.authService.currentUserValue.employeePermissions;
-      if (!perm.find(e => e.resource === Resource.Employees && e.permissionTypes.includes(PermissionType.LIST))) {
+      if (!perm.find(e => e.resource === Resource.Clients && e.permissionTypes.includes(PermissionType.LIST))) {
         this.router.navigateByUrl("/unauthorized");
       }
     }
@@ -78,7 +78,7 @@ export class EmployeeListComponent implements OnInit {
       if (action) {
         this.isAddEdit = action.toLowerCase() === 'add' || action.toLowerCase() === 'edit';
       }      
-      this.executeGetReport('Active', 'Sales', '');
+      this.executeGetReport('Active');
     });
   }
 
@@ -86,24 +86,20 @@ export class EmployeeListComponent implements OnInit {
     return (o1 == o2);
   }
 
-  compareCategory(o1: any, o2: any) {
-    return (o1 == o2);
-  }
-
-  public showEmployeeList = (employeeListFormValue) => {
+  public showClientList = (clientListFormValue) => {
     this.spinner.show();
-    this.executeGetReport(employeeListFormValue.employeeStatus, employeeListFormValue.employeeCategory, employeeListFormValue.isReferer);
+    this.executeGetReport(clientListFormValue.clientStatus);
   };
 
-  private executeGetReport(status: string, category: string, isReferer: string) {
-    return this.employeeService.getEmployees(status, category, isReferer)
+  private executeGetReport(status: string) {
+    return this.clientService.getClientByStatus(status)        
     .subscribe(result => {
-      this.dataSource.data = result as EmployeeListResponse[];
+      this.dataSource.data = result as ClientListResponse[];
       this.dataSource.paginator = this.paginator;
+      this.subTitle = ' ('+this.dataSource.data.length+' Records)';
       if (this.isAddEdit) {
         this.alertService.success(this.message);
       }
-      this.subTitle = ' ('+this.dataSource.data.length+' Records)';
       window.scrollTo(0, 0);
       this.spinner.hide();
     },
@@ -113,8 +109,8 @@ export class EmployeeListComponent implements OnInit {
       });
   }
 
-  navigateToEditEmployee(id: number) {
-    this.router.navigate([`/edit-employee/${id}`]);
+  navigateToEditClient(id: number) {
+    this.router.navigate([`/edit-client/${id}`]);
   }
 
   applyFilterOne(filterValue: string) {
@@ -122,9 +118,8 @@ export class EmployeeListComponent implements OnInit {
   }
 
   openWarningDialog(warningDialog, id: number) {
-    this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
-    this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
-    this.selectedEmployee.employeeId = id;
+    this.selectedClient.name = this.dataSource.data.find(c => c.clientId === id).name;
+    this.selectedClient.clientId = id;
     this.dialog.open(warningDialog, {
       autoFocus: true,
       width: '400px',
@@ -132,12 +127,11 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  deleteEmployee() {
+  deleteClient() {
     this.spinner.show();
-    this.employeeService.deleteEmployee(this.selectedEmployee.employeeId)
+    this.clientService.deleteClient(this.selectedClient.clientId)
       .subscribe((response: IApiResponse) => {
-        this.executeGetReport(this.employeeListForm.controls.employeeStatus.value, this.employeeListForm.controls.employeeCategory.value,
-          this.employeeListForm.controls.isReferer.value);
+        this.executeGetReport(this.clientListForm.controls.clientStatus.value);
         this.alertService.success(response.message);
       },
       error => {
@@ -147,26 +141,27 @@ export class EmployeeListComponent implements OnInit {
   }
 
   public hasError = (controlName: string) => {
-    return this.employeeUploadFilesForm.controls[controlName].hasError('required');
+    return this.clientUploadFilesForm.controls[controlName].hasError('required');
   }
 
-  uploadFiles() {    
-    if (this.employeeUploadFilesForm.get('files').value === null) {
-      this.employeeUploadFilesForm.controls.files.setErrors({ required: true })
+  uploadFiles() {
+    this.alertService.clear();
+    if (this.clientUploadFilesForm.get('files').value === null) {
+      this.clientUploadFilesForm.controls.files.setErrors({ required: true })
       return false;
     }
     const formData = new FormData();
-    if (this.employeeUploadFilesForm.get('files').value !== null) {
-      this.employeeUploadFilesForm.get('files').value.forEach((f) => formData.append('files', f));
+    if (this.clientUploadFilesForm.get('files').value !== null) {
+      this.clientUploadFilesForm.get('files').value.forEach((f) => formData.append('files', f));
     }
-    this.employeeUploadFilesForm.get('files').patchValue([]); // empty files container in UI
-    this.employeeUploadFilesForm.get('files').patchValue(null); // set object to null  
-    formData.append('employeeId', this.selectedEmployee.employeeId.toString());
-    this.employeeService.uploadEmployeeFiles(formData)
+    this.clientUploadFilesForm.get('files').patchValue([]); // empty files container in UI
+    this.clientUploadFilesForm.get('files').patchValue(null); // set object to null  
+    formData.append('clientId', this.selectedClient.clientId.toString());
+    this.clientService.uploadClientFiles(formData)
         .pipe(first())
         .subscribe((response: IApiResponse) => {
-          this.employeeUploadFilesForm.get('files').patchValue([]); // empty files container in UI
-          this.employeeUploadFilesForm.get('files').patchValue(null); // set object to null for further upload
+          this.clientUploadFilesForm.get('files').patchValue([]); // empty files container in UI
+          this.clientUploadFilesForm.get('files').patchValue(null); // set object to null for further upload
           this.alertService.success(response.message);
           window.scrollTo(0, 0);
           this.spinner.hide();
@@ -180,9 +175,8 @@ export class EmployeeListComponent implements OnInit {
   }
 
   uploadAttachments(id: number) {
-    this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
-    this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
-    this.selectedEmployee.employeeId = id;
+    this.selectedClient.name = this.dataSource.data.find(c => c.clientId === id).name;
+    this.selectedClient.clientId = id;
     this.openUploadFilesDialog(this.uploadFilesRef);
     return false;
   }
@@ -197,15 +191,16 @@ export class EmployeeListComponent implements OnInit {
   }
 
   viewAttachments(id: number) {
-    this.spinner.show();
-    this.selectedEmployee.firstName = this.dataSource.data.find(c => c.employeeId === id).firstName;
-    this.selectedEmployee.lastName = this.dataSource.data.find(c => c.employeeId === id).lastName;
-    this.selectedEmployee.employeeId = id;
+    this.selectedClient.name = this.dataSource.data.find(c => c.clientId === id).name;
+    this.selectedClient.clientId = id;
     this.openViewFilesDialog(this.viewFilesRef);
-    this.employeeService.getEmployeeFiles(id)
+    this.clientService.getClientFiles(id)
         .pipe(first())
-        .subscribe((response: EmployeeListResponse) => {
-          this.selectedEmployee = response;
+        .subscribe((response: ClientListResponse) => {
+          this.selectedClient = response;
+          if (this.selectedClient.clientAttachments.length > 0) {
+            this.selectedFile = new UploadedFile();
+          }
           window.scrollTo(0, 0);
           this.spinner.hide();
         },
@@ -220,11 +215,37 @@ export class EmployeeListComponent implements OnInit {
   openViewFilesDialog(viewFilesDialog) {
     this.dialog.open(viewFilesDialog, {
       autoFocus: true,
-      width: '450px',
+      width: '400px',
       panelClass: 'file-dialog',
       disableClose: true
     });    
     return false;
+  }
+  openWarningDialogTwo(warningDialog, id: number) {
+    this.selectedFile.fileName = this.selectedClient.clientAttachments.find(f => f.fileId === id).fileName;
+    this.selectedFile.fileId = id;
+    this.dialog.open(warningDialog, {
+      autoFocus: true,
+      width: '400px',
+      disableClose: true
+    });
+    return false;
+  }
+
+  deleteFile() {
+    this.alertService.clear();
+    this.spinner.show();
+    this.clientService.deleteClientFile(this.selectedFile.fileId)
+      .subscribe((response: IApiResponse) => {
+        this.alertService.success(response.message);
+        window.scrollTo(0, 0);
+        this.spinner.hide();
+      },
+      error => {
+        this.alertService.error(error);
+        this.spinner.hide();
+      });
+    this.dialog.closeAll();
   }
 
   onPaginateChange(event){

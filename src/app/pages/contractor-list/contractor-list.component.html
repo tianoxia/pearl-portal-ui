@@ -5,7 +5,7 @@
                 <app-alert></app-alert>
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                        View Contractors
+                        View Contractors {{subTitle}}
                     </div>
                 </div>
                 <form [formGroup]="contractorListForm" autocomplete="off" novalidate (ngSubmit)="showContractorList(contractorListForm.value)">

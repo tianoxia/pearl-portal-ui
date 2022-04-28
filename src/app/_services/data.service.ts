@@ -68,8 +68,8 @@ export class DataService {
   getAllRecruiters() {
     return this.http.get(this.baseurl + `/v1/recruiter/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  getAllClients() {
-    return this.http.get(this.baseurl + `/v1/client/all`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  getActiveClients() {
+    return this.http.get(this.baseurl + `/v1/client/active`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getSummaryReport(summaryReportRequest: SummaryReportRequest) {
     return this.http.post(this.baseurl + `/v1/report/summary`, summaryReportRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

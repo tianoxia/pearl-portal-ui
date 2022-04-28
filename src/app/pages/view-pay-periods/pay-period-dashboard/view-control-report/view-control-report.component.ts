@@ -97,7 +97,7 @@ export class ViewControlReportComponent implements OnInit {
       payFrequency: this.payFrequency
     };
     forkJoin([this.dataService.getAllDepartments(),
-    this.dataService.getAllRecruiters(), this.dataService.getAllClients(),
+    this.dataService.getAllRecruiters(), this.dataService.getActiveClients(),
     this.dataService.getControlReport(request)])
       .subscribe(([departments, recruiters, clients, controlReports]) => {
         this.departments = departments as Department[];

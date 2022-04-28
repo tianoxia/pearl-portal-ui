@@ -1,4 +1,6 @@
-export class Client {
+import { UploadedFile } from "./uploaded-file";
+
+export class ClientListResponse {
     clientId: number;
     name: string;
     isApproved?: boolean;
@@ -9,4 +11,6 @@ export class Client {
     modified: Date;
     user: string;
     isInternal?: boolean;
+    salesPersonName: string;
+    clientAttachments: UploadedFile[];
 }

@@ -35,6 +35,8 @@ import { UpdateAssignmentEndDateComponent } from './pages/assignment-list/update
 import { AddEditPayPeriodComponent } from './pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
 import { ArrowDivDirective } from './shared/directives/arrow-div.directive';
 import { AccountManagementModule } from './pages/account-management/account-management.module';
+import { ClientListComponent } from './pages/client-list/client-list.component';
+import { ClientListModule } from './pages/client-list/client-list.module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -58,6 +60,7 @@ export function initializeApp(appConfig: AppConfig) {
     EmployeeListModule,
     ProviderEmployeeListModule,
     AssignmentListModule,
+    ClientListModule,
     AccountManagementModule,
     NgbModule
   ],
@@ -72,6 +75,7 @@ export function initializeApp(appConfig: AppConfig) {
     ProviderEmployeeListComponent,
     ViewPayPeriodsComponent,
     AssignmentListComponent,
+    ClientListComponent,
     UnauthorizedComponent,
     UpdateAssignmentEndDateComponent,
     AddEditPayPeriodComponent,

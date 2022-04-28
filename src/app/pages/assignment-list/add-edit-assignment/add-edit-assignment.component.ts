@@ -120,7 +120,7 @@ export class AddEditAssignmentComponent implements OnInit {
 
   private loadOfficesClientsContractorsRecruiters() {
     this.alertService.clear();
-    forkJoin([this.assignmentService.getAllOffices(), this.assignmentService.getAllClients(),
+    forkJoin([this.assignmentService.getAllOffices(), this.assignmentService.getActiveClients(),
     this.assignmentService.getAllContractors(), this.assignmentService.getAllRecruiters(),
     this.assignmentService.getAllDepartments()])
       .subscribe(([offices, clients, contractors, recruiters, departments]) => {
@@ -144,7 +144,7 @@ export class AddEditAssignmentComponent implements OnInit {
     this.alertService.clear();
     forkJoin([this.assignmentService.getAssignmentById(this.assignmentId),
       this.assignmentService.getAllRecruiters(), this.assignmentService.getAllOffices(),
-      this.assignmentService.getAllDepartments(), this.assignmentService.getAllClients(),
+      this.assignmentService.getAllDepartments(), this.assignmentService.getActiveClients(),
       this.assignmentService.getAllContractors()])
       .subscribe(([assignment, recruiters, offices, departments, clients, contractors]) => {
         this.recruiters = recruiters as Recruiter[];

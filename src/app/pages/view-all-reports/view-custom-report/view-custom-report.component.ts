@@ -89,7 +89,7 @@ export class ViewCustomReportComponent implements OnInit {
 
   private loadData() {
     forkJoin([this.dataService.getAllDepartments(),
-    this.dataService.getAllRecruiters(), this.dataService.getAllClients()])
+    this.dataService.getAllRecruiters(), this.dataService.getActiveClients()])
       .subscribe(([departments, recruiters, clients]) => {
         this.departments = departments as Department[];
         this.recruiters = recruiters as Recruiter[];

@@ -22,6 +22,7 @@ import { UpdateAssignmentEndDateComponent } from './update-assignment-enddate/up
 export class AssignmentListComponent implements OnInit {
   assignmentId: number;
   statuses = assignmentStatus;
+  subTitle: string;
   selectedAssignment: AssignmentListResponse;
   @ViewChild('assignmentTable', { read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -95,6 +96,7 @@ export class AssignmentListComponent implements OnInit {
         if (this.isAddEdit) {
           this.alertService.success(this.message);
         }
+        this.subTitle = ' ('+this.dataSource.data.length+' Records)';
         window.scrollTo(0, 0);
         this.spinner.hide();
       },

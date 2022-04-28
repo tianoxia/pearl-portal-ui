@@ -1,7 +1,6 @@
-export class Client {
+export class ClientRequest {
     clientId: number;
     name: string;
-    isApproved?: boolean;
     isActive?: boolean;
     discount: number;
     mileageRate: number;

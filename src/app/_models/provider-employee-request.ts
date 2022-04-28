@@ -1,4 +1,5 @@
 export class ProviderEmployeeRequest {
+	employeeStatus: string;
     firstName: string;
 	lastName: string;
 	ssn: string;

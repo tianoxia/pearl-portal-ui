@@ -57,4 +57,7 @@ export * from './gross-profit-report-response';
 export * from './provider-employee-request';
 export * from './provider-employee-list-response';
 export * from './provider-employee-request';
+export * from './client-list-response';
+export * from './client-request';
+
 
