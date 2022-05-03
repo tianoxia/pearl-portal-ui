@@ -16,12 +16,19 @@
                                 <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-card-actions fxFlex="25%">
+                        <mat-card-actions fxFlex="20%">
                             <button mat-raised-button color="primary"><i class="icofont-search-job"></i> View Clients</button>
-                        </mat-card-actions>
-                        <mat-form-field fxFlex="30%">
-                            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-card-actions>  
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
+                        <mat-form-field fxFlex="40%">
+                        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
                         </mat-form-field>
+                        <div fxFlex="60%" class="text-right" *ngIf="dataSource.data.length > 0">
+                            <button mat-button class="btn btn-primary text-transform-none" (click)="exportToExcel($event)"  matTooltip="Export to excel">
+                                <i class="fa fa-file-excel"></i> Export
+                            </button>
+                        </div>
                     </div>
                 </form>
                 <mat-divider></mat-divider>
@@ -65,6 +72,10 @@
                                             <mat-icon>more_vert</mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="viewClient(client.clientId);">
+                                                <mat-icon>info</mat-icon>
+                                                <span>View</span>
+                                            </button>
                                             <button mat-menu-item (click)="navigateToEditClient(client.clientId);">
                                                 <mat-icon>edit</mat-icon>
                                                 <span>Edit</span>

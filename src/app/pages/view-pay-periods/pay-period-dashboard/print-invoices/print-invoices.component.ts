@@ -4,8 +4,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { FileUploadValidators } from '@iplab/ngx-file-upload';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
-import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StaticUtilities } from '../../../../_helpers/static-utilities';
@@ -43,7 +41,6 @@ export class PrintInvoicesComponent implements OnInit {
   }
   constructor(public alertService: AlertService,
     fb: FormBuilder,
-    private dialog: MatDialog,
     private route: ActivatedRoute,
     private invoiceService: InvoiceReportService,
     private datePipe: DatePipe,

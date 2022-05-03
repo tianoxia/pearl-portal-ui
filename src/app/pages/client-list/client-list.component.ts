@@ -9,10 +9,11 @@ import { ActivatedRoute, Router  } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { ClientService, AlertService, AuthenticationService } from 'app/_services';
+import { ClientService, AlertService, AuthenticationService, ExportService } from 'app/_services';
 import { ClientListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { employeeStatus } from 'app/constants/employee-status';
 import { UploadedFile } from 'app/_models/uploaded-file';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-client-list',
@@ -50,6 +51,8 @@ export class ClientListComponent implements OnInit {
     private authService: AuthenticationService,
     private dialog: MatDialog,
     private clientService: ClientService,
+    private exportService: ExportService,
+    private datePipe: DatePipe,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
@@ -107,6 +110,10 @@ export class ClientListComponent implements OnInit {
         this.alertService.error(error);
         this.spinner.hide();
       });
+  }
+
+  viewClient(id: number) {
+    this.router.navigate([`/view-client/${id}`]);
   }
 
   navigateToEditClient(id: number) {
@@ -250,5 +257,33 @@ export class ClientListComponent implements OnInit {
 
   onPaginateChange(event){
     window.scrollTo(0, 0);
+  }
+  exportToExcel(event) {
+    this.exportService.exportExcelWithFormat(this.clientPrint(), 'clientreport', this.reportColumns());
+    event.preventDefault();
+  }
+  reportColumns(): any[] {
+    const leftColumnStyle = { font: { name: 'Calibri', size: 11 }, alignment: { horizontal: 'left' } };
+    const centerColumnStyle = { font: { name: 'Calibri', size: 11 }, alignment: { horizontal: 'center' } };
+    const rightColumnStyle = { font: { name: 'Calibri', size: 11 }, alignment: { horizontal: 'right' } };
+    return [
+      { header: 'Name', key: 'name', width: 30, style: centerColumnStyle },
+      { header: 'Sales Person', key: 'salesPersonName', width: 28, style: centerColumnStyle },
+      { header: 'Created Date', key: 'created', width: 15, style: centerColumnStyle },
+      { header: 'Modified Date', key: 'modified', width: 15, style: centerColumnStyle },
+      { header: 'By User', key: 'user', width: 28, style: centerColumnStyle }];
+  }
+  clientPrint() {
+    let data = [];
+    this.dataSource.data.forEach(item => {
+      data.push({
+        'name': item.name,
+        'salesPersonName': item.salesPersonName,
+        'modified': this.datePipe.transform(item.modified, 'MM/dd/yyyy'),
+        'created': this.datePipe.transform(item.created, 'MM/dd/yyyy'),
+        'user': item.user
+      })
+    });
+    return data;
   }
 }

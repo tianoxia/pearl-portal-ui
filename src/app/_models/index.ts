@@ -59,5 +59,6 @@ export * from './provider-employee-list-response';
 export * from './provider-employee-request';
 export * from './client-list-response';
 export * from './client-request';
+export * from './location-request';
 
 

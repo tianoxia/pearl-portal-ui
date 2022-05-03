@@ -4,7 +4,7 @@ export class ClientListResponse {
     clientId: number;
     name: string;
     isApproved?: boolean;
-    isActive?: boolean;
+    clientStatus: boolean;
     discount: number;
     mileageRate: number;
     created: Date;

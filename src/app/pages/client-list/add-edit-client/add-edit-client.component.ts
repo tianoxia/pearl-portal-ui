@@ -3,11 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
 
 import { ClientService, AlertService, AuthenticationService } from 'app/_services';
-import { ClientListResponse, ClientRequest, Location, IApiResponse, Resource, PermissionType } from 'app/_models';
-import { states } from '../../../constants/states';
+import { ClientListResponse, ClientRequest, IApiResponse, Resource, PermissionType } from 'app/_models';
 
 @Component({
   selector: 'app-add-edit-client',
@@ -19,10 +17,8 @@ export class AddEditClientComponent implements OnInit {
   clientId: number;
   isAddMode: boolean;
   submitted = false;
-  states = states;
   action: string;
   client: ClientListResponse;
-
   user: string;
   phoneRegex = /^(\()[1-9]\d{2}(\))(\s)[1-9]{1}\d{2}(-)\d{4}$/;
   constructor(
@@ -49,23 +45,10 @@ export class AddEditClientComponent implements OnInit {
     const zipCodeRegex = /^(?!0{5})[0-9]{5}(?:-(?!0{4})[0-9]{4})?$/;
     this.clientAddEditForm = this.formBuilder.group({
       name: ['', Validators.required],
-      lastName: ['', Validators.required],
-      emailAddress: ['', [Validators.required, Validators.email]],
-      address: ['', [Validators.required]],
-      address2: [''],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
-      zip: ['', [Validators.required, Validators.pattern(zipCodeRegex)]],
-      password: ['', [this.isAddMode ? Validators.required : Validators.nullValidator]],
-      confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator],
-      candidateSourceId: ['', Validators.required],
-      accessLevel: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
-      cellPhone: [''],
-      emergencyContact: [''],
-      ecPhone: [''],
-      homeHealthStatus: [''],
-      isContractService: ['']
+      clientStatus: 'Yes',
+      discount: '',
+      mileageRate: '',
+      isInternal: 'No'
     });
     if (!this.isAddMode) {
         this.action = 'Edit';
@@ -78,16 +61,18 @@ export class AddEditClientComponent implements OnInit {
       if (!perm.find(e => e.resource === Resource.Client && e.permissionTypes.includes(PermissionType.ADD))) {
         this.router.navigateByUrl("/unauthorized");
       }
+      this.spinner.hide();
     }
   }
 
   private loadData() {
     this.alertService.clear();
-    forkJoin([this.clientService.getClientById(this.clientId),
-      this.clientService.getLocationsByClientId(this.clientId)])
-      .subscribe(([client, locations]) => {
-        this.client = client as ClientListResponse;
+    this.clientService.getClientById(this.clientId)
+      .subscribe((client: ClientListResponse) => {
+        this.client = client;
         this.clientAddEditForm.patchValue(this.client);
+        this.clientAddEditForm.get('clientStatus').patchValue(this.client.clientStatus ? 'Yes' : 'No');
+        this.clientAddEditForm.get('isInternal').patchValue(this.client.isInternal ? 'Yes' : 'No');
         this.spinner.hide();
       },
       (error => {
@@ -150,6 +135,10 @@ export class AddEditClientComponent implements OnInit {
     const request = new ClientRequest();
     request.user = this.user;
     request.name = this.clientAddEditForm.controls.name.value;
+    request.clientStatus = this.clientAddEditForm.controls.clientStatus.value;
+    request.isInternal = this.clientAddEditForm.controls.isInternal.value;
+    request.mileageRate = +this.clientAddEditForm.controls.mileageRate.value;
+    request.discount = +this.clientAddEditForm.controls.discount.value;
     return request;
   }
 
@@ -162,49 +151,13 @@ export class AddEditClientComponent implements OnInit {
       case 'name': 
         this.clientAddEditForm.controls.name.patchValue('');
         break;
-      case 'lastname':
-        this.clientAddEditForm.controls.lastName.patchValue('');
-        break;
-      case 'ssn':
-        this.clientAddEditForm.controls.ssn.patchValue('');
-        break;
-      case 'emailAddress':
-        this.clientAddEditForm.controls.emailAddress.patchValue('');
-        break;
-      case 'address':
-        this.clientAddEditForm.controls.address.patchValue('');
-        break;
-      case 'address2':
-        this.clientAddEditForm.controls.address2.patchValue('');
-        break;
-      case 'city':
-        this.clientAddEditForm.controls.city.patchValue('');
-        break;
-      case 'state':
-        this.clientAddEditForm.controls.state.patchValue('');
-        break;
-      case 'zip':
-        this.clientAddEditForm.controls.zip.patchValue('');
-        break;
-      case 'phone':
-        this.clientAddEditForm.controls.phone.patchValue('');
-        break;
-      case 'cellPhone':
-        this.clientAddEditForm.controls.cellPhone.patchValue('');
-        break;
-      case 'emergencyContact':
-        this.clientAddEditForm.controls.emergencyContact.patchValue('');
-        break;
-      case 'ecPhone':
-        this.clientAddEditForm.controls.ecPhone.patchValue('');
-        break;
     }
   }
 
   getErrorMessage(control: string) {
     switch (control) {
       case 'name': 
-        if (this.clientAddEditForm.controls.firstName.hasError('required')) {
+        if (this.clientAddEditForm.controls.name.hasError('required')) {
           return 'Client name is required';
         }
         break;

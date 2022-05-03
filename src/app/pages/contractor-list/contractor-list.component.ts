@@ -12,6 +12,7 @@ import { first } from 'rxjs/operators';
 import { ContractorService, AlertService, AuthenticationService } from 'app/_services';
 import { ContractorListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { contractorStatus } from 'app/constants/contractor-status';
+import { UploadedFile } from 'app/_models/uploaded-file';
 
 @Component({
   selector: 'app-contractor-list',
@@ -23,6 +24,8 @@ export class ContractorListComponent implements OnInit {
   contractorId: number;
   statuses = contractorStatus;
   subTitle: string;
+  isAdmin: boolean;
+  selectedFile: UploadedFile;
   selectedContractor: ContractorListResponse;
   @ViewChild('ctrTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
@@ -57,10 +60,13 @@ export class ContractorListComponent implements OnInit {
         files: this.filesControl
       });
       this.selectedContractor = new ContractorListResponse();
+      this.selectedFile = new UploadedFile();
   }
 
   ngOnInit() {
     if (this.authService.currentUserValue !== null) {
+      this.isAdmin = this.authService.currentUserValue.role === 'Admin';
+
       const perm = this.authService.currentUserValue.employeePermissions;
       if (!perm.find(e => e.resource === Resource.Contractors && e.permissionTypes.includes(PermissionType.LIST))) {
         this.router.navigateByUrl("/unauthorized");
@@ -214,6 +220,32 @@ export class ContractorListComponent implements OnInit {
       disableClose: true
     });    
     return false;
+  }
+  openWarningDialogTwo(warningDialog, id: number) {
+    this.selectedFile.fileName = this.selectedContractor.contractorAttachments.find(f => f.fileId === id).fileName;
+    this.selectedFile.fileId = id;
+    this.dialog.open(warningDialog, {
+      autoFocus: true,
+      width: '400px',
+      disableClose: true
+    });
+    return false;
+  }
+
+  deleteFile() {
+    this.alertService.clear();
+    this.spinner.show();
+    this.contractorService.deleteContractorFile(this.selectedFile.fileId)
+      .subscribe((response: IApiResponse) => {
+        this.alertService.success(response.message);
+        window.scrollTo(0, 0);
+        this.spinner.hide();
+      },
+      error => {
+        this.alertService.error(error);
+        this.spinner.hide();
+      });
+    this.dialog.closeAll();
   }
 
   onPaginateChange(event){

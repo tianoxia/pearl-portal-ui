@@ -17,6 +17,7 @@ export * from './employee.service';
 export * from './permission-manager.service';
 export * from './provider-employee.service';
 export * from './client.service';
+export * from './location.service';
 
 
 

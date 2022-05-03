@@ -13,6 +13,7 @@ import { EmployeeService, AlertService, AuthenticationService } from 'app/_servi
 import { EmployeeListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { employeeStatus } from 'app/constants/employee-status';
 import { employeeCategory } from 'app/constants/employee-category';
+import { UploadedFile } from 'app/_models/uploaded-file';
 
 @Component({
   selector: 'app-employee-list',
@@ -35,7 +36,9 @@ export class EmployeeListComponent implements OnInit {
   @Input() employeeListForm: FormGroup;
   @Input() employeeUploadFilesForm: FormGroup;
   isAddEdit: boolean;
+  isAdmin: boolean;
   message: string;
+  selectedFile: UploadedFile;
   floatLabelControl = new FormControl('auto');
   private filesControl = new FormControl(null, FileUploadValidators.fileSize(10000000));
   public displayedColumns = ['firstName', 'accessLevel', 'payType', 'employeeStatus', 'emailAddress',
@@ -62,10 +65,12 @@ export class EmployeeListComponent implements OnInit {
         files: this.filesControl
       });
       this.selectedEmployee = new EmployeeListResponse();
+      this.selectedFile = new UploadedFile();
   }
 
   ngOnInit() {
     if (this.authService.currentUserValue !== null) {
+      this.isAdmin = this.authService.currentUserValue.role === 'Admin';
       const perm = this.authService.currentUserValue.employeePermissions;
       if (!perm.find(e => e.resource === Resource.Employees && e.permissionTypes.includes(PermissionType.LIST))) {
         this.router.navigateByUrl("/unauthorized");
@@ -225,6 +230,33 @@ export class EmployeeListComponent implements OnInit {
       disableClose: true
     });    
     return false;
+  }
+
+  openWarningDialogTwo(warningDialog, id: number) {
+    this.selectedFile.fileName = this.selectedEmployee.employeeAttachments.find(f => f.fileId === id).fileName;
+    this.selectedFile.fileId = id;
+    this.dialog.open(warningDialog, {
+      autoFocus: true,
+      width: '400px',
+      disableClose: true
+    });
+    return false;
+  }
+
+  deleteFile() {
+    this.alertService.clear();
+    this.spinner.show();
+    this.employeeService.deleteEmployeeFile(this.selectedFile.fileId)
+      .subscribe((response: IApiResponse) => {
+        this.alertService.success(response.message);
+        window.scrollTo(0, 0);
+        this.spinner.hide();
+      },
+      error => {
+        this.alertService.error(error);
+        this.spinner.hide();
+      });
+    this.dialog.closeAll();
   }
 
   onPaginateChange(event){

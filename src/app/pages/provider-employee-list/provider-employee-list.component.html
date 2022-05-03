@@ -144,12 +144,27 @@
                                     <mat-icon mat-list-icon>note</mat-icon>
                                     <div mat-line><a href={{file.fileNameWithPath}} target="_blank">{{file.fileName}}</a></div>
                                     <div mat-line> {{file.created | date: 'MM/dd/yyyy, h:mm a'}} </div>
+                                    <div *ngIf="isAdmin" class="text-right"><a href="#" (click)="openWarningDialogTwo(warningDialogTwo, file.fileId);"><mat-icon color="warn" matTooltip="delete file">
+                                        delete</mat-icon></a></div>
                                 </mat-list-item>
                             </mat-list>
                         </mat-dialog-content>
                         <mat-dialog-actions align="end">
                             <button mat-button mat-dialog-close>Close</button>
                         </mat-dialog-actions>
+                    </ng-template>
+                    <ng-template #warningDialogTwo let-modal>
+                        <div class="modal-header justify-content-center bg-warning">
+                            <h4 class="modal-title">Confirm</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h5>Are you sure you want to delete this file {{selectedFile.fileName}}?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button mat-button mat-dialog-close class="btn">No</button>
+                            <button mat-button mat-dialog-close class="btn btn-primary"
+                            (click)="deleteFile()">Yes</button>
+                        </div>
                     </ng-template>
             </div>
         </div>
