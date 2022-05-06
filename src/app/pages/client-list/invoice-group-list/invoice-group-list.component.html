@@ -1,0 +1,68 @@
+<div class="invoicegrouplist row mt-1 pt-1">
+    <div class="col-md-12 col-lg-12 mt-1 pt-1">
+        <div class="row action-buttons">
+            <a href="#" routerLink="/add-invoice-group/{{clientId}}" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add InvoiceGroup</a>                    
+        </div>
+        <div *ngIf="dataSource.data.length > 0; then hasInvoiceGroupBlock else noInvoiceGroupBlock"></div>
+            <ng-template #noInvoiceGroupBlock><div class="alert alert-danger text-center">No Invoice Group Found</div></ng-template>
+            <ng-template #hasInvoiceGroupBlock>
+                <div class="invoicegrouplist-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort #invoiceGroupTable>
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+                            <td mat-cell *matCellDef="let invoiceGroup">{{invoiceGroup.description}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="locationDisplay">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                            <td mat-cell *matCellDef="let invoiceGroup">{{invoiceGroup.locationDisplay}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="modified">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified</th>
+                            <td mat-cell *matCellDef="let invoiceGroup">{{invoiceGroup.modified | date: 'MM/dd/yyyy'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="user">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>By User</th>
+                            <td mat-cell *matCellDef="let invoiceGroup">{{invoiceGroup.user}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="star" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let invoiceGroup">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="action menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="navigateToEditInvoiceGroup(invoiceGroup.invoiceGroupId, clientId);">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button mat-menu-item (click)="openWarningDialog(warningDialog, invoiceGroup.invoiceGroupId);">
+                                        <mat-icon color="warn">delete</mat-icon>
+                                        <span class="text-danger">Delete Invoice Group</span>
+                                    </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </ng-template>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+            (page)="onPaginateChange($event)" showFirstLastButtons> 
+            </mat-paginator>
+            <ng-template #warningDialog let-modal>
+                <div class="modal-header justify-content-center bg-warning">
+                    <h4 class="modal-title">Confirm</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h5>Are you sure you want to delete the invoice group {{selectedInvoiceGroup.firstName+' '+selectedInvoiceGroup.lastName}}?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button mat-button mat-dialog-close class="col-xl-6 col-sm-6 btn">No</button>
+                    <button mat-button mat-dialog-close class="col-xl-6 col-sm-6 btn btn-primary"
+                    (click)="deleteInvoiceGroup()">Yes</button>
+                </div>
+            </ng-template>
+        
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        {{action}} Invoice Group
+                    </div>
+                </div>
+                <form [formGroup]="invoiceGroupAddEditForm" autocomplete="off" (ngSubmit)="onSubmit(invoiceGroupAddEditForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                            <mat-form-field appearance="fill" fxFlex="38%">
+                                <mat-label>Description</mat-label>
+                                <input matInput formControlName="description" />
+                                <button mat-button *ngIf="invoiceGroupAddEditForm.controls['description'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('description')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('description')">{{getErrorMessage('description')}}</mat-error>                     
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="fill" fxFlex="60%">
+                                <mat-label>Billing Location</mat-label>
+                                <mat-select formControlName="billingLocation">
+                                    <mat-option *ngFor="let location of locations" [value]="location.locationId">{{location.locationDisplay}}</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="hasError('billingLocation')">{{getErrorMessage('billingLocation')}}</mat-error>
+                            </mat-form-field>                            
+                    </div>                    
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>Term</mat-label>
+                            <mat-select formControlName="term">
+                                <mat-option *ngFor="let term of terms" [value]="term">{{term}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="83%">
+                            <mat-label>Invoice Contact</mat-label>                
+                            <mat-select #selectcontacts formControlName="contacts" multiple>
+                                <div class="select-all">
+                                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                </div>
+                                <mat-option (click)="optionClick()" *ngFor="let contact of contacts" [value]="contact.contactId">{{contact.firstName+' '+contact.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <button mat-raised-button color="primary">
+                            Save Invoice Group
+                        </button>
+                        <a mat-raised-button (click)="navigateToClientView(clientId);" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,7 @@
+.container.all-report i {
+    display: inline-block;
+    line-height: 1;
+}
+.container.all-report .single-services {
+    min-height: 100px;
+}

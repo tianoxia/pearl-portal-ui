@@ -1,0 +1,172 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="provideremployee-list row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Provider Employees {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="providerEmployeeListForm" autocomplete="off" novalidate (ngSubmit)="showProviderEmployeeList(providerEmployeeListForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="8px" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Select A Status</mat-label>
+                            <mat-select formControlName="providerEmployeeStatus" [compareWith]="compareStatuses">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Select A Service Type</mat-label>
+                            <mat-select formControlName="serviceType" panelClass="select-type" [compareWith]="compareServiceType">
+                                <div *ngFor="let st of serviceTypes">
+                                    <mat-option *ngIf="st.name!=='Home Health Service'" [value]="st.value">{{st.name}}</mat-option>
+                                    <mat-optgroup *ngIf="st.name=='Home Health Service'" [label]="st.name">
+                                        <mat-option *ngFor="let hhs of st.content" [value]="hhs.value">{{hhs.name}}</mat-option>
+                                    </mat-optgroup>
+                                </div>                                
+                            </mat-select>
+                        </mat-form-field>                        
+                        <mat-checkbox fxFlex="15%" fxLayoutAlign="start center" formControlName="isContractService" style="vertical-align: bottom;">Is Contract Service?
+                        </mat-checkbox>
+                        <mat-card-actions fxFlex="20%">
+                            <button mat-raised-button color="primary"><i class="icofont-search-job"></i> View Provider Employee</button>
+                        </mat-card-actions>
+                        <mat-form-field fxFlex="25%">
+                            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div class="row action-buttons">
+                    <a routerLink="/add-provider-employee" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add Provider Employee</a>
+                </div>
+                <div *ngIf="dataSource.data.length > 0; then hasProviderEmployeeBlock else noProviderEmployeeBlock"></div>
+                    <ng-template #noProviderEmployeeBlock><div class="alert alert-danger text-center">No Provider Employee Found</div></ng-template>
+                    <ng-template #hasProviderEmployeeBlock>
+                        <div class="provideremployee-list-container mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort #provEmpTable>
+                                <ng-container matColumnDef="firstName" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                                    <td mat-cell *matCellDef="let providerEmployee">{{providerEmployee.firstName+' '+providerEmployee.lastName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="created">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+                                    <td mat-cell *matCellDef="let providerEmployee">{{providerEmployee.created | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="modified">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified</th>
+                                    <td mat-cell *matCellDef="let providerEmployee">{{providerEmployee.modified | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="user">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>By User</th>
+                                    <td mat-cell *matCellDef="let providerEmployee">{{providerEmployee.user}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="star" stickyEnd>
+                                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                                    <td mat-cell *matCellDef="let providerEmployee">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="action menu">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="navigateToEditProviderEmployee(providerEmployee.providerEmployeeId);">
+                                                <mat-icon>edit</mat-icon>
+                                                <span>Edit</span>
+                                            </button>
+                                            <button mat-menu-item (click)="uploadAttachments(providerEmployee.providerEmployeeId);">
+                                                <mat-icon>cloud_upload</mat-icon>
+                                                <span>Upload Files</span>
+                                            </button>
+                                            <button mat-menu-item (click)="viewAttachments(providerEmployee.providerEmployeeId);">
+                                                <mat-icon>attach_file</mat-icon>
+                                                <span>View Attachments</span>
+                                            </button>
+                                            <button mat-menu-item (click)="openWarningDialog(warningDialog, providerEmployee.providerEmployeeId);">
+                                                <mat-icon color="warn">delete</mat-icon>
+                                                <span class="text-danger">Delete Provider Employee</span>
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </ng-template>
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+                    (page)="onPaginateChange($event)" showFirstLastButtons> 
+                    </mat-paginator>
+                    <ng-template #warningDialog let-modal>
+                        <div class="modal-header justify-content-center bg-warning">
+                            <h4 class="modal-title">Confirm</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h5>Are you sure you want to delete the provider employee {{selectedProviderEmployee.firstName + ' '
+                                + selectedProviderEmployee.lastName}}?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button mat-button mat-dialog-close class="btn">No</button>
+                            <button mat-button mat-dialog-close class="btn btn-primary"
+                            (click)="deleteProviderEmployee()">Yes</button>
+                        </div>
+                    </ng-template>
+                    <ng-template #uploadFilesDialog let-modal>
+                        <form [formGroup]="providerEmployeeUploadFilesForm" autocomplete="off" novalidate (ngSubmit)="showProviderEmployeeList(providerEmployeeListForm.value)">
+                            <div class="modal-header file-upload-header justify-content-center bg-warning">
+                                <h5 class="modal-title">Upload Files for {{selectedProviderEmployee.firstName + ' ' +
+                                    selectedProviderEmployee.lastName}}</h5>
+                            </div>
+                            <div class="modal-body file-upload-div text-center">
+                                <div class="col" style="background-color:transparent;">
+                                    <file-upload class="mb-2 pb-2" formControlName="files"></file-upload>
+                                    <mat-error *ngIf="hasError('files')">Select at least one file to upload</mat-error>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button mat-button mat-dialog-close class="btn">Close</button>
+                                <button mat-button class="btn btn-info"
+                                (click)="uploadFiles()">Upload</button>
+                            </div>
+                        </form>
+                    </ng-template>
+                    <ng-template #viewFilesDialog let-modal>
+                        <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+                            <mat-icon class="close-icon" color="warn">close</mat-icon>
+                        </button>
+                        <h2 mat-dialog-title>Attachments</h2>
+                        <mat-dialog-content class="mat-typography">
+                            <mat-list dense>
+                                <mat-list-item *ngFor="let file of selectedProviderEmployee.providerEmployeeAttachments">
+                                    <mat-icon mat-list-icon>note</mat-icon>
+                                    <div mat-line><a href={{file.fileNameWithPath}} target="_blank">{{file.fileName}}</a></div>
+                                    <div mat-line> {{file.created | date: 'MM/dd/yyyy, h:mm a'}} </div>
+                                    <div *ngIf="isAdmin" class="text-right"><a href="#" (click)="openWarningDialogTwo(warningDialogTwo, file.fileId);"><mat-icon color="warn" matTooltip="delete file">
+                                        delete</mat-icon></a></div>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-dialog-content>
+                        <mat-dialog-actions align="end">
+                            <button mat-button mat-dialog-close>Close</button>
+                        </mat-dialog-actions>
+                    </ng-template>
+                    <ng-template #warningDialogTwo let-modal>
+                        <div class="modal-header justify-content-center bg-warning">
+                            <h4 class="modal-title">Confirm</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h5>Are you sure you want to delete this file {{selectedFile.fileName}}?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button mat-button mat-dialog-close class="btn">No</button>
+                            <button mat-button mat-dialog-close class="btn btn-primary"
+                            (click)="deleteFile()">Yes</button>
+                        </div>
+                    </ng-template>
+            </div>
+        </div>
+    </div>
+</section>

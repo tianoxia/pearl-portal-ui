@@ -12,6 +12,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { LayoutModule } from './shared/layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { AppConfig } from './app.config';
+import { KeyBoardService, NavigationService } from './_services';
 import { AuthGuard, JwtInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { LoginComponent, LoginHelpDialogComponent } from './pages/login/login.component';
@@ -21,8 +22,21 @@ import { ViewAllReportsComponent } from './pages/view-all-reports/view-all-repor
 import { ViewAllReportsModule } from './pages/view-all-reports/view-all-reports.module';
 import { ContractorListComponent } from './pages/contractor-list/contractor-list.component';
 import { ContractorListModule } from './pages/contractor-list/contractor-list.module';
+import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
+import { EmployeeListModule } from './pages/employee-list/employee-list.module';
+import { ProviderEmployeeListComponent } from './pages/provider-employee-list/provider-employee-list.component';
+import { ProviderEmployeeListModule } from './pages/provider-employee-list/provider-employee-list.module';
 import { ViewPayPeriodsModule } from './pages/view-pay-periods/view-pay-periods.module';
 import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-periods.component';
+import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
+import { AssignmentListModule } from './pages/assignment-list/assignment-list.module';
+import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
+import { UpdateAssignmentEndDateComponent } from './pages/assignment-list/update-assignment-enddate/update-assignment-enddate.component';
+import { AddEditPayPeriodComponent } from './pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
+import { ArrowDivDirective } from './shared/directives/arrow-div.directive';
+import { AccountManagementModule } from './pages/account-management/account-management.module';
+import { ClientListComponent } from './pages/client-list/client-list.component';
+import { ClientListModule } from './pages/client-list/client-list.module';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -43,6 +57,11 @@ export function initializeApp(appConfig: AppConfig) {
     ViewAllReportsModule,
     ViewPayPeriodsModule,
     ContractorListModule,
+    EmployeeListModule,
+    ProviderEmployeeListModule,
+    AssignmentListModule,
+    ClientListModule,
+    AccountManagementModule,
     NgbModule
   ],
   declarations: [
@@ -52,16 +71,25 @@ export function initializeApp(appConfig: AppConfig) {
     HomeComponent,
     ViewAllReportsComponent,
     ContractorListComponent,
-    ViewPayPeriodsComponent
+    EmployeeListComponent,
+    ProviderEmployeeListComponent,
+    ViewPayPeriodsComponent,
+    AssignmentListComponent,
+    ClientListComponent,
+    UnauthorizedComponent,
+    UpdateAssignmentEndDateComponent,
+    AddEditPayPeriodComponent,
+    ArrowDivDirective
   ],
   providers: [
     AppConfig, AuthGuard,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [AppConfig], multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    KeyBoardService
  ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginHelpDialogComponent]
+  entryComponents: [LoginHelpDialogComponent, UpdateAssignmentEndDateComponent, AddEditPayPeriodComponent]
 })
 export class AppModule { }

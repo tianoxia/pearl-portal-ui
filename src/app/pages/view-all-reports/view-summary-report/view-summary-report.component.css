@@ -1,5 +1,4 @@
-.report-container {
-    max-height: 450px;
+.sunmmary-report-container {
     overflow: auto;
 }
 div.filter-header {
@@ -7,13 +6,17 @@ div.filter-header {
     font-weight: 500;
     margin-bottom: 20px;
     padding-bottom: 20px;
-    color: #000000;    
+    color: #000000;
 }
 .container i {
     font-size: 18px;
     display: inline-block;
     line-height: 1;
     margin-right: 10px;
+}
+.container>.sunmmary-report-container .mat-table {
+    overflow: auto;
+    width: 100%;
 }
 th.mat-header-cell {
     font-weight: 600 !important;
@@ -47,7 +50,7 @@ tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
 .mat-card-actions > .mat-raised-button {
-    height: 47px;
+    height: 52px;
 }
 @media (max-width: 568px) {
     div.filter-header {

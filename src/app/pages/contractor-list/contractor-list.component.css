@@ -1,3 +1,6 @@
+.contractorlist-container {
+    overflow: auto;
+}
 div.filter-header {
     font-size: 25px;
     font-weight: 500;
@@ -5,13 +8,13 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;    
 }
-.container i {
+.container>.contractorlist i {
     font-size: 18px;
     display: inline-block;
     line-height: 1;
     margin-right: 10px;
 }
-.mat-table {
+.container>.contractorlist .mat-table {
     overflow: auto;
     width: 100%;
 }
@@ -35,30 +38,40 @@ tr.mat-row:not(:nth-child(2n+1)) {
     background-color: #fff;       
 }
 .mat-card-actions > .mat-raised-button {
-    height: 47px;
+    height: 52px;
 }
-div.action-buttons .btn {
+.contractorlist div.action-buttons .btn {
     text-transform: none !important;
     font-size: 1em;
     padding: 18px 18px !important;
-    margin: -15px 0px 10px 15px;
+    margin: -5px 0px 10px 15px;
 }
 div.modal-body h5 {
     text-transform: none;
 }
+.file-dialog .mat-dialog-container {
+    margin-top: 135px;
+    padding-right: 30px;
+}
+.close-button{
+    float: right;
+    top: 4px;
+    right: 4px;
+  }
+
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;
         margin-bottom: 10px;
         padding-bottom: 10px;
     }
-    .container i {
+    .container>.contractorlist i {
         font-size: 14px;
         display: inline-block;
         line-height: 1;
         margin-right: 6px;
     }
-    .mat-form-field, .mat-raised-button {
+    .mat-form-field, .mat-card-actions > .mat-raised-button {
         width: 100%;
     }
     th.mat-header-cell {
@@ -77,4 +90,18 @@ div.modal-body h5 {
     td.mat-cell:not(:first-child) {
         padding: 6px 6px 6px 0;
     }
+    .mat-dialog-container .mat-dialog-title {
+        text-align: center;
+    }
+    .mat-dialog-container .modal-body.file-upload-div {
+        margin: 0px -50px 0px !important;
+    }
+    .mat-dialog-container .modal-header.file-upload-header {
+        margin: 0px -10px 0px !important;
+    }
+    .close-button{
+        float: right;
+        top: -10px;
+        right: -10px;
+      }
 }

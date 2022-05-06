@@ -414,6 +414,22 @@ body {
             color: $template_color2;
         }
     }
+    .single-services {
+        min-height: 210px;
+        .row:nth-child(1) {
+            i {
+                padding-left: 9px;
+            }
+        }
+        .row:nth-child(2) {
+            p {
+                margin-bottom: -1px;
+            }
+            i {
+                margin-bottom: -18px !important;
+            }
+        } 
+    }
     
   /*================================================
   Services CSS
@@ -735,6 +751,26 @@ Preloader CSS
     margin: 0px;
     padding: 0px;
 }
+.back .icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+    font-size: 15px;
+    background: #3b96b6;
+    color: #edf5ff;
+    margin-left: 8px;
+    padding-left: 8px;
+    -webkit-transition: none;
+    transition: none;
+}
+.back:hover .icon {
+    background: $white_color;
+    color: $template_color;
+    cursor: pointer;
+}
 @media (max-width: 991px) {
     #header {
         margin-bottom:-31px;
@@ -782,4 +818,5 @@ Preloader CSS
         display: inline-block !important;
         font-size: 14px;
     }
+    
 }

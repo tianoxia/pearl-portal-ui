@@ -1,0 +1,44 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row payperiod-dashboard">
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a routerLink="" (click)="navigateToPayPeriod('invoice')">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2">
+                                <i class="icofont-file-alt"></i>
+                            </div>
+                            <div><h3>{{payFrequency}} Invoices</h3></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a routerLink="" (click)="navigateToPayPeriod('payfile')">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2">
+                                <i class="fas fa-money-check-alt"></i>
+                            </div>
+                            <div><h3>{{payFrequency}} Pay Files</h3></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-4 col-md-4 mt-1 pt-1">
+                <a routerLink="" (click)="navigateToPayPeriod('report')">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon mr-2 pr-2">
+                                <i class="icofont-chart-arrows-axis"></i>
+                            </div>
+                            <div><h3>{{payFrequency}} Reports</h3></div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<router-outlet></router-outlet>

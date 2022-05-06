@@ -3,4 +3,5 @@ export class LoginRequest {
     password: string;
     portalType: string;
     browser: string;
+    employeeId?: number;
 }

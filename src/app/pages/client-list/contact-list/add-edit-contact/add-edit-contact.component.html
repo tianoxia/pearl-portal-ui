@@ -1,0 +1,85 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        {{action}} Contact
+                    </div>
+                </div>
+                <form [formGroup]="contactAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
+                            <mat-form-field appearance="fill" fxFlex="30%">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName" />
+                                <button mat-button *ngIf="contactAddEditForm.controls['firstName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('firstName')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('firstName')">{{getErrorMessage('firstName')}}</mat-error>                     
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="fill" fxFlex="30%">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName" />
+                                <button mat-button *ngIf="contactAddEditForm.controls['lastName'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('lastName')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('lastName')">{{getErrorMessage('lastName')}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="fill" fxFlex="38%">
+                                <mat-label>Email Address</mat-label>
+                                <input matInput formControlName="emailAddress" />
+                                <button mat-button *ngIf="contactAddEditForm.controls['emailAddress'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('emailAddress')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('emailAddress')">{{getErrorMessage('emailAddress')}}</mat-error>
+                            </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Phone</mat-label>
+                            <input matInput formControlName="phone" />
+                            <button mat-button *ngIf="contactAddEditForm.controls['phone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('phone')">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            <mat-error *ngIf="hasError('phone')">{{getErrorMessage('phone')}}</mat-error>                          
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Fax</mat-label>
+                            <input matInput formControlName="fax" />
+                            <button mat-button *ngIf="contactAddEditForm.controls['fax'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('fax')">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Cell Phone</mat-label>
+                            <input matInput formControlName="fax" />
+                            <button mat-button *ngIf="contactAddEditForm.controls['cellPhone'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('cellPhone')">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="38%">
+                            <mat-label>Location</mat-label>
+                            <mat-select formControlName="location">
+                                <mat-option *ngFor="let location of locations" [value]="location.locationId">{{location.locationDisplay}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('location')">{{getErrorMessage('location')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <button mat-raised-button color="primary">
+                            Save Contact
+                        </button>
+                        <a mat-raised-button (click)="navigateToClientView(clientId);" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

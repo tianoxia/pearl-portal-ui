@@ -1,0 +1,66 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container view-client">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-3 pt-3">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        View Client<div class="back">                    
+                        <div class="icon mr-2 pr-2" (click)="back()">
+                            <i class="fas fa-arrow-left" title="Back"></i>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <mat-tab-group dynamicHeight>
+                    <mat-tab id="tab-client-info" label="Info">
+                        <form [formGroup]="clientViewForm" autocomplete="off">
+                            <div fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-3 mb-3">
+                                <mat-form-field appearance="fill" fxFlex="50%">
+                                    <mat-label>Name</mat-label>
+                                    <input matInput formControlName="name" readonly />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Is Active?</mat-label>
+                                    <input matInput formControlName="clientStatus" readonly />
+                                </mat-form-field>
+
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Is Internal?</mat-label>
+                                    <input matInput formControlName="isInternal" readonly />
+                                </mat-form-field>
+                                                    
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Discount Rate</mat-label>
+                                    <input matInput formControlName="discount" readonly />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" fxFlex="12%">
+                                    <mat-label>Mileage Rate</mat-label>
+                                    <input matInput formControlName="mileageRate" readonly />
+                                </mat-form-field>                   
+                            </div>
+                        </form>
+                    </mat-tab>
+                    <mat-tab id="tab-client-locations" label="Locations">
+                        <div class="mt-3 mb-3">
+                            <app-location-list [clientId]="clientId"></app-location-list>
+                        </div>
+                    </mat-tab>
+                    <mat-tab id="tab-client-contacts" label="Contacts">
+                        <div class="mt-3 mb-3">
+                            <app-contact-list [clientId]="clientId"></app-contact-list>
+                        </div>
+                    </mat-tab>
+                    <mat-tab id="tab-client-invoicegroups" label="Invoice Groups">
+                        <div class="mt-3 mb-3">
+                            <app-invoice-group-list [clientId]="clientId"></app-invoice-group-list>
+                        </div>
+                    </mat-tab>
+                    <mat-tab id="tab-client-assignments" label="Assignment History">
+                        <div class="mt-3 mb-3"></div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</section>

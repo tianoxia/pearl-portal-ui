@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe, CurrencyPipe, PercentPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
@@ -20,10 +20,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { NgxMaskModule } from 'ngx-mask';
 import { NgxDataTableModule } from './components/ngx-data-table/ngx-data-table.module';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 import { AlertComponent } from './components/alert/alert.component';
+import { ReportSubtitleComponent } from './components/report-subtitle/report-subtitle.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ConfirmEqualValidatorDirective } from './directives/confirm-equal-validator.directive';
 import { PasswordStrengthComponent } from './components/password-strength/password-strength.component';
@@ -55,11 +60,16 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatNativeDateModule,
     MatMenuModule,
     MatTooltipModule,
+    MatListModule,
+    MatGridListModule,
+    MatSlideToggleModule,
     NgxDataTableModule,
+    FileUploadModule,
     NgxMaskModule.forRoot()
   ],
   declarations: [
     AlertComponent,
+    ReportSubtitleComponent,
     LoadingComponent,
     ConfirmEqualValidatorDirective,
     PasswordStrengthComponent,
@@ -72,6 +82,7 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     FlexLayoutModule,
     ConfirmEqualValidatorDirective,
     AlertComponent,
+    ReportSubtitleComponent,
     LoadingComponent,
     PasswordStrengthComponent,
     FormatPhonePipe,
@@ -92,16 +103,23 @@ import { StripParamFromUrlPipe } from './pipes/strip-param-from-url.pipe';
     MatCheckboxModule,
     MatCardModule,
     MatMenuModule,
+    MatGridListModule,
+    MatSlideToggleModule,
     MatNativeDateModule,
     MatDividerModule,
+    MatListModule,
     MatTooltipModule,
     NgxMaskModule,
+    FileUploadModule,
     NgxDataTableModule
   ],
   providers: [
     FormatPhonePipe,
     FormatZipCodePipe,
-    StripParamFromUrlPipe
+    StripParamFromUrlPipe,
+    DecimalPipe,
+    CurrencyPipe,
+    PercentPipe
   ]
 })
 export class SharedModule { }

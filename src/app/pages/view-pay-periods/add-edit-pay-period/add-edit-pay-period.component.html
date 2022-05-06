@@ -1,0 +1,39 @@
+<form [formGroup]="addEditPayPeriodForm" autocomplete="off" novalidate (ngSubmit)="onSubmit()">
+    <div class="modal-header update-enddate-header justify-content-center bg-warning">
+        <h5 class="modal-title">{{action}} Pay Period</h5>
+    </div>
+    <div class="modal-body update-enddate-div">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1%">
+            <mat-form-field appearance="fill" fxFlex="49.5%">
+                <mat-label>Pay Date</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="payDate" (dateInput)="setPayDateEvent($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="hasError('payDate')">{{getErrorMessage('payDate')}}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="49.5%">
+                <mat-label>Pay Frequency</mat-label>
+                <mat-select formControlName="payFrequency">
+                    <mat-option value="">Select Pay Frequency</mat-option>
+                    <mat-option value="B">Bi-Weekly</mat-option>
+                    <mat-option value="W">Weekly</mat-option>
+                </mat-select>
+                <mat-error *ngIf="hasError('payFrequency')">{{getErrorMessage('payFrequency')}}</mat-error>
+            </mat-form-field>
+        </div>
+        
+    </div>
+    <div class="modal-footer">
+        <button mat-button mat-dialog-close class="btn">Cancel</button>
+        <button mat-button class="btn btn-info" [disabled]="!addEditPayPeriodForm.valid" type="submit">
+            <mat-icon>save_alt</mat-icon> Save Pay Period</button>
+    </div>
+    <ng-template #successDialog let-modal>
+        <div class="modal-body text-center">
+            <h5>{{successMessage}}</h5>
+        </div>
+        <div class="modal-footer">
+            <button mat-button (click)="close()" class="btn">Close</button>
+        </div>
+    </ng-template>
+</form>

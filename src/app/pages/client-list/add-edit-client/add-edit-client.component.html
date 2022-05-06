@@ -1,0 +1,58 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        {{action}} Client
+                    </div>
+                </div>
+                <form [formGroup]="clientAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
+                            <mat-form-field appearance="fill" fxFlex="50%">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="name" />
+                                <button mat-button *ngIf="clientAddEditForm.controls['name'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('name')">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                                <mat-error *ngIf="hasError('name')">{{getErrorMessage('name')}}</mat-error>
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="fill" fxFlex="12%">
+                                <mat-label>Is Active?</mat-label>
+                                <mat-select formControlName="clientStatus">
+                                    <mat-option value="Yes">Yes</mat-option>
+                                    <mat-option value="No">No</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        
+                            <mat-form-field appearance="fill" fxFlex="12%">
+                                <mat-label>Is Internal?</mat-label>
+                                <mat-select formControlName="isInternal">
+                                    <mat-option value="Yes">Yes</mat-option>
+                                    <mat-option value="No">No</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                                                
+                            <mat-form-field appearance="fill" fxFlex="12%">
+                                <mat-label>Discount Rate</mat-label>
+                                <input matInput type="number" formControlName="discount" />
+                            </mat-form-field>
+                            <mat-form-field appearance="fill" fxFlex="12%">
+                                <mat-label>Mileage Rate</mat-label>
+                                <input matInput type="number" formControlName="mileageRate" />
+                            </mat-form-field>
+                    </div>
+                    
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <button mat-raised-button color="primary">
+                            Save Client
+                        </button>
+                        <a mat-raised-button routerLink="/client-list" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

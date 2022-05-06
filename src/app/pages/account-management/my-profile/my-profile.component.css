@@ -1,0 +1,101 @@
+.field-icon {
+    float: right;
+    margin-left: -25px;
+    margin-top: -25px;
+    position: relative;
+    z-index: 2;
+    margin-right: 10px;
+}
+
+input[type="checkbox"] {
+    zoom: 1.5;
+}
+
+.invalid-feedback {
+    font-size: 12px;
+}
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    vertical-align: middle;
+    display: inline-block;
+    width: 45px;
+    height: 27px;
+}
+
+/* Hide default HTML checkbox */
+/*.switch input {display:none;}*/
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input[type="checkbox"]:checked + .slider {
+    background-color: #0088cc;
+}
+input[type="checkbox"]:disabled + .slider {
+    cursor: not-allowed;
+}
+.switch:focus-within {
+    border: 1px solid #0088cc;
+}
+
+.form-control:focus {
+    border: 1px solid #0088cc;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 20px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+.form-control.is-invalid,
+.form-control.is-valid {
+    background-image: none;
+}
+.form-control, .form-control:focus {
+    border: 1px solid #0088cc;
+}
+.form-label {
+    color: black;
+}
+.fa-1x {
+    font-size: 17px;
+}
+.verify-button-field {
+    position: relative;
+    
+}
+.verify-button-field.verify-indicator {
+    display: inline-block;
+    margin-left:13px;
+}

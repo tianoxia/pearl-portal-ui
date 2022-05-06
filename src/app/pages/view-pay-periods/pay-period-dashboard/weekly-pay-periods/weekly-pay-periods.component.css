@@ -1,0 +1,61 @@
+div.filter-header {
+    font-size: 23px;
+    font-weight: 500;
+    margin: 8px 0px;
+    padding: 10px 0px;
+    color: #000000;
+}
+.container p {
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #7f8c8d;
+}
+  
+.container ul {
+    padding: 0;
+    margin: 15px 0 25px;
+    list-style-type: none;
+}
+
+.container .card {
+    position: relative;
+    display: inline;
+    padding: 8px 10px 5px 10px;
+    border-radius: 20px;
+    background: #3498db;
+    font-weight: bold;
+    color: #ecf0f1;
+    margin: 5px;
+    float: left;
+    width: 20%;
+    height: 68px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+a.more, a.less {
+    text-transform: none;
+    padding: 12px 18px;
+}
+a.more:hover {
+    color: white;
+    background-color: #47a447;
+    text-decoration: underline !important;
+    border-radius: 20px;    
+}
+a.less:hover {
+    color: #3498db;
+    background-color: #c5cacf;
+    text-decoration: underline !important;
+    border-radius: 20px;
+}
+.container .more .mat-icon, .container .less .mat-icon {
+    vertical-align: middle;
+}
+@media (max-width: 568px) {
+    .container .card, .container .mat-form-field {
+        width: 100%;
+    }
+}

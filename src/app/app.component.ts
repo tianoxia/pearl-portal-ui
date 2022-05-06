@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.routerSubscription = this.router.events
             .pipe(filter(event => event instanceof NavigationEnd || event instanceof NavigationCancel))
             .subscribe(event => {
-                $.getScript('../pearl/assets/js/custom.js');
+                $.getScript('../pearlportal/assets/js/custom.js');
                 this.isShown = false;
                 this.location = this.router.url;
             });

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { routing } from './view-pay-periods.routing';
 import { SharedModule } from '../../shared/shared.module';
-import { ViewWeeklyPayPeriodsComponent } from './view-weekly/view-weekly-pay-periods/view-weekly-pay-periods.component';
+import { PayPeriodDashboardComponent } from './pay-period-dashboard/pay-period-dashboard.component';
 
 @NgModule({
   declarations: [
-    ViewWeeklyPayPeriodsComponent
+    PayPeriodDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -16,6 +16,9 @@ import { ViewWeeklyPayPeriodsComponent } from './view-weekly/view-weekly-pay-per
     ReactiveFormsModule,
     SharedModule,
     routing
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class ViewPayPeriodsModule { }

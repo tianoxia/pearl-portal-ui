@@ -1,0 +1,218 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Monthly Control Report {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="controlReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(controlReportForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Recruiter</mat-label>
+                            <mat-select formControlName="recruiter" [compareWith]="compareRecruiters">
+                                <mat-option *ngFor="let recruiter of recruiters" [value]="recruiter">{{recruiter.firstName + ' ' + recruiter.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department" [compareWith]="compareDepartments">
+                                <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>                        
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Client</mat-label>                
+                            <mat-select formControlName="client" [compareWith]="compareDepartments">
+                                <mat-option *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>                        
+                        <mat-card-actions fxFlex="20%">
+                            <button mat-raised-button color="primary" [disabled]="!controlReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
+                    <mat-form-field fxFlex="40%">
+                      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                    </mat-form-field>
+                    <div fxFlex="60%" class="text-right" *ngIf="dataSource.data.length > 0">
+                        <button mat-button class="btn btn-primary text-transform-none" (click)="exportToExcel($event)"  matTooltip="Export to excel">
+                            <i class="fa fa-file-excel"></i> Export
+                        </button>
+                    </div>
+                </div>
+                <div class="report-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort>
+                        <ng-container matColumnDef="office">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Office</th>
+                            <td mat-cell *matCellDef="let report">{{report.office}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="contractor" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+                            <td mat-cell *matCellDef="let report"><span class="nav-link">{{report.contractor+' ('+report.duration+')'}}</span></td>
+                            <td mat-footer-cell *matFooterCellDef>Total:</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="client">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                            <td mat-cell *matCellDef="let report">{{report.client}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
+                            <td mat-cell *matCellDef="let report">{{report.position}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="hours">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Hours</th>
+                            <td mat-cell *matCellDef="let report">{{report.hours | number:'1.2-2'}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalHours | number: '1.2-2'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="otHours">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>OT Hours</th>
+                            <td mat-cell *matCellDef="let report">{{report.otHours | number:'1.2-2'}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalOTHours | number: '1.2-2'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="dtHours">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DT Hours</th>
+                            <td mat-cell *matCellDef="let report">{{report.dtHours | number:'1.2-2'}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalDTHours | number: '1.2-2'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="payRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Rate</th>
+                            <td mat-cell *matCellDef="let report">{{report.payRate | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="otRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>OT Rate</th>
+                            <td mat-cell *matCellDef="let report">{{report.otRate | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="dtRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DT Rate</th>
+                            <td mat-cell *matCellDef="let report">{{report.dtRate | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pay">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay</th>
+                            <td mat-cell *matCellDef="let report">{{report.pay | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalPay | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="burden">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Burden</th>
+                            <td mat-cell *matCellDef="let report">{{report.burdenRate+" ("+(report.burden | currency)+")"}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalBurden | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="ppExp">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PPExp</th>
+                            <td mat-cell *matCellDef="let report">{{report.ppExp | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalPPExp | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="oopExp">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>OOPExp</th>
+                            <td mat-cell *matCellDef="let report">{{report.oopExp | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalOOPExp | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expAllowance">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ExpAllowance</th>
+                            <td mat-cell *matCellDef="let report">{{report.expAll | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalExpAllowance | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="reimbOOP">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Reimb OOP</th>
+                            <td mat-cell *matCellDef="let report">{{report.reimbOOP | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalReimbOOP | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expCost">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Exp Cost</th>
+                            <td mat-cell *matCellDef="let report">{{report.expCost | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalExpCost | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="refFee">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ref Fee</th>
+                            <td mat-cell *matCellDef="let report">{{report.refFee | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalRefFee | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="cost">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
+                            <td mat-cell *matCellDef="let report">{{report.cost | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalCost | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="billRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Rate</th>
+                            <td mat-cell *matCellDef="let report">{{report.billRate | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="otBillRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>OT BillRate</th>
+                            <td mat-cell *matCellDef="let report">{{report.otBillRate | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="dtBillRate">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>DT BillRate</th>
+                            <td mat-cell *matCellDef="let report">{{report.dtBillRate | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="invoice">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>invoice</th>
+                            <td mat-cell *matCellDef="let report">{{report.invoice | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalInvoice | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="margin">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Margin</th>
+                            <td mat-cell *matCellDef="let report">{{report.margin | currency}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalMargin | currency}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="gp">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>GP %</th>
+                            <td mat-cell *matCellDef="let report">{{report.gp | number:'1.2-2'}}</td>
+                            <td mat-footer-cell *matFooterCellDef>{{sum.totalGP | number:'1.2-2'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="salesPerson">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Person</th>
+                            <td mat-cell *matCellDef="let report">{{report.salesPerson}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="recruiter">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Recruiter</th>
+                            <td mat-cell *matCellDef="let report">{{report.recruiter}}</td>
+                            <td mat-footer-cell *matFooterCellDef></td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>    
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

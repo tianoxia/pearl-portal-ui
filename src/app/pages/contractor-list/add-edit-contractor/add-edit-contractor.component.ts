@@ -1,22 +1,21 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { forkJoin } from 'rxjs';
-import {cloneDeep} from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { ContractorService, AlertService, AuthenticationService } from 'app/_services';
 import { MustMatch } from 'app/_helpers';
 import { CustomValidator } from '../../../shared/validation';
 import { ContractorListResponse, ContractorRequest, Recruiter, IApiResponse, CandidateSource } from 'app/_models';
 import { states } from '../../../constants/states';
-import { timeStamp } from 'console';
 
 @Component({
   selector: 'app-add-edit-contractor',
   templateUrl: './add-edit-contractor.component.html',
-  styleUrls: ['./add-edit-contractor.component.scss']
+  styleUrls: ['./add-edit-contractor.component.css']
 })
 export class AddEditContractorComponent implements OnInit {
   @Input() contractorAddEditForm: FormGroup;
@@ -119,9 +118,9 @@ export class AddEditContractorComponent implements OnInit {
         this.salesPersonList.splice(0, 0, this.defaultSalesPerson);
         this.candSources.splice(0, 0, this.defaultCandSource);
         
-        this.contractorAddEditForm.get("recruiter").patchValue(0);
-        this.contractorAddEditForm.get("salesPerson").patchValue(0);
-        this.contractorAddEditForm.get("candidateSourceId").patchValue(null);
+        this.contractorAddEditForm.get('recruiter').patchValue(0);
+        this.contractorAddEditForm.get('salesPerson').patchValue(0);
+        this.contractorAddEditForm.get('candidateSourceId').patchValue(null);
         this.spinner.hide();
       },
       (error => {
@@ -146,16 +145,16 @@ export class AddEditContractorComponent implements OnInit {
         this.contractorAddEditForm.patchValue(this.contractor);
         this.contractorAddEditForm.get('toReleaseTimesheet').patchValue(this.contractor.toReleaseTimesheet?'true':'false');
         if (this.contractor.recruiterId > 0) {
-          this.contractorAddEditForm.get("recruiter").patchValue(this.contractor.recruiterId);
+          this.contractorAddEditForm.get('recruiter').patchValue(this.contractor.recruiterId);
         } else {
-          this.contractorAddEditForm.get("recruiter").patchValue(0);
+          this.contractorAddEditForm.get('recruiter').patchValue(0);
         }
         if (this.contractor.salesPersonId > 0) {
-          this.contractorAddEditForm.get("salesPerson").patchValue(this.contractor.salesPersonId);
+          this.contractorAddEditForm.get('salesPerson').patchValue(this.contractor.salesPersonId);
         } else {
-          this.contractorAddEditForm.get("salesPerson").patchValue(0);
+          this.contractorAddEditForm.get('salesPerson').patchValue(0);
         }
-        this.contractorAddEditForm.get("candidateSourceId").patchValue(this.contractor.candidateSourceId);
+        this.contractorAddEditForm.get('candidateSourceId').patchValue(this.contractor.candidateSourceId);
         this.spinner.hide();
       },
       (error => {
@@ -191,7 +190,7 @@ export class AddEditContractorComponent implements OnInit {
     this.contractorService.createContractor(request)
         .pipe(first())
         .subscribe((response: IApiResponse) => {
-          this.router.navigate(['contractor-list'], {queryParams: { message: response.message, action: this.action }});          
+          this.router.navigate(['contractor-list'], {queryParams: { message: response.message, action: this.action }});
         },
         error => {
           window.scrollTo(0, 0);

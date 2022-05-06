@@ -2,7 +2,6 @@ export class Client {
     clientId: number;
     name: string;
     isApproved?: boolean;
-    address: string;
     isActive?: boolean;
     discount: number;
     mileageRate: number;

@@ -5,8 +5,8 @@
                 <div class="header-column">
                     <div class="header-row">
                         <div class="header-logo">
-                            <a title="OnlinePortal" routerLink="/">
-                                <img id="headerlogo" alt="OnlinePortal" width="302" height="48" data-sticky-width="82" data-sticky-height="40" data-sticky-top="25" src="assets/logo/averypearllogo.gif">
+                            <a title="Pearl Portal" routerLink="/">
+                                <img id="headerlogo" alt="Pearl Portal" width="172" height="80" data-sticky-width="82" data-sticky-height="40" data-sticky-top="25" src="assets/logo/averypearllogo.png">
                             </a>
                         </div>
                     </div>
@@ -24,9 +24,9 @@
                                     <i class="fas fa-user"></i> {{employeeName}} <i class="fas fa-caret-down"></i>
                                 </button>
                                 <div class="dropdown-menu" style="width: 100%; position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform;" x-placement="bottom-start">
-                                    <a class="dropdown-item" href="#" routerLink="/home"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
+                                    <a class="dropdown-item" href="#" routerLink="/my-profile"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;My Profile</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" routerLink="" (click)="logout();">
+                                    <a class="dropdown-item" routerLink="" (click)="logout(false);">
                                         <i class="fas fa-sign-out-alt" aria-hidden="true"></i>&nbsp;Sign Out</a>
                                 </div>
                             </div>
@@ -38,7 +38,7 @@
                                 <nav class="collapse">
                                     <ul class="nav nav-pills" id="mainNav">
                                         <li class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle" href="#">
+                                            <a href="#" class="dropdown-item dropdown-toggle bp_link" routerLink="/view-all-reports">
                                                 Reports
                                             </a>
                                             <ul class="dropdown-menu">
@@ -78,26 +78,21 @@
                                                     <div class="dropdown-mega-content">
                                                         <div class="row">
                                                             <div class="col-lg-5">
-                                                                <span class="dropdown-mega-sub-title">Bi-Weekly</span>
+                                                                <a class="dropdown-mega-sub-title" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard']" [queryParams]="{payfrequency: 'Biweekly'}">Bi-Weekly</a>
                                                                 <ul class="dropdown-mega-sub-nav">
-                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Perm Placement Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Pay File</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Invoice+Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Employee Pay File</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Bi-Weekly Reports</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Biweekly'}">Bi-Weekly Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Biweekly'}">Bi-Weekly Timesheets</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'payfile', payfrequency: 'Biweekly'}">Bi-Weekly Pay Files</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/biweekly-pay-periods']" [queryParams]="{pagetype: 'report', payfrequency: 'Biweekly'}">Bi-Weekly Reports</a></li>
                                                                 </ul>
                                                             </div>
                                                             <div class="col-lg-5">
-                                                                <span class="dropdown-mega-sub-title">Weekly</span>
+                                                                <a class="dropdown-mega-sub-title" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard']" [queryParams]="{payfrequency: 'Weekly'}">Weekly</a>
                                                                 <ul class="dropdown-mega-sub-nav">
-                                                                    <li><a class="dropdown-item" href="#">Weekly Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Weekly Pay File</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Invoice+Timesheet Pdf</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Perm Placement Invoices</a></li>
-                                                                    <li><a class="dropdown-item" href="#">Weekly Reports</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Weekly'}">Weekly Invoices</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'invoice', payfrequency: 'Weekly'}">Weekly Timesheets</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'payfile', payfrequency: 'Weekly'}">Weekly Pay Files</a></li>
+                                                                    <li><a class="dropdown-item" href="#" [routerLink]="['view-pay-periods/pay-period-dashboard/weekly-pay-periods']" [queryParams]="{pagetype: 'report', payfrequency: 'Weekly'}">Weekly Reports</a></li>
                                                                 </ul>
                                                             </div>
                                                         </div>
@@ -116,12 +111,14 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        Employees                                                    </a>
+                                                    <a class="dropdown-item" routerLink="/employee-list">
+                                                        Employees                                                    
+                                                    </a>
                                                 </li>
                                                 <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        Provider Employees                                                    </a>
+                                                    <a class="dropdown-item" routerLink="/provider-employee-list">
+                                                        Provider Employees                                                    
+                                                    </a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -130,8 +127,8 @@
                                                 MORE
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Assignments</a></li>
-                                                <li><a class="dropdown-item" href="#">Clients</a></li>
+                                                <li><a class="dropdown-item" routerLink="/assignment-list">Assignments</a></li>
+                                                <li><a class="dropdown-item" routerLink="/client-list">Clients</a></li>
                                                 <li><a class="dropdown-item" href="#">Timesheets</a></li>
                                                 <li><a class="dropdown-item" href="#">Expenses</a></li>
                                             </ul>
@@ -148,10 +145,10 @@
                             <button class="btn header-btn-signin-nav" *ngIf="!isLoggedIn()" routerLink="/login" title="Sign In">
                                 <i class="icofont-lock"></i>
                             </button>
-                            <button *ngIf="isLoggedIn()" class="btn header-btn-signout-nav" href="#" (click)="logout();" title="Sign Out">
+                            <button *ngIf="isLoggedIn()" class="btn header-btn-signout-nav" href="#" (click)="logout(false);" title="Sign Out">
                                 <i class="icofont-sign-out"></i>
                             </button>                                                        
-                            <button *ngIf="isLoggedIn()" class="btn header-btn-user-nav" routerLink="/account-profile" title="View Profile">
+                            <button *ngIf="isLoggedIn()" class="btn header-btn-user-nav" routerLink="/my-profile" title="View Profile">
                                 <i class="icofont-user-alt-7"></i>
                             </button>
                             <button class="btn header-btn-collapse-nav collapsed" data-toggle="collapse" data-target=".header-nav-main nav">

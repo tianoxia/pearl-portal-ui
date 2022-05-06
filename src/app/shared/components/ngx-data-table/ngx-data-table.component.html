@@ -1,7 +1,7 @@
 <div class="mat-elevation-z8">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="filter">
-    </mat-form-field>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" class="filter">
+  </mat-form-field>
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
     <ng-container [matColumnDef]="cols" *ngFor="let cols of displayedColumns; let i = index">
       <mat-header-cell *matHeaderCellDef mat-sort-header>{{cols}}</mat-header-cell>
@@ -32,10 +32,9 @@
   </mat-table>
 
   <mat-paginator #paginator
-
     [length]="dataSource?.data?.length"
     [pageIndex]="0"
-    [pageSize]="10"
-    [pageSizeOptions]="[10, 25, 50, 100, 250]">
+    [pageSize]="25"
+    [pageSizeOptions]="[25, 50, 100, 250]">
   </mat-paginator>
 </div>

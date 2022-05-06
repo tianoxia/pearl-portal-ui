@@ -1,10 +1,12 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container">
         <div class="row mt-1 pt-1">
-            <div class="col-md-12 col-lg-12 mt-3 pt-3">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
                 <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                 <div fxLayout fxLayoutAlign="center center" class="filter-header">
                     Summary Report
+                </div>
                 </div>
                 <form [formGroup]="summaryReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(summaryReportForm.value)">
                     <div class="row">                        
@@ -45,76 +47,235 @@
                       <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
                     </mat-form-field>
                 </div>
-                <div class="report-container mat-elevation-z8">
-                    <table mat-table [dataSource]="dataSource" matSort>
+                <div class="summary-report-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
                         <ng-container matColumnDef="weekEnding" sticky>
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Week Ending</th>
-                            <td mat-cell *matCellDef="let report"><span class="nav-link">{{report.weekEnding | date: 'MM/dd/yyyy'}}</span></td>
-                            <td mat-footer-cell *matFooterCellDef>Contract Total:</td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.weekEnding | date: 'MM/dd/yyyy'}}
+                                </span>
+                            </td>
                         </ng-container>
                     
                         <ng-container matColumnDef="contractorCount">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor#</th>
-                            <td mat-cell *matCellDef="let report">{{report.contractorCount}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.contractorCount}}<br>
+                                </span>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="totalHours">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Hours</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalHours | number:'1.2-2'}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalHours | number: '1.2-2'}}</td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.totalHours | number:'1.0-0'}}<br>
+                                </span>
+                            </td>                         
                         </ng-container>
 
                         <ng-container matColumnDef="billRate">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Avg Hourly Bill Rate</th>
-                            <td mat-cell *matCellDef="let report">{{report.billRate | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.billRate | currency}}
+                                </span>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="payRate">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Avg Hourly Pay Rate</th>
-                            <td mat-cell *matCellDef="let report">{{report.payRate | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.payRate | currency}}
+                                </span>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="hourlyMargin">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Hourly Margin</th>
-                            <td mat-cell *matCellDef="let report">{{report.hourlyMargin | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef></td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.hourlyMargin | currency}}<br>
+                                </span>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="totalCost">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Cost</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalCost | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalCost | currency}}</td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Cost
+                                <i class="fa fa-info-circle 2x" matTooltip="pay amount + burden + avery expense cost."></i>
+                            </th>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.totalCost | currency}}
+                                </span>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="totalDiscount">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Discount</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalDiscount | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalDiscount | currency}}</td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.totalDiscount | currency}}
+                                </span>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="totalInvoice">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Invoice</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalInvoice | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalInvoice | currency}}</td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.totalInvoice | currency}}
+                                </span>
+                            </td>
                         </ng-container>
-
-                        <ng-container matColumnDef="burden">
+                        <ng-container matColumnDef="grossMargin">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gross Margin</th>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.grossMargin | currency}}
+                                </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="contractBurden">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Burden</th>
-                            <td mat-cell *matCellDef="let report">{{report.burden | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalBurden | currency}}</td>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.contractBurden | currency}}
+                                </span>
+                            </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="totalMargin">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Margin</th>
-                            <td mat-cell *matCellDef="let report">{{report.totalMargin | currency}}</td>
-                            <td mat-footer-cell *matFooterCellDef>{{sum.totalMargin | currency}}</td>
+                        <ng-container matColumnDef="netMargin">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Net Margin</th>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngFor="let weeklySummary of report.weeklySummary;">
+                                    {{weeklySummary.netMargin | currency}}
+                                </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="weekEnding1" sticky>
+                            <td mat-cell [attr.colspan]="2" class="text-right" style="border: none;"
+                                *matCellDef="let report"><b>Contract Monthly Total:</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalHours1">
+                            <td mat-cell [attr.colspan]="4" class="text-left ml-2 pl-2" style="border: none;"
+                                *matCellDef="let report"><b>{{report.totalHours | number:'1.0-0'}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalCost1">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{report.totalCost | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalDiscount1">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{report.totalDiscount | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalInvoice1">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{report.totalInvoice | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="contractBurden1">
+                            <td mat-cell *matCellDef="let report"><b>{{report.totalBurden | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="grossMargin1">
+                            <td mat-cell *matCellDef="let report"><b>{{report.totalMargin | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="netMargin1">
+                            <td mat-cell *matCellDef="let report"><b>{{report.netMargin | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="weekEnding2" sticky>
+                            <td mat-cell [attr.colspan]="2" class="text-right"
+                                *matCellDef="let report" style="border: none;"><b>PP Monthly Total:</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalHours2">
+                            <td mat-cell [attr.colspan]="displayedColumns.length - 5"
+                                *matCellDef="let report" style="border: none;"></td>
+                        </ng-container>
+                        <ng-container matColumnDef="grossMargin2">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{report.monthlyPermSummary?.grossMargin | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="permBurden">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{report.monthlyPermSummary?.permBurden | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="netMargin2">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{report.monthlyPermSummary?.netMargin | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="weekEnding3" sticky>
+                            <td mat-cell [attr.colspan]="2" class="text-right"
+                                *matCellDef="let report" style="border: none;"><b>Monthly Total:</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalHours3">
+                            <td mat-cell [attr.colspan]="displayedColumns.length - 5"
+                                *matCellDef="let report" style="border: none;"></td>
+                        </ng-container>
+                        <ng-container matColumnDef="grossMargin3">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{(report.totalMargin + report.monthlyPermSummary?.grossMargin) | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalBurden">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{(report.totalBurden+report.monthlyPermSummary?.permBurden) | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="netMargin3">
+                            <td mat-cell *matCellDef="let report" style="border: none;"><b>{{(report.netMargin+report.monthlyPermSummary?.netMargin) | currency}}</b></td>
+                        </ng-container>
+                        <ng-container matColumnDef="label" sticky>
+                            <td mat-footer-cell *matFooterCellDef [attr.colspan]="2">
+                                <span>Contract Totals:</span><br>
+                                <span>PP Totals:</span><br>
+                                <span>Totals:</span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="hours">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span>{{annualSummary?.annualContractHours | number:'1.0-0'}}</span><br>
+                                <span>&nbsp;</span><br>
+                                <span>{{annualSummary?.annualTotalHours | number:'1.0-0'}}</span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="rate">
+                            <td mat-footer-cell *matFooterCellDef [attr.colspan]="3">
+                                <span></span><br>
+                                <span></span><br>
+                                <span></span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="cost">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span>{{annualSummary?.annualContractCost | currency}}</span><br>
+                                <span>{{annualSummary?.annualPermCost | currency}}</span><br>
+                                <span>{{annualSummary?.annualTotalCost | currency}}</span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="discount">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span></span><br>
+                                <span></span><br>
+                                <span></span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="invoice">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span>{{annualSummary?.annualContractInvoice | currency}}</span><br>
+                                <span></span><br>
+                                <span>{{annualSummary?.annualTotalInvoice | currency}}</span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="margin">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span>{{annualSummary?.annualContractMargin | currency}}</span><br>
+                                <span>{{annualSummary?.annualPermMargin | currency}}</span><br>
+                                <span>{{annualSummary?.annualTotalMargin | currency}}</span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="burden">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span>{{annualSummary?.annualContractBurden | currency}}</span><br>
+                                <span>{{annualSummary?.annualPermBurden | currency}}</span><br>
+                                <span>{{annualSummary?.annualTotalBurden | currency}}</span></td>
+                        </ng-container>
+                        <ng-container matColumnDef="net">
+                            <td mat-footer-cell *matFooterCellDef>
+                                <span>{{annualSummary?.annualContractNetMargin | currency}}</span><br>
+                                <span>{{annualSummary?.annualPermNetMargin | currency}}</span><br>
+                                <span>{{annualSummary?.annualTotalNetMargin | currency}}</span></td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>    
+                        <tr mat-row *matRowDef="let report; columns: displayedColumns;"></tr>
+                        <tr mat-row style="height: 5px; background-color: rgb(236, 234, 234);" *matRowDef="let row; columns: contractMonthlyColumns;"></tr>
+                        <tr mat-row style="height: 5px; background-color: rgb(236, 234, 234);" *matRowDef="let row; columns: permMonthlyColumns;"></tr>
+                        <tr mat-row style="height: 5px; background-color: rgb(236, 234, 234);" *matRowDef="let row; columns: monthlyTotalColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="annualTotalColumns; sticky: true"></tr>  
                     </table>
                 </div>
                 <!-- <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons> 
