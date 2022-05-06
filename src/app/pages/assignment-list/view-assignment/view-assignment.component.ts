@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { forkJoin } from 'rxjs';
 
 import { AssignmentService, AlertService } from 'app/_services';
-import { AssignmentListResponse, Location, Contact,
+import { AssignmentListResponse, OfficeLocation, Contact,
   Client, ContractorListResponse } from 'app/_models';
 import { payFrequency } from 'app/constants/pay-frequency';
 
@@ -21,7 +21,7 @@ export class ViewAssignmentComponent implements OnInit {
   assignmentId: number;
   viewAssignmentTitle: string;
   payFrequency = payFrequency;
-  locations: Location[];
+  locations: OfficeLocation[];
   contacts: Contact[];
   contractors: ContractorListResponse[];
   clients: Client[];
@@ -77,7 +77,7 @@ export class ViewAssignmentComponent implements OnInit {
           this.assignmentService.getContactsByClientId(this.assignment.clientId)])
           .subscribe(([locations, contacts]) => {
             window.scrollTo(0, 0);
-            this.locations = locations as Location[];
+            this.locations = locations as OfficeLocation[];
             this.contacts = contacts as Contact[];
             this.assignmentViewForm.patchValue(this.assignment);            
             const contractor = this.contractors.find(ctr => ctr.contractorId === this.assignment.contractorId);

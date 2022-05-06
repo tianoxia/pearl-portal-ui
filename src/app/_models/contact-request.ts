@@ -1,4 +1,4 @@
-export class Contact {
+export class ContactRequest {
     firstName: string;
     lastName: string;
     contactId: number;

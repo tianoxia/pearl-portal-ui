@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { LocationService, AlertService, AuthenticationService } from 'app/_services';
-import { Location, LocationRequest, IApiResponse, Resource, PermissionType } from 'app/_models';
+import { OfficeLocation, LocationRequest, IApiResponse, Resource, PermissionType } from 'app/_models';
 import { states } from '../../../../constants/states';
 
 @Component({
@@ -20,7 +20,7 @@ export class AddEditLocationComponent implements OnInit {
   clientId: number;
   submitted = false;
   action: string;
-  location: Location;
+  location: OfficeLocation;
   states = states;
   user: string;
   constructor(
@@ -31,7 +31,7 @@ export class AddEditLocationComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private locationService: LocationService,
     private alertService: AlertService) {
-      this.location = new Location();
+      this.location = new OfficeLocation();
     }
 
   ngOnInit() {
@@ -72,7 +72,7 @@ export class AddEditLocationComponent implements OnInit {
   private loadData() {
     this.alertService.clear();
     this.locationService.getLocationById(this.locationId)
-      .subscribe((location: Location) => {
+      .subscribe((location: OfficeLocation) => {
         this.location = location;
         this.locationAddEditForm.patchValue(this.location);
         this.spinner.hide();

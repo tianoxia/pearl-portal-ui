@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 import { ClientService, AlertService } from 'app/_services';
-import { ClientListResponse, Location, Contact } from 'app/_models';
+import { ClientListResponse, OfficeLocation, Contact } from 'app/_models';
 import { payFrequency } from 'app/constants/pay-frequency';
 
 @Component({
@@ -19,7 +19,7 @@ export class ViewClientComponent implements OnInit {
   clientId: number;
   viewClientTitle: string;
   payFrequency = payFrequency;
-  locations: Location[];
+  locations: OfficeLocation[];
   contacts: Contact[];
   client: ClientListResponse;
   user: string;

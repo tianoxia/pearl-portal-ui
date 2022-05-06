@@ -7,19 +7,21 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
-import { LocationService, AlertService, AuthenticationService, ExportService } from 'app/_services';
-import { OfficeLocation, IApiResponse } from 'app/_models';
+import { ContactService, AlertService, AuthenticationService } from 'app/_services';
+import { Contact, IApiResponse, OfficeLocation } from 'app/_models';
+import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'app-location-list',
-  templateUrl: './location-list.component.html',
-  styleUrls: ['./location-list.component.css'],
+  selector: 'app-contact-list',
+  templateUrl: './contact-list.component.html',
+  styleUrls: ['./contact-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationListComponent implements OnInit {
-  locationId: number;
-  selectedLocation: OfficeLocation;
-  @ViewChild('locationTable', {read: MatSort, static: false }) set content(sort: MatSort) {
+export class ContactListComponent implements OnInit {
+  contactId: number;
+  locations: OfficeLocation[];
+  selectedContact: Contact;
+  @ViewChild('contactTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -28,8 +30,8 @@ export class LocationListComponent implements OnInit {
   isAdmin: boolean;
   message: string;
   floatLabelControl = new FormControl('auto');
-  public displayedColumns = ['locationName', 'address', 'address2', 'city', 'state', 'zip', 'star'];
-  public dataSource = new MatTableDataSource<OfficeLocation>();
+  public displayedColumns = ['firstName', 'emailAddress', 'locationDisplay', 'star'];
+  public dataSource = new MatTableDataSource<Contact>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
@@ -37,11 +39,11 @@ export class LocationListComponent implements OnInit {
     public alertService: AlertService,
     private authService: AuthenticationService,
     private dialog: MatDialog,
-    private locationService: LocationService,
+    private contactService: ContactService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
-      this.selectedLocation = new OfficeLocation();      
+      this.selectedContact = new Contact();      
   }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class LocationListComponent implements OnInit {
       const action = params.get('action');
       if (action) {
         this.isAddEdit = action.toLowerCase() === 'add' || action.toLowerCase() === 'edit';
-      }      
+      }
       this.executeGetReport();
     });
   }
@@ -63,15 +65,21 @@ export class LocationListComponent implements OnInit {
     return (o1 == o2);
   }
 
-  public showLocationList = () => {
+  public showContactList = () => {
     this.spinner.show();
     this.executeGetReport();
   };
 
   private executeGetReport() {
-    return this.locationService.getLocationsByClientId(this.clientId)        
-    .subscribe(result => {
-      this.dataSource.data = result as OfficeLocation[];
+    forkJoin([this.contactService.getContactsByClientId(this.clientId), this.contactService.getLocationsByClientId(this.clientId)])        
+    .subscribe(([contacts, locations]) => {
+      this.dataSource.data = contacts as Contact[];
+      this.locations = locations as OfficeLocation[];
+      const temp = this.dataSource.data.map(itm => ({
+        ...this.locations.find((item) => (item.locationId === itm.locationId) && item),
+        ...itm
+      }));
+      this.dataSource.data = temp;
       this.dataSource.paginator = this.paginator;
       if (this.isAddEdit) {
         this.alertService.success(this.message);
@@ -85,12 +93,12 @@ export class LocationListComponent implements OnInit {
       });
   }
 
-  viewLocation(id: number) {
-    this.router.navigate([`/view-location/${id}`]);
+  viewContact(id: number) {
+    this.router.navigate([`/view-contact/${id}`]);
   }
 
-  navigateToEditLocation(locationId: number, clientId: number) {
-    this.router.navigate([`/edit-location/${locationId}/${clientId}`]);
+  navigateToEditContact(contactId: number, clientId: number) {
+    this.router.navigate([`/edit-contact/${contactId}/${clientId}`]);
   }
 
   applyFilterOne(filterValue: string) {
@@ -98,8 +106,9 @@ export class LocationListComponent implements OnInit {
   }
 
   openWarningDialog(warningDialog, id: number) {
-    this.selectedLocation.locationName = this.dataSource.data.find(c => c.locationId === id).locationName;
-    this.selectedLocation.locationId = id;
+    this.selectedContact.firstName = this.dataSource.data.find(c => c.contactId === id).firstName;
+    this.selectedContact.lastName = this.dataSource.data.find(c => c.contactId === id).lastName;
+    this.selectedContact.contactId = id;
     this.dialog.open(warningDialog, {
       autoFocus: true,
       width: '400px',
@@ -107,9 +116,9 @@ export class LocationListComponent implements OnInit {
     });
   }
 
-  deleteLocation() {
+  deleteContact() {
     this.spinner.show();
-    this.locationService.deleteLocation(this.selectedLocation.locationId)
+    this.contactService.deleteContact(this.selectedContact.contactId)
       .subscribe((response: IApiResponse) => {
         this.executeGetReport();
         this.alertService.success(response.message);

@@ -7,7 +7,7 @@ import { forkJoin } from 'rxjs';
 import { cloneDeep } from 'lodash';
 
 import { AssignmentService, AlertService, AuthenticationService } from 'app/_services';
-import { AssignmentListResponse, AssignmentRequest, Location, InvoiceGroup, Contact, Department,
+import { AssignmentListResponse, AssignmentRequest, OfficeLocation, InvoiceGroup, Contact, Department,
   Recruiter, IApiResponse, Office, Client, ContractorListResponse } from 'app/_models';
 import { assignmentStatus } from 'app/constants/assignment-status';
 import { employeeTypeBurden } from 'app/constants/employee-type-burden';
@@ -31,7 +31,7 @@ export class AddEditAssignmentComponent implements OnInit {
   submitted = false;
   action: string;
   offices: Office[];
-  locations: Location[];
+  locations: OfficeLocation[];
   invoiceGroups: InvoiceGroup[];
   contacts: Contact[];
   departments: Department[];
@@ -159,7 +159,7 @@ export class AddEditAssignmentComponent implements OnInit {
           this.assignmentService.getInvoiceGroupsByClientId(this.assignment.clientId), this.assignmentService.getContactsByClientId(this.assignment.clientId)])
           .subscribe(([locations, invGrps, contacts]) => {
             window.scrollTo(0, 0);
-            this.locations = locations as Location[];
+            this.locations = locations as OfficeLocation[];
             this.invoiceGroups = invGrps as InvoiceGroup[];
             this.contacts = contacts as Contact[];
             this.assignmentAddEditForm.patchValue(this.assignment);
@@ -310,7 +310,7 @@ export class AddEditAssignmentComponent implements OnInit {
       this.assignmentService.getInvoiceGroupsByClientId(clientId), this.assignmentService.getContactsByClientId(clientId)])
       .subscribe(([locations, invGrps, contacts]) => {
         window.scrollTo(0, 0);
-        this.locations = locations as Location[];
+        this.locations = locations as OfficeLocation[];
         this.invoiceGroups = invGrps as InvoiceGroup[];
         this.contacts = contacts as Contact[];
         this.spinner.hide();

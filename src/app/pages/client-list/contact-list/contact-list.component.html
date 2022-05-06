@@ -1,0 +1,66 @@
+<div class="contactlist row mt-1 pt-1">
+    <div class="col-md-12 col-lg-12 mt-1 pt-1">
+        <div class="row action-buttons">
+            <a href="#" routerLink="/add-contact/{{clientId}}" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add Contact</a>                    
+        </div>
+        <div *ngIf="dataSource.data.length > 0; then hasContactBlock else noContactBlock"></div>
+            <ng-template #noContactBlock><div class="alert alert-danger text-center">No Contact Found</div></ng-template>
+            <ng-template #hasContactBlock>
+                <div class="contactlist-container mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort #contactTable>
+                        <ng-container matColumnDef="firstName" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                            <td mat-cell *matCellDef="let contact">{{contact.firstName+' '+contact.lastName}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="emailAddress">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email Address</th>
+                            <td mat-cell *matCellDef="let contact">{{contact.emailAddress}}</td>
+                        </ng-container>
+    
+                        <ng-container matColumnDef="locationDisplay">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                            <td mat-cell *matCellDef="let contact">{{contact.locationDisplay}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="star" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let contact">
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="action menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item (click)="navigateToEditContact(contact.contactId, clientId);">
+                                        <mat-icon>edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button mat-menu-item (click)="openWarningDialog(warningDialog, contact.contactId);">
+                                        <mat-icon color="warn">delete</mat-icon>
+                                        <span class="text-danger">Delete Contact</span>
+                                    </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </ng-template>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+            (page)="onPaginateChange($event)" showFirstLastButtons> 
+            </mat-paginator>
+            <ng-template #warningDialog let-modal>
+                <div class="modal-header justify-content-center bg-warning">
+                    <h4 class="modal-title">Confirm</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h5>Are you sure you want to delete the contact {{selectedContact.firstName+' '+selectedContact.lastName}}?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button mat-button mat-dialog-close class="col-xl-6 col-sm-6 btn">No</button>
+                    <button mat-button mat-dialog-close class="col-xl-6 col-sm-6 btn btn-primary"
+                    (click)="deleteContact()">Yes</button>
+                </div>
+            </ng-template>
+        
+    </div>
+</div>

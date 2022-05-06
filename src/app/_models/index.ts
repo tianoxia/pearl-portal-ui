@@ -60,5 +60,5 @@ export * from './provider-employee-request';
 export * from './client-list-response';
 export * from './client-request';
 export * from './location-request';
-
-
+export * from './contact-request';
+export * from './invoice-group-request';

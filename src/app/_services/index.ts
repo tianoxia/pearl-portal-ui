@@ -18,6 +18,8 @@ export * from './permission-manager.service';
 export * from './provider-employee.service';
 export * from './client.service';
 export * from './location.service';
+export * from './contact.service';
+export * from './invoice-group.service';
 
 
 

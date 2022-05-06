@@ -45,12 +45,16 @@
                         <div class="mt-3 mb-3">
                             <app-location-list [clientId]="clientId"></app-location-list>
                         </div>
-                    </mat-tab>        
+                    </mat-tab>
                     <mat-tab id="tab-client-contacts" label="Contacts">
-                        <div class="mt-3 mb-3"></div>
+                        <div class="mt-3 mb-3">
+                            <app-contact-list [clientId]="clientId"></app-contact-list>
+                        </div>
                     </mat-tab>
                     <mat-tab id="tab-client-invoicegroups" label="Invoice Groups">
-                        <div class="mt-3 mb-3"></div>
+                        <div class="mt-3 mb-3">
+                            <app-invoice-group-list [clientId]="clientId"></app-invoice-group-list>
+                        </div>
                     </mat-tab>
                     <mat-tab id="tab-client-assignments" label="Assignment History">
                         <div class="mt-3 mb-3"></div>

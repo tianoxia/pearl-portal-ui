@@ -22,7 +22,7 @@
                     </div>
                     <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
                         <mat-form-field fxFlex="40%">
-                        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
                         </mat-form-field>
                         <div fxFlex="60%" class="text-right" *ngIf="dataSource.data.length > 0">
                             <button mat-button class="btn btn-primary text-transform-none" (click)="exportToExcel($event)"  matTooltip="Export to excel">

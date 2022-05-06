@@ -7,19 +7,21 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
-import { LocationService, AlertService, AuthenticationService, ExportService } from 'app/_services';
-import { OfficeLocation, IApiResponse } from 'app/_models';
+import { InvoiceGroupService, AlertService, AuthenticationService, ContactService } from 'app/_services';
+import { InvoiceGroup, IApiResponse, OfficeLocation, Contact } from 'app/_models';
+import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'app-location-list',
-  templateUrl: './location-list.component.html',
-  styleUrls: ['./location-list.component.css'],
+  selector: 'app-invoice-group-list',
+  templateUrl: './invoice-group-list.component.html',
+  styleUrls: ['./invoice-group-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class LocationListComponent implements OnInit {
-  locationId: number;
-  selectedLocation: OfficeLocation;
-  @ViewChild('locationTable', {read: MatSort, static: false }) set content(sort: MatSort) {
+export class InvoiceGroupListComponent implements OnInit {
+  invoiceGroupId: number;
+  locations: OfficeLocation[];
+  selectedInvoiceGroup: InvoiceGroup;
+  @ViewChild('invoiceGroupTable', {read: MatSort, static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
   }
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -28,8 +30,8 @@ export class LocationListComponent implements OnInit {
   isAdmin: boolean;
   message: string;
   floatLabelControl = new FormControl('auto');
-  public displayedColumns = ['locationName', 'address', 'address2', 'city', 'state', 'zip', 'star'];
-  public dataSource = new MatTableDataSource<OfficeLocation>();
+  public displayedColumns = ['description', 'locationDisplay', 'modified', 'user', 'star'];
+  public dataSource = new MatTableDataSource<InvoiceGroup>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
@@ -37,11 +39,12 @@ export class LocationListComponent implements OnInit {
     public alertService: AlertService,
     private authService: AuthenticationService,
     private dialog: MatDialog,
-    private locationService: LocationService,
+    private invoiceGroupService: InvoiceGroupService,
+    private contactService: ContactService,
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService) {
-      this.selectedLocation = new OfficeLocation();      
+      this.selectedInvoiceGroup = new InvoiceGroup();      
   }
 
   ngOnInit() {
@@ -54,7 +57,7 @@ export class LocationListComponent implements OnInit {
       const action = params.get('action');
       if (action) {
         this.isAddEdit = action.toLowerCase() === 'add' || action.toLowerCase() === 'edit';
-      }      
+      }
       this.executeGetReport();
     });
   }
@@ -63,15 +66,22 @@ export class LocationListComponent implements OnInit {
     return (o1 == o2);
   }
 
-  public showLocationList = () => {
+  public showInvoiceGroupList = () => {
     this.spinner.show();
     this.executeGetReport();
   };
 
   private executeGetReport() {
-    return this.locationService.getLocationsByClientId(this.clientId)        
-    .subscribe(result => {
-      this.dataSource.data = result as OfficeLocation[];
+    forkJoin([this.invoiceGroupService.getInvoiceGroupsByClientId(this.clientId),
+      this.contactService.getLocationsByClientId(this.clientId)])        
+    .subscribe(([invoiceGroups, locations]) => {
+      this.dataSource.data = invoiceGroups as InvoiceGroup[];
+      this.locations = locations as OfficeLocation[];
+      const temp = this.dataSource.data.map(itm => ({
+        ...this.locations.find((item) => (item.locationId === itm.billingLocationId) && item),
+        ...itm
+      }));
+      this.dataSource.data = temp;
       this.dataSource.paginator = this.paginator;
       if (this.isAddEdit) {
         this.alertService.success(this.message);
@@ -85,12 +95,12 @@ export class LocationListComponent implements OnInit {
       });
   }
 
-  viewLocation(id: number) {
-    this.router.navigate([`/view-location/${id}`]);
+  viewInvoiceGroup(id: number) {
+    this.router.navigate([`/view-invoice-group/${id}`]);
   }
 
-  navigateToEditLocation(locationId: number, clientId: number) {
-    this.router.navigate([`/edit-location/${locationId}/${clientId}`]);
+  navigateToEditInvoiceGroup(invoiceGroupId: number, clientId: number) {
+    this.router.navigate([`/edit-invoice-group/${invoiceGroupId}/${clientId}`]);
   }
 
   applyFilterOne(filterValue: string) {
@@ -98,8 +108,9 @@ export class LocationListComponent implements OnInit {
   }
 
   openWarningDialog(warningDialog, id: number) {
-    this.selectedLocation.locationName = this.dataSource.data.find(c => c.locationId === id).locationName;
-    this.selectedLocation.locationId = id;
+    this.selectedInvoiceGroup.description = this.dataSource.data.find(c => c.invoiceGroupId === id).description;
+    this.selectedInvoiceGroup.description = this.dataSource.data.find(c => c.invoiceGroupId === id).description;
+    this.selectedInvoiceGroup.invoiceGroupId = id;
     this.dialog.open(warningDialog, {
       autoFocus: true,
       width: '400px',
@@ -107,9 +118,9 @@ export class LocationListComponent implements OnInit {
     });
   }
 
-  deleteLocation() {
+  deleteInvoiceGroup() {
     this.spinner.show();
-    this.locationService.deleteLocation(this.selectedLocation.locationId)
+    this.invoiceGroupService.deleteInvoiceGroup(this.selectedInvoiceGroup.invoiceGroupId)
       .subscribe((response: IApiResponse) => {
         this.executeGetReport();
         this.alertService.success(response.message);
