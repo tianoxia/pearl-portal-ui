@@ -1,0 +1,163 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="assignmentlist row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        View Assignments {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="assignmentListForm" autocomplete="off" novalidate (ngSubmit)="showAssignmentList(assignmentListForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="30px" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Select A Status</mat-label>
+                            <mat-select formControlName="assignmentStatus" [compareWith]="compareStatuses">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-card-actions fxFlex="25%">
+                            <button mat-raised-button color="primary"><i class="icofont-search-document"></i> View Assignments</button>
+                        </mat-card-actions>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
+                        <mat-form-field fxFlex="40%">
+                        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                        <!-- <div fxFlex="60%" class="text-right" *ngIf="dataSource.data.length > 0">
+                            <button mat-button class="btn btn-primary text-transform-none" (click)="exportToExcel($event)"  matTooltip="Export to excel">
+                                <i class="fa fa-file-excel"></i> Export
+                            </button>
+                        </div> -->
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div class="row action-buttons">
+                    <a routerLink="/add-client-assignment/{{clientId}}" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add Assignment</a>
+                </div>
+                <div *ngIf="dataSource.data.length > 0; then hasAssignmentBlock else noAssignmentBlock"></div>
+                    <ng-template #noAssignmentBlock><div class="alert alert-danger text-center">No Assignment Found</div></ng-template>
+                    <ng-template #hasAssignmentBlock>
+                        <div class="assignmentlist-container mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort #assignmentTable>
+                                <ng-container matColumnDef="clientName" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.clientName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="contractorName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Contrator</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.contractorName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="locationName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.locationName}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.startDate | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.endDate | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="status">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.status}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="payRate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Rate (OT)</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.payRate | currency}}<br>({{assignment.otRate | currency}})</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="billRate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Rate (OT)</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.billRate | currency}}<br>({{assignment.otBillRate | currency}})</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="position">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.position}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="permPlacementRate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PP Rate</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.permPlacementRate | percent:'1.2-2'}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="permPlacementDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PP Date</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.permPlacementDate | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="annualSalary">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Annual Salary</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.annualSalary | currency}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="payMethod">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Method</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.payMethod}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="adpFileNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ADP File Number</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.adpFileNumber}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="star" stickyEnd>
+                                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                                    <td mat-cell *matCellDef="let assignment">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="action menu">
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="editAssignment(assignment.assignmentId, clientId);">
+                                                <mat-icon>edit</mat-icon>
+                                                <span>Edit</span>
+                                            </button>
+                                            <button mat-menu-item (click)="viewAssignment(assignment.assignmentId, clientId);">
+                                                <mat-icon>info</mat-icon>
+                                                <span>View</span>
+                                            </button>
+                                            <button mat-menu-item (click)="updateEndDate(assignment);">
+                                                <mat-icon>update</mat-icon>
+                                                <span>Update End Date</span>
+                                            </button>
+                                            <button mat-menu-item (click)="openWarningDialog(warningDialog, assignment.assignmentId);">
+                                                <mat-icon color="warn">delete</mat-icon>
+                                                <span class="text-danger">Delete Assignment</span>
+                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </ng-template>
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+                    (page)="onPaginateChange($event)" showFirstLastButtons> 
+                    </mat-paginator>
+                    <ng-template #warningDialog let-modal>
+                        <div class="modal-header justify-content-center bg-warning">
+                            <h4 class="modal-title">Confirm</h4>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h5>Are you sure you want to delete the assignment for {{selectedAssignment.contractorName}}?</h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button mat-button mat-dialog-close class="btn">No</button>
+                            <button mat-button mat-dialog-close class="btn btn-info"
+                            (click)="deleteAssignment()">Yes</button>
+                        </div>
+                    </ng-template>                    
+            </div>
+        </div>
+    </div>
+</section>

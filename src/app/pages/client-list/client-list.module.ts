@@ -9,6 +9,7 @@ import { ViewClientComponent } from './view-client/view-client.component';
 import { LocationListModule } from './location-list/location-list.module';
 import { ContactListModule } from './contact-list/contact-list.module';
 import { InvoiceGroupListModule } from './invoice-group-list/invoice-group-list.module';
+import { AssignmentListModule } from './client-assignment-list/client-assignment-list.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { InvoiceGroupListModule } from './invoice-group-list/invoice-group-list.
     LocationListModule,
     ContactListModule,
     InvoiceGroupListModule,
+    AssignmentListModule,
     ReactiveFormsModule,
     SharedModule,
     routing

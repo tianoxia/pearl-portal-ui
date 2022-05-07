@@ -1,0 +1,29 @@
+div.filter-header {
+    font-size: 23px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    color: #000000;
+    font-weight: 500;
+}
+.btn.btn-link:hover {
+    text-decoration: underline !important;
+}
+.btn.btn-link {
+    text-transform: none;
+}
+.mat-raised-button {
+    min-width: 150px;
+}
+@media (max-width: 600px) {
+    .btn.btn-primary, .btn.btn-link {
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    input, select, label {
+        font-size: 12px !important;
+    }
+    .datepickerOne {
+        margin-top: 0px !important;
+    }
+}

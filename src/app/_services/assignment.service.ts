@@ -68,6 +68,9 @@ export class AssignmentService {
   getAssignmentByStatus(status: string) {
     return this.http.get(this.baseurl + `/v1/assignment/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  getAssignmentByClientId(status: string, clientId: number) {
+    return this.http.get(this.baseurl + `/v1/assignment/client/${clientId}/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
   getAssignmentById(id: number) {
     return this.http.get(this.baseurl + `/v1/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
