@@ -20,6 +20,7 @@ export * from './client.service';
 export * from './location.service';
 export * from './contact.service';
 export * from './invoice-group.service';
+export * from './payroll-report.service';
 
 
 

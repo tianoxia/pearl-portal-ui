@@ -17,6 +17,7 @@ import { ViewReferalReportComponent } from './view-referal-report/view-referal-r
 import { ViewLeaderboardReportComponent } from './view-leaderboard-report/view-leaderboard-report.component';
 import { ViewHeadCountReportComponent } from './view-headcount-report/view-headcount-report.component';
 import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-gross-profit-report.component';
+import { ViewPayrollReportComponent } from './view-payroll-report/view-payroll-report.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-
     ViewReferalReportComponent,
     ViewLeaderboardReportComponent,
     ViewHeadCountReportComponent,
-    ViewGrossProfitReportComponent
+    ViewGrossProfitReportComponent,
+    ViewPayrollReportComponent
   ],
   imports: [
     CommonModule,

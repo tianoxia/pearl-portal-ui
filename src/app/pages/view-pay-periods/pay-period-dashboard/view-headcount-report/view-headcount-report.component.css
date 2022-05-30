@@ -8,8 +8,7 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;    
 }
-.mat-table {
-    display: block;
+.container>.headcountlist .mat-table {
     overflow: auto;
     width: 100%;
 }

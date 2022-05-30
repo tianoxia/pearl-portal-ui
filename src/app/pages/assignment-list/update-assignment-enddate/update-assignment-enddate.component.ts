@@ -52,6 +52,7 @@ export class UpdateAssignmentEndDateComponent implements OnInit {
       this.updateAssignmentEndDateForm.controls.updateEndDateLocation.patchValue(this.assignment.locationName);
       this.updateAssignmentEndDateForm.controls.startDate.patchValue(this.assignment.startDate);
       this.updateAssignmentEndDateForm.controls.endDate.patchValue(this.assignment.endDate);
+      this.updateAssignmentEndDateForm.controls.notesTwo.patchValue(this.assignment.notes.notes2);
     }
 
   ngOnInit() {

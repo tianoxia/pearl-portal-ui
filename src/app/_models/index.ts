@@ -62,3 +62,7 @@ export * from './client-request';
 export * from './location-request';
 export * from './contact-request';
 export * from './invoice-group-request';
+export * from './payroll-report-request';
+export * from './payroll-report-response';
+export * from './payroll-type';
+export * from './invoice-detail';

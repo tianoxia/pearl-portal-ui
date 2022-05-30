@@ -34,7 +34,7 @@
                           <ng-template matExpansionPanelContent>
                             <table mat-table [dataSource]="report.commissionReportDetails" class="mat-elevation-z8" matSort>
                               <ng-container matColumnDef="assignment">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Assignment</th>
+                                <th mat-header-cell *matHeaderCellDef>Assignment</th>
                                 <td mat-cell *matCellDef="let detail" class="m-card-title">
                                   {{detail.assignment}}
                                 </td>
@@ -45,7 +45,7 @@
                               </ng-container>
       
                               <ng-container matColumnDef="recruitGrossMargin">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Recruit GM</th>
+                                <th mat-header-cell *matHeaderCellDef>Recruit GM</th>
                                 <td mat-cell *matCellDef="let detail">
                                   {{detail.recruitGrossMargin | currency}}
                                 </td>
@@ -56,7 +56,7 @@
                               </ng-container>
                               
                               <ng-container matColumnDef="salesGrossMargin">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales GM</th>
+                                <th mat-header-cell *matHeaderCellDef>Sales GM</th>
                                 <td mat-cell *matCellDef="let detail">   
                                      {{detail.salesGrossMargin | currency}}
                                 </td>
@@ -66,21 +66,21 @@
                                 </td>
                               </ng-container>
                               <ng-container matColumnDef="recruitRate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Recruit Rate</th>
+                                <th mat-header-cell *matHeaderCellDef>Recruit Rate</th>
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.recruitRate | number:'1.2-2'}}
                                 </td>
                                 <td mat-footer-cell *matFooterCellDef></td>
                               </ng-container>
                               <ng-container matColumnDef="salesRate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Rate</th>
+                                <th mat-header-cell *matHeaderCellDef>Sales Rate</th>
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.salesRate | number:'1.2-2'}}
                                 </td>
                                 <td mat-footer-cell *matFooterCellDef></td>
                               </ng-container>
                               <ng-container matColumnDef="recruitCommission">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Recruit Commission</th>
+                                <th mat-header-cell *matHeaderCellDef>Recruit Commission</th>
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.recruitCommission | currency}}
                                 </td>
@@ -90,7 +90,7 @@
                                 </td>
                               </ng-container>
                               <ng-container matColumnDef="salesCommission">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Commission</th>
+                                <th mat-header-cell *matHeaderCellDef>Sales Commission</th>
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.salesCommission | currency}}                                  
                                 </td>
@@ -100,7 +100,7 @@
                                 </td>
                               </ng-container>
                               <ng-container matColumnDef="totalCommission">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Commission</th>
+                                <th mat-header-cell *matHeaderCellDef>Total Commission</th>
                                 <td mat-cell *matCellDef="let detail">   
                                   {{detail.totalCommission | currency}}
                                 </td>

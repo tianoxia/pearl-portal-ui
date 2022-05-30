@@ -1,20 +1,24 @@
-.commission-report-container {
+.payroll-report-container {
     overflow: auto;
 }
+.container>.payrolllist .single-services {
+    min-height: 80px !important;
+    margin-bottom: 10px;
+}
+.container>.payrolllist .single-services:hover {
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+}
 div.filter-header {
-    font-size: 23px;
+    font-size: 25px;
     font-weight: 500;
-    margin: 8px 0px;
-    padding: 10px 0px;
-    color: #000000;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    color: #000000;    
 }
-.container i {
-    font-size: 18px;
-    display: inline-block;
-    line-height: 1;
-    margin-right: 10px;
-}
-.container>.commissionreportlist .mat-table {
+.container>.payrolllist .mat-table {
+    display: block;
+    max-height: 500px;
     overflow: auto;
     width: 100%;
 }
@@ -22,26 +26,23 @@ th.mat-header-cell {
     font-weight: 600 !important;
     font-size: 1em;
     text-align: left !important;
+    background-color: lightgray;
     padding-left: 10px !important;
-    max-width: 400px;
+    max-width: 300px;
 }
 td.mat-footer-cell {
     font-weight: 600;
     font-size: 1em;
-    text-align: center;
+    padding: 8px 8px 8px 8px;
 }
 td.mat-footer-cell:first-child {
-    padding-left: 2px;
-    margin-left: 6px;
-}
-td.mat-cell {
-    text-align: center;
+    padding: 0px 8px 0px 8px;
 }
 td.mat-cell:first-child {
-    padding: 0px 8px 0px 0px;
+    padding: 0px 8px 0px 8px;
 }
 td.mat-cell:not(:first-child) {
-    padding: 8px 8px 8px 0;
+    padding: 8px 8px 8px 8px;
 }
 tr.mat-row:nth-child(2n+1) {
     background-color: #f5f5f5;
@@ -52,10 +53,17 @@ tr.mat-row:not(:nth-child(2n+1)) {
 .mat-card-actions > .mat-raised-button {
     height: 52px;
 }
-.select-all{
-    margin: 5px 17px;
+.summary-font {
+    font-size: 15px;
+    font-weight: bolder;
+    color: black;
 }
 @media (max-width: 568px) {
+    .summary-font-mobile {
+        font-size: 13px;
+        font-weight: bolder;
+        color: black;
+    }
     div.filter-header {
         font-size: 20px;
         margin-bottom: 10px;
@@ -67,8 +75,9 @@ tr.mat-row:not(:nth-child(2n+1)) {
         line-height: 1;
         margin-right: 6px;
     }
-    .row .mat-form-field, .mat-card-actions > .mat-raised-button {
+    .mat-form-field, .mat-card-actions > .mat-raised-button {
         width: 100%;
+        margin-bottom: 8px;
     }
     th.mat-header-cell {
         font-weight: 600 !important;
@@ -85,5 +94,10 @@ tr.mat-row:not(:nth-child(2n+1)) {
     }
     td.mat-cell:not(:first-child) {
         padding: 6px 6px 6px 0;
+    }
+    td.mat-footer-cell {
+        font-weight: 600;
+        font-size: 0.8em;
+        text-align: center;
     }
 }

@@ -46,12 +46,13 @@ export class AssignmentListResponse {
     secondRefererId: number;
     secondRefererRate: number;
     isNightShift: boolean;
-    notes: string;
+    /* notes: string;
     notesModified: Date;
     notesUser: string;
     notes2: string;
     notes2Modified: Date;
-    notes2User: string;
+    notes2User: string; */
+    notes: AssignmentNote;
 }
 
 export class AssignmentNote

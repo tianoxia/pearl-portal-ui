@@ -36,6 +36,8 @@ const appRoutes: Routes = [
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'login', component: LoginComponent },
   { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard] },
+  { path: 'view-all-reports', loadChildren: () => import('./pages/view-all-reports/view-all-reports.module').then(m => m.ViewAllReportsModule),
+  canActivate: [AuthGuard]}, // access to children route by full url with parent directory where authGuard gets applied.
   { path: 'contractor-list', component: ContractorListComponent, canActivate: [AuthGuard] },
   { path: 'employee-list', component: EmployeeListComponent, canActivate: [AuthGuard] },
   { path: 'provider-employee-list', component: ProviderEmployeeListComponent, canActivate: [AuthGuard] },
