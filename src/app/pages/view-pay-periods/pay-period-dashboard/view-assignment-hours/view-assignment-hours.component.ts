@@ -186,6 +186,7 @@ export class ViewAssignmentHoursComponent implements OnInit {
     //const request = this.setAssignmentHoursRequest(hoursRecord) as AssignmentHoursRequest;    
     this.assignmentHoursService.createUpdateAssignmentHours(hoursRecord)
         .subscribe((response: IApiResponse) => {
+          window.scrollTo(0, 0);
           this.spinner.hide();
           this.alertService.success(response.message);
         },
@@ -218,5 +219,16 @@ export class ViewAssignmentHoursComponent implements OnInit {
       notes: hoursRecord.notes,
       hoursId: hoursRecord.hoursId
     } as AssignmentHoursRequest;
+  }
+  back(): void {
+    if (this.payFrequency === 'Biweekly') {
+      this.router.navigate(['view-pay-periods/pay-period-dashboard/biweekly-pay-periods/biweekly-pay-period-dashboard'],
+      {queryParams: {weekending: this.weekEnding, altweekending: this.altWeekEnding, pagetype: 'report',
+      payperiodid: this.payPeriodId, paydate: this.payDate, paytype: this.payFrequency}});
+    } else {
+      this.router.navigate(['view-pay-periods/pay-period-dashboard/weekly-pay-periods/weekly-pay-period-dashboard'],
+      {queryParams: {weekending: this.weekEnding, pagetype: 'report',
+      payperiodid: this.payPeriodId, paydate: this.payDate, paytype: this.payFrequency}});
+    }
   }
 }

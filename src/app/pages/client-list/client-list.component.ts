@@ -223,7 +223,7 @@ export class ClientListComponent implements OnInit {
     this.dialog.open(viewFilesDialog, {
       autoFocus: true,
       width: '400px',
-      panelClass: 'file-dialog',
+      //panelClass: 'file-dialog',
       disableClose: true
     });    
     return false;

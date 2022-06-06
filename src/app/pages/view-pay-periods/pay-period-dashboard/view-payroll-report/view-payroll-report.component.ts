@@ -37,7 +37,7 @@ export class ViewPayrollReportComponent implements OnInit {
   payPeriodId: number;
   payFrequency: string;
   public displayedColumns = ['firstName', 'client', 'weekOneHours', 'weekOneOTHours', 'weekOneDTHours', 'weekTwoHours',
-    'weekTwoOTHours', 'weekTwoDTHours', 'totalHours', 'totalHours', 'totalOTHours', 'totalDTHours', 'payRate',
+    'weekTwoOTHours', 'weekTwoDTHours', 'totalHours', 'totalOTHours', 'totalDTHours', 'payRate',
     'otRate', 'dtRate', 'totalPay', 'totalSalary', 'totalCommission', 'totalExpenses', 'payMethod'];
   public displayedInvoiceDetailColumns = ['invoiceNumber', 'discount', 'amount', 'clientName'];
   public dataSource = new MatTableDataSource<PayrollSubTotal>();

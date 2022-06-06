@@ -4,9 +4,9 @@
             <div class="col-md-12 col-lg-12 mt-2 pt-2">
                 <app-alert></app-alert>
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
-                <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                    Summary Report
-                </div>
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Summary Report
+                    </div>
                 </div>
                 <form [formGroup]="summaryReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(summaryReportForm.value)">
                     <div class="row">                        

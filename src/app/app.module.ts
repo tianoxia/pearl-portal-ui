@@ -36,6 +36,8 @@ import { ArrowDivDirective } from './shared/directives/arrow-div.directive';
 import { AccountManagementModule } from './pages/account-management/account-management.module';
 import { ClientListComponent } from './pages/client-list/client-list.component';
 import { ClientListModule } from './pages/client-list/client-list.module';
+import { TimesheetsExpensesModule } from './pages/timesheets-expenses/timesheets-expenses.module';
+import { TimesheetsExpensesComponent } from './pages/timesheets-expenses/timesheets-expenses.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -61,7 +63,8 @@ export function initializeApp(appConfig: AppConfig) {
     AssignmentListModule,
     ClientListModule,
     AccountManagementModule,
-    NgbModule
+    NgbModule,
+    TimesheetsExpensesModule
   ],
   declarations: [
     AppComponent,
@@ -77,7 +80,8 @@ export function initializeApp(appConfig: AppConfig) {
     ClientListComponent,
     UnauthorizedComponent,
     AddEditPayPeriodComponent,
-    ArrowDivDirective
+    ArrowDivDirective,
+    TimesheetsExpensesComponent
   ],
   providers: [
     AppConfig, AuthGuard,

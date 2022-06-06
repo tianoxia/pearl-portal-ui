@@ -49,8 +49,7 @@ tr.mat-row:not(:nth-child(2n+1)) {
 div.modal-body h5 {
     text-transform: none;
 }
-.file-dialog  .mat-dialog-container {
-    margin-top: 133px; 
+.file-dialog .mat-dialog-container {
     padding-right: 30px;
 }
 .close-button{

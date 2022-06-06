@@ -1,0 +1,128 @@
+.timesheet-container {
+    max-height: 450px;
+    overflow: auto;
+    margin: 0px -15px;
+  }
+  .mat-paginator {
+      margin: 0px -15px;
+  }
+  div.filter-header {
+    font-size: 23px;
+    font-weight: 500;
+    margin: 8px 0px;
+    padding: 10px 0px;
+    color: #000000;
+  }
+  .timesheet-expense .single-services .icon {
+    width: 48px;
+    height: 48px;
+    line-height: 50px;
+    border-radius: 50%;
+    padding-right: 17px !important;
+    padding-bottom: 50px !important;
+    font-size: 25px;
+  }
+  h5 {
+    text-transform: none;
+  }
+  .container {
+    i {
+    font-size: 24px;
+    margin-top: -10px !important;
+    margin-right: -10px;
+  }
+  a > i {
+      font-size: 24px;
+      margin-right: 6px;
+    }
+}
+
+.timesheetdetail-container {
+  td {
+    margin: 3px 2px !important;
+    padding: 3px 2px !important;
+  }
+}
+
+  div.action-buttons {
+    .btn {
+      text-transform: none !important;
+      font-size: medium;
+      padding: 8px 15px !important;
+      margin-left: 0px;
+    }  
+  }
+  .mat-table {
+    overflow: auto;
+    width: 100%;
+  }
+  th.mat-header-cell {
+    font-weight: 600 !important;
+    font-size: 1em;
+    text-align: left !important;
+    padding-left: 10px !important;
+    max-width: 300px;
+  }
+  td.mat-cell:first-child {
+    padding: 0px 8px 0px 10px;
+  }
+  td.mat-cell:not(:first-child) {
+    padding: 8px 8px 8px 12px;
+  }
+  tr.mat-row:nth-child(2n+1) {
+    background-color: #f5f5f5;
+  }
+  tr.mat-row:not(:nth-child(2n+1)) {
+    background-color: #fff;       
+  }
+  .mat-card-actions > .mat-raised-button {
+    height: 47px;
+  }
+  @media (max-width: 568px) {
+    .single-services {
+      h3 {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .icon {
+        margin-top: 10px;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 50%;
+        font-size: 20px;
+      }
+    }
+    .container i {
+      font-size: 16px;
+      display: inline-block;
+      line-height: 1;
+      margin-right: -8px;
+    }
+    .row .mat-form-field, .mat-card-actions > .mat-raised-button {
+        width: 100%;
+    }
+    th.mat-header-cell {
+        font-weight: 600 !important;
+        font-size: 0.9em;
+        text-align: left !important;
+        max-width: 300px;
+    }
+    td.mat-cell {
+        font-size: 0.8em;
+        text-align: center;
+    }
+    td.mat-cell:first-child {
+        padding: 0px 6px 0px 0px;
+    }
+    td.mat-cell:not(:first-child) {
+        padding: 6px 6px 6px 0;
+    }
+    div.action-buttons {
+      .btn-info {
+        font-size: 12px !important;
+        font-weight: 300 !important;
+        padding: 10px !important;
+      }
+    }
+}

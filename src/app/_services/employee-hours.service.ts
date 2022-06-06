@@ -4,12 +4,12 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorDetails, AssignmentHoursRequest } from '../_models';
+import { ErrorDetails, EmployeeHoursRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssignmentHoursService {
+export class EmployeeHoursService {
   baseurl: string;
   timeoutInSeconds: number;
 
@@ -43,13 +43,13 @@ export class AssignmentHoursService {
     }
     return throwError(errorMessage);
   }  
-  getAssignmentHours(assignmentHoursRequest: AssignmentHoursRequest) {
-    return this.http.post(this.baseurl + `/v1/report/assignmenthours/all`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  getEmployeeHours(employeeHoursRequest: EmployeeHoursRequest) {
+    return this.http.post(this.baseurl + `/v1/report/employeehours/all`, employeeHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  createUpdateAssignmentHours(assignmentHoursRequest: AssignmentHoursRequest[]) {
-    return this.http.post(this.baseurl + `/v1/report/assignmenthours`, assignmentHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  createUpdateEmployeeHours(employeeHoursRequest: EmployeeHoursRequest[]) {
+    return this.http.post(this.baseurl + `/v1/report/employeehours`, employeeHoursRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  deleteAssignmentHours(id: number) {
-    return this.http.delete(this.baseurl + `/v1/report/assignmenthours/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  deleteEmployeeHours(id: number) {
+    return this.http.delete(this.baseurl + `/v1/report/employeehours/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

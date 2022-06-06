@@ -1,11 +1,11 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container">
-        <div class="row mt-1 pt-1">
+        <div class="hourslist row mt-1 pt-1">
             <div class="col-md-12 col-lg-12 mt-2 pt-2">
                 <app-alert></app-alert>
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                        Assignment Hours {{subTitle}}
+                        Employee Hours {{subTitle}}
                     </div>
                 </div>
                 <mat-divider></mat-divider>
@@ -14,16 +14,12 @@
                       <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
                     </mat-form-field>
                 </div>
-                <form [formGroup]="assignmentHoursForm" autocomplete="off" novalidate (ngSubmit)="addEditAssignmentHours();">
+                <form [formGroup]="employeeHoursForm" autocomplete="off" novalidate (ngSubmit)="addEditEmployeeHours();">
                     <div class="report-container mat-elevation-z8 pb-2 mb-2">                        
-                        <table mat-table [dataSource]="dataSource" matSort formArrayName="assignmentHours">
-                            <ng-container matColumnDef="assignment" sticky>
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Assignment</th>
-                                <td mat-cell *matCellDef="let report">{{report.assignment}}</td>
-                            </ng-container>                        
-                            <ng-container matColumnDef="description">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Invoice Group</th>
-                                <td mat-cell *matCellDef="let report">{{report.description}}</td>
+                        <table mat-table [dataSource]="dataSource" matSort formArrayName="employeeHours">
+                            <ng-container matColumnDef="firstName" sticky>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee</th>
+                                <td mat-cell *matCellDef="let report">{{report.firstName + ' ' + report.lastName}}</td>
                             </ng-container>
                             <ng-container matColumnDef="hours">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Hours</th>
@@ -73,43 +69,27 @@
                                     </mat-form-field>
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="billRate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Rate</th>
+                            <ng-container matColumnDef="expenses">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Expenses</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.billRate | number:'1.2-2'" formControlName="billRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expenses | number:'1.2-2'" formControlName="expenses">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="otBillRate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>OT BillRate</th>
+                            <ng-container matColumnDef="advances">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Advances</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.otBillRate | number:'1.2-2'" formControlName="otBillRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.advances | number:'1.2-2'" formControlName="advances">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="dtBillRate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>DT BillRate</th>
+                            <ng-container matColumnDef="commissions">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Commissions</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
-                                    <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.dtBillRate | number:'1.2-2'" formControlName="dtBillRate">
-                                    </mat-form-field>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="burdenRate">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Burden Rate</th>
-                                <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
-                                    <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.burdenRate | number:'1.2-2'" formControlName="burdenRate">
-                                    </mat-form-field>
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="expCost">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Expenses (Billed to Client)</th>
-                                <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
-                                    <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expCost | number:'1.2-2'" formControlName="expCost">
+                                    <mat-form-field floatLabel="never" class="commissions-input">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.commissions | number:'1.2-2'" formControlName="commissions">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -121,32 +101,6 @@
                                     </mat-form-field>
                                 </td>
                             </ng-container>  
-                            <ng-container matColumnDef="ppExp">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>PPExp</th>
-                                <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
-                                    <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.ppExp | number:'1.2-2'" formControlName="ppExp">
-                                    </mat-form-field>
-                                </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="oopExp">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>OOPExp</th>
-                                <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
-                                    <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.oopExp | number:'1.2-2'" formControlName="oopExp">
-                                    </mat-form-field>
-                                </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="expAllowance">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Expense Allowance</th>
-                                <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
-                                    <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expAllowance | number:'1.2-2'" formControlName="expAllowance">
-                                    </mat-form-field>
-                                </td>
-                            </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>  
                         </table>

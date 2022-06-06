@@ -15,6 +15,10 @@ div.filter-header {
     line-height: 1;
     margin-right: 10px;
 }
+.container>.hourslist .mat-table {
+    overflow: auto;
+    width: 100%;
+}
 th.mat-header-cell {
     font-weight: 600 !important;
     font-size: 1em;
@@ -42,6 +46,9 @@ tr.mat-row:not(:nth-child(2n+1)) {
 }
 .mat-form-field {
     width: 60px;
+}
+.mat-form-field.commissions-input {
+    width: 100px;
 }
 .mat-form-field.notes-input {
     width: 120px;

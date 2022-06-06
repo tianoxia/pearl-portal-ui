@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RowInput } from 'jspdf-autotable';
+import { MatSelectChange } from '@angular/material/select';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 
 import { InvoiceReportService, AlertService } from 'app/_services';
@@ -26,6 +27,7 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
   pageType: string;
   payPeriodId: number;
   selected: Date;
+  notSelected: Date;
   altWeekEnding: Date;
   constructor(public alertService: AlertService,
     private spinner: NgxSpinnerService,
@@ -47,7 +49,7 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
       this.weekEndings.push(new Date(params.get('weekending')));
       this.weekEndings.push(new Date(params.get('altweekending')));
       this.selected = this.weekEndings[0];
-      this.altWeekEnding = this.weekEndings[1];
+      this.notSelected = this.altWeekEnding = this.weekEndings[1];
       if (this.pageType === 'invoice') {
         this.isInvoiceClick = true;
       } else if (this.pageType === 'report') {
@@ -497,5 +499,10 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
         report.saturdayHours).toFixed(2).toString()+'\n\n'+this.currencyPipe.transform(report.billRate.toFixed(2), 'USD')+'\n\n'
         +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
     ];
+  }
+
+  onDateChange(event: MatSelectChange) {
+    this.selected = event.value;
+    this.notSelected = this.weekEndings.find(w => w !== event.value);
   }
 }

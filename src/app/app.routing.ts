@@ -11,6 +11,7 @@ import { MyProfileComponent } from './pages/account-management/my-profile/my-pro
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { ProviderEmployeeListComponent } from './pages/provider-employee-list/provider-employee-list.component';
 import { ClientListComponent } from './pages/client-list/client-list.component';
+import { TimesheetsExpensesComponent } from './pages/timesheets-expenses/timesheets-expenses.component';
 
 const appRoutes: Routes = [
   {
@@ -55,7 +56,10 @@ const appRoutes: Routes = [
   { path: 'view-pay-periods/pay-period-dashboard/biweekly-pay-periods',
   loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/biweekly-pay-periods/biweekly-pay-periods.module').then(m => m.ViewBiWeeklyPayPeriodsModule),
   canActivate: [AuthGuard] },
-  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] }
+  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] },
+  { path: 'timesheets-expenses', component: TimesheetsExpensesComponent, canActivate: [AuthGuard] },
+  { path: 'timesheets-expenses', loadChildren: () => import('./pages/timesheets-expenses/timesheets-expenses.module').then(m => m.TimesheetsExpensesModule),
+  canActivate: [AuthGuard]}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

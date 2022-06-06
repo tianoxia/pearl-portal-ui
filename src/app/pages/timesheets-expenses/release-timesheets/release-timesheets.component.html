@@ -1,0 +1,288 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <app-alert class="row mt-1 pt-1"></app-alert>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+            <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                View Timesheets
+            </div>
+        </div>
+        <div class="timesheet-expense mt-2 pt-2">
+            <mat-tab-group [(selectedIndex)]="selectedIndex">
+                <mat-tab label="Timesheet Drafts">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon pr-2 mr-2 mb-1 pb-1">
+                                <i class="icofont-clock-time"></i>
+                            </div>
+                            <div><h3>Timesheet Drafts</h3></div>
+                        </div>
+                        <form [formGroup]="timesheetDraftsForm" autocomplete="off" novalidate>
+                            <div class="row"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Week Ending</mat-label>
+                                    <mat-select formControlName="draftWeekEnding" (selectionChange)="changeWeekEnding($event, 'draft')">
+                                        <mat-option *ngFor="let weekending of weekEndings" [value]="weekending">{{weekending | date: 'MM/dd/yyyy'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="allTimesheetDrafts.data.length > 0; then hasDraftBlock else noDraftBlock" class="timesheet_grid"></div>
+                            <ng-template #noDraftBlock><div class="timesheet-container alert alert-danger text-center">No Draft Found</div></ng-template>
+                            <ng-template #hasDraftBlock>
+                                <!-- <mat-form-field>
+                                    <input
+                                    matInput
+                                    (keyup)="applyFilterOne($event.target.value)"
+                                    placeholder="Search"
+                                    />
+                                </mat-form-field> -->
+                                <div class="timesheet-container mat-elevation-z8">
+                                    <table mat-table [dataSource]="allTimesheetDrafts" matSort #table1>
+                                        <ng-container matColumnDef="clientName" sticky>
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.clientName}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="contractorName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.contractorName}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="weeklyHours">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Hours</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.weeklyHours | number:'1.2-2'}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="created">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.created | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="modified">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.modified | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>
+                                        
+                                        <tr mat-header-row *matHeaderRowDef="displayedDraftColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedDraftColumns;"></tr>
+                                    </table>
+                                </div>                      
+                            </ng-template>
+                            <mat-paginator #TableOnePaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons> 
+                            </mat-paginator>
+                        </form>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Submitted Timesheets">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon pr-2 mr-2 mb-1 pb-1">
+                                <i class="icofont-list"></i>
+                            </div>
+                            <div><h3>Submitted Timesheets</h3></div>
+                        </div>
+                        <form [formGroup]="timesheetsForm" autocomplete="off" novalidate>
+                            <div class="row"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Week Ending</mat-label>
+                                    <mat-select formControlName="timesheetWeekEnding" (selectionChange)="changeWeekEnding($event, 'timesheet')">
+                                        <mat-option *ngFor="let weekending of weekEndings" [value]="weekending">{{weekending | date: 'MM/dd/yyyy'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="allTimesheets.data.length > 0; then hasTimesheetBlock else noTimesheetBlock" class="timesheet_grid"></div>
+                            <ng-template #noTimesheetBlock>
+                                <div class="timesheet-container alert alert-danger text-center">No Timesheet Found</div>
+                            </ng-template>
+                            <ng-template #hasTimesheetBlock>
+                                <div class="timesheet-container mat-elevation-z8">
+                                    <table mat-table [dataSource]="allTimesheets" matSort #table2>
+                                        <ng-container matColumnDef="clientName" sticky>
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.clientName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="contractorName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.contractorName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="weeklyHours">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Hours</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.weeklyHours | number:'1.2-2'}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="submitDate">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Submitted</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.submitDate | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="timesheetStatus">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approval Status</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.timesheetStatus}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="approverName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.approverName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="release">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Release?</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.release}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="comment">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comment</th>
+                                            <td mat-cell *matCellDef="let timesheet">{{timesheet.comment}}</td>
+                                        </ng-container>
+                                        <!-- Star Column -->
+                                        <ng-container matColumnDef="star" stickyEnd>
+                                            <th mat-header-cell *matHeaderCellDef></th>
+                                            <td mat-cell *matCellDef="let timesheet">
+                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="action menu">
+                                                    <mat-icon>more_vert</mat-icon>
+                                                </button>
+                                                <mat-menu #menu="matMenu">
+                                                    <button mat-menu-item (click)="viewTimesheetDetails(timesheet);">
+                                                        <mat-icon>info</mat-icon>
+                                                        <span>View Timesheet</span>
+                                                    </button>
+                                                </mat-menu>
+                                            </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                </div>                         
+                            </ng-template>
+                            <mat-paginator #TableTwoPaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons>
+                            </mat-paginator>
+                            <ng-template #timesheetDetailDialog let-modal>
+                                <div class="modal-header justify-content-center bg-warning">
+                                    <h4 class="modal-title">Timesheet Detail for {{selectedContractor.contractorName}}</h4>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <div class="timesheetdetail-container" *ngIf="timesheetDetail">
+                                        <table class="table table-responsive table-light table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Day</th>
+                                                    <th scope="col">Start Work</th>
+                                                    <th scope="col">Lunch Out</th>
+                                                    <th scope="col">Lunch In</th>
+                                                    <th scope="col">End Work</th>
+                                                    <th scope="col">Total Hours</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{timesheetDetail.sundayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Sunday</td>
+                                                    <td>{{timesheetDetail.sundayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.sundayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.sundayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.sundayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.sundayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{timesheetDetail.mondayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Monday</td>
+                                                    <td>{{timesheetDetail.mondayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.mondayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.mondayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.mondayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.mondayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{timesheetDetail.tuesdayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Tuesday</td>
+                                                    <td>{{timesheetDetail.tuesdayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.tuesdayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.tuesdayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.tuesdayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.tuesdayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{timesheetDetail.wednesdayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Wednesday</td>
+                                                    <td>{{timesheetDetail.wednesdayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.wednesdayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.wednesdayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.wednesdayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.wednesdayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{timesheetDetail.thursdayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Thursday</td>
+                                                    <td>{{timesheetDetail.thursdayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.thursdayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.thursdayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.thursdayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.thursdayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{timesheetDetail.fridayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Friday</td>
+                                                    <td>{{timesheetDetail.fridayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.fridayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.fridayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.fridayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.fridayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{timesheetDetail.saturdayDate | date: 'MM/dd/yyyy'}}</td>
+                                                    <td>Saturday</td>
+                                                    <td>{{timesheetDetail.saturdayStart}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.saturdayLunchOut}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.saturdayLunchIn}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.saturdayEnd}}
+                                                    </td>
+                                                    <td>{{timesheetDetail.saturdayHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" class="text-right"><b>Weekly Hours:</b></td>
+                                                    <td>{{timesheetDetail.weeklyTotalHours | number:'1.2-2'}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button mat-button mat-dialog-close class="btn">Close</button>
+                                </div>
+                            </ng-template>
+                        </form>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</section>
