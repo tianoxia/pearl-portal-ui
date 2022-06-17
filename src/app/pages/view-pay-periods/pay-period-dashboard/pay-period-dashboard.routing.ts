@@ -15,6 +15,7 @@ import { ViewHeadCountReportComponent } from './view-headcount-report/view-headc
 import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-gross-profit-report.component';
 import { ViewPayrollReportComponent } from './view-payroll-report/view-payroll-report.component';
 import { ViewEmployeeHoursComponent } from './view-employee-hours/view-employee-hours.component';
+import { ViewEmployeeProfitLossReportComponent } from './view-employee-pl-report/view-employee-pl-report.component';
 
 const childRoutes: Routes = [
   { path: 'weekly-pay-periods', component: WeeklyPayPeriodsComponent },
@@ -31,7 +32,8 @@ const childRoutes: Routes = [
   { path: 'view-headcount-report', component: ViewHeadCountReportComponent },
   { path: 'view-gross-profit-report', component: ViewGrossProfitReportComponent },
   { path: 'view-payroll-report', component: ViewPayrollReportComponent },
-  { path: 'view-employee-hours', component: ViewEmployeeHoursComponent }
+  { path: 'view-employee-hours', component: ViewEmployeeHoursComponent },
+  { path: 'view-employee-pl-report', component: ViewEmployeeProfitLossReportComponent }
 ];
 
 export const routing = RouterModule.forChild(childRoutes);

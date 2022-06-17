@@ -19,8 +19,7 @@ import { ViewHeadCountReportComponent } from './view-headcount-report/view-headc
 import { ViewGrossProfitReportComponent } from './view-gross-profit-report/view-gross-profit-report.component';
 import { ViewPayrollReportComponent } from './view-payroll-report/view-payroll-report.component';
 import { ViewEmployeeHoursComponent } from './view-employee-hours/view-employee-hours.component';
-
-
+import { ViewEmployeeProfitLossReportComponent } from './view-employee-pl-report/view-employee-pl-report.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,8 @@ import { ViewEmployeeHoursComponent } from './view-employee-hours/view-employee-
     ViewHeadCountReportComponent,
     ViewGrossProfitReportComponent,
     ViewPayrollReportComponent,
-    ViewEmployeeHoursComponent
+    ViewEmployeeHoursComponent,
+    ViewEmployeeProfitLossReportComponent
   ],
   imports: [
     CommonModule,

@@ -72,3 +72,5 @@ export * from './timesheet-records-response';
 export * from './timesheet-response';
 export * from './contractor';
 export * from './expense-records-response';
+export * from './employee-pl-report-request';
+export * from './employee-pl-report-response';

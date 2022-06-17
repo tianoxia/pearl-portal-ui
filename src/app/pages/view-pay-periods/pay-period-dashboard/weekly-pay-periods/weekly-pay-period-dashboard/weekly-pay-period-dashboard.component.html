@@ -236,7 +236,7 @@
         </div>
         <div class="row" *ngIf="isReportClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-employee-pl-report">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-employee-pl-report" [queryParams]="{weekending: selected, payfrequency: 'Weekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">

@@ -70,7 +70,7 @@ export class ViewLeaderboardReportComponent implements OnInit {
       .subscribe((leaderboardReport: LeaderboardReportResponse) => {
         this.leaderboardReport = leaderboardReport;
         //this.dataSource.sort = this.sort;
-        this.displayedColumns.push('Name');
+        this.displayedColumns.push('name');
         if (this.leaderboardReport && this.leaderboardReport.weelyLeaderboardTotal
           && this.leaderboardReport.weelyLeaderboardTotal.length > 0) {
           for (let wk of this.leaderboardReport.weelyLeaderboardTotal) {
@@ -120,7 +120,7 @@ export class ViewLeaderboardReportComponent implements OnInit {
       .subscribe((res: LeaderboardReportResponse) => {
         window.scrollTo(0, 0);
         this.leaderboardReport = res as LeaderboardReportResponse;
-        this.displayedColumns.push('Name');
+        this.displayedColumns.push('name');
         if (this.leaderboardReport && this.leaderboardReport.weelyLeaderboardTotal
           && this.leaderboardReport.weelyLeaderboardTotal.length > 0) {
           for (let wk of this.leaderboardReport.weelyLeaderboardTotal) {

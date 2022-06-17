@@ -34,7 +34,7 @@
                         mat-table [dataSource]="leaderboardReport?.leaderboardReportDetails" matSort>
                         <ng-container [matColumnDef]="dynamicColumn" *ngFor="let dynamicColumn of displayedColumns">
                             <th mat-header-cell *matHeaderCellDef>
-                                <span *ngIf="dynamicColumn == 'Name' || isWeekEnding(dynamicColumn)">{{dynamicColumn}}</span>
+                                <span *ngIf="dynamicColumn == 'name' || isWeekEnding(dynamicColumn)">{{dynamicColumn}}</span>
                                 <span *ngIf="dynamicColumn == 'mtdContractGrossMargin'">Contract MTD</span>
                                 <span *ngIf="dynamicColumn == 'ytdContractGrossMargin'">Contract YTD</span>
                                 <span *ngIf="dynamicColumn == 'mtdPermPlacementGrossMargin'">PP MTD</span>
@@ -42,9 +42,8 @@
                                 <span *ngIf="dynamicColumn == 'mtdGrossMargin'">Total MTD</span>
                                 <span *ngIf="dynamicColumn == 'ytdGrossMargin'">Total YTD</span>
                             </th>
-                            <th mat-header-cell *matHeaderCellDef>{{dynamicColumn}}</th>
                             <td mat-cell *matCellDef="let report">
-                                <span *ngIf="dynamicColumn == 'Name'">{{report.name}}</span>
+                                <span *ngIf="dynamicColumn == 'name'">{{report.name}}</span>
                                 <span *ngIf="dynamicColumn == 'mtdContractGrossMargin'">{{report.mtdContractGrossMargin | currency}}</span>
                                 <span *ngIf="dynamicColumn == 'ytdContractGrossMargin'">{{report.ytdContractGrossMargin | currency}}</span>
                                 <span *ngIf="dynamicColumn == 'mtdPermPlacementGrossMargin'">{{report.mtdPermPlacementGrossMargin | currency}}</span>
