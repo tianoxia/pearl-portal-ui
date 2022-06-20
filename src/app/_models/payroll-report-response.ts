@@ -11,7 +11,7 @@ export class PayrollReportResponse {
 }
 export class PayrollSubTotal {
     payrollType: PayrollType;
-    payFrequency: number;
+    payFrequency: string;
     subTotalHours: string;
     subTotalOTHours: string;
     subTotalDTHours: number;

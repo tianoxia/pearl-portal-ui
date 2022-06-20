@@ -7,8 +7,9 @@ import { RowInput } from 'jspdf-autotable';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 
-import { InvoiceReportService, AlertService } from 'app/_services';
-import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse, InvoiceReportRequest } from 'app/_models';
+import { InvoiceReportService, AlertService, ExportService } from 'app/_services';
+import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse,
+  InvoiceReportRequest, PayFileRequest, PayFileResponse } from 'app/_models';
 import { AddEditPayPeriodComponent } from 'app/pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
 
 @Component({
@@ -24,13 +25,15 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
   payType: string;
   isReportClick: boolean;
   isInvoiceClick: boolean;
-  isPayfileClick: boolean;
+  isPayFileClick: boolean;
   pageType: string;
   payPeriodId: number;
+  payFileData: PayFileResponse[];
   selected: Date;
   constructor(public alertService: AlertService,
     private spinner: NgxSpinnerService,
     private dialog: MatDialog,
+    private exportService: ExportService,
     private invoiceService: InvoiceReportService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
@@ -53,7 +56,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       } else if (this.pageType === 'report') {
         this.isReportClick = true;
       } else if (this.pageType === 'payfile') {
-        this.isPayfileClick = true;
+        this.isPayFileClick = true;
       }
     });
   }
@@ -508,5 +511,81 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       }
     });
     return false;
+  }
+  downloadContractorPayFile() {
+    this.spinner.show();
+    const request: PayFileRequest = {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payType,
+      weekEnding: this.datePipe.transform(this.selected, 'yyyy-MM-dd')
+    };
+    this.invoiceService.printContractorPayFile(request)
+      .subscribe((payFileData: PayFileResponse[]) => {
+        this.payFileData = payFileData;
+        this.exportToCSV('choice', this.payType === 'Weekly' ? 'W' : 'B');
+        this.spinner.hide();
+      },
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
+  }
+  downloadEmployeePayFile() {
+    this.spinner.show();
+    const request: PayFileRequest = {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payType,
+      weekEnding: this.datePipe.transform(this.selected, 'yyyy-MM-dd')
+    };
+    this.invoiceService.printEmployeePayFile(request)
+      .subscribe((payFileData: PayFileResponse[]) => {
+        this.payFileData = payFileData;
+        this.exportToCSV('choice', this.payType === 'Weekly' ? 'W' : 'B');
+        this.spinner.hide();
+      },
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
+  }
+  exportToCSV(fileNamePrefix: string, payType: string) {
+    this.exportService.exportToCSV(this.payFileRows(this.payFileData), fileNamePrefix + payType + '0', this.payFileColumns());
+  }
+  payFileColumns(): any[] {
+    return [
+      { header: 'PayGroup', key: 'payFrequency' },
+      { header: 'Key', key: 'adpFileNumber' },
+      { header: 'Name', key: 'name' },
+      { header: 'e_expense reimbur_dollars', key: 'expenses' },
+      { header: 'e_01a_hours', key: 'hours' },
+      { header: 'e_01a_orrate', key: 'payRate' },
+      { header: 'e_02_hours', key: 'otHours' },
+      { header: 'e_02_orrate', key: 'otRate' },
+      { header: 'e_01b_hours', key: 'hours' },
+      { header: 'e_01b_orrate', key: 'payRate' }];
+  }
+  payFileRows(data: PayFileResponse[]): any[] {
+    var rows = [];
+    let i = 1;
+    data.forEach(d => {
+      var rowValues = [];
+      rowValues[1] = d.payFrequency;
+      rowValues[i+1] = d.adpFileNumber;
+      rowValues[i+2] = d.name;
+      rowValues[i+3] = d.expenses;
+      if (d.employeeType === 'Corp to Corp') {
+        rowValues[i+8] = d.hours;
+        rowValues[i+9] = d.payRate;
+      } else {
+        rowValues[i+4] = d.hours;
+        rowValues[i+5] = d.payRate;
+        rowValues[i+6] = d.otHours;
+        rowValues[i+7] = d.otRate;
+      }
+      rows.push(rowValues);
+    });
+    return rows;
   }
 }

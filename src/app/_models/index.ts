@@ -74,3 +74,5 @@ export * from './contractor';
 export * from './expense-records-response';
 export * from './employee-pl-report-request';
 export * from './employee-pl-report-response';
+export * from './pay-file-request';
+export * from './pay-file-response';

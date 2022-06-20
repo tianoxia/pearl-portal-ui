@@ -7,8 +7,9 @@ import { RowInput } from 'jspdf-autotable';
 import { MatSelectChange } from '@angular/material/select';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 
-import { InvoiceReportService, AlertService } from 'app/_services';
-import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse, InvoiceReportRequest } from 'app/_models';
+import { InvoiceReportService, AlertService, ExportService } from 'app/_services';
+import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse,
+  InvoiceReportRequest, PayFileRequest, PayFileResponse } from 'app/_models';
 
 @Component({
   selector: 'app-biweekly-pay-period-dashboard',
@@ -25,12 +26,14 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
   isInvoiceClick: boolean;
   isPayfileClick: boolean;
   pageType: string;
+  payFileData: PayFileResponse[];
   payPeriodId: number;
   selected: Date;
   notSelected: Date;
   altWeekEnding: Date;
   constructor(public alertService: AlertService,
     private spinner: NgxSpinnerService,
+    private exportService: ExportService,
     private invoiceService: InvoiceReportService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
@@ -504,5 +507,83 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
   onDateChange(event: MatSelectChange) {
     this.selected = event.value;
     this.notSelected = this.weekEndings.find(w => w !== event.value);
+  }
+  downloadContractorPayFile() {
+    this.spinner.show();
+    const request: PayFileRequest = {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payType,
+      weekEnding: this.datePipe.transform(this.selected, 'yyyy-MM-dd')
+    };
+    this.invoiceService.printContractorPayFile(request)
+      .subscribe((payFileData: PayFileResponse[]) => {
+        this.payFileData = payFileData;
+        this.exportToCSV('choice', this.payType === 'Weekly' ? 'W' : 'B');
+        this.spinner.hide();
+      },
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
+  }
+  downloadEmployeePayFile() {
+    this.spinner.show();
+    const request: PayFileRequest = {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payType,
+      weekEnding: this.datePipe.transform(this.selected, 'yyyy-MM-dd')
+    };
+    this.invoiceService.printEmployeePayFile(request)
+      .subscribe((payFileData: PayFileResponse[]) => {
+        this.payFileData = payFileData;
+        this.exportToCSV('choice', this.payType === 'Weekly' ? 'W' : 'B');
+        this.spinner.hide();
+      },
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
+  }
+  exportToCSV(fileNamePrefix: string, payType: string) {
+    this.exportService.exportToCSV(this.payFileRows(this.payFileData), fileNamePrefix + payType + '0', this.payFileColumns());
+  }
+  payFileColumns(): any[] {
+    return [
+      { header: 'PayGroup', key: 'payFrequency' },
+      { header: 'laborvalue1', key: 'departmentNumber' },
+      { header: 'Key', key: 'adpFileNumber' },
+      { header: 'Name', key: 'name' },
+      { header: 'e_expense reimbur_dollars', key: 'expenses' },
+      { header: 'e_01a_hours', key: 'hours' },
+      { header: 'e_01a_orrate', key: 'payRate' },
+      { header: 'e_02_hours', key: 'otHours' },
+      { header: 'e_02_orrate', key: 'otRate' },
+      { header: 'e_01b_hours', key: 'hours' },
+      { header: 'e_01b_orrate', key: 'payRate' }];
+  }
+  payFileRows(data: PayFileResponse[]): any[] {
+    var rows = [];
+    let i = 2;
+    data.forEach(d => {
+      var rowValues = [];
+      rowValues[1] = d.payFrequency;
+      rowValues[i] = d.departmentNumber;
+      rowValues[i+1] = d.adpFileNumber;
+      rowValues[i+2] = d.name;
+      rowValues[i+3] = d.expenses;
+      if (d.employeeType === 'Corp to Corp') {
+        rowValues[i+8] = d.hours;
+        rowValues[i+9] = d.payRate;
+      } else {
+        rowValues[i+4] = d.hours;
+        rowValues[i+5] = d.payRate;
+        rowValues[i+6] = d.otHours;
+        rowValues[i+7] = d.otRate;
+      }
+      rows.push(rowValues);
+    });
+    return rows;
   }
 }

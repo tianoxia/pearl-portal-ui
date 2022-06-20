@@ -286,9 +286,9 @@
                 </a>
             </div>
         </div>
-        <div class="row" *ngIf="isPayfileClick">
+        <div class="row" *ngIf="isPayFileClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-gross-profit-report" [queryParams]="{weekending: selected}">
+                <a href="javascript:void(0);" (click)="downloadContractorPayFile()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -304,7 +304,7 @@
                 </a>
             </div>
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-headcount-report">
+                <a href="javascript:void(0);" (click)="downloadEmployeePayFile()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
