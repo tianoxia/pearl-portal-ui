@@ -32,7 +32,7 @@ limit = 10;
         payPeriodMonth: ''
       });
      }
-    back(): void {
+  back(): void {
     this.router.navigate(['view-pay-periods/pay-period-dashboard'], {queryParams: { pagetype: this.pageType, payfrequency: 'Weekly'}});
   }
   ngOnInit() {

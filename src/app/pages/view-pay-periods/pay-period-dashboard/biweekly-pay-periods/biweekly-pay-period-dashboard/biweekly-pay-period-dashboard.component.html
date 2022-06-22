@@ -14,6 +14,9 @@
             <mat-form-field appearance="outline">
                 <mat-label>Pay Date</mat-label>
                 <input matInput readonly value="{{payDate | date: 'MM/dd/yyyy'}}">
+                <button mat-button mat-icon-button matSuffix (click)="editPayPeriod()">
+                    <i class="fas fa-edit mb-3 pt-1"></i>
+                </button>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>WeekEnding</mat-label>
@@ -252,7 +255,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-headcount-report">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-headcount-report" [queryParams]="{weekending: selected, payfrequency: 'BiWeekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -269,7 +272,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-candidate-source">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-gross-profit-report" [queryParams]="{weekending: selected}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">

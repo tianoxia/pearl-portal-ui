@@ -76,3 +76,4 @@ export * from './employee-pl-report-request';
 export * from './employee-pl-report-response';
 export * from './pay-file-request';
 export * from './pay-file-response';
+export * from './pay-file-type';

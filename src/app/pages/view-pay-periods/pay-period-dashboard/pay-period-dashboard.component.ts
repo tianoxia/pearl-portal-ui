@@ -11,7 +11,9 @@ export class PayPeriodDashboardComponent implements OnInit {
   payFrequency: string;
   constructor(private spinner: NgxSpinnerService, private route: ActivatedRoute,
     private router: Router) { }
-
+  back(): void {
+    this.router.navigate(['view-pay-periods']);
+  }
   ngOnInit() {
     window.scrollTo(0, 0);
     this.route.queryParamMap.subscribe(params => {      

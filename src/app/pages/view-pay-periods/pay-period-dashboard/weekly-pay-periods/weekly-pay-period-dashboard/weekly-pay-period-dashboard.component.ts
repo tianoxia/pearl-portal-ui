@@ -564,7 +564,7 @@ export class WeeklyPayPeriodDashboardComponent implements OnInit {
       { header: 'e_02_hours', key: 'otHours' },
       { header: 'e_02_orrate', key: 'otRate' },
       { header: 'e_01b_hours', key: 'hours' },
-      { header: 'e_01b_orrate', key: 'payRate' }];
+      { header: 'e_01b_orrate', key: 'payRate' }];    
   }
   payFileRows(data: PayFileResponse[]): any[] {
     var rows = [];
