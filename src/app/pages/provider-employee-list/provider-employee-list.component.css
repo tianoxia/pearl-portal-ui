@@ -53,10 +53,6 @@ mat-optgroup .mat-option {
 div.modal-body h5 {
     text-transform: none;
 }
-.file-dialog .mat-dialog-container {
-    margin-top: 135px;
-    padding-right: 30px;
-}
 .close-button {
     float: right;
     top: 4px;
@@ -64,6 +60,9 @@ div.modal-body h5 {
 }
 .select-type {
     margin-top: 30px;
+}
+.modal-text-color {
+    color: #fff !important;
 }
 @media (max-width: 568px) {
     div.filter-header {

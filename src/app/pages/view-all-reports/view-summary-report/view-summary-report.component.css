@@ -8,15 +8,16 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;
 }
+.container>.summaryreportlist .mat-table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+}
 .container i {
     font-size: 18px;
     display: inline-block;
     line-height: 1;
     margin-right: 10px;
-}
-.container>.sunmmary-report-container .mat-table {
-    overflow: auto;
-    width: 100%;
 }
 th.mat-header-cell {
     font-weight: 600 !important;

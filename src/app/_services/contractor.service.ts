@@ -74,4 +74,7 @@ export class ContractorService {
   deleteContractorFile(id: number) {
     return this.http.delete(this.baseurl + `/v1/contractor/file/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  createAnnouncement(announcementRequest: FormData) {
+    return this.http.post(this.baseurl + `/v1/contractor/announcement`, announcementRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
 }

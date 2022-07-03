@@ -36,7 +36,7 @@
                 <div class="row action-buttons">
                     <a routerLink="/add-assignment" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add Assignment</a>
                 </div>
-                <div *ngIf="dataSource.data.length > 0; then hasAssignmentBlock else noAssignmentBlock"></div>
+                <div *ngIf="dataSource.data?.length > 0; then hasAssignmentBlock else noAssignmentBlock"></div>
                     <ng-template #noAssignmentBlock><div class="alert alert-danger text-center">No Assignment Found</div></ng-template>
                     <ng-template #hasAssignmentBlock>
                         <div class="assignmentlist-container mat-elevation-z8">

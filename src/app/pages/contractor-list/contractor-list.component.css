@@ -49,16 +49,15 @@ tr.mat-row:not(:nth-child(2n+1)) {
 div.modal-body h5 {
     text-transform: none;
 }
-.file-dialog .mat-dialog-container {
-    margin-top: 135px;
-    padding-right: 30px;
-}
 .close-button{
     float: right;
     top: 4px;
     right: 4px;
   }
+.modal-text-color{
+    color: #fff !important;
 
+}
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;

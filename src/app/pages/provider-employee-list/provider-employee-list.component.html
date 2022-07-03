@@ -116,8 +116,8 @@
                     </ng-template>
                     <ng-template #uploadFilesDialog let-modal>
                         <form [formGroup]="providerEmployeeUploadFilesForm" autocomplete="off" novalidate (ngSubmit)="showProviderEmployeeList(providerEmployeeListForm.value)">
-                            <div class="modal-header file-upload-header justify-content-center bg-warning">
-                                <h5 class="modal-title">Upload Files for {{selectedProviderEmployee.firstName + ' ' +
+                            <div class="modal-header file-upload-header justify-content-center bg-info">
+                                <h5 class="modal-title modal-text-color">Upload Files for {{selectedProviderEmployee.firstName + ' ' +
                                     selectedProviderEmployee.lastName}}</h5>
                             </div>
                             <div class="modal-body file-upload-div text-center">

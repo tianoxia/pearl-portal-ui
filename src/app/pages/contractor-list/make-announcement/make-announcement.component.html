@@ -1,0 +1,47 @@
+<form [formGroup]="announcementForm" autocomplete="off" novalidate>
+    <div class="modal-header announcement-header justify-content-center bg-info">
+        <h5 class="modal-title modal-text-color"><mat-icon>announcement</mat-icon> Announcement</h5>
+    </div>
+    <div class="modal-body announcement-div">
+        <div>
+            <h5>{{announcementTitle}}</h5>
+        </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%" class="mt-2 pt-2">
+            <mat-form-field appearance="fill" fxFlex="49%">
+                <mat-label>Select A Status</mat-label>
+                <mat-select formControlName="assignmentStatus" [compareWith]="compareStatuses">
+                    <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex="49%">
+                <mat-label>Employee Type</mat-label>
+                <mat-select formControlName="employeeType">
+                    <mat-option value="W2">W2</mat-option>
+                    <mat-option value="Corp to Corp">Corp to Corp</mat-option>                    
+                    <mat-option value="Perm Placement">Perm Placement</mat-option>
+                </mat-select>                            
+                <mat-error *ngIf="hasError('employeeType')">{{getErrorMessage('employeeType')}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
+            <mat-form-field appearance="fill" fxFlex="100%">
+                <mat-label>Email Body</mat-label>
+                <textarea matInput formControlName="content" rows="3"></textarea>
+                <button mat-button *ngIf="announcementForm.controls['content'].value" matSuffix mat-icon-button aria-label="Clear" (click)="reset('content')">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="hasError('content')">{{getErrorMessage('content')}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
+            <div class="file-upload-div" style="background-color:transparent;" fxFlex="100%">
+                <file-upload class="mb-2 pb-2" formControlName="file" [multiple]="false"></file-upload>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button mat-button mat-dialog-close class="btn">Close</button>
+        <button mat-button class="btn btn-info" [disabled]="!announcementForm.valid"
+        (click)="announcement()"><mat-icon>send</mat-icon> Send</button>
+    </div>
+</form>

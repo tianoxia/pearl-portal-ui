@@ -1,26 +1,19 @@
 
-div.modal-body.update-enddate-div > div h5 {
+div.modal-body.announcement-div > div h5 {
     text-align: left;
     font-size: 16px;
     padding-left: 6px;
     background-color: rgb(235, 235, 235);
     line-height: 28px;
 }
-div.modal-header.update-enddate-header {
+div.modal-header.announcement-header {
     margin-bottom: 10px;
 }
 div.modal-footer > button {
     text-transform: none;
 }
-div.modal-body.update-enddate-div {
+div.modal-body.announcement-div {
     padding: 0px;
-}
-.mat-dialog-container {
-    padding-top: 10px;
-    padding-bottom: 0px;
-    padding-right: 30px;
-    max-height: calc(100vh - 130px);
-    overflow: auto;
 }
 .modal-text-color{
     color: #fff !important;
@@ -30,12 +23,12 @@ div.modal-body.update-enddate-div {
     .btn.btn-primary, .btn.btn-link {
         width: 100%;
     }
-    .update-enddate-div {
+    .announcement-div {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-      }
-      .update-enddate-div > *:not(:last-child) {
+    }
+      .announcement-div > *:not(:last-child) {
         margin-right: unset;
         margin-bottom: -2px;
       }

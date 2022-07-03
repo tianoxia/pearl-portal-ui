@@ -226,7 +226,6 @@ export class EmployeeListComponent implements OnInit {
     this.dialog.open(viewFilesDialog, {
       autoFocus: true,
       width: '450px',
-      panelClass: 'file-dialog',
       disableClose: true
     });    
     return false;
