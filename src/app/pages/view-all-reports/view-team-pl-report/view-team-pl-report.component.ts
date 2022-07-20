@@ -7,6 +7,7 @@ import { forkJoin } from 'rxjs';
 
 import { AlertService, DataService } from 'app/_services';
 import { PLReportRequest, PLReportResponse } from 'app/_models';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-team-pl-report',
@@ -16,7 +17,7 @@ import { PLReportRequest, PLReportResponse } from 'app/_models';
 export class ViewTeamPlReportComponent implements OnInit {
   @Input() plReportForm: FormGroup;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  myData: any[];
+  plData: any[];
   public dataSource = new MatTableDataSource<PLReportResponse>();
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
@@ -24,6 +25,7 @@ export class ViewTeamPlReportComponent implements OnInit {
   public displayedColumns = ['salesPersonName'];
   constructor(public alertService: AlertService,
     fb: FormBuilder,
+    private decimalPipe: DecimalPipe,
     private dataService: DataService,
     private spinner: NgxSpinnerService) {
       this.plReportForm = fb.group({
@@ -140,18 +142,23 @@ export class ViewTeamPlReportComponent implements OnInit {
           if (o.details.length === 0) {
             delete o.details;
           } else {
-            /* o.details.forEach((item, index) => {
-              item.commission = +this.decimalPipe.transform(item.commission, '1.2-2');
-              item.expense = +this.decimalPipe.transform(item.expense, '1.2-2');
-              item.salary = +this.decimalPipe.transform(item.salary, '1.2-2');
-            }); */
             o.details.forEach((item, index) => {
+              o.details[index]['Name'] = item.name;
+              o.details[index]['Comm'] = this.decimalPipe.transform(item.commission, '1.0-0');
+              o.details[index]['Salary'] = this.decimalPipe.transform(item.salary, '1.0-0');
+              o.details[index]['Exp'] = this.decimalPipe.transform(item.expense, '1.0-0');
+              o.details[index]['Rec Rate'] = item.recruitRate;              
               delete item.employeeId;
+              delete o.details[index].name;
+              delete o.details[index].commission;
+              delete o.details[index].salary;
+              delete o.details[index].expense;
+              delete o.details[index].recruitRate;              
             });
           }
         }
       }
-      this.myData = response.filter(x => x.details.length > 0);
+      this.plData = response.filter(x => x.details.length > 0);
     }
   }
 }

@@ -78,3 +78,6 @@ export * from './pay-file-request';
 export * from './pay-file-response';
 export * from './pay-file-type';
 export * from './announcement-request';
+export * from './new-assignment-request';
+export * from './search-assignment-request';
+export * from './search-assignment-response';

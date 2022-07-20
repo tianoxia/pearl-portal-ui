@@ -1,0 +1,117 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="assignmentlist row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">                
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        View New Assignments {{subTitle}}
+                    </div>
+                </div>
+                <app-alert></app-alert>
+                <form [formGroup]="assignmentListForm" autocomplete="off" novalidate (ngSubmit)="showAssignmentList(assignmentListForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>From Date</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="fromDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="toDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Recruiter</mat-label>
+                            <mat-select formControlName="recruiter" [compareWith]="compareRecruiters">
+                                <mat-option *ngFor="let recruiter of recruiters" [value]="recruiter">{{recruiter.firstName + ' ' + recruiter.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary"><i class="icofont-search-document"></i> View Assignments</button>
+                        </mat-card-actions>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
+                        <mat-form-field fxFlex="60%">
+                            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                    </div>
+                </form>
+                <mat-divider class="mb-2"></mat-divider>
+                <div *ngIf="dataSource.data?.length > 0; then hasAssignmentBlock else noAssignmentBlock"></div>
+                    <ng-template #noAssignmentBlock><div class="alert alert-danger text-center">No Assignment Found</div></ng-template>
+                    <ng-template #hasAssignmentBlock>
+                        <div class="assignmentlist-container mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort #assignmentTable>
+                                <ng-container matColumnDef="clientName" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.clientName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="contractorName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Contrator</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.contractorName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="locationName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.locationName}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="startDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.startDate | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="endDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.endDate | date: 'MM/dd/yyyy'}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="position">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.position}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="payRate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Rate (OT)</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.payRate | currency}}<br>({{assignment.otRate | currency}})</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="billRate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Rate (OT)</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.billRate | currency}}<br>({{assignment.otBillRate | currency}})</td>
+                                </ng-container>                                
+
+                                <ng-container matColumnDef="permPlacementRate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PP Rate</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.permPlacementRate | percent:'1.2-2'}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="annualSalary">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Annual Salary</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.annualSalary | currency}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="salesPerson">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Person</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.salesPerson}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="recruiter">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Recruiter</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.recruiter}}</td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </ng-template>
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+                    (page)="onPaginateChange($event)" showFirstLastButtons> 
+                    </mat-paginator>              
+            </div>
+        </div>
+    </div>
+</section>

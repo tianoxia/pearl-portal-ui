@@ -5,61 +5,53 @@
                 <app-alert></app-alert>
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
-                        Custom Report
+                        Custom Report {{subTitle}}
                     </div>
                 </div>
                 <form [formGroup]="customReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(customReportForm.value)">
-                    <div class="row">                        
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                            <mat-label>From Date</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="fromdate">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                            <mat-label>To Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="todate">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Recruiter</mat-label>
-                                <mat-select formControlName="recruiter" [compareWith]="compareRecruiters">
-                                    <mat-option *ngFor="let recruiter of recruiters" [value]="recruiter">{{recruiter.firstName + ' ' + recruiter.lastName}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="fromdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="todate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Recruiter</mat-label>
+                            <mat-select formControlName="recruiter" [compareWith]="compareRecruiters">
+                                <mat-option *ngFor="let recruiter of recruiters" [value]="recruiter">{{recruiter.firstName + ' ' + recruiter.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>                        
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Department</mat-label>
-                                <mat-select formControlName="department" [compareWith]="compareDepartments">
-                                    <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Client</mat-label>                
-                                <mat-select #selectclients formControlName="clients" multiple>
-                                    <div class="select-all">
-                                        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">Select All</mat-checkbox>
-                                    </div>
-                                    <mat-option (click)="optionClick()" *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4 col-lg-4">
-                            <mat-card-actions>
-                                <button mat-raised-button color="primary" [disabled]="!customReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
-                            </mat-card-actions>
-                        </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department" [compareWith]="compareDepartments">
+                                <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Client</mat-label>                
+                            <mat-select #selectclients formControlName="clients" multiple>
+                                <div class="select-all">
+                                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                </div>
+                                <mat-option (click)="optionClick()" *ngFor="let client of clients" [value]="client">{{client.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" [disabled]="!customReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
                     </div>
                 </form>
                 <mat-divider></mat-divider>

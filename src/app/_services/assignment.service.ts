@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { ErrorDetails, AssignmentListResponse, AssignmentRequest } from '../_models';
+import { ErrorDetails, AssignmentRequest, NewAssignmentRequest, SearchAssignmentRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +70,12 @@ export class AssignmentService {
   }
   getAssignmentByClientId(status: string, clientId: number) {
     return this.http.get(this.baseurl + `/v1/assignment/client/${clientId}/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getAssignmentsByDateRange(assignmentRequest: NewAssignmentRequest) {
+    return this.http.post(this.baseurl + `/v1/assignment/new`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  getAssignmentsByStatusAndDepartment(assignmentRequest: SearchAssignmentRequest) {
+    return this.http.post(this.baseurl + `/v1/assignment/search`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
   getAssignmentById(id: number) {
     return this.http.get(this.baseurl + `/v1/assignment/${id}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));

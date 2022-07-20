@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DatePipe, Location } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatSort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute } from '@angular/router';

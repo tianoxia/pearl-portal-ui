@@ -9,35 +9,29 @@
                 </div>
                 </div>
                 <form [formGroup]="plReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(plReportForm.value)">
-                    <div class="row">                        
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">                        
+                        <mat-form-field appearance="fill" fxFlex="20%">
                             <mat-label>From Date</mat-label>
                             <input matInput [matDatepicker]="picker1" formControlName="fromdate">
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
                             <mat-label>To Date</mat-label>
                             <input matInput [matDatepicker]="picker2" formControlName="todate">
                             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                             <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4 col-lg-4">
-                            <mat-card-actions>
-                                <button mat-raised-button color="primary" [disabled]="!plReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
-                            </mat-card-actions>
-                        </div>
+                        </mat-form-field>
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" [disabled]="!plReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
                     </div>
                 </form>
                 <mat-divider></mat-divider>
-                <div class="report-container mt-1 pt-1" *ngIf="myData?.length>0 && myData[0].details?.length>0">
-                    <ngx-data-table [data]="myData"></ngx-data-table>
+                <div class="report-container mt-1 pt-1" *ngIf="plData?.length>0 && plData[0].details?.length>0">
+                    <ngx-data-table [data]="plData"></ngx-data-table>
                 </div>
-                <div *ngIf="!myData" class="alert alert-danger text-center mt-1 pt-1">No Team PL Data Found</div>
+                <div *ngIf="!plData" class="alert alert-danger text-center mt-1 pt-1">No Team PL Data Found</div>
             </div>
         </div>
     </div>

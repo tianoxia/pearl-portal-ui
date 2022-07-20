@@ -27,9 +27,6 @@ div.modal-body.update-enddate-div {
   
   }
 @media (max-width: 600px) {
-    .btn.btn-primary, .btn.btn-link {
-        width: 100%;
-    }
     .update-enddate-div {
         display: flex;
         flex-direction: column;

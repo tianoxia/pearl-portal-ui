@@ -9,36 +9,31 @@
                     </div>
                 </div>
                 <form [formGroup]="summaryReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(summaryReportForm.value)">
-                    <div class="row">                        
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                            <mat-label>From Date</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="fromdate">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                            <mat-label>To Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="todate">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Department</mat-label>
-                                <mat-select formControlName="department" [compareWith]="compareDepartments">
-                                    <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-card-actions>
-                                <button mat-raised-button color="primary" [disabled]="!summaryReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
-                            </mat-card-actions>
-                        </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                        <mat-label>From Date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="fromdate">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="todate">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department" [compareWith]="compareDepartments">
+                                <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" [disabled]="!summaryReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
                     </div>
                 </form>
                 <mat-divider></mat-divider>
