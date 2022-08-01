@@ -31,9 +31,6 @@ td.mat-footer-cell:first-child {
     padding-left: 2px;
     margin-left: 6px;
 }
-td.mat-cell {
-    text-align: center;
-}
 td.mat-cell:first-child {
     padding: 0px 8px 0px 0px;
 }
@@ -53,6 +50,11 @@ tr.mat-row:not(:nth-child(2n+1)) {
     margin: 5px 17px;
 }
 @media (max-width: 568px) {
+    .container {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+        width: 100% !important;
+    }
     div.filter-header {
         font-size: 20px;
         margin-bottom: 10px;
@@ -75,7 +77,6 @@ tr.mat-row:not(:nth-child(2n+1)) {
     }
     td.mat-cell {
         font-size: 0.8em;
-        text-align: center;
     }
     td.mat-cell:first-child {
         padding: 0px 6px 0px 0px;
