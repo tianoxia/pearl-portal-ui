@@ -37,6 +37,7 @@ export class ClientListComponent implements OnInit {
   isAdmin: boolean;
   message: string;
   statuses = employeeStatus;
+  noAttachment: string;
   subTitle: string;
   floatLabelControl = new FormControl('auto');
   private filesControl = new FormControl(null, FileUploadValidators.fileSize(10000000));
@@ -205,8 +206,10 @@ export class ClientListComponent implements OnInit {
         .pipe(first())
         .subscribe((response: ClientListResponse) => {
           this.selectedClient = response;
-          if (this.selectedClient.clientAttachments.length > 0) {
+          if (this.selectedClient.clientAttachments) {
             this.selectedFile = new UploadedFile();
+          } else {
+            this.noAttachment = 'No Attachments Found.';
           }
           window.scrollTo(0, 0);
           this.spinner.hide();

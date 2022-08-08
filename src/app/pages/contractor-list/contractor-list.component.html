@@ -127,7 +127,7 @@
                         </button>
                         <h2 mat-dialog-title>Attachments</h2>
                         <mat-dialog-content class="mat-typography">
-                            <mat-list dense>
+                            <mat-list *ngIf="selectedContractor.contractorAttachments" dense>
                                 <mat-list-item *ngFor="let file of selectedContractor.contractorAttachments">
                                     <mat-icon mat-list-icon>note</mat-icon>
                                     <div mat-line><a href={{file.fileNameWithPath}} target="_blank">{{file.fileName}}</a></div>
@@ -136,6 +136,7 @@
                                         delete</mat-icon></a></div>
                                 </mat-list-item>                                
                             </mat-list>
+                            <div *ngIf="!selectedContractor.contractorAttachments" class="alert alert-danger text-center">No Attachment Found</div>
                         </mat-dialog-content>
                         <mat-dialog-actions align="end">
                             <button mat-button mat-dialog-close>Close</button>
