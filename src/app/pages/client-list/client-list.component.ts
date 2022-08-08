@@ -199,6 +199,7 @@ export class ClientListComponent implements OnInit {
   }
 
   viewAttachments(id: number) {
+    this.spinner.show();
     this.selectedClient.name = this.dataSource.data.find(c => c.clientId === id).name;
     this.selectedClient.clientId = id;
     this.openViewFilesDialog(this.viewFilesRef);
