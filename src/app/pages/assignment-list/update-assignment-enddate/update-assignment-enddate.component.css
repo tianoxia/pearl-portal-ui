@@ -22,10 +22,11 @@ div.modal-body.update-enddate-div {
     max-height: calc(100vh - 130px);
     overflow: auto;
 }
+.modal-text-color{
+    color: #fff !important;
+  
+  }
 @media (max-width: 600px) {
-    .btn.btn-primary, .btn.btn-link {
-        width: 100%;
-    }
     .update-enddate-div {
         display: flex;
         flex-direction: column;

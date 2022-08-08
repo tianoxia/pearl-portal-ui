@@ -14,7 +14,7 @@ div.filter-header {
     line-height: 1;
     margin-right: 10px;
 }
-.container>.commission-report-container .mat-table {
+.container>.commissionreportlist .mat-table {
     overflow: auto;
     width: 100%;
 }

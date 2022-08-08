@@ -8,7 +8,7 @@ import { ActivatedRoute, Router  } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
 import { InvoiceGroupService, AlertService, AuthenticationService, ContactService } from 'app/_services';
-import { InvoiceGroup, IApiResponse, OfficeLocation, Contact } from 'app/_models';
+import { InvoiceGroup, IApiResponse, OfficeLocation } from 'app/_models';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -108,7 +108,6 @@ export class InvoiceGroupListComponent implements OnInit {
   }
 
   openWarningDialog(warningDialog, id: number) {
-    this.selectedInvoiceGroup.description = this.dataSource.data.find(c => c.invoiceGroupId === id).description;
     this.selectedInvoiceGroup.description = this.dataSource.data.find(c => c.invoiceGroupId === id).description;
     this.selectedInvoiceGroup.invoiceGroupId = id;
     this.dialog.open(warningDialog, {

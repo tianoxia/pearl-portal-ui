@@ -391,6 +391,7 @@ body {
       display: block;
       max-width: 100%;
       height: auto;
+      margin-top: -3px;
   }
     .single-services {
       margin-bottom: 30px;
@@ -787,25 +788,23 @@ Preloader CSS
     }
     #header .header-btn-user-nav {
         display: inline-block;
-        width: 48px;
-        height: 47px;
+        width: 53px;
+        height: 50px;
         text-align: center;
-        line-height: 47px;
         border-radius: 50%;
-        font-size: 21px;
+        font-size: 23px;
         color: #edf5ff;
         background: $template_color;
         		
     }
     #header .header-btn-signout-nav {
         display: inline-block;
-        width: 48px;
-        height: 45px;
+        width: 53px;
+        height: 50px;
         text-align: center;
-        line-height: 45px;
         background: $template_color3;
         border-radius: 10%;
-        font-size: 21px;
+        font-size: 23px;
         color: #edf5ff;
         margin-right: 13px;
         margin-left: 0px;

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, UrlTree } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
             email: ['', Validators.compose([Validators.required, Validators.email])],
             password: ['', [Validators.required]]
         });
-        this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+        //this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
         this.spinner.hide();
       }
       get f() { return this.loginForm.controls; }
@@ -74,8 +74,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
       .subscribe(
           data => {
             this.alertService.success('Request successfull, please wait..');
-            this.returnUrl = this.returnUrl !== '/' ? this.returnUrl : 'home';
-            this.router.navigate([this.stripParamPipe.transform(this.returnUrl)]);
+            this.returnUrl = this.route.snapshot.queryParams.returnUrl ? this.route.snapshot.queryParams.returnUrl : 'home';
+            const tree: UrlTree = this.router.parseUrl(this.returnUrl);
+            const q = tree.queryParams;
+            this.router.navigate([this.stripParamPipe.transform(this.returnUrl)], {queryParams: q});
           },
           error => {
               this.spinner.hide();

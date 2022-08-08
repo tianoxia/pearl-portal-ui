@@ -19,7 +19,7 @@ export class JwtInterceptor implements HttpInterceptor {
             token = loginResponse.accessToken;
             if (this.isTokenExpired(token) || !loginResponse.employeeId) {
                 localStorage.removeItem('currentUser');
-                this.router.navigate(['/login']);
+                this.router.navigate(['/login'], { queryParams: { sessionTimeOut: true }, skipLocationChange: false });
             }
         }
         if (token != null) {
@@ -31,10 +31,10 @@ export class JwtInterceptor implements HttpInterceptor {
     private handleAuthError(err: HttpErrorResponse): Observable<any> {
         //handle your auth error or rethrow
         switch (err.status) {
-            case 401:      //login
+            /* case 401:      //login
                 localStorage.removeItem('currentUser');
                 this.router.navigate(['/login'], { queryParams: { sessionTimeOut: true }, skipLocationChange: false });
-                return of(err.message);
+                return of(err.message); */
             case 403:     //forbidden
                 this.router.navigateByUrl("/unauthorized");
                 break;

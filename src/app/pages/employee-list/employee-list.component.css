@@ -49,29 +49,15 @@ tr.mat-row:not(:nth-child(2n+1)) {
 div.modal-body h5 {
     text-transform: none;
 }
-.file-dialog  .mat-dialog-container {
-    margin-top: 133px; 
-    padding-right: 30px;
-}
 .close-button{
     float: right;
     top: 4px;
     right: 4px;
   }
+  .modal-text-color{
+    color: #fff !important;
   
-  /* .close-icon {
-    transition: 1s ease-in-out;
-  } */
-  
-/*   ::ng-deep .icon-outside .close-button{
-    float: right;
-    top:-52px;
-    right:-52px;
-  } */
-  
-  /* ::ng-deep .icon-outside .mat-dialog-container {
-   overflow: unset
-  } */
+  }
 @media (max-width: 568px) {
     div.filter-header {
         font-size: 20px;

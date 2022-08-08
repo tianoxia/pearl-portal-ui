@@ -1,0 +1,152 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <app-alert class="row mt-1 pt-1"></app-alert>
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+            <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                View Expenses
+            </div>
+        </div>
+        <div class="timesheet-expense mt-2 pt-2">
+            <mat-tab-group [(selectedIndex)]="selectedIndex">
+                <mat-tab label="Expense Drafts">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon pr-2 mr-2 mb-1 pb-1">
+                                <i class="icofont-price"></i>
+                            </div>
+                            <div><h3>Expense Drafts</h3></div>
+                        </div>
+                        <form [formGroup]="expenseDraftsForm" autocomplete="off" novalidate>
+                            <div class="row"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Week Ending</mat-label>
+                                    <mat-select formControlName="draftWeekEnding" (selectionChange)="changeWeekEnding($event, 'draft')">
+                                        <mat-option *ngFor="let weekending of weekEndings" [value]="weekending">{{weekending | date: 'MM/dd/yyyy'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="allExpenseDrafts.data.length > 0; then hasDraftBlock else noDraftBlock" class="expense_grid"></div>
+                            <ng-template #noDraftBlock><div class="expense-container alert alert-danger text-center">No Draft Found</div></ng-template>
+                            <ng-template #hasDraftBlock>
+                                <!-- <mat-form-field>
+                                    <input
+                                    matInput
+                                    (keyup)="applyFilterOne($event.target.value)"
+                                    placeholder="Search"
+                                    />
+                                </mat-form-field> -->
+                                <div class="expense-container mat-elevation-z8">
+                                    <table mat-table [dataSource]="allExpenseDrafts" matSort #table1>
+                                        <ng-container matColumnDef="clientName" sticky>
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.clientName}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="contractorName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.contractorName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="weeklyExpense">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Expense</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.weeklyExpense | number:'1.2-2'}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="created">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.created | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="modified">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Modified</th>
+                                            <td mat-cell *matCellDef="let draft">{{draft.modified | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>
+                                        
+                                        <tr mat-header-row *matHeaderRowDef="displayedDraftColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedDraftColumns;"></tr>
+                                    </table>
+                                </div>                      
+                            </ng-template>
+                            <mat-paginator #TableOnePaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons> 
+                            </mat-paginator>
+                        </form>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Submitted Expenses">
+                    <div class="single-services">
+                        <div class="row">
+                            <div class="icon pr-2 mr-2 mb-1 pb-1">
+                                <i class="icofont-list"></i>
+                            </div>
+                            <div><h3>Submitted Expenses</h3></div>
+                        </div>
+                        <form [formGroup]="expensesForm" autocomplete="off" novalidate>
+                            <div class="row"> 
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Week Ending</mat-label>
+                                    <mat-select formControlName="expenseWeekEnding" (selectionChange)="changeWeekEnding($event, 'expense')">
+                                        <mat-option *ngFor="let weekending of weekEndings" [value]="weekending">{{weekending | date: 'MM/dd/yyyy'}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="allExpenses.data.length > 0; then hasExpenseBlock else noExpenseBlock" class="expense_grid"></div>
+                            <ng-template #noExpenseBlock>
+                                <div class="expense-container alert alert-danger text-center">No Expense Found</div>
+                            </ng-template>
+                            <ng-template #hasExpenseBlock>
+                                <div class="expense-container mat-elevation-z8">
+                                    <table mat-table [dataSource]="allExpenses" matSort #table2>
+                                        <ng-container matColumnDef="clientName" sticky>
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.clientName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="contractorName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contractor</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.contractorName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="weeklyExpense">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Expense</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.weeklyExpense | number:'1.2-2'}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="submitDate">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Submitted</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.submitDate | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="expenseStatus">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approval Status</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.expenseStatus}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="approverName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.approverName}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="release">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Release?</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.release}}</td>
+                                        </ng-container>
+                    
+                                        <ng-container matColumnDef="comment">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comment</th>
+                                            <td mat-cell *matCellDef="let expense">{{expense.comment}}</td>
+                                        </ng-container>
+                                        
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                </div>                         
+                            </ng-template>
+                            <mat-paginator #TableTwoPaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons>
+                            </mat-paginator>
+                        </form>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</section>

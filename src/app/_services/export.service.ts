@@ -62,4 +62,20 @@ export class ExportService {
       FileSaver.saveAs(blob, fileName + '.xlsx');
     });
   }
+
+  public exportToCSV(data: any[], fileNamePrefix: string, columns: any[]): void {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet(fileNamePrefix);
+    worksheet.columns = columns;
+    data.forEach(d => {
+      worksheet.addRow(d, 'n');
+    });
+    var fileName = fileNamePrefix;
+    workbook.csv.writeBuffer({ formatterOptions: { delimiter: ',' } }).then((data: any) => {
+      const blob = new Blob([data], {
+        type: 'application/octet-strea'
+      });
+      FileSaver.saveAs(blob, fileName + '.csv');
+    }).catch();
+  }
 }

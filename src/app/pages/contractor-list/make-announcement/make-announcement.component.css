@@ -1,0 +1,35 @@
+
+div.modal-body.announcement-div > div h5 {
+    text-align: left;
+    font-size: 16px;
+    padding-left: 6px;
+    background-color: rgb(235, 235, 235);
+    line-height: 28px;
+}
+div.modal-header.announcement-header {
+    margin-bottom: 10px;
+}
+div.modal-footer > button {
+    text-transform: none;
+}
+div.modal-body.announcement-div {
+    padding: 0px;
+}
+.modal-text-color{
+    color: #fff !important;
+  
+  }
+@media (max-width: 600px) {
+    .btn.btn-primary, .btn.btn-link {
+        width: 100%;
+    }
+    .announcement-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+      .announcement-div > *:not(:last-child) {
+        margin-right: unset;
+        margin-bottom: -2px;
+      }
+}

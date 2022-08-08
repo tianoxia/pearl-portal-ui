@@ -1,10 +1,11 @@
 {
   "name": "pearl-portal",
-  "version": "0.0.0",
+  "version": "1.0.20",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "prebuild": "npm --no-git-tag-version version patch",
+    "build": "ng build --prod --base-href \"/pearlportal/\"",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

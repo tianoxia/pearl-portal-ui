@@ -42,7 +42,7 @@ export class AssignmentListComponent implements OnInit {
   }
   constructor(
     public alertService: AlertService,
-    private fb: FormBuilder,
+    fb: FormBuilder,
     private authService: AuthenticationService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,

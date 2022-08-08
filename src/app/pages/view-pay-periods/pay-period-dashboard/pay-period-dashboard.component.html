@@ -1,6 +1,15 @@
 <section class="services-area ptb-100 bg-gray">
-    <div class="container">
-        <div class="row payperiod-dashboard">
+    <div class="container payperiod-dashboard">
+        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap>
+            <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                {{payFrequency}} Dashboard<div class="back">                    
+                <div class="icon mr-2 pr-2" (click)="back()">
+                    <i class="fas fa-arrow-left" title="Back"></i>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">            
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
                 <a routerLink="" (click)="navigateToPayPeriod('invoice')">
                     <div class="single-services">
@@ -13,7 +22,6 @@
                     </div>
                 </a>
             </div>
-
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
                 <a routerLink="" (click)="navigateToPayPeriod('payfile')">
                     <div class="single-services">

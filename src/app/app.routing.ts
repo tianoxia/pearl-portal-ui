@@ -11,6 +11,7 @@ import { MyProfileComponent } from './pages/account-management/my-profile/my-pro
 import { EmployeeListComponent } from './pages/employee-list/employee-list.component';
 import { ProviderEmployeeListComponent } from './pages/provider-employee-list/provider-employee-list.component';
 import { ClientListComponent } from './pages/client-list/client-list.component';
+import { TimesheetsExpensesComponent } from './pages/timesheets-expenses/timesheets-expenses.component';
 
 const appRoutes: Routes = [
   {
@@ -36,6 +37,8 @@ const appRoutes: Routes = [
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'login', component: LoginComponent },
   { path: 'view-all-reports', component: ViewAllReportsComponent, canActivate: [AuthGuard] },
+  { path: 'view-all-reports', loadChildren: () => import('./pages/view-all-reports/view-all-reports.module').then(m => m.ViewAllReportsModule),
+  canActivate: [AuthGuard]}, // access to children route by full url with parent directory where authGuard gets applied.
   { path: 'contractor-list', component: ContractorListComponent, canActivate: [AuthGuard] },
   { path: 'employee-list', component: EmployeeListComponent, canActivate: [AuthGuard] },
   { path: 'provider-employee-list', component: ProviderEmployeeListComponent, canActivate: [AuthGuard] },
@@ -53,7 +56,10 @@ const appRoutes: Routes = [
   { path: 'view-pay-periods/pay-period-dashboard/biweekly-pay-periods',
   loadChildren: () => import('./pages/view-pay-periods/pay-period-dashboard/biweekly-pay-periods/biweekly-pay-periods.module').then(m => m.ViewBiWeeklyPayPeriodsModule),
   canActivate: [AuthGuard] },
-  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] }
+  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard] },
+  { path: 'timesheets-expenses', component: TimesheetsExpensesComponent, canActivate: [AuthGuard] },
+  { path: 'timesheets-expenses', loadChildren: () => import('./pages/timesheets-expenses/timesheets-expenses.module').then(m => m.TimesheetsExpensesModule),
+  canActivate: [AuthGuard]}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

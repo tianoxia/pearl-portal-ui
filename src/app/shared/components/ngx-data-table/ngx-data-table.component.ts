@@ -13,7 +13,7 @@ import {
   selector: 'ngx-data-table',
   templateUrl: './ngx-data-table.component.html',
   styles: [
-    `.detail-table {display: flex;flex-direction: column;display: block;margin: 10px;width: 100%;max-width:1200px;overflow:auto;}
+    `.detail-table {display: flex;flex-direction: column;display: block;margin: 10px -20px 10px 5px;width: 100%;overflow:auto;}
     .expand-icon {color: rgba(0,0,0,.44);font-size: 12px; margin-right: 5px; cursor: pointer;}
     .col-value:first-child span{margin-left: 15px;}    
     .mat-form-field {padding: 10px 10px 0 10px;width: calc(100% - 20px);}
@@ -23,11 +23,13 @@ import {
     .mat-header-cell:nth-child(6){min-width: 60px;}
     .mat-cell:not(:nth-child(6)){min-width: 45px;}
     .mat-header-cell:not(:nth-child(6)){min-width: 45px;}
-    .mat-cell:first-child{min-width: 100px;margin-left:3px;padding-left:3px}
-    .mat-header-cell:first-child{min-width: 100px;margin-left:0px;padding-left:6px}
+    .mat-cell:first-child{min-width: 100px;margin-left:0px;padding-left:3px}
+    .mat-header-cell:first-child{min-width: 100px;margin-left:0px;padding-left:3px}
     .mat-cell:nth-child(4){min-width: 20px;}
     .mat-header-cell:nth-child(4){min-width: 20px;}
     .mat-cell:nth-child(3){min-width: 30px;}
+    .mat-header-cell:nth-child(5){margin-right:0px;padding-right:0px}
+    .mat-cell:nth-child(5){margin-right:0px;padding-right:0px}
     .mat-header-cell:nth-child(3){min-width: 30px;}
     .mat-cell:nth-child(7),.mat-cell:nth-child(14),.mat-cell:nth-child(15){min-width: 50px;}
     .mat-header-cell:nth-child(7),.mat-header-cell:nth-child(14),.mat-header-cell:nth-child(15){min-width: 50px;}

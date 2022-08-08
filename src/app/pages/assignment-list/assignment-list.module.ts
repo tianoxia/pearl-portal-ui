@@ -6,11 +6,13 @@ import { routing } from './assignment-list.routing';
 import { SharedModule } from '../../shared/shared.module';
 import { AddEditAssignmentComponent } from './add-edit-assignment/add-edit-assignment.component';
 import { ViewAssignmentComponent } from './view-assignment/view-assignment.component';
+import { UpdateAssignmentEndDateComponent } from './update-assignment-enddate/update-assignment-enddate.component';
 
 @NgModule({
   declarations: [
     AddEditAssignmentComponent,
-    ViewAssignmentComponent
+    ViewAssignmentComponent,
+    UpdateAssignmentEndDateComponent
   ],
   imports: [
     CommonModule,
@@ -18,6 +20,7 @@ import { ViewAssignmentComponent } from './view-assignment/view-assignment.compo
     ReactiveFormsModule,
     SharedModule,
     routing
-  ]
+  ],
+  entryComponents: [UpdateAssignmentEndDateComponent]
 })
 export class AssignmentListModule { }

@@ -1,0 +1,286 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="payrolllist row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Payroll Report {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="payrollReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(payrollReportForm.value)">
+                  <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="8px" class="mt-2 pt-2">
+                    <mat-form-field appearance="fill" fxFlex="20%">
+                        <mat-label>Select A Status</mat-label>
+                        <mat-select formControlName="employeeStatus" [compareWith]="compareStatuses">
+                            <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" fxFlex="20%">
+                        <mat-label>Select A Type</mat-label>
+                        <mat-select formControlName="employeeCategory" [compareWith]="compareCategory">
+                            <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-card-actions fxFlex="20%">
+                        <button mat-raised-button color="primary"><i class="icofont-search-job"></i> View Report</button>
+                    </mat-card-actions>
+                    <!-- <mat-form-field fxFlex="40%">
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" class="filter">
+                    </mat-form-field> -->
+                  </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div *ngIf="!(dataSource.data.length>0)" class="alert alert-danger text-center mt-1 pt-1">No Payroll Data Found</div>
+                <div class="payroll-report-container mat-elevation-z8 mt-2" *ngIf="dataSource.data.length>0">
+                    <mat-accordion [multi]="false" #accordion="matAccordion">
+                        <mat-expansion-panel class="expansion-panel" [expanded]="isFirst"
+                          *ngFor="let report of dataSource.data; index as i; first as isFirst; last as isLast">
+                          <mat-expansion-panel-header class="expansion-row" #panel>
+                            <mat-panel-title>
+                              <div class="font-weight-semibold">{{payrollType[report.payrollType]}}</div>
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <ng-template matExpansionPanelContent>
+                            <table mat-table [dataSource]="report.payrollDetails">
+                              <ng-container matColumnDef="firstName">
+                                <th mat-header-cell *matHeaderCellDef>Name</th>
+                                <td mat-cell *matCellDef="let detail" class="m-card-title">
+                                  {{detail.firstName+' '+detail.lastName}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="client">
+                                <th mat-header-cell *matHeaderCellDef>Client</th>
+                                <td mat-cell *matCellDef="let detail" class="m-card-title">
+                                  {{detail.clientName}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef></td>
+                              </ng-container>
+                              <ng-container matColumnDef="weekOneHours">
+                                <th mat-header-cell *matHeaderCellDef>Week1 Hours</th>
+                                <td mat-cell *matCellDef="let detail">
+                                  <span *ngIf="detail.weekOneData">{{detail.weekOneData.weeklyHours | number:'1.2-2'}}</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              
+                              <ng-container matColumnDef="weekOneOTHours">
+                                <th mat-header-cell *matHeaderCellDef>Week1 OT Hours</th>
+                                <td mat-cell *matCellDef="let detail">
+                                  <span *ngIf="detail.weekOneData">{{detail.weekOneData.weeklyOTHours | number:'1.2-2'}}</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="weekOneDTHours">
+                                <th mat-header-cell *matHeaderCellDef>Week1 DT Hours</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  <span *ngIf="detail.weekOneData">{{detail.weekOneData.weeklyDTHours | number:'1.2-2'}}</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="weekTwoHours">
+                                <th mat-header-cell *matHeaderCellDef>Week2 Hours</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  <span *ngIf="detail.weekTwoData">{{detail.weekTwoData.weeklyHours | number:'1.2-2'}}</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="weekTwoOTHours">
+                                <th mat-header-cell *matHeaderCellDef>Week2 OT Hours</th>
+                                <td mat-cell *matCellDef="let detail">
+                                  <span *ngIf="detail.weekTwoData">{{detail.weekTwoData.weeklyOTHours | number:'1.2-2'}}</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>                              
+                              <ng-container matColumnDef="weekTwoDTHours">
+                                <th mat-header-cell *matHeaderCellDef>Week2 DT Hours</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  <span *ngIf="detail.weekTwoData">{{detail.weekTwoData.weeklyDTHours | number:'1.2-2'}}</span>
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalHours">
+                                <th mat-header-cell *matHeaderCellDef>Total Hours</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalHours | number:'1.2-2'}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  {{report.subTotalHours | number:'1.2-2'}}
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalOTHours">
+                                <th mat-header-cell *matHeaderCellDef>Total OT Hours</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalOTHours | number:'1.2-2'}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  {{report.subTotalOTHours | number:'1.2-2'}}
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalDTHours">
+                                <th mat-header-cell *matHeaderCellDef>Total DT Hours</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalDTHours | number:'1.2-2'}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  {{report.subTotalDTHours | number:'1.2-2'}}
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="payRate">
+                                <th mat-header-cell *matHeaderCellDef>Pay Rate</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.payRate | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="otRate">
+                                <th mat-header-cell *matHeaderCellDef>OT Rate</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.otRate | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="dtRate">
+                                <th mat-header-cell *matHeaderCellDef>DT Rate</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.dtRate | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalPay">
+                                <th mat-header-cell *matHeaderCellDef>Total Pay</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalPay | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  {{report.subTotalPay | currency}}
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalSalary">
+                                <th mat-header-cell *matHeaderCellDef>Salary</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalSalary | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalCommission">
+                                <th mat-header-cell *matHeaderCellDef>Commission</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalCommission | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="totalExpenses">
+                                <th mat-header-cell *matHeaderCellDef>Expenses</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.totalExpenses | currency}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                  {{report.subTotalExpenses | currency}}
+                                </td>
+                              </ng-container>
+                              <ng-container matColumnDef="payMethod">
+                                <th mat-header-cell *matHeaderCellDef>Pay Method</th>
+                                <td mat-cell *matCellDef="let detail">   
+                                  {{detail.payMethod}}
+                                </td>
+                                <td mat-footer-cell *matFooterCellDef>
+                                </td>
+                              </ng-container>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                              <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+                            </table>
+                          </ng-template>
+                        </mat-expansion-panel>
+                      </mat-accordion>                      
+                </div>
+                <div class="single-services mt-3">
+                  <div class="box-content">
+                    <div *ngIf="payrollReportData?.w2PayrollGrandTotal" class="summary-font summary-font-mobile" fxLayout="row" fxLayoutAlign="start start" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="4px">
+                      Total W2 Payroll: {{payrollReportData.w2PayrollGrandTotal | currency}}
+                    </div>
+                    <div *ngIf="payrollReportData?.taxMatch" class="summary-font summary-font-mobile" fxLayout="row" fxLayoutAlign="start start" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="4px">
+                      Tax Match: {{payrollReportData.taxMatch | currency}}
+                    </div>
+                    <div *ngIf="payrollReportData?.w2GrandTotal" class="summary-font summary-font-mobile" fxLayout="row" fxLayoutAlign="start start" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="4px">
+                      Total W2: {{payrollReportData.w2GrandTotal | currency}}
+                    </div>
+                    <div fxLayout="row" class="summary-font summary-font-mobile" *ngIf="payrollReportData?.corpToCorpPayrollGrandTotal" fxLayoutAlign="start start" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="4px">
+                      Total Corp To Corp: {{payrollReportData.corpToCorpPayrollGrandTotal | currency}}
+                    </div>
+                    <div *ngIf="payrollReportData?.expensesGrandTotal" class="summary-font summary-font-mobile" fxLayout="row" fxLayoutAlign="start start" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="4px">
+                      Total Expenses: {{payrollReportData.expensesGrandTotal | currency}}
+                    </div>
+                    <div *ngIf="payrollReportData?.payrollGrandTotal" class="summary-font summary-font-mobile" fxLayout="row" fxLayoutAlign="start start" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="4px">
+                      Total Payroll: {{payrollReportData.payrollGrandTotal | currency}}
+                    </div>
+                  </div>
+                </div>
+                <mat-accordion>
+                  <mat-expansion-panel class="expansion-panel">
+                    <mat-expansion-panel-header class="expansion-row" #panel>
+                      <mat-panel-title>
+                        <div class="font-weight-semibold">Invoices</div>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ng-template matExpansionPanelContent>
+                      <table mat-table [dataSource]="invoiceDetails">
+                        <ng-container matColumnDef="invoiceNumber">
+                          <th mat-header-cell *matHeaderCellDef>Invoice Number</th>
+                          <td mat-cell *matCellDef="let invDetail" class="m-card-title">
+                            {{invDetail.invoiceNumber}}
+                          </td>
+                          <td mat-footer-cell *matFooterCellDef>
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="discount">
+                          <th mat-header-cell *matHeaderCellDef>Discount</th>
+                          <td mat-cell *matCellDef="let invDetail" class="m-card-title">
+                            {{invDetail.discount | currency}}
+                          </td>
+                          <td mat-footer-cell *matFooterCellDef>
+                            {{sumInvoiceDetailDiscount | currency}}
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="amount">
+                          <th mat-header-cell *matHeaderCellDef>Amount</th>
+                          <td mat-cell *matCellDef="let invDetail">
+                            {{invDetail.amount | currency}}
+                          </td>
+                          <td mat-footer-cell *matFooterCellDef>
+                            {{sumInvoiceDetailTotal | currency}}
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="clientName">
+                          <th mat-header-cell *matHeaderCellDef>Client</th>
+                          <td mat-cell *matCellDef="let invDetail">
+                            {{invDetail.clientName}}
+                          </td>
+                          <td mat-footer-cell *matFooterCellDef>
+                          </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedInvoiceDetailColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedInvoiceDetailColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="displayedInvoiceDetailColumns; sticky: true"></tr>
+                      </table>
+                    </ng-template>
+                  </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</section>

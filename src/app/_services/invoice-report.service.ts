@@ -4,7 +4,7 @@ import { throwError } from 'rxjs';
 import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ErrorDetails, InvoiceReportRequest } from '../_models';
+import { ErrorDetails, InvoiceReportRequest, PayFileRequest } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -54,20 +54,28 @@ export class InvoiceReportService {
   emailInvoices(data: FormData) {
     return this.http.post(this.baseurl + `/v1/report/invoices/email/`, data).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  printInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/v1/report/invoices/pdf`, InvoiceReportRequest)
+  printInvoiceReport(invoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/invoices/pdf`, invoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  printPermInvoiceReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/v1/report/invoices/perm/pdf`, InvoiceReportRequest)
+  printPermInvoiceReport(invoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/invoices/perm/pdf`, invoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  printTimesheetReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/v1/report/timesheets/pdf`, InvoiceReportRequest)
+  printTimesheetReport(invoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/timesheets/pdf`, invoiceReportRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
-  printExpenseReport(InvoiceReportRequest: InvoiceReportRequest) {
-    return this.http.post(this.baseurl + `/v1/report/expenses/pdf`, InvoiceReportRequest)
+  printExpenseReport(invoiceReportRequest: InvoiceReportRequest) {
+    return this.http.post(this.baseurl + `/v1/report/expenses/pdf`, invoiceReportRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  printContractorPayFile(payFileRequest: PayFileRequest) {
+    return this.http.post(this.baseurl + `/v1/payfile/contract`, payFileRequest)
+    .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
+  printEmployeePayFile(payFileRequest: PayFileRequest) {
+    return this.http.post(this.baseurl + `/v1/payfile/employee`, payFileRequest)
     .pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
 }

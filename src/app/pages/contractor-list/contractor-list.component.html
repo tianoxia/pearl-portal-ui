@@ -1,13 +1,13 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container">
         <div class="contractorlist row mt-1 pt-1">
-            <div class="col-md-12 col-lg-12 mt-2 pt-2">
-                <app-alert></app-alert>
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">                
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
                         View Contractors {{subTitle}}
                     </div>
                 </div>
+                <app-alert></app-alert>
                 <form [formGroup]="contractorListForm" autocomplete="off" novalidate (ngSubmit)="showContractorList(contractorListForm.value)">
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="8px" class="mt-2 pt-2">
                         <mat-form-field appearance="fill" fxFlex="20%">
@@ -27,9 +27,9 @@
                 <mat-divider></mat-divider>
                 <div class="row action-buttons">
                     <a routerLink="/add-contractor" class="btn btn-sm btn-success"><i class="icofont-plus"></i> Add Contractor</a>
-                    <a routerLink="/notification" class="btn btn-sm btn-info"><i class="icofont-bullhorn"></i> Send Notification</a>
+                    <a href="#" (click)="makeAnnouncement();" class="btn btn-sm btn-info"><i class="icofont-bullhorn"></i> Send Notification</a>
                 </div>
-                <div *ngIf="dataSource.data.length > 0; then hasContractorBlock else noContractorBlock"></div>
+                <div *ngIf="dataSource.data?.length > 0; then hasContractorBlock else noContractorBlock"></div>
                     <ng-template #noContractorBlock><div class="alert alert-danger text-center">No Contractor Found</div></ng-template>
                     <ng-template #hasContractorBlock>
                         <div class="contractorlist-container mat-elevation-z8">
@@ -104,8 +104,8 @@
                     </ng-template>
                     <ng-template #uploadFilesDialog let-modal>
                         <form [formGroup]="contractorUploadFilesForm" autocomplete="off" novalidate (ngSubmit)="showContractorList(contractorListForm.value)">
-                            <div class="modal-header file-upload-header justify-content-center bg-warning">
-                                <h5 class="modal-title">Upload Files for {{selectedContractor.firstName + ' ' +
+                            <div class="modal-header file-upload-header justify-content-center bg-info">
+                                <h5 class="modal-title modal-text-color">Upload Files for {{selectedContractor.firstName + ' ' +
                                     selectedContractor.lastName}}</h5>
                             </div>
                             <div class="modal-body file-upload-div text-center">
@@ -127,7 +127,7 @@
                         </button>
                         <h2 mat-dialog-title>Attachments</h2>
                         <mat-dialog-content class="mat-typography">
-                            <mat-list dense>
+                            <mat-list *ngIf="selectedContractor.contractorAttachments" dense>
                                 <mat-list-item *ngFor="let file of selectedContractor.contractorAttachments">
                                     <mat-icon mat-list-icon>note</mat-icon>
                                     <div mat-line><a href={{file.fileNameWithPath}} target="_blank">{{file.fileName}}</a></div>
@@ -136,6 +136,7 @@
                                         delete</mat-icon></a></div>
                                 </mat-list-item>                                
                             </mat-list>
+                            <div *ngIf="!selectedContractor.contractorAttachments" class="alert alert-danger text-center">No Attachment Found</div>
                         </mat-dialog-content>
                         <mat-dialog-actions align="end">
                             <button mat-button mat-dialog-close>Close</button>

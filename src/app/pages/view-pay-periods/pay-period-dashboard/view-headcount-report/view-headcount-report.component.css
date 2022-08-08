@@ -8,9 +8,8 @@ div.filter-header {
     padding-bottom: 20px;
     color: #000000;    
 }
-.mat-table {
-    display: block;
-    overflow: auto;
+.container>.headcountlist .mat-table {
+    overflow: auto;;
     width: 100%;
 }
 th.mat-header-cell {
@@ -54,6 +53,9 @@ tr.mat-row:not(:nth-child(2n+1)) {
         display: inline-block;
         line-height: 1;
         margin-right: 6px;
+    }
+    .container>.headcountlist .mat-table {
+        display: block;
     }
     .mat-form-field, .mat-card-actions > .mat-raised-button {
         width: 100%;

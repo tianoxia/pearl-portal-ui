@@ -194,6 +194,8 @@ export class AddEditAssignmentComponent implements OnInit {
             if (this.assignment.secondRefererId > 0) {
               this.assignmentAddEditForm.get('secondReferer').patchValue(this.assignment.secondRefererId);
             }
+            this.assignmentAddEditForm.get('notes').patchValue(this.assignment.notes.notes);
+            this.assignmentAddEditForm.get('notes2').patchValue(this.assignment.notes.notes2);
             this.spinner.hide();
           },
           (error => {

@@ -26,6 +26,7 @@ export class ViewCustomReportComponent implements OnInit {
   @Input() clients: Client[];
   @Input() recruiters: Recruiter[];
   startDate: Date;
+  subTitle: string;
   sum: CustomReportTotals;
   selectedDept: Department;
   floatLabelControl = new FormControl('auto');
@@ -161,6 +162,7 @@ export class ViewCustomReportComponent implements OnInit {
         window.scrollTo(0, 0);
         this.dataSource.data = res as CustomReportResponse[];
         this.dataSource.sort = this.sort;
+        this.subTitle = ' ('+this.dataSource.data.length+' Records)';
         if (this.dataSource)
           for (let row of this.dataSource.data) {
             if (row.hours !== 0) this.sum.totalHours += row.hours;

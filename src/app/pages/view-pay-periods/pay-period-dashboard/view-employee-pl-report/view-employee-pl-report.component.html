@@ -1,0 +1,126 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="employeepllist row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">
+                <app-alert></app-alert>
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        Employee PL Report {{subTitle}}
+                    </div>
+                </div>
+                <form [formGroup]="employeeProfitLossReportForm" autocomplete="off" novalidate (ngSubmit)="showReport(employeeProfitLossReportForm.value)">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Employee Type</mat-label>
+                            <mat-select formControlName="employeeStatus" [compareWith]="compareStatuses">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Employee Category</mat-label>
+                            <mat-select formControlName="employeeCategory" [compareWith]="compareCategories">
+                                <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department" [compareWith]="compareDepartments">
+                                <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-card-actions fxFlex="40%">
+                            <button mat-raised-button color="primary" [disabled]="!employeeProfitLossReportForm.valid"><i class="icofont-search-document"></i> Get Report</button>
+                        </mat-card-actions>
+                    </div>
+                </form>
+                <mat-divider></mat-divider>
+                <div class="employee-pl-report-container mat-elevation-z8">
+                    <table *ngIf="employeeProfitLossReport?.employeeProfitLossReportDetails.length>0 && employeeProfitLossReport?.weelyEmployeeProfitLossTotal.length>0" multiTemplateDataRows
+                        mat-table [dataSource]="employeeProfitLossReport?.employeeProfitLossReportDetails" class="parent-table">
+                        <ng-container [matColumnDef]="dynamicColumn" *ngFor="let dynamicColumn of displayedColumns">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <span *ngIf="isWeekEnding(dynamicColumn)">{{dynamicColumn}} P/L</span>
+                                <span *ngIf="dynamicColumn == 'name'">Name</span>
+                                <span *ngIf="dynamicColumn == 'mtdCost'">MTD Cost</span>
+                                <span *ngIf="dynamicColumn == 'mtdContractGrossMargin'">Contract MTD</span>
+                                <span *ngIf="dynamicColumn == 'ytdContractGrossMargin'">Contract YTD</span>
+                                <span *ngIf="dynamicColumn == 'mtdPermPlacementGrossMargin'">PP MTD</span>
+                                <span *ngIf="dynamicColumn == 'ytdPermPlacementGrossMargin'">PP YTD</span>
+                                <span *ngIf="dynamicColumn == 'mtdGrossMargin'">Total MTD</span>
+                                <span *ngIf="dynamicColumn == 'ytdGrossMargin'">Total YTD</span>
+                            </th>
+                            <td mat-cell *matCellDef="let report">
+                                <span *ngIf="dynamicColumn == 'name'">{{report.name}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdCost'">{{report.mtdCost | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdContractGrossMargin'">{{report.mtdContractGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'ytdContractGrossMargin'">{{report.ytdContractGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdPermPlacementGrossMargin'">{{report.mtdPermPlacementGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'ytdPermPlacementGrossMargin'">{{report.ytdPermPlacementMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'mtdGrossMargin'">{{report.mtdGrossMargin | currency}}</span>
+                                <span *ngIf="dynamicColumn == 'ytdGrossMargin'">{{report.ytdGrossMargin | currency}}</span>
+                                <span *ngIf="isWeekEnding(dynamicColumn)">
+                                    <span *ngFor="let wk of report.weeklyEmployeeProfitLossDetails">
+                                        <span *ngIf="(wk.weekEnding | date: 'MM/dd/yyyy') == dynamicColumn" class="week-cell">
+                                            {{wk.weeklyProfitLossAmount | currency}}
+                                            <button mat-icon-button aria-label="expand row" (click)="expandCollapse(wk); $event.stopPropagation()">
+                                                <mat-icon *ngIf="expandedElement !== wk" class="arrow-down">keyboard_arrow_down</mat-icon>
+                                                <mat-icon *ngIf="expandedElement === wk" class="arrow-up">keyboard_arrow_up</mat-icon>
+                                            </button>
+                                        </span>
+                                    </span>
+                                </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let report" [attr.colspan]="displayedColumns.length">
+                                <div class="weekly-element-detail" *ngIf="expandedElement"
+                                    [@detailExpand]="expandedElement.employeeId == report.employeeId ? 'expanded' : 'collapsed'">
+                                    <table mat-table [dataSource]="weekDataSource" *ngIf="expandedElement">
+                                        <ng-container matColumnDef="weekEnding">
+                                            <th mat-header-cell *matHeaderCellDef>Week Ending</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weekEnding | date: 'MM/dd/yyyy'}}</td>
+                                        </ng-container>                                    
+                                        <ng-container matColumnDef="contractMargin">
+                                            <th mat-header-cell *matHeaderCellDef>Contract Margin</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklyContractGrossMargin | currency}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="ppMargin">
+                                            <th mat-header-cell *matHeaderCellDef>PP Margin</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklyPermPlacementMargin | currency}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="salary">
+                                            <th mat-header-cell *matHeaderCellDef>Salary</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklySalary | currency}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="expenses">
+                                            <th mat-header-cell *matHeaderCellDef>Expenses</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklyExpenses | currency}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="commission">
+                                            <th mat-header-cell *matHeaderCellDef>Commission</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklyCommission | currency}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="cost">
+                                            <th mat-header-cell *matHeaderCellDef>Cost</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklyCost | currency}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="pl">
+                                            <th mat-header-cell *matHeaderCellDef>P/L</th>
+                                            <td mat-cell *matCellDef="let week">{{week.weeklyProfitLossAmount | currency}}</td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedWeekColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedWeekColumns;" class="weekly-row"></tr>   
+                                    </table>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="weekly-detail-row"></tr>
+                    </table>
+                </div>
+                <div *ngIf="!employeeProfitLossReport || employeeProfitLossReport?.weelyEmployeeProfitLossTotal.length==0" class="alert alert-danger text-center mt-1 pt-1">No Employee PL Data Found</div>
+            </div>
+        </div>
+    </div>
+</section>

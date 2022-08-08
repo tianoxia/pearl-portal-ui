@@ -44,7 +44,6 @@ li {
 /* Header */
 #header {
 	position: relative;
-	z-index: 1030;
 }
 
 #header .header-body {
@@ -55,7 +54,7 @@ li {
 	width: 100%;
 	border-top: 3px solid #EDEDED;
 	border-bottom: 1px solid transparent;
-	z-index: 1001;
+	z-index: 1000;
 }
 
 #header .header-body.header-body-bottom-border-fixed {

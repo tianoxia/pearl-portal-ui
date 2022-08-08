@@ -31,12 +31,13 @@ import { ViewPayPeriodsComponent } from './pages/view-pay-periods/view-pay-perio
 import { AssignmentListComponent } from './pages/assignment-list/assignment-list.component';
 import { AssignmentListModule } from './pages/assignment-list/assignment-list.module';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
-import { UpdateAssignmentEndDateComponent } from './pages/assignment-list/update-assignment-enddate/update-assignment-enddate.component';
 import { AddEditPayPeriodComponent } from './pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
 import { ArrowDivDirective } from './shared/directives/arrow-div.directive';
 import { AccountManagementModule } from './pages/account-management/account-management.module';
 import { ClientListComponent } from './pages/client-list/client-list.component';
 import { ClientListModule } from './pages/client-list/client-list.module';
+import { TimesheetsExpensesModule } from './pages/timesheets-expenses/timesheets-expenses.module';
+import { TimesheetsExpensesComponent } from './pages/timesheets-expenses/timesheets-expenses.component';
 
 export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
@@ -62,7 +63,8 @@ export function initializeApp(appConfig: AppConfig) {
     AssignmentListModule,
     ClientListModule,
     AccountManagementModule,
-    NgbModule
+    NgbModule,
+    TimesheetsExpensesModule
   ],
   declarations: [
     AppComponent,
@@ -77,9 +79,9 @@ export function initializeApp(appConfig: AppConfig) {
     AssignmentListComponent,
     ClientListComponent,
     UnauthorizedComponent,
-    UpdateAssignmentEndDateComponent,
     AddEditPayPeriodComponent,
-    ArrowDivDirective
+    ArrowDivDirective,
+    TimesheetsExpensesComponent
   ],
   providers: [
     AppConfig, AuthGuard,
@@ -90,6 +92,6 @@ export function initializeApp(appConfig: AppConfig) {
     KeyBoardService
  ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginHelpDialogComponent, UpdateAssignmentEndDateComponent, AddEditPayPeriodComponent]
+  entryComponents: [LoginHelpDialogComponent, AddEditPayPeriodComponent]
 })
 export class AppModule { }

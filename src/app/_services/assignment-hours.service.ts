@@ -5,7 +5,6 @@ import { catchError, timeout } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ErrorDetails, AssignmentHoursRequest } from '../_models';
-import { CommissionReportRequest } from 'app/_models/commission-report-request';
 
 @Injectable({
   providedIn: 'root'

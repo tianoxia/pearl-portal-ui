@@ -1,0 +1,81 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="assignmentlist row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">                
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        View Assignments {{subTitle}}
+                    </div>
+                </div>
+                <app-alert></app-alert>
+                <form [formGroup]="assignmentListForm" autocomplete="off" novalidate (ngSubmit)="showAssignmentList()">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Select A Status</mat-label>
+                            <mat-select formControlName="assignmentStatus" [compareWith]="compareStatuses">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department" [compareWith]="compareDepartments">
+                                <mat-option *ngFor="let department of departments" [value]="department">{{department.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary"><i class="icofont-search-document"></i> View Assignments</button>
+                        </mat-card-actions>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start" class="mt-2 pt-2">
+                        <mat-form-field fxFlex="60%">
+                            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                    </div>
+                </form>
+                <mat-divider class="mb-2"></mat-divider>
+                <div *ngIf="dataSource.data?.length > 0; then hasAssignmentBlock else noAssignmentBlock"></div>
+                    <ng-template #noAssignmentBlock><div class="alert alert-danger text-center">No Assignment Found</div></ng-template>
+                    <ng-template #hasAssignmentBlock>
+                        <div class="assignmentlist-container mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort #assignmentTable>
+                                <ng-container matColumnDef="departmentName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.departmentName}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="clientName" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Client</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.clientName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="contractorName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Contrator</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.contractorName}}</td>
+                                </ng-container>
+            
+                                <ng-container matColumnDef="locationName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.locationName}}</td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="contactName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>First Contact</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.contactName}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="accountingContactName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Second Contact</th>
+                                    <td mat-cell *matCellDef="let assignment">{{assignment.accountingContactName}}</td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </ng-template>
+                    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 100]" 
+                    (page)="onPaginateChange($event)" showFirstLastButtons> 
+                    </mat-paginator>              
+            </div>
+        </div>
+    </div>
+</section>

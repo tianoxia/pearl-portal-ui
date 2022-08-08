@@ -53,7 +53,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Rate</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.payRate | currency" formControlName="payRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.payRate | number:'1.2-2'" formControlName="payRate">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -61,7 +61,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>OT Rate</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.otRate | currency" formControlName="otRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.otRate | number:'1.2-2'" formControlName="otRate">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -69,7 +69,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>DT Rate</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.dtRate | currency" formControlName="dtRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.dtRate | number:'1.2-2'" formControlName="dtRate">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -77,7 +77,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Bill Rate</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.billRate | currency" formControlName="billRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.billRate | number:'1.2-2'" formControlName="billRate">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -85,7 +85,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>OT BillRate</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.otBillRate | currency" formControlName="otBillRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.otBillRate | number:'1.2-2'" formControlName="otBillRate">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -93,7 +93,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>DT BillRate</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.dtBillRate | currency" formControlName="dtBillRate">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.dtBillRate | number:'1.2-2'" formControlName="dtBillRate">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -109,7 +109,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Expenses (Billed to Client)</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expCost | currency" formControlName="expCost">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expCost | number:'1.2-2'" formControlName="expCost">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -125,7 +125,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>PPExp</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.ppExp | currency" formControlName="ppExp">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.ppExp | number:'1.2-2'" formControlName="ppExp">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -134,7 +134,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>OOPExp</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.oopExp | currency" formControlName="oopExp">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.oopExp | number:'1.2-2'" formControlName="oopExp">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -143,7 +143,7 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Expense Allowance</th>
                                 <td mat-cell *matCellDef="let report let rowIndex = index" [formGroupName]="rowIndex">
                                     <mat-form-field floatLabel="never">
-                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expAllowance | currency" formControlName="expAllowance">
+                                        <input arrow-div matInput onfocus="this.select()" [value]="report.expAllowance | number:'1.2-2'" formControlName="expAllowance">
                                     </mat-form-field>
                                 </td>
                             </ng-container>
@@ -155,8 +155,7 @@
                         <button mat-raised-button color="primary">
                             <mat-icon>av_timer</mat-icon> Save My Time
                         </button>
-                        <a mat-raised-button [routerLink]="['/view-pay-periods/pay-period-dashboard/weekly-pay-periods/weekly-pay-period-dashboard']"
-                        [queryParams]="{weekending: weekEnding, altweekending: altWeekEnding, pagetype: 'report', payperiodid: payPeriodId, paydate: payDate, payfrequency: 'weekly'}" class="btn btn-link">
+                        <a mat-raised-button (click)="back()" class="btn btn-link">
                             <mat-icon>arrow_back</mat-icon> Back</a>
                     </div>
                 </form>

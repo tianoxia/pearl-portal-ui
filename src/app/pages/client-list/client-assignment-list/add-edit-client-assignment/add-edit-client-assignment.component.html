@@ -1,0 +1,289 @@
+<section class="services-area ptb-100 bg-gray">
+    <div class="container add-assignment">
+        <div class="row mt-1 pt-1">
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">                
+                <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
+                    <div fxLayout fxLayoutAlign="center center" class="filter-header">
+                        {{action}} Assignment
+                    </div>
+                </div>
+                <app-alert></app-alert>
+                <form [formGroup]="assignmentAddEditForm" autocomplete="off" (ngSubmit)="onSubmit()">
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Office</mat-label>
+                            <mat-select formControlName="office">
+                                <mat-option *ngFor="let office of offices" [value]="office.officeId">{{office.officeName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="30%">
+                            <mat-label>Client</mat-label>
+                            <mat-select formControlName="client">
+                                <mat-option (click)="optionClick(client.clientId)" *ngFor="let client of clients" [value]="client.clientId">{{client.name}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('client')">{{getErrorMessage('client')}}</mat-error>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="30%">
+                            <mat-label>Contractor</mat-label>
+                            <mat-select formControlName="contractor">
+                                <mat-option *ngFor="let contr of contractors" [value]="contr.contractorId">{{contr.firstName+' '+contr.lastName}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('contractor')">{{getErrorMessage('contractor')}}</mat-error>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Location</mat-label>
+                            <mat-select formControlName="location">
+                                <mat-option *ngFor="let location of locations" [value]="location.locationId">{{location.locationName+' - '+location.state+' '+location.city
+                                    +' '+location.address+', '+location.address2+' '+location.zip}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('location')">{{getErrorMessage('location')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Status</mat-label>
+                            <mat-select formControlName="assignmentStatus">
+                                <mat-option *ngFor="let status of statuses" [value]="status">{{status}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Pay Frequency</mat-label>
+                            <mat-select formControlName="payFrequency">
+                                <mat-option value="B">Bi-Weekly</mat-option>
+                                <mat-option value="W">Weekly</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('payFrequency')">{{getErrorMessage('payFrequency')}}</mat-error>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="30%">
+                            <mat-label>Invoice Group</mat-label>
+                            <mat-select formControlName="invoiceGroup">
+                                <mat-option *ngFor="let ig of invoiceGroups" [value]="ig.invoiceGroupId">{{ig.description}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('invoiceGroup')">{{getErrorMessage('invoiceGroup')}}</mat-error>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="30%">
+                            <mat-label>Contact</mat-label>
+                            <mat-select formControlName="contact">
+                                <mat-option *ngFor="let contact of contacts" [value]="contact.contactId">{{contact.firstName+' '+contact.lastName}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('contact')">{{getErrorMessage('contact')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Department</mat-label>
+                            <mat-select formControlName="department">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.departmentId">{{dept.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Employee Type</mat-label>
+                            <mat-select formControlName="employeeType" (selectionChange)="onEmployeeTypeChange()">
+                                <mat-option value="Corp to Corp">Corp to Corp</mat-option>
+                                <mat-option value="W2">W2</mat-option>
+                                <mat-option value="Perm Placement">Perm Placement</mat-option>
+                            </mat-select>                            
+                            <mat-error *ngIf="hasError('employeeType')">{{getErrorMessage('employeeType')}}</mat-error>
+                        </mat-form-field>
+                            
+                        <mat-form-field appearance="fill" fxFlex="8%">
+                            <mat-label>Burden</mat-label>
+                            <input matInput formControlName="burdenRate" />
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="18%">
+                            <mat-label>Position</mat-label>
+                            <input matInput formControlName="position" />
+                            <mat-error *ngIf="hasError('position')">{{getErrorMessage('position')}}</mat-error>
+                        </mat-form-field>
+                    
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>Pay Rate</mat-label>
+                            <input matInput type="number" formControlName="payRate" />
+                            <mat-error *ngIf="hasError('payRate')">{{getErrorMessage('payRate')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>Overtime Rate</mat-label>
+                            <input matInput type="number" formControlName="otRate" />
+                            <mat-error *ngIf="hasError('otRate')">{{getErrorMessage('otRate')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>Bill Rate</mat-label>
+                            <input matInput type="number" formControlName="billRate" />
+                            <mat-error *ngIf="hasError('billRate')">{{getErrorMessage('billRate')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>Overtime Bill Rate</mat-label>
+                            <input matInput type="number" formControlName="otBillRate" />
+                            <mat-error *ngIf="hasError('otBillRate')">{{getErrorMessage('otBillRate')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>DT Pay Rate</mat-label>
+                            <input matInput type="number" formControlName="dtRate" />
+                            <mat-error *ngIf="hasError('dtRate')">{{getErrorMessage('dtRate')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="15%">
+                            <mat-label>DT Bill Rate</mat-label>
+                            <input matInput type="number" formControlName="dtBillRate" />
+                            <mat-error *ngIf="hasError('dtBillRate')">{{getErrorMessage('dtBillRate')}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="18%">
+                            <mat-label>Start Date</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="startDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1 panelClass="datepickerOne"></mat-datepicker>
+                            <mat-error *ngIf="hasError('startDate')">{{getErrorMessage('startDate')}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="18%">
+                            <mat-label>End Date</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="endDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                            <mat-error *ngIf="hasError('endDate')">{{getErrorMessage('endDate')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Accounting Location</mat-label>
+                            <mat-select formControlName="accountingLocation">
+                                <mat-option *ngFor="let location of locations" [value]="location.locationId">{{location.locationName+' - '+location.state+' '+location.city
+                                    +' '+location.address+', '+location.address2+' '+location.zip}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('accountingLocation')">{{getErrorMessage('accountingLocation')}}</mat-error>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Second Contact</mat-label>
+                            <mat-select formControlName="accountingContact">
+                                <mat-option *ngFor="let contact of contacts" [value]="contact.contactId">{{contact.firstName+' '+contact.lastName}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="hasError('accountingContact')">{{getErrorMessage('accountingContact')}}</mat-error>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Clock Sequence Number</mat-label>
+                            <input matInput formControlName="adpFileNumber" />
+                            <mat-error *ngIf="hasError('adpFileNumber')">{{getErrorMessage('adpFileNumber')}}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Purchase Order</mat-label>
+                            <input matInput formControlName="purchaseOrder" />
+                            <mat-error *ngIf="hasError('purchaseOrder')">{{getErrorMessage('purchaseOrder')}}</mat-error>
+                        </mat-form-field>
+                        <div fxFlex="16%" fxLayoutAlign="center center">
+                            <mat-slide-toggle color="primary" labelPosition="before" formControlName="isNightShift">Work Night Shift</mat-slide-toggle>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <mat-form-field appearance="fill" fxFlex="49.6%">
+                            <mat-label>Notes</mat-label>
+                            <textarea matInput formControlName="notes" rows="4" cols="50"></textarea>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="49.6%">
+                            <mat-label>Notes2</mat-label>
+                            <textarea matInput formControlName="notes2" rows="4" cols="50"></textarea>
+                        </mat-form-field>
+                        
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">                        
+                        <mat-form-field appearance="fill" fxFlex="30%">
+                            <mat-label>Sales Person</mat-label>
+                            <mat-select formControlName="salesPerson">
+                                <mat-option *ngFor="let sales of salesPersonList" [value]="sales.employeeId">{{sales.firstName+' '+sales.lastName}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto" *ngIf="isAdminClerical" appearance="fill" fxFlex="18.8%">
+                            <mat-label>Sales Rate</mat-label>
+                            <mat-select formControlName="salesRate">
+                                <mat-option *ngFor="let rate of rates" [value]="rate.value">{{rate.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="30%">
+                            <mat-label>Recruiter</mat-label>
+                            <mat-select formControlName="recruiter">
+                                <mat-option *ngFor="let rec of recruiters" [value]="rec.employeeId">{{rec.firstName+' '+rec.lastName}}</mat-option>
+                            </mat-select>                            
+                        </mat-form-field>
+                        <mat-form-field fxFlex="auto" *ngIf="isAdminClerical" appearance="fill" fxFlex="18.8%">
+                            <mat-label>Recruit Rate</mat-label>
+                            <mat-select formControlName="recruitRate">
+                                <mat-option *ngFor="let rate of rates" [value]="rate.value">{{rate.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider *ngIf="isAdminClerical"></mat-divider>
+                    <div fxLayout="row" *ngIf="isAdminClerical" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Pay Method</mat-label>
+                            <mat-select formControlName="payMethod">
+                                <mat-option value="ADP ACH">ADP ACH</mat-option>
+                                <mat-option value="ACH">ACH</mat-option>
+                                <mat-option value="Check">Check</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Perm Placement Date</mat-label>
+                            <input matInput [matDatepicker]="picker3" formControlName="permPlacementDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Perm Placement Rate</mat-label>
+                            <mat-select formControlName="permPlacementRate">
+                                <mat-option *ngFor="let rate of permPlacementRates" [value]="rate.value">{{rate.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Referer</mat-label>
+                            <mat-select formControlName="referer">
+                                <mat-option *ngFor="let ref of recruiters" [value]="ref.employeeId">{{ref.firstName+' '+ref.lastName}}</mat-option>
+                            </mat-select>                            
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="16.8%">
+                            <mat-label>Referer Rate</mat-label>
+                            <mat-select formControlName="refererRate">
+                                <mat-option *ngFor="let rate of refererRates" [value]="rate.value">{{rate.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" *ngIf="isAdminClerical" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%" class="mt-2 pt-2">                        
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Annual Salary</mat-label>
+                            <input matInput type="number" formControlName="annualSalary" />
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Referer</mat-label>
+                            <mat-select formControlName="secondReferer">
+                                <mat-option *ngFor="let ref of recruiters" [value]="ref.employeeId">{{ref.firstName+' '+ref.lastName}}</mat-option>
+                            </mat-select>                            
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" fxFlex="20%">
+                            <mat-label>Second Referer Rate</mat-label>
+                            <mat-select formControlName="secondRefererRate">
+                                <mat-option *ngFor="let rate of refererRates" [value]="rate.value">{{rate.label}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.8%">
+                        <button mat-raised-button color="primary" type="submit">
+                            Save Assignment
+                        </button>
+                        <a mat-raised-button (click)="navigateToClientView(clientId);" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

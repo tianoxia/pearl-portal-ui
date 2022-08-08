@@ -14,10 +14,13 @@
             <mat-form-field appearance="outline">
                 <mat-label>Pay Date</mat-label>
                 <input matInput readonly value="{{payDate | date: 'MM/dd/yyyy'}}">
+                <button mat-button mat-icon-button matSuffix (click)="editPayPeriod()">
+                    <i class="fas fa-edit mb-3 pt-1"></i>
+                </button>
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>WeekEnding</mat-label>
-                <mat-select [(value)]="selected">
+                <mat-select [(value)]="selected" (selectionChange)="onDateChange($event)">
                     <mat-option *ngFor="let week of weekEndings" [value]="week">{{week | date: 'MM/dd/yyyy'}}</mat-option>
                 </mat-select>
             </mat-form-field>
@@ -77,7 +80,7 @@
         </div>
         <div class="row" *ngIf="isReportClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-invoices" [queryParams]="{weekending: selected, altweekending: altWeekEnding, payperiodid: payPeriodId, paytype: 'Biweekly', payfrequency: 'Biweekly', paydate: payDate}">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-invoices" [queryParams]="{weekending: selected, altweekending: notSelected, payperiodid: payPeriodId, paytype: 'Biweekly', payfrequency: 'Biweekly', paydate: payDate}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -111,7 +114,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-payroll-report">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-payroll-report" [queryParams]="{weekending: selected, altweekending: notSelected, payperiodid: payPeriodId, paytype: 'Biweekly', payfrequency: 'Biweekly', paydate: payDate}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -129,7 +132,8 @@
         </div>
         <div class="row" *ngIf="isReportClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/assignment-hours"[queryParams]="{weekending: selected, payperiodid: payPeriodId, paytype: 'BiWeekly', payfrequency: 'BiWeekly', paydate: payDate}">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-assignment-hours" [queryParams]="{weekending: selected, payperiodid: payPeriodId,
+                    altweekending: notSelected, paytype: 'BiWeekly', payfrequency: 'Biweekly', paydate: payDate}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -146,7 +150,8 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-employee-hours">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-employee-hours"
+                [queryParams]="{weekending: selected, payfrequency: 'Biweekly', altweekending: notSelected, paydate: payDate}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -250,7 +255,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-headcount-report">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-headcount-report" [queryParams]="{weekending: selected, payfrequency: 'BiWeekly'}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -267,7 +272,7 @@
             </div>
 
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-candidate-source">
+                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-gross-profit-report" [queryParams]="{weekending: selected}">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -285,7 +290,7 @@
         </div>
         <div class="row" *ngIf="isPayfileClick">
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-candidate-source">
+                <a href="javascript:void(0);" (click)="downloadContractorPayFile()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">
@@ -301,7 +306,7 @@
                 </a>
             </div>
             <div class="col-lg-4 col-md-4 mt-1 pt-1">
-                <a href="#" routerLink="/view-pay-periods/pay-period-dashboard/view-headcount-report">
+                <a href="javascript:void(0);" (click)="downloadEmployeePayFile()">
                     <div class="single-services">
                         <div class="row">
                             <div class="icon mr-2 pr-2 mb-2 pb-2">

@@ -13,6 +13,7 @@ import { ContractorService, AlertService, AuthenticationService } from 'app/_ser
 import { ContractorListResponse, IApiResponse, PermissionType, Resource } from 'app/_models';
 import { contractorStatus } from 'app/constants/contractor-status';
 import { UploadedFile } from 'app/_models/uploaded-file';
+import { MakeAnnouncementComponent } from './make-announcement/make-announcement.component';
 
 @Component({
   selector: 'app-contractor-list',
@@ -54,7 +55,7 @@ export class ContractorListComponent implements OnInit {
     private router: Router,
     private spinner: NgxSpinnerService) {
       this.contractorListForm = fb.group({
-        contractorStatus: 'Active'        
+        contractorStatus: 'Active'       
       });
       this.contractorUploadFilesForm = fb.group({
         files: this.filesControl
@@ -193,6 +194,7 @@ export class ContractorListComponent implements OnInit {
   }
 
   viewAttachments(id: number) {
+    this.spinner.show();
     this.selectedContractor.firstName = this.dataSource.data.find(c => c.contractorId === id).firstName;
     this.selectedContractor.lastName = this.dataSource.data.find(c => c.contractorId === id).lastName;
     this.selectedContractor.contractorId = id;
@@ -216,7 +218,6 @@ export class ContractorListComponent implements OnInit {
     this.dialog.open(viewFilesDialog, {
       autoFocus: true,
       width: '400px',
-      panelClass: 'file-dialog',
       disableClose: true
     });    
     return false;
@@ -226,7 +227,7 @@ export class ContractorListComponent implements OnInit {
     this.selectedFile.fileId = id;
     this.dialog.open(warningDialog, {
       autoFocus: true,
-      width: '400px',
+      width: '600px',
       disableClose: true
     });
     return false;
@@ -247,7 +248,16 @@ export class ContractorListComponent implements OnInit {
       });
     this.dialog.closeAll();
   }
-
+  makeAnnouncement() {
+    const modalref = this.dialog.open(MakeAnnouncementComponent, {
+      data: {
+        contractorStatus: this.contractorListForm.controls.contractorStatus.value,
+        announcementTitle: this.dataSource.data.length.toString()
+        .concat(' Contractors with ').concat(this.contractorListForm.controls.contractorStatus.value).concat(' Assignments ')
+      }
+    });
+    return false;
+  }
   onPaginateChange(event){
     window.scrollTo(0, 0);
   }

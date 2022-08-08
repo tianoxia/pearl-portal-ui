@@ -1,13 +1,13 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container">
         <div class="employeelist row mt-1 pt-1">
-            <div class="col-md-12 col-lg-12 mt-2 pt-2">
-                <app-alert></app-alert>
+            <div class="col-md-12 col-lg-12 mt-2 pt-2">                
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
                         View Employees {{subTitle}}
                     </div>
                 </div>
+                <app-alert></app-alert>
                 <form [formGroup]="employeeListForm" autocomplete="off" novalidate (ngSubmit)="showEmployeeList(employeeListForm.value)">
                     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="8px" class="mt-2 pt-2">
                         <mat-form-field appearance="fill" fxFlex="20%">
@@ -56,7 +56,7 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Access Level</th>
                                     <td mat-cell *matCellDef="let employee">{{employee.accessLevel}}</td>
                                 </ng-container>
-            
+
                                 <ng-container matColumnDef="payType">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Pay Type</th>
                                     <td mat-cell *matCellDef="let employee">{{employee.payType}}</td>
@@ -66,7 +66,7 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Active</th>
                                     <td mat-cell *matCellDef="let employee">{{employee.employeeStatus}}</td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="emailAddress">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Email Address</th>
                                     <td mat-cell *matCellDef="let employee">{{employee.emailAddress}}</td>
@@ -162,8 +162,8 @@
                     </ng-template>
                     <ng-template #uploadFilesDialog let-modal>
                         <form [formGroup]="employeeUploadFilesForm" autocomplete="off" novalidate (ngSubmit)="showEmployeeList(employeeListForm.value)">
-                            <div class="modal-header file-upload-header justify-content-center bg-warning">
-                                <h5 class="modal-title">Upload Files for {{selectedEmployee.firstName + ' ' +
+                            <div class="modal-header file-upload-header justify-content-center bg-info">
+                                <h5 class="modal-title modal-text-color">Upload Files for {{selectedEmployee.firstName + ' ' +
                                     selectedEmployee.lastName}}</h5>
                             </div>
                             <div class="modal-body file-upload-div text-center">

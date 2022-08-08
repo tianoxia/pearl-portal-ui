@@ -1,8 +1,7 @@
 <section class="services-area ptb-100 bg-gray">
     <div class="container view-client">
         <div class="row mt-1 pt-1">
-            <div class="col-md-12 col-lg-12 mt-3 pt-3">
-                <app-alert></app-alert>
+            <div class="col-md-12 col-lg-12 mt-3 pt-3">                
                 <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="2%">
                     <div fxLayout fxLayoutAlign="center center" class="filter-header">
                         View Client<div class="back">                    
@@ -12,6 +11,7 @@
                         </div>
                     </div>
                 </div>
+                <app-alert></app-alert>
                 <mat-tab-group dynamicHeight>
                     <mat-tab id="tab-client-info" label="Info">
                         <form [formGroup]="clientViewForm" autocomplete="off">
@@ -57,7 +57,9 @@
                         </div>
                     </mat-tab>
                     <mat-tab id="tab-client-assignments" label="Assignment History">
-                        <div class="mt-3 mb-3"></div>
+                        <div class="mt-3 mb-3">
+                            <app-client-assignment-list [clientId]="clientId"></app-client-assignment-list>
+                        </div>
                     </mat-tab>
                 </mat-tab-group>
             </div>

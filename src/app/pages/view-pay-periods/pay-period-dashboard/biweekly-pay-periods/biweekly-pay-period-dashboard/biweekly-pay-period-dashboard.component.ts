@@ -4,10 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { RowInput } from 'jspdf-autotable';
+import { MatSelectChange } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 
-import { InvoiceReportService, AlertService } from 'app/_services';
-import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse, InvoiceReportRequest } from 'app/_models';
+import { InvoiceReportService, AlertService, ExportService } from 'app/_services';
+import { InvoicePdfResponse, InvoicePdfData, TimesheetReportResponse,
+  InvoiceReportRequest, PayFileRequest, PayFileResponse, PayFileType } from 'app/_models';
+import { AddEditPayPeriodComponent } from 'app/pages/view-pay-periods/add-edit-pay-period/add-edit-pay-period.component';
 
 @Component({
   selector: 'app-biweekly-pay-period-dashboard',
@@ -24,11 +28,15 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
   isInvoiceClick: boolean;
   isPayfileClick: boolean;
   pageType: string;
+  payFileData: PayFileResponse[];
   payPeriodId: number;
   selected: Date;
+  notSelected: Date;
   altWeekEnding: Date;
   constructor(public alertService: AlertService,
     private spinner: NgxSpinnerService,
+    private dialog: MatDialog,
+    private exportService: ExportService,
     private invoiceService: InvoiceReportService,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
@@ -47,7 +55,7 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
       this.weekEndings.push(new Date(params.get('weekending')));
       this.weekEndings.push(new Date(params.get('altweekending')));
       this.selected = this.weekEndings[0];
-      this.altWeekEnding = this.weekEndings[1];
+      this.notSelected = this.altWeekEnding = this.weekEndings[1];
       if (this.pageType === 'invoice') {
         this.isInvoiceClick = true;
       } else if (this.pageType === 'report') {
@@ -326,7 +334,7 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
           payDate: this.datePipe.transform(this.payDate, 'yyyy-MM-dd'),
           payFrequency: this.payType,
           weekEnding1: this.datePipe.transform(this.selected, 'yyyy-MM-dd'),
-          weekEnding2: '2021-07-30',
+          weekEnding2: this.datePipe.transform(this.altWeekEnding, 'yyyy-MM-dd'),
           isRequestFromInvoicesReport: false
         };
         this.invoiceService.printTimesheetReport(request)
@@ -497,5 +505,140 @@ export class BiWeeklyPayPeriodDashboardComponent implements OnInit {
         report.saturdayHours).toFixed(2).toString()+'\n\n'+this.currencyPipe.transform(report.billRate.toFixed(2), 'USD')+'\n\n'
         +report.approverName+'\n\n'+this.datePipe.transform(report.approveTime, 'MM/dd/yyyy h:mm a') }
     ];
+  }
+
+  onDateChange(event: MatSelectChange) {
+    this.selected = event.value;
+    this.notSelected = this.weekEndings.find(w => w !== event.value);
+  }
+  editPayPeriod() {
+    const modalref = this.dialog.open(AddEditPayPeriodComponent, {
+      panelClass: 'update-enddate-dialog',
+      maxWidth: window.innerWidth < 600 ? '90vw' : '80vw',
+      data: {
+        payPeriodId: this.payPeriodId,
+        payDate: this.payDate,
+        payFrequency: 'B',
+        pageType: this.pageType
+      }
+    });
+    return false;
+  }
+  downloadContractorPayFile() {
+    this.spinner.show();
+    const request: PayFileRequest = {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payType,
+      weekEnding: this.payType === 'Weekly' ? this.datePipe.transform(this.selected, 'yyyy-MM-dd')
+      : this.datePipe.transform(this.altWeekEnding, 'yyyy-MM-dd')
+    };
+    this.invoiceService.printContractorPayFile(request)
+      .subscribe((payFileData: PayFileResponse[]) => {
+        this.payFileData = payFileData;
+        this.exportToCSV('choice', this.payType === 'Weekly' ? 'W' : 'B', PayFileType.Contractor);
+        this.spinner.hide();
+      },
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
+  }
+  downloadEmployeePayFile() {
+    this.spinner.show();
+    const request: PayFileRequest = {
+      payPeriodId: this.payPeriodId,
+      payFrequency: this.payType,
+      weekEnding: this.payType === 'Weekly' ? this.datePipe.transform(this.selected, 'yyyy-MM-dd')
+      : this.datePipe.transform(this.altWeekEnding, 'yyyy-MM-dd')
+    };
+    this.invoiceService.printEmployeePayFile(request)
+      .subscribe((payFileData: PayFileResponse[]) => {
+        this.payFileData = payFileData;
+        this.exportToCSV('choice', this.payType === 'Weekly' ? 'W' : 'B', PayFileType.Employee);
+        this.spinner.hide();
+      },
+        (error => {
+          this.spinner.hide();
+          this.alertService.error(error);
+        })
+      );
+  }
+  exportToCSV(fileNamePrefix: string, payType: string, fileType: PayFileType) {
+    this.exportService.exportToCSV(this.payFileRows(this.payFileData, fileType), fileNamePrefix + payType + '0', this.payFileColumns(fileType));
+  }
+  payFileColumns(fileType: PayFileType): any[] {
+    if (fileType === PayFileType.Contractor) {
+      return [
+        { header: 'PayGroup', key: 'payFrequency' },
+        { header: 'laborvalue1', key: 'departmentNumber' },
+        { header: 'Key', key: 'adpFileNumber' },
+        { header: 'Name', key: 'name' },
+        { header: 'e_expense reimbur_dollars', key: 'expenses' },
+        { header: 'e_01a_hours', key: 'hours' },
+        { header: 'e_01a_orrate', key: 'payRate' },
+        { header: 'e_02_hours', key: 'otHours' },
+        { header: 'e_02_orrate', key: 'otRate' },
+        { header: 'e_01b_hours', key: 'hours' },
+        { header: 'e_01b_orrate', key: 'payRate' }];
+    } else {
+      return [
+        { header: 'PayGroup', key: 'payFrequency' },
+        { header: '#Status', key: 'employeeStatus' },
+        { header: '#Category', key: 'employeeCategory' },
+        { header: 'Key', key: 'adpFileNumber' },
+        { header: '#Name', key: 'name' },
+        { header: 'e_hourly regular_hours', key: 'hours' },
+        { header: 'e_Regular OT_hours', key: 'otHours' },
+        { header: 'e_Commission_dollars', key: 'commissions' },
+        { header: 'e_Expense Reimbur_dollars', key: 'expenses' },
+        { header: 'e_1099 Hrly Reg_hours', key: 'hours' },
+        { header: 'e_1099 Commission_dollars', key: 'commissions' }];
+    }
+  } 
+  payFileRows(data: PayFileResponse[], fileType: PayFileType): any[] {
+    var rows = [];
+    let i = 2;
+    if (fileType === PayFileType.Contractor) {
+      data.forEach(d => {
+        var rowValues = [];
+        rowValues[1] = d.payFrequency;
+        rowValues[i] = d.departmentNumber;
+        rowValues[i+1] = d.adpFileNumber;
+        rowValues[i+2] = d.name;
+        rowValues[i+3] = d.expenses;
+        if (d.employeeType === 'Corp to Corp') {
+          rowValues[i+8] = d.hours;
+          rowValues[i+9] = d.payRate;
+        } else {
+          rowValues[i+4] = d.hours;
+          rowValues[i+5] = d.payRate;
+          rowValues[i+6] = d.otHours;
+          rowValues[i+7] = d.otRate;
+        }
+        rows.push(rowValues);
+      });
+    } else {
+      data.forEach(d => {
+        var rowValues = [];
+        rowValues[1] = d.payFrequency;
+        rowValues[i] = d.employeeStatus;
+        rowValues[i+1] = d.employeeCategory;
+        rowValues[i+2] = d.adpFileNumber;
+        rowValues[i+3] = d.name;
+        if (d.employeeType === 'Corp to Corp') {
+          rowValues[i+7] = d.expenses;
+          rowValues[i+8] = d.hours;
+          rowValues[i+9] = d.commissions;
+        } else {
+          rowValues[i+4] = d.hours;
+          rowValues[i+5] = d.otHours;
+          rowValues[i+6] = d.commissions;
+          rowValues[i+7] = d.expenses;
+        }
+        rows.push(rowValues);
+      });
+    }
+    return rows;
   }
 }

@@ -1,5 +1,3 @@
-import { PermissionType } from "./permission-type";
-
 export enum Resource {
     Reports = 'Reports',
     Referer = 'Referer',
