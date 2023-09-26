@@ -61,6 +61,10 @@
                                             <mat-icon>more_vert</mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
+                                            <button mat-menu-item (click)="viewContractor(contractor.contractorId);">
+                                                <mat-icon>info</mat-icon>
+                                                <span>View</span>
+                                            </button>
                                             <button mat-menu-item (click)="navigateToEditContractor(contractor.contractorId);">
                                                 <mat-icon>edit</mat-icon>
                                                 <span>Edit</span>

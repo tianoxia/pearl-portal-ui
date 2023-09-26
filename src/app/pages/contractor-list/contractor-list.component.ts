@@ -258,6 +258,10 @@ export class ContractorListComponent implements OnInit {
     });
     return false;
   }
+  viewContractor(id: number) {
+    this.router.navigate([`/view-contractor/${id}`]);
+  }
+
   onPaginateChange(event){
     window.scrollTo(0, 0);
   }

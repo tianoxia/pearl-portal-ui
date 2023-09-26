@@ -1,98 +1,107 @@
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="featured-boxes featured-boxes-style-8">
-                <div class="featured-box featured-box-primary text-left">
-                    <div class="box-content">
-                        <h2>Reset Password</h2>
-                        <app-alert></app-alert>
-                        <div *ngIf="showForm">
-                            <form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()" #form="ngForm">
-                                <div class="form-group">
-                                    <label class="form-label">Name: {{employeeName}}</label>
-                                </div>
-                                <div class="form-group">
-                                    <label for="currentpassword" class="form-label">Current password</label>                                    
-                                    <input #currentpassword [type]="showCurrentPassword ? 'text' : 'password'" id="currentpassword"
-                                        formControlName="currentpassword" maxlength="50" class="form-control"
-                                        onpaste="disablePaste();" (blur)="onCurrentPasswordChange()"
-                                        [ngClass]="{'is-invalid': form.submitted && f.currentpassword.errors, 'is-valid': !f.currentpassword.errors}">
-                                    <span toggle="#currentpassword" class="fa fa-fw fa-eye field-icon"
-                                        *ngIf="f.currentpassword.value.length > 0"
-                                        [ngClass]="{'fa-eye': !showCurrentPassword ,'fa-eye-slash':showCurrentPassword}"
-                                        (click)="toggleCurrentPassword()"></span>
-                                    <div *ngIf="form.submitted && f.currentpassword.errors" class="invalid-feedback">
-                                        <span *ngIf="f.currentpassword.errors.required">
-                                            Please enter current password.
-                                        </span>
-                                        <span *ngIf="f.currentpassword.errors.incorrect && !f.currentpassword.errors.required">
-                                            The current password you entered is incorrect.
-                                        </span>
+<section class="services-area ptb-100 bg-gray">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="featured-boxes featured-boxes-style-8">
+                    <div class="featured-box featured-box-primary text-left">
+                        <div class="box-content">
+                            <h2>Reset Password</h2>
+                            <app-alert></app-alert>
+                            <div *ngIf="showForm">
+                                <form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()" #form="ngForm">
+                                    <div class="form-group">
+                                        <label class="form-label">Name: {{employeeName}}</label>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="form-label">New Password</label>
-                                    <input #password formControlName="password"
-                                        [type]="showPassword ? 'text' : 'password'" id="password" maxlength="50"
-                                        class="form-control" onpaste="disablePaste();"
-                                        [ngClass]="{'is-invalid': form.submitted && f.password.errors,'is-valid': !f.password.errors}">
-                                    <span toggle="#password" class="fa fa-fw fa-eye field-icon"
-                                        *ngIf="f.password.value.length > 0"
-                                        [ngClass]="{'fa-eye': !showPassword ,'fa-eye-slash':showPassword}"
-                                        (click)="togglePassword()"></span>
-                                    <app-password-strength [password]="resetPasswordForm.value.password">
-                                    </app-password-strength>
-                                    <div *ngIf="form.submitted && f.password.errors" class="invalid-feedback">
-                                        <span *ngIf="f.password.errors.required">
-                                            Please enter a password.
-                                        </span>
-                                        <span *ngIf="f.password.errors.pattern">
-                                            Password entry does not meet criteria.
-                                            <br>
-                                            Password must be at least 8 characters long and contain at least 1 lowercase
-                                            character, 1 uppercase
-                                            character, 1 number and 1 special character (!@#$%^&*).
-                                        </span>
+                                    <div class="form-group">
+                                        <label for="currentpassword" class="form-label">Current password</label>
+                                        <input #currentpassword [type]="showCurrentPassword ? 'text' : 'password'"
+                                            id="currentpassword" formControlName="currentpassword" maxlength="50"
+                                            class="form-control" onpaste="disablePaste();"
+                                            (blur)="onCurrentPasswordChange()"
+                                            [ngClass]="{'is-invalid': form.submitted && f.currentpassword.errors, 'is-valid': !f.currentpassword.errors}">
+                                        <span toggle="#currentpassword" class="fa fa-fw fa-eye field-icon"
+                                            *ngIf="f.currentpassword.value.length > 0"
+                                            [ngClass]="{'fa-eye': !showCurrentPassword ,'fa-eye-slash':showCurrentPassword}"
+                                            (click)="toggleCurrentPassword()"></span>
+                                        <div *ngIf="form.submitted && f.currentpassword.errors"
+                                            class="invalid-feedback">
+                                            <span *ngIf="f.currentpassword.errors.required">
+                                                Please enter current password.
+                                            </span>
+                                            <span
+                                                *ngIf="f.currentpassword.errors.incorrect && !f.currentpassword.errors.required">
+                                                The current password you entered is incorrect.
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cnfpassword" class="form-label">Confirm Password</label>
-                                    <input #cnfpassword [type]="showConfirmPassword ? 'text' : 'password'"
-                                        appConfirmEqualValidator="password" formControlName="cnfpassword"
-                                        class="form-control" id="cnfpassword" maxlength="50" onpaste="disablePaste();"
-                                        [ngClass]="{'is-invalid': form.submitted && f.cnfpassword.errors,'is-valid':!f.cnfpassword.errors}">
-                                    <span toggle="#cnfpassword" class="fa fa-fw fa-eye field-icon"
-                                        *ngIf="f.cnfpassword.value.length > 0"
-                                        [ngClass]="{'fa-eye': !showConfirmPassword ,'fa-eye-slash':showConfirmPassword}"
-                                        (click)="toggleConfirmPassword()"></span>
+                                    <div class="form-group">
+                                        <label for="password" class="form-label">New Password</label>
+                                        <input #password formControlName="password"
+                                            [type]="showPassword ? 'text' : 'password'" id="password" maxlength="50"
+                                            class="form-control" onpaste="disablePaste();"
+                                            [ngClass]="{'is-invalid': form.submitted && f.password.errors,'is-valid': !f.password.errors}">
+                                        <span toggle="#password" class="fa fa-fw fa-eye field-icon"
+                                            *ngIf="f.password.value.length > 0"
+                                            [ngClass]="{'fa-eye': !showPassword ,'fa-eye-slash':showPassword}"
+                                            (click)="togglePassword()"></span>
+                                        <app-password-strength [password]="resetPasswordForm.value.password">
+                                        </app-password-strength>
+                                        <div *ngIf="form.submitted && f.password.errors" class="invalid-feedback">
+                                            <span *ngIf="f.password.errors.required">
+                                                Please enter a password.
+                                            </span>
+                                            <span *ngIf="f.password.errors.pattern">
+                                                Password entry does not meet criteria.
+                                                <br>
+                                                Password must be at least 8 characters long and contain at least 1
+                                                lowercase
+                                                character, 1 uppercase
+                                                character, 1 number and 1 special character (!@#$%^&*).
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cnfpassword" class="form-label">Confirm Password</label>
+                                        <input #cnfpassword [type]="showConfirmPassword ? 'text' : 'password'"
+                                            appConfirmEqualValidator="password" formControlName="cnfpassword"
+                                            class="form-control" id="cnfpassword" maxlength="50"
+                                            onpaste="disablePaste();"
+                                            [ngClass]="{'is-invalid': form.submitted && f.cnfpassword.errors,'is-valid':!f.cnfpassword.errors}">
+                                        <span toggle="#cnfpassword" class="fa fa-fw fa-eye field-icon"
+                                            *ngIf="f.cnfpassword.value.length > 0"
+                                            [ngClass]="{'fa-eye': !showConfirmPassword ,'fa-eye-slash':showConfirmPassword}"
+                                            (click)="toggleConfirmPassword()"></span>
 
-                                    <div *ngIf="form.submitted && f.cnfpassword.errors" class="invalid-feedback">
-                                        <span *ngIf="f.cnfpassword.errors.required">
-                                            Please enter a confirm password.
-                                        </span>
-                                        <span
-                                            *ngIf="f.cnfpassword.errors.notEqual && !f.cnfpassword.errors.required">
-                                            Password and Confirm Password does not match.
-                                        </span>
+                                        <div *ngIf="form.submitted && f.cnfpassword.errors" class="invalid-feedback">
+                                            <span *ngIf="f.cnfpassword.errors.required">
+                                                Please enter a confirm password.
+                                            </span>
+                                            <span
+                                                *ngIf="f.cnfpassword.errors.notEqual && !f.cnfpassword.errors.required">
+                                                Password and Confirm Password does not match.
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="verify-button-field text-right">
-                                        <button class="btn btn-primary w-100">Submit
-                                            <div *ngIf="loading" class="verify-indicator"><i class="fa fa-spinner fa-spin"></i></div>
-                                        </button>
+                                    <div class="form-group">
+                                        <div class="verify-button-field text-right">
+                                            <button class="btn btn-primary w-100">Submit
+                                                <div *ngIf="loading" class="verify-indicator"><i
+                                                        class="fa fa-spinner fa-spin"></i></div>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div *ngIf="isSuccess">
-                            <div class="alert alert-success alert-dismissible" role="alert">
-                                {{ message }}
+                                </form>
                             </div>
-                            <p>Please <a routerLink="/login">click here</a> to login to your account.</p>
+                            <div *ngIf="isSuccess">
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    {{ message }}
+                                </div>
+                                <p>Please <a routerLink="/login">click here</a> to login to your account.</p>
+                            </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>

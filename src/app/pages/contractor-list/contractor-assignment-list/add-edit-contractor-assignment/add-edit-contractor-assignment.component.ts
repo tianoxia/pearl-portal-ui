@@ -14,9 +14,9 @@ import { employeeTypeBurden } from 'app/constants/employee-type-burden';
 import { rates, refererRates, permPlacementRates } from 'app/constants/sales-recruit-rates';
 
 @Component({
-  selector: 'app-add-edit-client-assignment',
-  templateUrl: './add-edit-client-assignment.component.html',
-  styleUrls: ['./add-edit-client-assignment.component.css'],
+  selector: 'app-add-edit-contractor-assignment',
+  templateUrl: './add-edit-contractor-assignment.component.html',
+  styleUrls: ['./add-edit-contractor-assignment.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class AddEditAssignmentComponent implements OnInit {
@@ -25,7 +25,7 @@ export class AddEditAssignmentComponent implements OnInit {
   statuses = assignmentStatus.filter(s => s !== 'All');
   employeeTypeBurden = employeeTypeBurden;
   rates = rates;
-  clientId: number;
+  contractorId: number;
   refererRates = refererRates();
   permPlacementRates = permPlacementRates;
   isAddMode: boolean;
@@ -65,7 +65,7 @@ export class AddEditAssignmentComponent implements OnInit {
     window.scrollTo(0, 0);
     this.spinner.show();
     this.assignmentId = +this.route.snapshot.params['assignmentId'];
-    this.clientId = +this.route.snapshot.params['clientId'];
+    this.contractorId = +this.route.snapshot.params['contractorId'];
     this.isAddMode = !this.assignmentId;
     this.defaultRecruiter = new Recruiter();
     this.defaultSalesPerson = new Recruiter();
@@ -124,21 +124,17 @@ export class AddEditAssignmentComponent implements OnInit {
     this.alertService.clear();
     forkJoin([this.assignmentService.getAllOffices(), this.assignmentService.getActiveClients(),
     this.assignmentService.getAllContractors(), this.assignmentService.getAllRecruiters(),
-    this.assignmentService.getAllDepartments(), this.assignmentService.getLocationsByClientId(this.clientId),
-    this.assignmentService.getInvoiceGroupsByClientId(this.clientId), this.assignmentService.getContactsByClientId(this.clientId)])
-      .subscribe(([offices, clients, contractors, recruiters, departments, locations, invGrps, contacts]) => {
+    this.assignmentService.getAllDepartments()])
+      .subscribe(([offices, clients, contractors, recruiters, departments]) => {
         this.offices = offices as Office[];
         this.clients = clients as Client[];
-        this.locations = locations as OfficeLocation[];
-        this.invoiceGroups = invGrps as InvoiceGroup[];
-        this.contacts = contacts as Contact[];
         this.departments = departments as Department[];
         this.contractors = contractors as ContractorListResponse[];
         this.recruiters = recruiters as Recruiter[];
         this.salesPersonList = cloneDeep(recruiters as Recruiter[]);
         this.assignmentAddEditForm.controls.refererRate.patchValue(0);
         this.assignmentAddEditForm.get("office").patchValue(this.offices);
-        this.assignmentAddEditForm.get('client').patchValue(this.clientId);
+        this.assignmentAddEditForm.get('contractor').patchValue(this.contractorId);
         this.spinner.hide();
       },
       (error => {
@@ -242,7 +238,7 @@ export class AddEditAssignmentComponent implements OnInit {
     this.assignmentService.createAssignment(request)
         .pipe(first())
         .subscribe((response: IApiResponse) => {
-          this.router.navigate([`view-client/${this.clientId}`], {queryParams: { message: response.message, action: this.action }});
+          this.router.navigate([`view-contractor/${this.contractorId}`], {queryParams: { message: response.message, action: this.action }});
           /* window.scrollTo(0, 0);
           this.alertService.success(response.message);
           this.spinner.hide(); */
@@ -259,7 +255,7 @@ export class AddEditAssignmentComponent implements OnInit {
       this.assignmentService.updateAssignment(this.assignmentId, request)
           .pipe(first())
           .subscribe((response: IApiResponse) => {
-            this.router.navigate([`view-client/${this.clientId}`], {queryParams: { message: response.message, action: this.action }});            
+            this.router.navigate([`view-contractor/${this.contractorId}`], {queryParams: { message: response.message, action: this.action }});            
             /* window.scrollTo(0, 0);            
             this.alertService.success(response.message);
             this.spinner.hide(); */
@@ -472,7 +468,7 @@ export class AddEditAssignmentComponent implements OnInit {
     this.assignmentAddEditForm.controls.burdenRate.patchValue(burden);
     return false;
   }
-  navigateToClientView(id: number) {
-    this.router.navigate([`/view-client/${id}`]);
+  navigateToContractorView(id: number) {
+    this.router.navigate([`/view-contractor/${id}`]);
   }
 }

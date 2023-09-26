@@ -71,6 +71,9 @@ export class AssignmentService {
   getAssignmentByClientId(status: string, clientId: number) {
     return this.http.get(this.baseurl + `/v1/assignment/client/${clientId}/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }
+  getAssignmentByContractorId(status: string, contractorId: number) {
+    return this.http.get(this.baseurl + `/v1/assignment/contractor/${contractorId}/status/${status}`).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
+  }
   getAssignmentsByDateRange(assignmentRequest: NewAssignmentRequest) {
     return this.http.post(this.baseurl + `/v1/assignment/new`, assignmentRequest).pipe(timeout(this.timeoutInSeconds), catchError(this.handleError));
   }

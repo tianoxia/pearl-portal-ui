@@ -20,8 +20,11 @@ export class AssignmentListResponse {
     locationId: number;
     locationName: string;
     contactId: number;
+    contactName: string;
     accountingLocationId: number;
+    accountingLocationName: string;
     accountingContactId: number;
+    accountingContactName: string;
     salesPersonId: number;
     salesPerson: string;
     recruiterId: number;
